@@ -13,7 +13,7 @@ class Ace
   def to_s
     "#{principal.id} \t #{principal.name} \t #{privilege.access_type} \t #{privilege.operation} \t #{resource_object.name}"
   end
-  
+    
   def Ace.ace_counter
     @@ace_counter
   end
