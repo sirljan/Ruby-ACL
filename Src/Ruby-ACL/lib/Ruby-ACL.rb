@@ -20,7 +20,7 @@ class Ruby_acl
     temp_init()
   end
   
-  attr_reader :name, :principals, :privileges, :resourceobjects # běžné přístupové metody pro čtení
+  attr_reader :name, :principals, :privileges, :resource_objects # běžné přístupové metody pro čtení
   
   def temp_init()
     @principals.push(Principal.new('sirljan'))
@@ -40,7 +40,7 @@ class Ruby_acl
     }
   end
   
-  def printme
+  def to_s
     puts "Name = #{name} \n\n"
     puts "All available principals:\n"
     for prin in @principals 
@@ -50,6 +50,12 @@ class Ruby_acl
     for priv in @privileges
       puts "#{priv.access_type} \t #{priv.operation}"
     end
+  end
+  
+  def save()
+  end
+  
+  def load()
   end
   
   def check(principal_name, access_type, privilege_op, resource_object_name)
@@ -81,7 +87,7 @@ class Ruby_acl
     return selected_prins
   end
   
-  def find_aces(prin_ids)
+  def find_aces(prin_ids)      
     selected_aces = []
     for ace in @aces
       for prin in prin_ids
@@ -92,20 +98,6 @@ class Ruby_acl
     end
     return selected_aces
   end
-  
-  def save()
-  end
-  
-  def load()
-  end
-  
-  def del_ace
-  end
-  
-  def mod_ace()
-  end
-  
-
   
   def find_principal(principal_name)
     for prin in @principals
@@ -141,8 +133,8 @@ class Ruby_acl
     
     if(prin!=nil && priv!=nil && res_ob!=nil)
       @aces[Ace.ace_counter] = Ace.new(prin, priv, res_ob)
-      puts "ACE was created as:\n"
-      puts @aces[Ace.ace_counter - 1]
+      #puts "ACE was created as:\n"
+      #puts @aces[Ace.ace_counter - 1]
       
     else
       if(prin==nil)
@@ -155,18 +147,30 @@ class Ruby_acl
     end
   end
   
+  def del_ace
+  end
+  
+  def mod_ace()
+  end
+  
   def create_group()    #check if it the name already exist. or if member_of and members exist at all
     
   end
+  
+  public :add_ace, :check, :create_group, :del_ace, :load, :mod_ace, :to_s, :save
+  protected
+  private :create_default_privileges, :find_aces, 
+    :find_all_groups_with_membership_of_principal, 
+    :find_principal, :find_privilege, :find_resource_object, :temp_init
+    
   
 end
 
 
 
-puts 'start'
-mojeacl = Ruby_acl.new("prvniacl")
+#puts 'start'
+#mojeacl = Ruby_acl.new("prvniacl")
 #puts mojeacl.principals
-mojeacl.add_ace('silvejan', 'allow', 'write', 'ryba')
-
-puts mojeacl.check('silvejan', 'allow', 'write', 'ryba')
-
+#mojeacl.add_ace('silvejan', 'allow', 'write', 'ryba')
+#
+#puts mojeacl.check('silvejan', 'allow', 'write', 'ryba')

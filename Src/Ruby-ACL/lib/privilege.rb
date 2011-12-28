@@ -19,4 +19,7 @@ class Privilege
   def to_s
     return "#{access_type} \t #{operation}"    
   end
+  
+  public :to_s
+  
 end

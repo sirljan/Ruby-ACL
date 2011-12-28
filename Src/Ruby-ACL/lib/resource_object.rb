@@ -10,4 +10,7 @@ class ResourceObject
   def to_s
     "#{name}"
   end
+  
+  public :to_s
+  
 end

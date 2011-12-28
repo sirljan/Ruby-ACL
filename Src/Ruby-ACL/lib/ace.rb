@@ -18,4 +18,6 @@ class Ace
     @@ace_counter
   end
   
+  public :to_s
+  
 end

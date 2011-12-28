@@ -15,11 +15,15 @@ class Group < Principal
     return false
   end
   
-  def add_members
+  def add_members()
   end
   
   def to_s
     super + " \t #{@members} \t group"
   end
+  
+  public :to_s
+  protected
+  private :add_members, :has_member
   
 end

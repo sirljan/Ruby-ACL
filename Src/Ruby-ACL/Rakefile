@@ -40,6 +40,9 @@ Rake::RDocTask.new do |rdoc|
   rdoc.options << '--line-numbers'
 end
 
+#task :default => [:test_units]
+#
+#desc "Run basic tests"
 Rake::TestTask.new do |t|
   t.test_files = FileList['test/**/*.rb']
 end

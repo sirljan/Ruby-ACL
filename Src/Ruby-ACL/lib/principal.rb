@@ -22,8 +22,11 @@ class Principal
     return "#{id} \t #{name} \t #{member_of}"
   end
   
-  def add_membership(member_of)
-    @member_of.push(member_of)
+  def Principal.prin_counter
+    @@prin_counter
   end
+  
+  public :to_s
+  #private :add_membership, :change_name
   
 end
