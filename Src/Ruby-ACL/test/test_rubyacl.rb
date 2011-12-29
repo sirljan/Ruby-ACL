@@ -3,6 +3,9 @@ $:.unshift File.join(File.dirname(__FILE__),'..','lib')
 require 'test/unit'
 require 'Ruby-acl'
 require 'privilege'
+require 'principal'
+require 'resource_object'
+
 
 class TestRubyacl < Test::Unit::TestCase
   @@acl=Ruby_acl.new('testACL')
@@ -38,35 +41,51 @@ class TestRubyacl < Test::Unit::TestCase
     assert_raise do #(ResourceobjectDoesntExist) do
       @@acl.check('sirljan', 'allow', 'read', 'notexists')
     end
-    
   end
   
   def test_04find_all_groups_with_membership_of_principal
-    flunk "TODO: Write test"
+    @@acl.create_group('slavisti')
+    @@acl.create_group('spartani')
+    @@acl.add_membership('mraztom', ['slavisti','spartani'])
+    assert_equal(['slavisti','spartani'],@@acl.find_all_groups_with_membership_of_principal('mraztom',@@acl.principals))
   end
   
   def test_05find_aces
-    flunk "TODO: Write test"
+    aces = []
+    aces.push(@@acl.add_ace('mraztom', 'allow', 'write', 'houby'))
+    aces.push(@@acl.add_ace('spartani', 'allow', 'write', 'kocka'))
+    assert_equal(aces, find_aces('mraztom'))
   end
   
   def test_06save
-    flunk "TODO: Write test"
+    @@acl.save('SavedACL')
+    acl2 = Ruby_acl.load('SavedACL')
+    assert_equal(@@acl, acl2)
   end
   
   def test_07load
-    flunk "TODO: Write test"
+    @@acl.save('SavedACL')
+    acl2 = Ruby_acl.load('SavedACL')
+    assert_equal(@@acl, acl2)
   end
   
-  def test_08principal
-    flunk "TODO: Write test"
+  def test_08find_principal
+    name=''
+    assert_raise do
+      find_principal(name)
+    end
+    p = Principal.new('nobody')
+    assert_equal(p,find_principal('nobody'))
   end
   
-  def test_09privilege
-    flunk "TODO: Write test"
+  def test_09find_privilege
+    p = Privilege.new('allow', 'sort')
+    assert_equal(p,find_privilege('allow', 'sort'))
   end
   
-  def test_10resource_object
-    flunk "TODO: Write test"
+  def test_10find_resource_object
+    res = ResourceObject.new(nil, nil, 'wc')
+    assert_equal(res,find_resource_object('wc'))
   end
   
   def test_11add_ace

@@ -60,6 +60,7 @@ class Ruby_acl
   
   def check(principal_name, access_type, privilege_op, resource_object_name)
     array_of_principals_ids = find_all_groups_with_membership_of_principal(principal_name, @principals)
+    array_of_principals_ids.push(find_principal(principal_name).id)
     array_of_aces = find_aces(array_of_principals_ids)
     for ace in array_of_aces
       if(ace.privilege.access_type == access_type &&
@@ -77,7 +78,6 @@ class Ruby_acl
     
     for prin in principals
       if(prin.name == principal_name)
-        temp_select.push(prin.id)
         selected_prins += temp_select
       elsif(prin.class == 'Group')
         temp_select.push(prin.id)
@@ -87,7 +87,7 @@ class Ruby_acl
     return selected_prins
   end
   
-  def find_aces(prin_ids)      
+  def find_aces(prin_ids)      #finds all ACEs where principal is included or groups with principal as member
     selected_aces = []
     for ace in @aces
       for prin in prin_ids
@@ -100,6 +100,9 @@ class Ruby_acl
   end
   
   def find_principal(principal_name)
+    if(principal_name=='')
+      #exception
+    end
     for prin in @principals
       if (prin.name == principal_name) 
         return prin
@@ -124,6 +127,16 @@ class Ruby_acl
       end
     end
     return nil
+  end
+  
+  def existence_of_principals(principals)
+    exist = false
+    for prin in principals
+      if(find_principal(prin))
+        exist = true
+      end
+    end
+    return exist
   end
   
   def add_ace(principal_name, access_type, privilege_op, resource_object_name)
@@ -153,9 +166,34 @@ class Ruby_acl
   def mod_ace()
   end
   
-  def create_group()    #check if it the name already exist. or if member_of and members exist at all
+  def create_principal(name, member_of = [])
+    #osetrit name==''
+    #existenci name a member_of
+  end
+  
+  def add_membership(name, member_of) #kdyz nebude pole prevest na pole
+    if(existance_of_principals(member_of) && find_principal(name)!=nil)
+      find_principal(name).add_membership(member_of)
+    elsif(!existance_of_principals(member_of))
+      puts "One or more Groups metioned in membership parametr don't exist."#exception
+    elsif(find_principal(name)==nil)
+      puts "Principal \"#{principal_name}\" doesn't exist."
+    end
     
   end
+  
+  def create_group(name, member_of = [], members = [])    #check if it the name already exist. or if member_of and members exist at all
+    if(find_pricnipal(name)==nil && existence_of_principals(member_of) && existance_of_principals(members))
+      Group.new(name, member_of, members)
+    elsif(find_pricnipal(name)!=nil)
+      puts "\"#{name.capitalize}\" is already taken by other Principal."  #exception
+    elsif(existence_of_principals(member_of))
+      puts "One or more Groups metioned in membership parametr don't exist."#exception
+    elsif(existence_of_principals(members))
+      puts "One or more Groups metioned as members parametr don't exist."#exception
+    end
+  end
+  
   
   public :add_ace, :check, :create_group, :del_ace, :load, :mod_ace, :to_s, :save
   protected
