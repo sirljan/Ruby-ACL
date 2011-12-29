@@ -20,7 +20,7 @@ class Ruby_acl
     temp_init()
   end
   
-  attr_reader :name, :principals, :privileges, :resource_objects # běžné přístupové metody pro čtení
+  attr_reader :name, :aces, :principals, :privileges, :resource_objects # běžné přístupové metody pro čtení
   
   def temp_init()
     @principals.push(Principal.new('sirljan'))
@@ -151,16 +151,16 @@ class Ruby_acl
       
     else
       if(prin==nil)
-        puts "Principal \"#{principal_name}\" doesn't exist."
+        puts "Principal \"#{principal_name}\" doesn't exist."#exception
       elsif(priv==nil)
-        puts "Privilege \"#{access_type}, #{privilege_op}\" doesn't exist."
+        puts "Privilege \"#{access_type}, #{privilege_op}\" doesn't exist."#exception
       elsif(res_ob==nil)
-        puts "Resource object \"#{resource_object_name}\" doesn't exist."
+        puts "Resource object \"#{resource_object_name}\" doesn't exist."#exception
       end
     end
   end
   
-  def del_ace
+  def del_ace(ace_id)
   end
   
   def mod_ace()

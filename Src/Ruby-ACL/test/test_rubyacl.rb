@@ -89,11 +89,18 @@ class TestRubyacl < Test::Unit::TestCase
   end
   
   def test_11add_ace
-    flunk "TODO: Write test"
+    @@acl.create_principal('man')
+    ace=@@acl.add_ace('man', 'allow', 'write', 'ryba')
+    assert_equal(@@acl.aces.last,ace)
   end
   
   def test_12del_ace
-    flunk "TODO: Write test"
+    @@acl.create_principal('man2')
+    ace_before = @@acl.aces
+    ace=@@acl.add_ace('man2', 'deny', 'read', 'ptak')
+    assert_equal(@@acl.aces.last,ace)
+    del_ace(ace.id)
+    assert_equal(ace_before, @@acl.aces)
   end
   
   def test_13mod_ace
@@ -101,6 +108,7 @@ class TestRubyacl < Test::Unit::TestCase
   end
   
   def test_14create_group
-    flunk "TODO: Write test"
+    group = @@acl.create_group('superGroup')
+    assert_equal(group,@@acl.find_principal('superGroup'))
   end
 end
