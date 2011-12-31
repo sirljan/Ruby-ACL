@@ -1,10 +1,24 @@
-require './principal'
-require './accessor'
-require './group'
-require './privilege'
-require './resource_object'
-require './ace'
+#require './principal'
+#require './accessor'
+#require './group'
+#require './privilege'
+#require './resource_object'
+#require './ace'
+$:.unshift("C:/Users/sirljan/Documents/NetBeansProjects/Ruby-ACL/lib")
+require 'principal'
+require 'accessor'
+require 'group'
+require 'privilege'
+require 'resource_object'
+require 'ace'
 
+#require '../../Ruby-ACL/lib/principal'
+#require '../../Ruby-ACL/lib/accessor'
+#require '../../Ruby-ACL/lib/group'
+#require '../../Ruby-ACL/lib/privilege'
+#require '../../Ruby-ACL/lib/resource_object'
+#require '../../Ruby-ACL/lib/ace'
+#require 'main'
 
 
 class Ruby_acl
@@ -14,13 +28,13 @@ class Ruby_acl
     @principals = []           #pole s principals - docasne reseni, nez se vymysli pripojeni na db
     @privileges = []
     @resource_objects = []     #docasne reseni, nez se vymysli pripojeni na db
-    @all = Group.new('all')
+    @all = Group.new('all')   #root group
     @principals.push(@all)
     create_default_privileges()
     temp_init()
   end
   
-  attr_reader :name, :aces, :principals, :privileges, :resource_objects # běžné přístupové metody pro čtení
+  attr_reader :name, :aces, :privileges, :resource_objects # běžné přístupové metody pro čtení
   
   def temp_init()
     @principals.push(Principal.new('sirljan'))
@@ -39,7 +53,7 @@ class Ruby_acl
       @privileges.push(Privilege.new('deny',item))
     }
   end
-  
+
   def to_s
     puts "Name = #{name} \n\n"
     puts "All available principals:\n"
@@ -50,6 +64,11 @@ class Ruby_acl
     for priv in @privileges
       puts "#{priv.access_type} \t #{priv.operation}"
     end
+  end
+  
+  def principals()
+    Dbi_Connector.new()
+    Dbi_Connector.acl_query_pokus('ahoj')
   end
   
   def save()

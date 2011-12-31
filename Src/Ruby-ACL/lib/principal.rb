@@ -30,3 +30,4 @@ class Principal
   #private :add_membership, :change_name
   
 end
+
