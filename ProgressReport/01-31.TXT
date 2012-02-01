@@ -1,0 +1,26 @@
+11:30 peèlivì prošel https://sites.google.com/site/csbakalarskaprace/home
+12:00 Zazadal jsem o vysledky prezentace
+12:15 Proletl jsem xQuery tutorial na W3C. Podle vseho se jedna pouze o dotazovaci jazyk. Jak sakra tedy zapisovat do db?!
+13:00 Snazim se najit zpusob, jak pracovat s eXist db. Vytvoreni spojeni a hlavne zapisovani.
+    Nemuzu najit zadnou ukazku pracovani s db. Pouze jak administrovat db.
+    13:30 prochazim http://exist.sourceforge.net/xquery.html
+        ...zda se, ze neobsahuje nic aktualne potrebne.
+    13:50 nasel jsem v http://exist.sourceforge.net/devguide_xmldb.html jak s exist db pracovat pomoci javy. Dokumentace vypada slibne, snad to pujde i pro Ruby.
+    14:17 hledam nejake exist api pro ruby.
+    14:33 nasel jsem dve exist api, ale vypadaji dost mrtve a asi ne uplne funkcne.
+        http://exist-xml-rpc.rubyforge.org/svn/trunk/README
+        https://rubygems.org/gems/jruby-existdb
+    14:48 asi budu muset komunikovat pomoci http a REST. Podle uzivatelu na foru http://exist.2174344.n4.nabble.com/eXist-API-in-other-languages-td3952805.html
+    15:28 prochazim nabble forum
+    15:30 Klic je asi REST interface a HTTP API (pøíkazy put apod.)
+    16:00 Pøestávka...
+    18:00 Zkousim jeste najit neco jako XML:DB API pro Ruby
+    19:35 Øešením by mohlo být XML:RPC API
+    19:45 ROXML vypada dobre z pohledu ukladani dat. Nicmene zatim nevim jak komunikovat s eXist DB.
+    20:00 Nasel jsem projekt FELaku. eXist driver for Ruby. Je to jen demoaplikace z 2010. Podle dokumentace jim nejde ukladani, ale dalo by se tam inspirovat.
+    20:34 XML:RPC std-lib je nejaka pofiderni. Ukazka mi nefunguje, asi je to mrtvý projekt, nebo nìco dìlám špatnì. http://www.ruby-doc.org/stdlib-1.9.3/libdoc/xmlrpc/rdoc/xmlrpc/README_txt.html. Odkazy na stránkách jsou "Not found 404"
+
+----------------
+
+Zitra bych chtel zacit delat pokusy dle FELaku nebo zkusim ROXML a REST interface. Mel bych teda nejakym zpusobem komunikovat s db.
+eXist support je priserny. Nikde zadne officialni ukazky pouziti (vyjma javy). Trochu pøemýšlím nad tím, jestli se vùbec soustredit s eXistDB a nezkusit tøeba jinou XML db jako tøeba Sedna, která ma API pro Ruby. To je ale asi otázka na vedoucího.

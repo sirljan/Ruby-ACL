@@ -1,0 +1,1 @@
+Rozhodl jsem se si psat vykaz, abych si utøizoval myšlenky, neflakal se po youtube apod., mel na konci dne dobrý pocit z aspoò nìjakého pokroku a na zaèátku dalšího dne vìdìl, kde zaèít.
