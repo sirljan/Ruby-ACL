@@ -1,0 +1,21 @@
+9:30 Vstávám a snídám
+10:00 Volnì internetuju
+11:00 Upínám progress report ze vèerejška na github
+    nemam nainstalovany git, takze to bude chvilku trvat
+    Nastavuju git
+        11:53 mam problemy s verejnym klicem
+        12:17 problem s klicem zahadne vyresen. Asi je potreba asi se soubor jmenoval id_rsa...atd..
+        12:18 clonuji repositar a vytvarim slozku progress report, kam to budu ukladat.
+12:30 Pøestávka...
+        14:00 koneènì dokonáno
+14:00 Zahajuji pokusy s pøipojením k eXist podle FELákù
+14:27 Pomoci eXistDriveru se mi podaøilo spojení.
+14:48 eXistDriver jen pridava a odebira soubory a kolekce.
+14:49 Vracim se k java prikladu v eXist dokumentaci. eXistDriver používá XMLRPC. 
+16:30 pridavam a odebiram kolekce pomoci XMLRPC
+
+--------------------------
+Zitra se zkusim zamerit na Sedna DB jestli se s tim pracuje lepe.
+Napisu Vedoucímu o konzultace a zeptam se ho proc eXist. Neznali nekoho, kdo s eXist pracuje/pracoval. Jestli je mozne zkusit jinou xml databazi.
+--------------------------
+S dneskem nejsem spokojen. Hodne casu jsem proflakal a postup byl spomalen, kvuli problemu s GITem.
