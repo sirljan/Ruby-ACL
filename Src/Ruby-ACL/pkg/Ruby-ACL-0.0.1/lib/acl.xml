@@ -1,0 +1,14 @@
+
+<acl>
+    <Principals>
+    </Principals>
+    
+    <Privileges>    
+    </Privileges>
+    
+    <ResourceObjects>    
+    </ResourceObjects>
+    
+    <aces>
+    </aces>
+</acl>

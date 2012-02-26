@@ -1,0 +1,16 @@
+<?xml version="1.0"?> 
+<xupdate:modifications version="1.0"
+                xmlns:xupdate="http://www.xmldb.org/xupdate"> 
+
+    <xupdate:insert-after select="/addresses/address[1]" > 
+
+        <xupdate:element name="address">
+            <xupdate:attribute name="id">2</xupdate:attribute>
+            <fullname>Lars Martin</fullname> 
+            <born day='2' month='12' year='1974'/> 
+            <town>Leizig</town> 
+            <country>Germany</country> 
+        </xupdate:element> 
+
+    </xupdate:insert-after> 
+</xupdate:modifications> 

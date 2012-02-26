@@ -1,0 +1,17 @@
+10:00 Zjistuji aktualni stav rozdelanosti prace se Sednou. Je nainstalovana, ale gem pro ruby asi ne.
+10:41 Instaluji Dev-Kit
+11:10 Instaluji Sedna Ruby API. Mám problém s "ERROR:  Error installing sedna: ERROR: Failed to build gem native extension." "Could not find libsedna."
+        Nalezené øešení: http://www.mail-archive.com/sedna-discussion@lists.sourceforge.net/msg00936.html a http://www.mail-archive.com/sedna-discussion@lists.sourceforge.net/msg00949.html
+13:53 Sedna rubygem mi nejde nainstalovat. Možnosti jsou:
+                stáhnout z GITu a pøeložit
+                    14:03 zkusim stáhnout z gitu a rozjet.
+                    14:20 zatim na to kaslu. Nevim jak presne na to.
+                Nainstalovat virtualbox rozjez linux a zkusit to tam
+                    14:02 VB je nainstalovaný
+                    14:24 Zkousim tuhle verzi. Linux v budoucnu budu stejne potrebovat.
+
+15:00 Koukám na verzi eXist a REST
+15:10 Konèím
+-----------------------------
+Zkusit Sednu s vizí, že to bude jednodušší, protože pro ni existuje v ruby API bylo špatná vize.
+Sklíèenost z nepohnutí se z místa je veliká. Už chci koneènì nìco tvoøit, zkoušet a mít radost alespoò z nìjaké funkcionality.

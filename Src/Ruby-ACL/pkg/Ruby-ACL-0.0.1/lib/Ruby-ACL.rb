@@ -6,7 +6,7 @@ require 'privilege'
 require 'resource_object'
 require 'ace'
 require 'main'
-
+include REXML
 
 class RubyACL
   def initialize(name, connector)
@@ -50,12 +50,12 @@ class RubyACL
   def create_acl(connector)
     connector.createcollection("acl")
     #nacteme xml soubor, ktery chceme ulozit
-    xmlfile = File.read("acl.xml")
-    #xmldoc = Document.new(xmlfile)
+    xmlfile = File.new("acl.xml")
+    xmldoc = Document.new(xmlfile)
     #
     #ulozeni xml souboru
 
-    connector.storeresource(xmlfile, "/db/acl/acl.xml")
+    connector.storeresource(xmldoc, "/db/acl/acl.xml")
     ##a presvedcime se, ze tam skutecne je
 #    puts "Vypis dokumentu v kolekci /db/acl/ , meli bychom tam videt nas novy dokument"
 #    puts col.listresources

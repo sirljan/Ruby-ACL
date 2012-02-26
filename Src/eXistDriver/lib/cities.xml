@@ -1,0 +1,15 @@
+
+<cities>
+    <city>
+        <name>Los Angeles</name>
+        <population>4097340</population>
+    </city>
+    <city>
+        <name>Praha</name>
+        <population>1272690</population>
+    </city>
+    <city>
+        <name>Bratislava</name>
+        <population>462603</population>
+    </city>
+</cities>

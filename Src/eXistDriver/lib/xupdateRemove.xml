@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xupdate:modifications version="1.0" xmlns:xupdate="http://www.xmldb.org/xupdate">
+    <xupdate:remove select="/addresses/address[1]/town"> 
+        New York 
+    </xupdate:remove> 
+</xupdate:modifications>

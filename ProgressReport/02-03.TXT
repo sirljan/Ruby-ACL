@@ -1,0 +1,3 @@
+14:46 Instaluji Sednu
+16:30 Sedna bìží, ovládání z cmd je jednoduché a podle návodu.
+16:31 Snažím se zprovoznit Ruby API. Je nìjaký problém s dev kitem

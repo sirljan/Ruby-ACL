@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Sampionat SYSTEM "data.dtd"
+[<!ENTITY term "WTCC 09">]>
+
+<Sampionat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="data.xsd">
+    <nazev>&term;</nazev>
+
+    <organizatori><!--"organizatori" muze mit vice elementu "organizator"-->
+        <organizator id="o1" email="cardaretarda@mail.cz">
+            <jmeno>Carda</jmeno>
+            <prijmeni>Retarda</prijmeni>
+            <mobilniTelefon>654 789 234</mobilniTelefon>
+            <pracovniTelefon>654 789 234</pracovniTelefon>
+            <domaciTelefon>654 789 234</domaciTelefon>
+            <ulice>Bohnicova</ulice>
+            <cp>5</cp>
+            <psc>19000</psc>
+            <mesto>Praha</mesto>
+            <stat>CR</stat>
+        </organizator>
+        <organizator id="o2" email="snek@mail.cz">
+            <jmeno>Honza</jmeno>
+            <prijmeni>Snek</prijmeni>
+            <mobilniTelefon>654 098 765</mobilniTelefon>
+            <pracovniTelefon>654 098 765</pracovniTelefon>
+            <domaciTelefon>654 098 765</domaciTelefon>
+            <ulice>Radotinska</ulice>
+            <cp>9</cp>
+            <psc>150 00</psc>
+            <mesto>Praha</mesto>
+            <stat>CR</stat>
+        </organizator>
+    </organizatori>
+
+    <zavody>
+        <zavod index="r1" zacatek="18:00">
+            <organizator-zavodu>
+                <jmenoOZ>Honza</jmenoOZ>
+                <prijmeniOZ>Snek</prijmeniOZ>
+            </organizator-zavodu>
+            <datum>27.9.2009</datum>
+            <fotografie/>
+            <pocetKol>2*17</pocetKol>
+            <okruh>
+                <nazev-okruhu>Blackwood GP</nazev-okruhu>
+                <delka-okruhu>3.3 km</delka-okruhu>
+                <nejrychlejsiKolo zajel="Novak">1:23.240</nejrychlejsiKolo>
+            </okruh>
+        </zavod>
+        <zavod index="r2" zacatek="18:00">
+            <organizator-zavodu>
+                <jmenoOZ>Carda</jmenoOZ>
+                <prijmeniOZ>Retarda</prijmeniOZ>
+            </organizator-zavodu>
+            <datum>11.10.2009</datum>
+            <fotografie/>
+            <pocetKol>2*12</pocetKol>
+            <okruh>
+                <nazev-okruhu>Aston North rev</nazev-okruhu>
+                <delka-okruhu>5.2 km</delka-okruhu>
+                <nejrychlejsiKolo zajel="Novak">2:17.080</nejrychlejsiKolo>
+            </okruh>
+        </zavod>
+        <zavod index="r3" zacatek="13:00">
+            <organizator-zavodu>
+                <jmenoOZ>Honza</jmenoOZ>
+                <prijmeniOZ>Snek</prijmeniOZ>
+            </organizator-zavodu>
+            <datum>25.10.2009</datum>
+            <fotografie/>
+            <pocetKol>2*16</pocetKol>
+            <okruh>
+                <nazev-okruhu>Fern Bay Gold</nazev-okruhu>
+                <delka-okruhu>3.5 km</delka-okruhu>
+                <nejrychlejsiKolo zajel="Novak">1:33.500</nejrychlejsiKolo>
+            </okruh>
+        </zavod>
+        <zavod index="r4" zacatek="18:00">
+            <organizator-zavodu>
+                <jmenoOZ>Carda</jmenoOZ>
+                <prijmeniOZ>Retarda</prijmeniOZ>
+            </organizator-zavodu>
+            <datum>8.11.2009</datum>
+            <fotografie/>
+            <pocetKol>2*18</pocetKol>
+            <okruh>
+                <nazev-okruhu>South City Chicane</nazev-okruhu>
+                <delka-okruhu>2.9 km</delka-okruhu>
+                <nejrychlejsiKolo zajel="Novak">1:14.100</nejrychlejsiKolo>
+            </okruh>
+        </zavod>
+        <zavod index="r5" zacatek="18:00">
+            <organizator-zavodu>
+                <jmenoOZ>Honza</jmenoOZ>
+                <prijmeniOZ>Snek</prijmeniOZ>
+            </organizator-zavodu>
+            <datum>22.11.2009</datum>
+            <fotografie/>
+            <pocetKol>2*11</pocetKol>
+            <okruh>
+                <nazev-okruhu>Aston National rev</nazev-okruhu>
+                <delka-okruhu>5.6 km</delka-okruhu>
+                <nejrychlejsiKolo zajel="Novak">2:05.590</nejrychlejsiKolo>
+            </okruh>
+        </zavod>
+        <zavod index="r6" zacatek="18:00">
+            <organizator-zavodu>
+                <jmenoOZ>Honza</jmenoOZ>
+                <prijmeniOZ>Snek</prijmeniOZ>
+            </organizator-zavodu>
+            <datum>29.11.2009</datum>
+            <fotografie/>
+            <pocetKol>2*12</pocetKol>
+            <okruh>
+                <nazev-okruhu>Westhill International</nazev-okruhu>
+                <delka-okruhu>5.2 km</delka-okruhu>
+                <nejrychlejsiKolo zajel="Novak">1:55.860</nejrychlejsiKolo>
+            </okruh>
+        </zavod>
+        
+    </zavody>
+
+    <piloti><!--"piloti" muze mit vice elementu "pilot"-->
+        <pilot id="a6" email="novajan@fel.cvut.cz">
+            <datum-prihlaseni><?php echo date("j.n.Y"); ?>
+            </datum-prihlaseni>
+            <povinne>
+                <jmeno-pilota>Jan</jmeno-pilota>
+                <prijmeni-pilota>Novak</prijmeni-pilota>
+                
+                <telefon-pilota></telefon-pilota>
+                <auto nazev="XRT" rizeni="nalevo"></auto>
+                <auto nazev="FXO" rizeni="nalevo"></auto>
+            </povinne>
+            <nepovinne>
+                <fotografie-pilota/>
+                <icq>432 678 098</icq>
+                <Adresa>
+                    <ulice-pilota></ulice-pilota>
+                    <cp-pilota></cp-pilota>
+                    <psc-pilota></psc-pilota>
+                    <mesto-pilota></mesto-pilota>
+                </Adresa>
+            </nepovinne>
+        </pilot>
+        <pilot id="a7" email="nebofra@tuzink.com">
+            <datum-prihlaseni><?php echo date("j.n.Y"); ?>
+            </datum-prihlaseni>
+            <povinne>
+                <jmeno-pilota>Frantisek</jmeno-pilota>
+                <prijmeni-pilota>Nebojsa</prijmeni-pilota>
+                <telefon-pilota></telefon-pilota>
+                <auto nazev="XRT" rizeni="napravo"></auto>
+                <auto nazev="RB4" rizeni="nalevo"></auto>
+                <auto nazev="FXO" rizeni="nalevo"></auto>
+            </povinne>
+            <nepovinne>
+                <fotografie-pilota/>
+                <Adresa>
+                    <ulice-pilota></ulice-pilota>
+                    <cp-pilota></cp-pilota>
+                    <psc-pilota></psc-pilota>
+                    <mesto-pilota></mesto-pilota>
+                </Adresa>
+            </nepovinne>
+        </pilot>
+    </piloti>
+    <poznamka>
+        <pilot-ref id="a6" >Pilot Jan Novak</pilot-ref> nema nohy, tudiz bude mit sekvencni prevodovku a rizeni plynu a brzdy na volantu
+        <![CDATA[ zde lze vypsat znaky: <>"&']]>
+    </poznamka>
+</Sampionat>

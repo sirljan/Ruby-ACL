@@ -1,0 +1,11 @@
+<?xml version="1.0"?> 
+<addresses version="1.0"> 
+
+    <address id="1"> 
+        <fullname>Andreas Laux</fullname> 
+        <born day='1' month='12' year='1978'/> 
+        <town>Leipzig</town> 
+        <country>Germany</country> 
+    </address> 
+
+</addresses>
