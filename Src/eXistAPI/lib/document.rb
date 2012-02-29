@@ -1,4 +1,4 @@
-class ResourceDocument
+class Document
 
   attr_reader :path
   attr_reader :name
@@ -6,9 +6,9 @@ class ResourceDocument
   attr_reader :group
   attr_reader :permissions
 
-  def initialize(client, hash)
+  def initialize(client, hash, colname)
     @client = client
-    @path = hash['name']
+    @path = colname + hash['name']
     @name = @path[/[^\/]+$/]
     @owner = hash['owner']
     @group = hash['group']
@@ -21,7 +21,7 @@ class ResourceDocument
 
   def content
     begin 
-      options = { "indent" => "yes", "encoding" => "ISO-8859-1",
+      options = { "indent" => "yes", "encoding" => "UTF-8",
         "expand-xincludes" => "yes" }
       return @client.call("getDocument", @path, options)
     rescue XMLRPC::FaultException => e

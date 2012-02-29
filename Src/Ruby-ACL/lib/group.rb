@@ -6,6 +6,8 @@ class Group < Principal
   
   attr_reader :members
   
+  private
+  
   def has_member(member)
     for m in @members
       if(member == m.name)
@@ -15,15 +17,19 @@ class Group < Principal
     return false
   end
   
+  def Group.exists?(group, connector)
+    #puts "group.exist?"
+    #puts "groupname #{name}"
+    super(group, connector, "/acl/Principals/Groups/principal[name=\"#{group}\"]")
+  end
+  
+  public
+  
   def add_members()
   end
   
   def to_s
     super + " \t #{@members} \t group"
   end
-  
-  public :to_s
-  protected
-  private :add_members, :has_member
   
 end

@@ -63,7 +63,7 @@ class ExistAPI
   end
 
   #
-  def removecollection(_name)
+  def remove_collection(_name)
     # boolean removeCollection( String collection)
     result = @client.call("removeCollection", _name)
     return result
@@ -89,15 +89,32 @@ class ExistAPI
       handle = @client.call("executeQuery", xquery, parameters)
       return handle
     rescue XMLRPC::FaultException => e
-      #raise ExistException.new("Failed to execute Query", 4), "Failed to execute Query", caller
-      puts "An error occurred:"
-      puts e.faultCode
-      puts e.faultString
+      puts e
+    end
+  end
+  
+  def retrieve(handle, pos)
+    begin
+      res = @client.call("retrieve", handle, pos, @parametrs)
+      return res
+    rescue XMLRPC::FaultException => e
+      puts e
+    end
+  end
+  
+  def get_hits(handle)
+    begin
+      summary = @client.call("querySummary", handle)
+      hits = summary['hits']
+      return hits
+    rescue XMLRPC::FaultException => e
+      puts e
     end
   end
   
   def update_insert(expr, pos, exprSingle) #<email type="office">andrew@gmail.com</email>, pos = into | following | preceding, exprSingle e.g. //address[fname="Andrew"]
     query = "update insert "+expr+" "+pos+" "+exprSingle
+    #puts "query #{query}"
     execute_query(query)
   end
   

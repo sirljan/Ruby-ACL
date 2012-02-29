@@ -1,4 +1,3 @@
-
 <acl aclname="my_first_acl">
     <Principals>
         <Groups>
@@ -9,6 +8,8 @@
                 <name>Developers</name>
                 <members>
                     <member>sirljan</member>
+                    <member>neubetom</member>
+                    <member>silvejan</member>
                 </members>
             </principal>
             <principal>
@@ -18,6 +19,8 @@
                 <name>Users</name>
                 <members>
                     <member>sirljan</member>
+                    <member>neubetom</member>
+                    <member>silvejan</member>
                 </members>
             </principal>
         </Groups>
@@ -29,10 +32,26 @@
                     <group>Users</group>
                 </member_of>
             </principal>
+            <principal>
+                <name>neubetom</name>
+                <membership>
+                    <group>Administrators</group>
+                    <group>Users</group>
+                    <group>Developers</group>
+                    <group>Houbari</group>
+                </membership>
+            </principal>
+            <principal>
+                <name>silvejan</name>
+                <membership>
+                    <group>Administrators</group>
+                    <group>Users</group>
+                    <group>Developers</group>
+                    <group>Houbari</group>
+                </membership>
+            </principal>
         </Individuals>
-
     </Principals>
-    
     <Privileges>
         <allow>
             <privilege>
@@ -79,7 +98,7 @@
             </privilege>
             <privilege>
                 <name>USAGE</name>
-            </privilege>            
+            </privilege>
         </allow>
         <deny>
             <privilege>
@@ -129,10 +148,8 @@
             </privilege>
         </deny>
     </Privileges>
-    
     <ResourceObjects>    
     </ResourceObjects>
-    
     <aces>
     </aces>
 </acl>

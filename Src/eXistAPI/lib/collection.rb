@@ -33,7 +33,7 @@ class Collection
   def load(collectionName)
     begin
       resp = @client.call("getCollectionDesc", collectionName)
-      @name = resp['name']
+      @name = resp['name']+"/"
       @owner = resp['owner']
       @group = resp['group']
       @permissions = resp['permissions']
@@ -41,7 +41,7 @@ class Collection
             
       @documents = Array.new
       docs = resp['documents']
-      docs.each { |d| @documents.push(ResourceDocument.new(@client, d)) }
+      docs.each { |d| @documents.push(Document.new(@client, d, @name)) }
     rescue XMLRPC::FaultException => e
       puts e
     end

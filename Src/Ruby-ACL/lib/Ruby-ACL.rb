@@ -11,8 +11,9 @@ require 'main'
 class RubyACL
   def initialize(name, connector)
     @name = name
-    create_acl_in_db(connector)
-    create_default_privileges()
+    @connector = connector
+    @colpath = "/db/acl/"
+    create_acl_in_db()
     #@aces = []
     #@principals = []           #pole s principals - docasne reseni, nez se vymysli pripojeni na db
     #@privileges = []
@@ -25,47 +26,26 @@ class RubyACL
   
   private   #follow private methods
   
-  def create_acl_in_db(connector)
-    if(acl_exist(connector))
-      
-    else
-      
-      create_acl(connector)
+  def create_acl_in_db()
+    col = @connector.getcollection(@colpath)
+    if(col.name != @colpath)
+      puts "Kolekce neexistuje. Vytvarim kolekci."
+      @connector.createcollection(@colpath)
+      col = @connector.getcollection(@colpath)
     end
-  end
-  
-  def acl_exist(connector)
-    col = connector.getcollection("/db/acl")
-    if(col.name == "/db/acl")
-      puts "kolekce pro acl existuje"
-      
-      return true
-    else
-      puts "kolekce neexistuje."
-      return false
+    if(col['acl.xml'] == nil)
+      puts "Zdrojovy soubor neexistuje. Vytvarim soubor."
+      xmlfile = File.read("acl.xml")
+      @connector.storeresource(xmlfile, @colpath + "acl.xml")
+      col = @connector.getcollection(@colpath)
     end
-  end
-
-  
-  def create_acl(connector)
-    connector.createcollection("acl")
-    #nacteme xml soubor, ktery chceme ulozit
-    xmlfile = File.read("acl.xml")
-    #xmldoc = Document.new(xmlfile)
-    #
-    #ulozeni xml souboru
-
-    connector.storeresource(xmlfile, "/db/acl/acl.xml")
-    ##a presvedcime se, ze tam skutecne je
-#    puts "Vypis dokumentu v kolekci /db/acl/ , meli bychom tam videt nas novy dokument"
-#    puts col.listresources
-  end
-  
-  def create_default_privileges()
-    #    Privilege.default_privileges.each{ 
-    #      |item| @privileges.push(Privilege.new('allow',item))
-    #      @privileges.push(Privilege.new('deny',item))
-    #    }
+    if(col.name == @colpath && col['acl.xml'] != nil)
+      puts "Kolekce i zdrojovy soubor pro acl existuje"
+      doc = col['acl.xml']
+      doc.to_s
+    else
+      puts "Kolekce nebo zdrojovy soubor pro acl neexistuje"
+    end
   end
   
   def find_all_groups_with_membership_of_principal(principal_name, principals)
@@ -140,21 +120,32 @@ class RubyACL
   public              # follow public methods
   
   def to_s
-    puts "Name = #{name} \n\n"
-    puts "All available principals:\n"
-    for prin in @principals 
-      puts "#{prin.id} \t #{prin.name} \t #{prin.member_of}"
-    end
-    puts "\nAll available privileges: \n"
-    for priv in @privileges
-      puts "#{priv.access_type} \t #{priv.operation}"
-    end
+    puts "Name = #{@name} \n\n"
+    col = @connector.getcollection(@colpath)
+    doc = col['acl.xml']
+    doc.content
   end
   
-  def save()
+  def save(filename)
+    filename=filename + ".xml"
+    col = @connector.getcollection(@colpath)
+    doc = col['acl.xml']
+    f = File.new(filename, 'w')
+    f.puts(doc.content)    
+    f.close
   end
   
-  def load()
+  def RubyACL.load(filename, connector)
+    @connector = connector
+    @colpath = "/db/acl/"
+    @connector.remove_collection(@colpath)
+    @connector.createcollection(@colpath)
+    #osetrit nacitani souboru - vyjimka pri neexistujicim souboru
+    xmlfile = File.read(filename)
+    @connector.storeresource(xmlfile, @colpath + "acl.xml")
+    handle = @connector.execute_query("/acl/string(@aclname)")
+    @name = @connector.retrieve(handle,0)
+    puts @name
   end
   
   def check(principal_name, access_type, privilege_op, resource_object_name)
@@ -200,28 +191,51 @@ class RubyACL
   def mod_ace()
   end
   
-  def create_principal(name, member_of = [])
+  def create_principal(name, groups = [])
+    
     #osetrit name==''
-    #existenci name a member_of
-  end
-  
-  def add_membership(name, member_of) #kdyz nebude pole prevest na pole
-    if(existance_of_principals(member_of) && find_principal(name)!=nil)
-      find_principal(name).add_membership(member_of)
-    elsif(!existance_of_principals(member_of))
-      puts "One or more Groups metioned in membership parametr don't exist."#exception
-    elsif(find_principal(name)==nil)
-      puts "Principal \"#{principal_name}\" doesn't exist."
+    #existenci name a groups
+    bool=true
+    if(name == nil || name == '')
+      puts "Name is empty."
+      bool=false
     end
+    if(Principal.exists?(name, @connector))
+      puts "Principal \"#{name}\" already exist. Please choose different name."
+      bool=false
+    end
+  
+    if(bool)
+      Principal.new(name, @connector)
+      puts "New principal \"#{name}\" created."
+    end
+    add_membership(name, groups, true)
     
   end
   
-  def create_group(name, member_of = [], members = [])    #check if it the name already exist. or if member_of and members exist at all
-    if(find_pricnipal(name)==nil && existence_of_principals(member_of) && existance_of_principals(members))
-      Group.new(name, member_of, members)
+  def add_membership(prin_name, groups = [], prin_exists=false) #kdyz nebude pole prevest na pole
+    if(prin_exists || Principal.exists?(prin_name, @connector))
+      for group in groups
+        if(Group.exists?(group,@connector))
+          @connector.update_insert("<member>#{prin_name}</member>", "into",
+            "/acl/Principals/Groups/principal[name=\"#{group}\"]/members")
+        else
+          puts "WARNING: Group \"#{group}\" does not exist."
+        end
+        @connector.update_insert("<group>#{group}</group>", "into",
+          "/acl/Principals/Individuals/principal[name=\"#{prin_name}\"]/membership")
+      end
+    else
+      puts "Principal with name \"#{prin_name}\" does not exist."
+    end
+  end
+  
+  def create_group(name, groups = [], members = [])    #check if it the name already exist. or if groups and members exist at all
+    if(find_pricnipal(name)==nil && existence_of_principals(groups) && existance_of_principals(members))
+      Group.new(name, groups, members)
     elsif(find_pricnipal(name)!=nil)
       puts "\"#{name.capitalize}\" is already taken by other Principal."  #exception
-    elsif(existence_of_principals(member_of))
+    elsif(existence_of_principals(groups))
       puts "One or more Groups metioned in membership parametr don't exist."#exception
     elsif(existence_of_principals(members))
       puts "One or more Groups metioned as members parametr don't exist."#exception
@@ -235,9 +249,26 @@ require "eXistAPI"
 
 db = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "admin")
 
-
-puts 'start'
+#jineacl = RubyACL.load("pokus.xml", db)
+#jineacl.to_s
+puts "Deleting old ACL from db for testing purposes."
+db.remove_collection("/db/acl/")
+puts 'Creating new acl'
 mojeacl = RubyACL.new("prvniacl", db)
+#puts Print of acl
+#puts mojeacl.to_s
+puts "Creating new principal"
+groups = ['Administrators', 'Users', 'Developers', 'Houbari']
+mojeacl.create_principal("neubetom", groups)
+mojeacl.create_principal("silvejan")
+mojeacl.add_membership("silvejan",groups)
+puts "Saving acl from db to local file."
+mojeacl.save("pokus")
+
+
+
+
+
 
 #mojeacl.add_ace('silvejan', 'allow', 'write', 'ryba')
 #
