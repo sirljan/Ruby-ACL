@@ -1,26 +1,33 @@
 
-<acl aclname="my_first_acl" xmlns:xlink="http://www.w3.org/1999/xlink">
+<acl aclname="my_first_acl">
     <Principals>
         <Groups>
-            <group id="all"/>
-            <group id="Developers">
-                <membership>    <!-->Developers are members of Administrators<!-->
-                    <group idref="Administrators"/>
-                </membership>
-            </group>
-            <group id="Administrators">
-                <membership/>
-            </group>
-            <group id="Users">
-                <membership/>
-            </group>
+            <principal>
+                <name>all</name>
+            </principal>
+            <principal>
+                <name>Developers</name>
+                <members>
+                    <member>sirljan</member>
+                </members>
+            </principal>
+            <principal>
+                <name>Administrators</name>
+            </principal>
+            <principal>
+                <name>Users</name>
+                <members>
+                    <member>sirljan</member>
+                </members>
+            </principal>
         </Groups>
         <Individuals>
-            <principal id="sirljan">
-                <membership>
-                    <group idref="Users" />
-                    <group idref="Developers" />
-                </membership>
+            <principal>
+                <name>sirljan</name>
+                <member_of>
+                    <group>Developers</group>
+                    <group>Users</group>
+                </member_of>
             </principal>
         </Individuals>
 

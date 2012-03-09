@@ -1,53 +1,37 @@
-<acl aclname="my_first_acl">
+<acl xmlns:xlink="http://www.w3.org/1999/xlink" aclname="my_first_acl">
     <Principals>
         <Groups>
-            <principal>
-                <name>all</name>
-            </principal>
-            <principal>
-                <name>Developers</name>
-                <members>
-                    <member>sirljan</member>
-                    <member>neubetom</member>
-                    <member>silvejan</member>
-                </members>
-            </principal>
-            <principal>
-                <name>Administrators</name>
-            </principal>
-            <principal>
-                <name>Users</name>
-                <members>
-                    <member>sirljan</member>
-                    <member>neubetom</member>
-                    <member>silvejan</member>
-                </members>
-            </principal>
+            <group id="all"/>
+            <group id="Developers">
+                <membership>    <!-->Developers are members of Administrators<!-->
+                    <group idref="Users"/>
+                </membership>
+            </group>
+            <group id="Administrators">
+                <membership/>
+            </group>
+            <group id="Users">
+                <membership/>
+            </group>
+            <group id="labutiHejno">
+                <membership>
+                    <group idref="Users"/>
+                </membership>
+            </group>
         </Groups>
         <Individuals>
-            <principal>
-                <name>sirljan</name>
-                <member_of>
-                    <group>Developers</group>
-                    <group>Users</group>
-                </member_of>
-            </principal>
-            <principal>
-                <name>neubetom</name>
+            <principal id="sirljan">
                 <membership>
-                    <group>Administrators</group>
-                    <group>Users</group>
-                    <group>Developers</group>
-                    <group>Houbari</group>
+                    <group idref="Users"/>
+                    <group idref="Developers"/>
                 </membership>
             </principal>
-            <principal>
-                <name>silvejan</name>
+            <principal id="labut">
                 <membership>
-                    <group>Administrators</group>
-                    <group>Users</group>
-                    <group>Developers</group>
-                    <group>Houbari</group>
+                    <group idref="labutiHejno"/>
+                    <group idref="Administrators"/>
+                    <group idref="Developers"/>
+                    <group idref="Houbari"/>
                 </membership>
             </principal>
         </Individuals>

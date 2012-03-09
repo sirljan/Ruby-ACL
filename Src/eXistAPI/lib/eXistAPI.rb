@@ -129,7 +129,8 @@ class ExistAPI
   end
   
   def update_delete(expr)
-    query = expr
+    query = "update delete "+expr
+    #puts "query #{query}"
     execute_query(query)
   end
   

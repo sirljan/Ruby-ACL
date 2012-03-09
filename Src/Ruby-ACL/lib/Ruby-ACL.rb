@@ -192,7 +192,6 @@ class RubyACL
   end
   
   def create_principal(name, groups = [])
-    
     #osetrit name==''
     #existenci name a groups
     bool=true
@@ -207,40 +206,78 @@ class RubyACL
   
     if(bool)
       Principal.new(name, @connector)
-      puts "New principal \"#{name}\" created."
+      if(Principal.exists?(name, @connector))
+        puts "New principal \"#{name}\" created."
+      else
+        puts "Principal \"#{name}\" was not able to create."
+      end
     end
     add_membership(name, groups, true)
-    
   end
   
-  def add_membership(prin_name, groups = [], prin_exists=false) #kdyz nebude pole prevest na pole
+  def create_group(name, member_of = [], members = [])    # members can be groups or individuals; check if it the name already exist. or if groups and members exist at all
+    bool=true
+    if(name == nil || name == '')
+      puts "Name is empty."
+      bool=false
+    end
+    if(Group.exists?(name, @connector))
+      puts "Group \"#{name}\" already exist. Please choose different name."
+      bool=false
+    end
+  
+    if(bool)
+      Group.new(name, @connector)
+      if(Group.exists?(name, @connector))
+        puts "New group \"#{name}\" created."
+      else
+        puts "Group \"#{name}\" was not able to create."
+      end
+    end
+    add_membership(name, member_of, true)
+    for each in members
+      add_membership(each, [name], true)
+    end
+  end
+  
+  def add_membership(prin_name, groups = [], prin_exists=false) #adds prin_name into group(s); if you know prin exists set true for prin_exists
     if(prin_exists || Principal.exists?(prin_name, @connector))
+      #puts "podminka"
+      #puts prin_name
       for group in groups
-        if(Group.exists?(group,@connector))
-          @connector.update_insert("<member>#{prin_name}</member>", "into",
-            "/acl/Principals/Groups/principal[name=\"#{group}\"]/members")
-        else
+        if(!Group.exists?(group, @connector))
           puts "WARNING: Group \"#{group}\" does not exist."
         end
-        @connector.update_insert("<group>#{group}</group>", "into",
-          "/acl/Principals/Individuals/principal[name=\"#{prin_name}\"]/membership")
+        expr = "<group idref=\"#{group}\"/>"
+        #expr = '<group xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="acl.xml#'+"#{group}"+"\"/>"
+        expr_single = "/acl/Principals/descendant::*[@id=\"#{prin_name}\"]/membership"
+        #puts expr_single
+        @connector.update_insert(expr, "into", expr_single)
       end
     else
       puts "Principal with name \"#{prin_name}\" does not exist."
     end
   end
   
-  def create_group(name, groups = [], members = [])    #check if it the name already exist. or if groups and members exist at all
-    if(find_pricnipal(name)==nil && existence_of_principals(groups) && existance_of_principals(members))
-      Group.new(name, groups, members)
-    elsif(find_pricnipal(name)!=nil)
-      puts "\"#{name.capitalize}\" is already taken by other Principal."  #exception
-    elsif(existence_of_principals(groups))
-      puts "One or more Groups metioned in membership parametr don't exist."#exception
-    elsif(existence_of_principals(members))
-      puts "One or more Groups metioned as members parametr don't exist."#exception
+  def del_membership(prin_name, groups) #deletes prin_name from group(s)
+    if(Principal.exists?(prin_name, @connector))
+      for group in groups
+        if(Group.exists?(group, @connector))
+          expr = "/acl/Principals/descendant::*[@id=\"#{prin_name}\"]/membership/group[@idref=\"#{group}\"]"
+          #expr = "/acl/Principals/descendant::*[@id=\"#{prin_name}\"]/membership/group[@xlink:href=\"acl.xml##{group}\"]"
+          @connector.update_delete(expr)
+        else
+          puts "WARNING: Can not delete membership in \"#{group}\". Group \"#{group}\" does not exist."
+        end
+
+      end
+    else
+      puts "Principal with name \"#{prin_name}\" does not exist."
     end
   end
+  
+
+
 end
 
 
@@ -255,14 +292,22 @@ puts "Deleting old ACL from db for testing purposes."
 db.remove_collection("/db/acl/")
 puts 'Creating new acl'
 mojeacl = RubyACL.new("prvniacl", db)
-#puts Print of acl
-#puts mojeacl.to_s
-puts "Creating new principal"
+puts "Adding membership"
+mojeacl.add_membership('Developers', ['Users'])
 groups = ['Administrators', 'Users', 'Developers', 'Houbari']
-mojeacl.create_principal("neubetom", groups)
-mojeacl.create_principal("silvejan")
-mojeacl.add_membership("silvejan",groups)
+puts "Creating new group"
+mojeacl.create_group('labutiHejno')
+puts "Adding membership"
+mojeacl.add_membership('labutiHejno', ['Users'])
+puts "Creating new principal"
+mojeacl.create_principal("labut", ['labutiHejno'])
+#mojeacl.create_principal("ara")
+mojeacl.add_membership("labut", groups)
+puts "Deleting membership"
+mojeacl.del_membership('labut',['Users'])
 puts "Saving acl from db to local file."
+puts "Deleting membership"
+                                                                                                                                                                                                                                    mojeacl.del_membership('Developers',['Administrators'])
 mojeacl.save("pokus")
 
 

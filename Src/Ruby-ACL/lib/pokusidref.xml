@@ -1,31 +1,37 @@
-
-<acl aclname="my_first_acl" xmlns:xlink="http://www.w3.org/1999/xlink">
+<acl aclname="my_first_acl">
     <Principals>
         <Groups>
-            <group id="all"/>
-            <group id="Developers">
-                <membership>    <!-->Developers are members of Administrators<!-->
-                    <group idref="Administrators"/>
-                </membership>
-            </group>
-            <group id="Administrators">
-                <membership/>
-            </group>
-            <group id="Users">
-                <membership/>
-            </group>
+            <principal>
+                <name id="0">all</name>
+            </principal>
+            <principal>
+                <name id="1">Developers</name>
+            </principal>
+            <principal>
+                <name id="2">Administrators</name>
+            </principal>
+            <principal>
+                <name id="3">Users</name>
+            </principal>
         </Groups>
         <Individuals>
-            <principal id="sirljan">
-                <membership>
-                    <group idref="Users" />
-                    <group idref="Developers" />
-                </membership>
+            <principal>
+                <name>sirljan</name>
+                <member_of>
+                    <group idref="0"/>
+                    <group idref="1"/>
+                </member_of>
+            </principal>
+            <principal>
+                <name>neubetom</name>
+                
+            </principal>
+            <principal>
+                <name>silvejan</name>
+                
             </principal>
         </Individuals>
-
     </Principals>
-    
     <Privileges>
         <allow>
             <privilege>
@@ -72,7 +78,7 @@
             </privilege>
             <privilege>
                 <name>USAGE</name>
-            </privilege>            
+            </privilege>
         </allow>
         <deny>
             <privilege>
@@ -122,10 +128,8 @@
             </privilege>
         </deny>
     </Privileges>
-    
     <ResourceObjects>    
     </ResourceObjects>
-    
     <aces>
     </aces>
 </acl>

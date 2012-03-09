@@ -1,11 +1,11 @@
-
-<acl aclname="my_first_acl" xmlns:xlink="http://www.w3.org/1999/xlink">
+<acl xmlns:xlink="http://www.w3.org/1999/xlink" aclname="my_first_acl">
     <Principals>
         <Groups>
             <group id="all"/>
             <group id="Developers">
                 <membership>    <!-->Developers are members of Administrators<!-->
-                    <group idref="Administrators"/>
+                    <group xlink:type="simple" xlink:href="acl.xml#Administrators"/>
+                    <group xlink:type="simple" xlink:href="acl.xml#Users"/>
                 </membership>
             </group>
             <group id="Administrators">
@@ -14,18 +14,30 @@
             <group id="Users">
                 <membership/>
             </group>
+            <group id="labutiHejno">
+                <membership>
+                    <group xlink:type="simple" xlink:href="acl.xml#Users"/>
+                </membership>
+            </group>
         </Groups>
         <Individuals>
             <principal id="sirljan">
                 <membership>
-                    <group idref="Users" />
-                    <group idref="Developers" />
+                    <group xlink:type="simple" xlink:href="acl.xml#Users"/>
+                    <group xlink:type="simple" xlink:href="acl.xml#Developers"/>
+                </membership>
+            </principal>
+            <principal id="labut">
+                <membership>
+                    <group xlink:type="simple" xlink:href="acl.xml#labutiHejno"/>
+                    <group xlink:type="simple" xlink:href="acl.xml#Administrators"/>
+                    <group xlink:type="simple" xlink:href="acl.xml#Users"/>
+                    <group xlink:type="simple" xlink:href="acl.xml#Developers"/>
+                    <group xlink:type="simple" xlink:href="acl.xml#Houbari"/>
                 </membership>
             </principal>
         </Individuals>
-
     </Principals>
-    
     <Privileges>
         <allow>
             <privilege>
@@ -72,7 +84,7 @@
             </privilege>
             <privilege>
                 <name>USAGE</name>
-            </privilege>            
+            </privilege>
         </allow>
         <deny>
             <privilege>
@@ -122,10 +134,8 @@
             </privilege>
         </deny>
     </Privileges>
-    
     <ResourceObjects>    
     </ResourceObjects>
-    
     <aces>
     </aces>
 </acl>

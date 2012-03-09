@@ -1,32 +1,33 @@
 class Group < Principal
-  def initialize(name, member_of = [], members = [])
-    super(name, member_of)
-    @members = members
+  def initialize(name, connector)
+    @name = name
+    expr = generate_expr()
+    #puts expr
+    connector.update_insert(expr, "following", "/acl/Principals/Groups/group[last()]")
   end
   
-  attr_reader :members
+  attr_reader :name
   
   private
   
-  def has_member(member)
-    for m in @members
-      if(member == m.name)
-          return true
-      end
-    end
-    return false
+  def generate_expr()
+    expr = <<END
+    <group id="#{@name}">
+      <membership>
+        
+      </membership>
+    </group>
+END
+    return expr
   end
   
-  def Group.exists?(group, connector)
+  def Group.exists?(name, connector)
     #puts "group.exist?"
     #puts "groupname #{name}"
-    super(group, connector, "/acl/Principals/Groups/principal[name=\"#{group}\"]")
+    super(name, connector)
   end
   
   public
-  
-  def add_members()
-  end
   
   def to_s
     super + " \t #{@members} \t group"
