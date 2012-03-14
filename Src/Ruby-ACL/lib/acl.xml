@@ -12,7 +12,9 @@
                 <membership/>
             </group>
             <group id="Users">
-                <membership/>
+                <membership>
+                    <group idref="all"/>
+                </membership>
             </group>
         </Groups>
         <Individuals>
@@ -22,110 +24,89 @@
                     <group idref="Developers" />
                 </membership>
             </principal>
+            <principal id="Klubicko">
+                <membership>
+                    <group idref="Users"/>
+                </membership>
+            </principal>
         </Individuals>
 
     </Principals>
     
     <Privileges>
-        <allow>
-            <privilege>
-                <name>ALL PRIVILEGES</name>
-            </privilege>
-            <privilege>
-                <name>ALTER</name>
-            </privilege>
-            <privilege>
-                <name>CREATE</name>
-            </privilege>
-            <privilege>
-                <name>DELETE</name>
-            </privilege>
-            <privilege>
-                <name>DROP</name>
-            </privilege>
-            <privilege>
-                <name>FILE</name>
-            </privilege>
-            <privilege>
-                <name>INDEX</name>
-            </privilege>
-            <privilege>
-                <name>INSERT</name>
-            </privilege>
-            <privilege>
-                <name>PROCESS</name>
-            </privilege>
-            <privilege>
-                <name>REFERENCES</name>
-            </privilege>
-            <privilege>
-                <name>RELOAD</name>
-            </privilege>
-            <privilege>
-                <name>SELECT</name>
-            </privilege>
-            <privilege>
-                <name>SHUTDOWN</name>
-            </privilege>
-            <privilege>
-                <name>UPDATE</name>
-            </privilege>
-            <privilege>
-                <name>USAGE</name>
-            </privilege>            
-        </allow>
-        <deny>
-            <privilege>
-                <name>ALL PRIVILEGES</name>
-            </privilege>
-            <privilege>
-                <name>ALTER</name>
-            </privilege>
-            <privilege>
-                <name>CREATE</name>
-            </privilege>
-            <privilege>
-                <name>DELETE</name>
-            </privilege>
-            <privilege>
-                <name>DROP</name>
-            </privilege>
-            <privilege>
-                <name>FILE</name>
-            </privilege>
-            <privilege>
-                <name>INDEX</name>
-            </privilege>
-            <privilege>
-                <name>INSERT</name>
-            </privilege>
-            <privilege>
-                <name>PROCESS</name>
-            </privilege>
-            <privilege>
-                <name>REFERENCES</name>
-            </privilege>
-            <privilege>
-                <name>RELOAD</name>
-            </privilege>
-            <privilege>
-                <name>SELECT</name>
-            </privilege>
-            <privilege>
-                <name>SHUTDOWN</name>
-            </privilege>
-            <privilege>
-                <name>UPDATE</name>
-            </privilege>
-            <privilege>
-                <name>USAGE</name>
-            </privilege>
-        </deny>
+        <privilege id="ALL PRIVILEGES"/>
+        <privilege id="ALTER">
+            <membership/>
+        </privilege>
+        <privilege id="CREATE">
+            <membership/>
+        </privilege>
+        <privilege id="DELETE">
+            <membership/>
+        </privilege>
+        <privilege id="DROP">
+            <membership/>
+        </privilege>
+        <privilege id="FILE">
+            <membership/>
+        </privilege>
+        <privilege id="INDEX">
+            <membership/>
+        </privilege>
+        <privilege id="INSERT">
+            <membership/>
+        </privilege>
+        <privilege id="PROCESS">
+            <membership/>
+        </privilege>
+        <privilege id="REFERENCES">
+            <membership/>
+        </privilege>
+        <privilege id="RELOAD">
+            <membership/>
+        </privilege>
+        <privilege id="SELECT">
+            <membership/>
+        </privilege>
+        <privilege id="SHUTDOWN">
+            <membership/>
+        </privilege>
+        <privilege id="UPDATE">
+            <membership/>
+        </privilege>
+        <privilege id="USAGE">
+            <membership/>
+        </privilege>
     </Privileges>
     
     <ResourceObjects>    
+        <resourceObject id="456">
+            <name>Kosik</name>
+            <address>/Kosik</address>
+        </resourceObject>
+        <resourceObject id="963">
+            <name>Les</name>
+            <address>/Les</address>
+        </resourceObject>
+        <resourceObject id="852">
+            <name>cities.xml</name>
+            <address>/db/cities</address>
+        </resourceObject>
     </ResourceObjects>
     
-    <aces>
-    </aces>
+    <ACEs>
+        <ace id="987">
+            <principal idref="Klubicko"/>
+            <accessType>allow</accessType>
+            <privilege idref="KUTALET"/>
+            <resourceObject idref="456"/>
+        </ace>
+        <ace id="894">
+            <principal idref="Users"/>
+            <accessType>allow</accessType>
+            <privilege idref="SELECT"/>
+            <resourceObject idref="852"/>
+        </ace>
+            
+    </ACEs>
 </acl>

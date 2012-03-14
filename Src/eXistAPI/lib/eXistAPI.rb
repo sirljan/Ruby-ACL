@@ -19,6 +19,7 @@ class ExistAPI
     @username = username
     @password = password
     @parameters = { "encoding" => "UTF-8", "indent" => "yes"}
+    outputoptions = { "encoding" => "UTF-8", "indent" => "yes"}
     connect
   end
 
@@ -86,7 +87,7 @@ class ExistAPI
   
   def execute_query(xquery, parameters = @parameters)
     begin
-      handle = @client.call("executeQuery", xquery, parameters)
+      handle = @client.call("executeQuery", XMLRPC::Base64.new(xquery), parameters)
       return handle
     rescue XMLRPC::FaultException => e
       puts e
@@ -95,7 +96,7 @@ class ExistAPI
   
   def retrieve(handle, pos)
     begin
-      res = @client.call("retrieve", handle, pos, @parametrs)
+      res = @client.call("retrieve", handle, pos, @parameters)
       return res
     rescue XMLRPC::FaultException => e
       puts e

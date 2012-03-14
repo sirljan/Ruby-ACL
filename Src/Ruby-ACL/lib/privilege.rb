@@ -1,14 +1,39 @@
 class Privilege
-  def initialize(access_type, operation)    #
-    if(access_type == "allow" || access_type == "deny")
-      @access_type = access_type    #access type by mel byt enumeration: allow,deny
-    else
-      puts "Access type \"#{access_type}\" is not valid"
-    end
-    @operation = operation
+  def initialize(name, connector)
+    @operation = name
+    @connector = connector
+    expr = generate_expr()
+    #puts expr
+    connector.update_insert(expr, "following", "/acl/Privileges/privilege[last()]")
   end
   
-  attr_reader :access_type, :operation
+  attr_reader :access_type, :name
+  
+  private
+    
+  def generate_expr()
+    expr = <<END
+    <privilege id="#{@operation}">
+      <membership>
+        
+      </membership>
+    </privilege>
+END
+    return expr
+  end
+  
+  def Privilege.exists?(name, connector, query = "/acl/Privileges/descendant::*[@id=\"#{name}\"]")
+    #puts "principal.exists?"
+    #puts "guery #{query}"
+    handle = connector.execute_query(query)
+    hits = connector.get_hits(handle)
+    #puts "hits #{hits}"
+    if(hits >= 1)
+      return true
+    else 
+      return false
+    end
+  end
   
   public
   

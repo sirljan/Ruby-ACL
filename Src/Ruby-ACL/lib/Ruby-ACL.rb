@@ -9,10 +9,10 @@ require 'main'
 
 
 class RubyACL
-  def initialize(name, connector)
+  def initialize(name, connector, colpath = "/db/acl/")
     @name = name
     @connector = connector
-    @colpath = "/db/acl/"
+    @colpath = colpath
     create_acl_in_db()
     #@aces = []
     #@principals = []           #pole s principals - docasne reseni, nez se vymysli pripojeni na db
@@ -48,73 +48,6 @@ class RubyACL
     end
   end
   
-  def find_all_groups_with_membership_of_principal(principal_name, principals)
-    selected_prins = []
-    temp_select = []
-    
-    for prin in principals
-      if(prin.name == principal_name)
-        selected_prins += temp_select
-      elsif(prin.class == 'Group')
-        temp_select.push(prin.id)
-        find_all_groups_with_membership_of_principal(principal_name, prin.members)
-      end
-    end
-    return selected_prins
-  end
-  
-  def find_aces(prin_ids)      #finds all ACEs where principal is included or groups with principal as member
-    selected_aces = []
-    for ace in @aces
-      for prin in prin_ids
-        if(ace.principal.id == prin)
-          selected_aces.push(ace)
-        end
-      end
-    end
-    return selected_aces
-  end
-  
-  def find_principal(principal_name)
-    if(principal_name=='')
-      #exception
-    end
-    for prin in @principals
-      if (prin.name == principal_name) 
-        return prin
-      end
-    end
-    return nil
-  end
-  
-  def find_privilege(access_type, privilege_op)
-    for priv in @privileges
-      if (priv.operation == privilege_op  && priv.access_type == access_type)
-        return priv
-      end
-    end
-    return nil
-  end
-  
-  def find_resource_object(resource_object_name)
-    for resource in @resource_objects
-      if (resource.name == resource_object_name)
-        return resource
-      end
-    end
-    return nil
-  end
-  
-  def existence_of_principals(principals)
-    exist = false
-    for prin in principals
-      if(find_principal(prin))
-        exist = true
-      end
-    end
-    return exist
-  end
-  
   protected
 
   public              # follow public methods
@@ -135,60 +68,88 @@ class RubyACL
     f.close
   end
   
-  def RubyACL.load(filename, connector)
-    @connector = connector
-    @colpath = "/db/acl/"
-    @connector.remove_collection(@colpath)
-    @connector.createcollection(@colpath)
+  def RubyACL.load(filename, connector, colpath = "/db/acl/")
+    connector.remove_collection(colpath)
+    connector.createcollection(colpath)
     #osetrit nacitani souboru - vyjimka pri neexistujicim souboru
     xmlfile = File.read(filename)
-    @connector.storeresource(xmlfile, @colpath + "acl.xml")
-    handle = @connector.execute_query("/acl/string(@aclname)")
-    @name = @connector.retrieve(handle,0)
-    puts @name
+    connector.storeresource(xmlfile, colpath + "acl.xml")
+    handle = connector.execute_query("/acl/string(@aclname)")
+    name = connector.retrieve(handle, 0)
+    newacl=RubyACL.new(name, connector, colpath)
+    return newacl
+
+    #puts @name
   end
   
-  def check(principal_name, access_type, privilege_op, resource_object_name)
-    array_of_principals_ids = find_all_groups_with_membership_of_principal(principal_name, @principals)
-    array_of_principals_ids.push(find_principal(principal_name).id)
-    array_of_aces = find_aces(array_of_principals_ids)
-    for ace in array_of_aces
-      if(ace.privilege.access_type == access_type &&
-            ace.privilege.operation == privilege_op && 
-            ace.resource_object.name == resource_object_name)
-        return true     # access allowed
+  def find_parent(prin_name,index, zanoreni)
+    puts "\t"*zanoreni + "#{index} ----------------"
+    index+=1
+    prins = []
+    query = "//node()[@id=\"#{prin_name}\"]/membership/*/string(@idref)"
+    handle = @connector.execute_query(query)
+    hits = @connector.get_hits(handle)
+    puts "\t"*zanoreni + "hits #{hits}"
+    puts "\t"*zanoreni + query
+    hits.times { 
+      |i|
+      prin = @connector.retrieve(handle, i)
+      if(prin=="")
+        next      #for unknown reason exist returns 1 empty hit even any exists e.g. //node()[@id="all"]/membership/*/string(@idref)
       end
+      prins.push(prin)
+      puts "\t"*zanoreni + prin
+      prins = prins + find_parent(prin,index,zanoreni+1)
+    }
+    
+    return prins
+  end
+  
+  def check(prin_name, priv_name, res_ob_id)
+    
+    #prins = find_parent(prin_name)
+    
+    query = <<END 
+for $ace in /acl/ACEs/ace
+where $ace/principal/@idref="#{prin_name}" and $ace/privilege/@idref="#{priv_name}" and $ace/resourceObject/@idref="#{res_ob_id}"
+return $ace/accessType/text()
+END
+    handle = @connector.execute_query(query)
+    
+    hits = @connector.get_hits(handle)
+    #    puts "hits #{hits}"
+    if(hits>0)
+      if(hits==1)
+        res = @connector.retrieve(handle, 0)
+        if(res=="allow")
+          return true
+        elsif(res=="deny")
+          return false
+        end
+      else
+        puts "Not implemented yet. Sorry :("
+      end
+      
+    else
+      puts "Required rule (#{prin_name},#{priv_name},#{res_ob_id}) does not exist. Access denied."
+      return false
     end
-    return false      # access denied
+    
   end
   
 
   
-  def add_ace(principal_name, access_type, privilege_op, resource_object_name)
-    prin = find_principal(principal_name)
-    priv = find_privilege(access_type, privilege_op)
-    res_ob = find_resource_object(resource_object_name)
-    
-    if(prin!=nil && priv!=nil && res_ob!=nil)
-      @aces[Ace.ace_counter] = Ace.new(prin, priv, res_ob)
-      #puts "ACE was created as:\n"
-      #puts @aces[Ace.ace_counter - 1]
-      
-    else
-      if(prin==nil)
-        puts "Principal \"#{principal_name}\" doesn't exist."#exception
-      elsif(priv==nil)
-        puts "Privilege \"#{access_type}, #{privilege_op}\" doesn't exist."#exception
-      elsif(res_ob==nil)
-        puts "Resource object \"#{resource_object_name}\" doesn't exist."#exception
-      end
-    end
+  def add_ace(prin_name, acc_type, priv_name, res_ob_id)
+    Ace.new(prin_name, acc_type, priv_name, res_ob_id, @connector)
   end
   
   def del_ace(ace_id)
-  end
-  
-  def mod_ace()
+    if(Ace.exists?(ace_id, @connector))
+      expr = "/acl/ACEs/descendant::*[@id=\"#{ace_id}\"]"
+      @connector.update_delete(expr)
+    else
+      puts "ACE with id \"#{ace_id}\" does not exist."
+    end
   end
   
   def create_principal(name, groups = [])
@@ -234,10 +195,15 @@ class RubyACL
         puts "Group \"#{name}\" was not able to create."
       end
     end
-    add_membership(name, member_of, true)
-    for each in members
-      add_membership(each, [name], true)
+    if(member_of.length > 0)
+      add_membership(name, member_of, true)
     end
+    if(members.length > 0)
+      for each in members
+        add_membership(each, [name], true)
+      end
+    end
+    
   end
   
   def add_membership(prin_name, groups = [], prin_exists=false) #adds prin_name into group(s); if you know prin exists set true for prin_exists
@@ -276,22 +242,85 @@ class RubyACL
     end
   end
   
-
-
+  def del_prin(name)
+    #smazat i vsechny ResourceObjets 
+    if(Principal.exists?(name, @connector))
+      expr = "/acl/Principals/descendant::*[@id=\"#{name}\"]"
+      @connector.update_delete(expr)
+    else
+      puts "Principal with name \"#{name}\" does not exist."
+    end
+  end
+  
+  def create_priv(name, member_of = [])
+    bool=true
+    if(name == nil || name == '')
+      puts "Name is empty."
+      bool=false
+    end
+    if(Privilege.exists?(name, @connector))
+      puts "Privilege \"#{name}\" already exist. Please choose different name."
+      bool=false
+    end
+  
+    if(bool)
+      Privilege.new(name, @connector)
+      if(Privilege.exists?(name, @connector))
+        puts "New privilege \"#{name}\" created."
+      else
+        puts "Privilege \"#{name}\" was not able to create."
+      end
+    end
+    if(member_of.length > 0)
+      add_priv_memship(name, member_of, true)
+    end
+    
+  end
+  
+  def add_priv_memship(priv_name, parent_priv = [], priv_exists=false)
+    #osetrit aby neslo pridat pod allow pravidlo deny a naopak
+    if(priv_exists || Privilege.exists?(priv_name, @connector))
+      #puts "podminka"
+      #puts priv_name
+      for ppriv in parent_priv
+        if(Privilege.exists?(ppriv, @connector))
+          puts "WARNING: Privilege \"#{ppriv}\" does not exist."
+        end
+        expr = "<privilege idref=\"#{ppriv}\"/>"
+        expr_single = "/acl/Privileges/descendant::*[@id=\"#{priv_name}\"]/membership"
+        #puts expr_single
+        @connector.update_insert(expr, "into", expr_single)
+      end
+    else
+      puts "Privilege \"#{priv_name}\" does not exist."
+    end
+  end
+  
+  def del_priv(name)
+    if(Privilege.exists?(name, @connector))
+      expr = "/acl/Privileges/descendant::*[@id=\"#{name}\"]"
+      #puts expr
+      @connector.update_delete(expr)
+    else
+      puts "Privilege with name \"#{name}\" does not exist."
+    end
+  end
+  
 end
-
 
 $:.unshift("C:/Users/sirljan/Documents/NetBeansProjects/eXistAPI/lib")
 require "eXistAPI"
 
 db = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "admin")
 
-#jineacl = RubyACL.load("pokus.xml", db)
-#jineacl.to_s
+#mojeacl = RubyACL.load("pokus.xml", db, "/db/acl/")
+
 puts "Deleting old ACL from db for testing purposes."
 db.remove_collection("/db/acl/")
 puts 'Creating new acl'
 mojeacl = RubyACL.new("prvniacl", db)
+puts "to_s. JESTLI TO PORAD NEFUNGUJE, TAK TO KOUKEJ DODELAT!!!"
+mojeacl.to_s
 puts "Adding membership"
 mojeacl.add_membership('Developers', ['Users'])
 groups = ['Administrators', 'Users', 'Developers', 'Houbari']
@@ -305,9 +334,38 @@ mojeacl.create_principal("labut", ['labutiHejno'])
 mojeacl.add_membership("labut", groups)
 puts "Deleting membership"
 mojeacl.del_membership('labut',['Users'])
-puts "Saving acl from db to local file."
 puts "Deleting membership"
-                                                                                                                                                                                                                                    mojeacl.del_membership('Developers',['Administrators'])
+mojeacl.del_membership('Developers',['Administrators'])
+puts "Deleting individual"
+mojeacl.del_prin('Klubicko')
+puts "Deleting group"
+mojeacl.del_prin('Kosik')
+puts "Creating privilege"
+mojeacl.create_priv('KUTALET')
+puts "Creating privilege"
+mojeacl.create_priv('STAT')
+mojeacl.add_priv_memship('STAT', ["KUTALET"])
+#puts "Deleting parent privilege"
+#mojeacl.del_priv("STAT")
+puts "Adding ACE"
+mojeacl.add_ace("Houby", "allow", "RUST", "963")
+#puts "Deleting ACE"
+#mojeacl.del_ace(987)
+puts "Checking ACE "+'("Houby", "RUST", "963")'
+if(mojeacl.check("Houby", "RUST", "963"))
+  puts "Access was allowed"
+else
+  puts "Access was denied"
+end
+puts "Checking ACE - group " + '("sirljan", "SELECT", "852")'
+if(mojeacl.check("sirljan", "SELECT", "852"))
+  puts "Access was allowed"
+else
+  puts "Access was denied"
+end
+puts "find parent"
+puts mojeacl.find_parent("sirljan",0,0)
+puts "Saving acl from db to local file."
 mojeacl.save("pokus")
 
 
