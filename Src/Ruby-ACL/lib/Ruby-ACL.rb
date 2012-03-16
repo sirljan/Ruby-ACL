@@ -48,6 +48,22 @@ class RubyACL
     end
   end
   
+  def find_parent(id)
+    ids = []
+    query = "//node()[@id=\"#{id}\"]/membership/*/string(@idref)"
+    handle = @connector.execute_query(query)
+    hits = @connector.get_hits(handle)
+    hits.times { 
+      |i|
+      id_ref = @connector.retrieve(handle, i)
+      if(id_ref=="")
+        next      #for unknown reason exist returns 1 empty hit even any exists e.g. //node()[@id="all"]/membership/*/string(@idref)
+      end
+      ids = ids | [id_ref] | find_parent(id_ref)   #unite arrays
+    }
+    return ids
+  end
+  
   protected
 
   public              # follow public methods
@@ -82,38 +98,41 @@ class RubyACL
     #puts @name
   end
   
-  def find_parent(prin_name,index, zanoreni)
-    puts "\t"*zanoreni + "#{index} ----------------"
-    index+=1
-    prins = []
-    query = "//node()[@id=\"#{prin_name}\"]/membership/*/string(@idref)"
-    handle = @connector.execute_query(query)
-    hits = @connector.get_hits(handle)
-    puts "\t"*zanoreni + "hits #{hits}"
-    puts "\t"*zanoreni + query
-    hits.times { 
-      |i|
-      prin = @connector.retrieve(handle, i)
-      if(prin=="")
-        next      #for unknown reason exist returns 1 empty hit even any exists e.g. //node()[@id="all"]/membership/*/string(@idref)
-      end
-      prins.push(prin)
-      puts "\t"*zanoreni + prin
-      prins = prins + find_parent(prin,index,zanoreni+1)
-    }
-    
-    return prins
-  end
-  
   def check(prin_name, priv_name, res_ob_id)
     
-    #prins = find_parent(prin_name)
+    prins = [prin_name] + find_parent(prin_name)
+    privs = [priv_name] + find_parent(priv_name)
     
     query = <<END 
 for $ace in /acl/ACEs/ace
 where $ace/principal/@idref="#{prin_name}" and $ace/privilege/@idref="#{priv_name}" and $ace/resourceObject/@idref="#{res_ob_id}"
 return $ace/accessType/text()
 END
+    query = <<END 
+for $ace in /acl/ACEs/ace
+where (
+END
+    for prin in prins
+      query += "$ace/principal/@idref=\"#{prin}\""
+      if(prin != prins.last)
+        query+=" or "
+      else
+        query+=") "
+      end
+    end
+    
+    query += " and ("
+    for priv in privs
+      query += "$ace/privilege/@idref=\"#{priv}\""
+      if(priv != privs.last)
+        query+=" or "
+      else
+        query+=") "
+      end
+    end
+    query += "return $ace/accessType/text()"
+    puts query
+    
     handle = @connector.execute_query(query)
     
     hits = @connector.get_hits(handle)
@@ -136,8 +155,6 @@ END
     end
     
   end
-  
-
   
   def add_ace(prin_name, acc_type, priv_name, res_ob_id)
     Ace.new(prin_name, acc_type, priv_name, res_ob_id, @connector)
@@ -363,8 +380,6 @@ if(mojeacl.check("sirljan", "SELECT", "852"))
 else
   puts "Access was denied"
 end
-puts "find parent"
-puts mojeacl.find_parent("sirljan",0,0)
 puts "Saving acl from db to local file."
 mojeacl.save("pokus")
 

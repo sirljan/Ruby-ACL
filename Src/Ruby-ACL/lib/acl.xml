@@ -1,5 +1,5 @@
-
-<acl aclname="my_first_acl" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!DOCTYPE acl SYSTEM "acl.dtd">
+<acl aclname="my_first_acl">
     <Principals>
         <Groups>
             <group id="all"/>
@@ -35,6 +35,7 @@
     
     <Privileges>
         <privilege id="ALL PRIVILEGES"/>
+            <membership/>
         <privilege id="ALTER">
             <membership/>
         </privilege>
@@ -81,16 +82,13 @@
     
     <ResourceObjects>    
         <resourceObject id="456">
-            <name>Kosik</name>
-            <address>/Kosik</address>
+            <Kosik>Pleteny</Kosik>
         </resourceObject>
         <resourceObject id="963">
-            <name>Les</name>
-            <address>/Les</address>
+            <Les>cernocerny</Les>
         </resourceObject>
         <resourceObject id="852">
-            <name>cities.xml</name>
-            <address>/db/cities</address>
+            <docAddress>cities/cities.xml</docAddress>
         </resourceObject>
     </ResourceObjects>
     

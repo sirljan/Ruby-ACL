@@ -1,0 +1,25 @@
+<!ELEMENT acl (Principals, Privileges, ResourceObjects, ACEs)>
+    <!ATTLIST acl aclname CDATA #REQUIRED>
+<!ELEMENT Principals (Groups, Individuals)>
+    <!ELEMENT Groups (group*)>
+    <!ELEMENT group (membership?)>
+        <!ATTLIST group id ID #REQUIRED>
+    <!ELEMENT membership (group+)>
+    <!ELEMENT group EMPTY>
+        <!ATTLIST group idref IDREF #REQUIRED>
+    <!ELEMENT Individuals (principal*)>
+    <!ELEMENT principal (membership?)>
+        <!ATTLIST group id ID #REQUIRED>
+    <!ELEMENT membership (group+)>
+    <!ELEMENT group EMPTY>
+        <!ATTLIST group idref IDREF #REQUIRED>
+<!ELEMENT Privileges (privileges+)>
+        <!ATTLIST privilege id ID #REQUIRED>
+    <!ELEMENT privilege (membership)>
+    <!ELEMENT membership (privilege*)>
+        <!ATTLIST privilege idref IDREF #REQUIRED>
+<!ELEMENT ResourceObjects (resourceObject)>
+    <!ELEMENT resourceObject ANY>
+        <!--ELEMENT ANY #PCDATA-->
+        <!ATTLIST resourceObject id ID #REQUIRED>
+

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT acl (ACEs|ResourceObjects|Privileges|Principals)*>
+<!ATTLIST acl
+    aclname CDATA #IMPLIED
+    xmlns:xlink CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT Principals (Individuals|Groups)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT Groups (group)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT group (membership)*>
+<!ATTLIST group
+    idref CDATA #IMPLIED
+    id CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT membership (group)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT Individuals (principal)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT principal (membership)*>
+<!ATTLIST principal
+    idref CDATA #IMPLIED
+    id CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT Privileges (privilege)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT privilege (membership)*>
+<!ATTLIST privilege
+    idref CDATA #IMPLIED
+    id CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT ResourceObjects (resourceObject)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT resourceObject (address|name)*>
+<!ATTLIST resourceObject
+    idref CDATA #IMPLIED
+    id CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT name (#PCDATA)>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT address (#PCDATA)>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT ACEs (ace)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT ace (resourceObject|privilege|accessType|principal)*>
+<!ATTLIST ace
+    id CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT accessType (#PCDATA)>
