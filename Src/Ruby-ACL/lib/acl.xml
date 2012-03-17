@@ -1,110 +1,17 @@
 <!DOCTYPE acl SYSTEM "acl.dtd">
 <acl aclname="my_first_acl">
-    <Principals>
-        <Groups>
-            <group id="all"/>
-            <group id="Developers">
-                <membership>    <!-->Developers are members of Administrators<!-->
-                    <group idref="Administrators"/>
-                </membership>
-            </group>
-            <group id="Administrators">
-                <membership/>
-            </group>
-            <group id="Users">
-                <membership>
-                    <group idref="all"/>
-                </membership>
-            </group>
-        </Groups>
-        <Individuals>
-            <principal id="sirljan">
-                <membership>
-                    <group idref="Users" />
-                    <group idref="Developers" />
-                </membership>
-            </principal>
-            <principal id="Klubicko">
-                <membership>
-                    <group idref="Users"/>
-                </membership>
-            </principal>
-        </Individuals>
-
-    </Principals>
     
-    <Privileges>
-        <privilege id="ALL PRIVILEGES"/>
-            <membership/>
-        <privilege id="ALTER">
-            <membership/>
-        </privilege>
-        <privilege id="CREATE">
-            <membership/>
-        </privilege>
-        <privilege id="DELETE">
-            <membership/>
-        </privilege>
-        <privilege id="DROP">
-            <membership/>
-        </privilege>
-        <privilege id="FILE">
-            <membership/>
-        </privilege>
-        <privilege id="INDEX">
-            <membership/>
-        </privilege>
-        <privilege id="INSERT">
-            <membership/>
-        </privilege>
-        <privilege id="PROCESS">
-            <membership/>
-        </privilege>
-        <privilege id="REFERENCES">
-            <membership/>
-        </privilege>
-        <privilege id="RELOAD">
-            <membership/>
-        </privilege>
-        <privilege id="SELECT">
-            <membership/>
-        </privilege>
-        <privilege id="SHUTDOWN">
-            <membership/>
-        </privilege>
-        <privilege id="UPDATE">
-            <membership/>
-        </privilege>
-        <privilege id="USAGE">
-            <membership/>
-        </privilege>
-    </Privileges>
+    <ace id="987">
+        <principal idref="Klubicko"/>
+        <accessType>allow</accessType>
+        <privilege idref="KUTALET"/>
+        <resourceObject idref="456"/>
+    </ace>
+    <ace id="894">
+        <principal idref="Users"/>
+        <accessType>allow</accessType>
+        <privilege idref="SELECT"/>
+        <resourceObject idref="852"/>
+    </ace>
     
-    <ResourceObjects>    
-        <resourceObject id="456">
-            <Kosik>Pleteny</Kosik>
-        </resourceObject>
-        <resourceObject id="963">
-            <Les>cernocerny</Les>
-        </resourceObject>
-        <resourceObject id="852">
-            <docAddress>cities/cities.xml</docAddress>
-        </resourceObject>
-    </ResourceObjects>
-    
-    <ACEs>
-        <ace id="987">
-            <principal idref="Klubicko"/>
-            <accessType>allow</accessType>
-            <privilege idref="KUTALET"/>
-            <resourceObject idref="456"/>
-        </ace>
-        <ace id="894">
-            <principal idref="Users"/>
-            <accessType>allow</accessType>
-            <privilege idref="SELECT"/>
-            <resourceObject idref="852"/>
-        </ace>
-            
-    </ACEs>
 </acl>

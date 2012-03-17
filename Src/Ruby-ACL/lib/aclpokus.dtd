@@ -1,0 +1,11 @@
+<!ELEMENT acl (Principals, Privileges, ResourceObjects, ACEs)>
+    <!ATTLIST acl aclname CDATA #REQUIRED>
+<!ELEMENT Principals (Groups,Individuals)>
+    <!ELEMENT Groups (group*)>
+    <!ELEMENT group (membership+)>
+        <!ATTLIST group id ID #REQUIRED>
+    <!ELEMENT membership ANY>    
+    <!ELEMENT Individuals ANY>
+<!ELEMENT Privileges ANY>
+<!ELEMENT ResourceObjects ANY>
+<!ELEMENT ACEs ANY>

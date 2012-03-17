@@ -1,0 +1,12 @@
+<!DOCTYPE ResourceObjects SYSTEM "ResourceObjects.dtd">    
+<ResourceObjects>    
+    <resourceObject id="r456">
+        <Kosik>Pleteny</Kosik>
+    </resourceObject>
+    <resourceObject id="r963">
+        <Les>cernocerny</Les>
+    </resourceObject>
+    <resourceObject id="r852">
+        <docAddress>cities/cities.xml</docAddress>
+    </resourceObject>
+</ResourceObjects>

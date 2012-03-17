@@ -1,0 +1,66 @@
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT Principals (Individuals|Groups)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT Groups (group)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT group (membership)*>
+<!ATTLIST group
+    idref CDATA #IMPLIED
+    id CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT membership (group)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT Individuals (principal)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT principal (membership)*>
+<!ATTLIST principal
+    idref CDATA #IMPLIED
+    id CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT Privileges (membership|privilege)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT privilege (membership)*>
+<!ATTLIST privilege
+    idref CDATA #IMPLIED
+    id CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT ResourceObjects (resourceObject)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT resourceObject (docAddress|Les|Kosik)*>
+<!ATTLIST resourceObject
+    idref CDATA #IMPLIED
+    id CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT Kosik (#PCDATA)>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT Les (#PCDATA)>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT docAddress (#PCDATA)>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT ACEs (ace)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT ace (resourceObject|privilege|accessType|principal)*>
+<!ATTLIST ace
+    id CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT accessType (#PCDATA)>

@@ -1,0 +1,56 @@
+<!DOCTYPE Privileges SYSTEM "Privileges.dtd">
+<Privileges>
+    <privilege id="ALL_PRIVILEGES">
+        <membership/>
+    </privilege>
+    <privilege id="ALTER">
+        <membership/>
+    </privilege>
+    <privilege id="CREATE">
+        <membership/>
+    </privilege>
+    <privilege id="DELETE">
+        <membership/>
+    </privilege>
+    <privilege id="DROP">
+        <membership/>
+    </privilege>
+    <privilege id="FILE">
+        <membership/>
+    </privilege>
+    <privilege id="INDEX">
+        <membership/>
+    </privilege>
+    <privilege id="INSERT">
+        <membership/>
+    </privilege>
+    <privilege id="PROCESS">
+        <membership/>
+    </privilege>
+    <privilege id="REFERENCES">
+        <membership/>
+    </privilege>
+    <privilege id="RELOAD">
+        <membership/>
+    </privilege>
+    <privilege id="SELECT">
+        <membership/>
+    </privilege>
+    <privilege id="SHUTDOWN">
+        <membership/>
+    </privilege>
+    <privilege id="UPDATE">
+        <membership/>
+    </privilege>
+    <privilege id="USAGE">
+        <membership/>
+    </privilege>
+    <privilege id="KUTALET">
+        <membership/>
+    </privilege>
+    <privilege id="STAT">
+        <membership>
+            <mprivilege idref="KUTALET"/>
+        </membership>
+    </privilege>
+</Privileges>
