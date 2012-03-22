@@ -4,7 +4,7 @@ class Privilege
     @connector = connector
     expr = generate_expr()
     #puts expr
-    connector.update_insert(expr, "following", "/acl/Privileges/privilege[last()]")
+    connector.update_insert(expr, "following", "/Privileges/privilege[last()]")
   end
   
   attr_reader :access_type, :name
@@ -22,7 +22,7 @@ END
     return expr
   end
   
-  def Privilege.exists?(name, connector, query = "/acl/Privileges/descendant::*[@id=\"#{name}\"]")
+  def Privilege.exists?(name, connector, query = "/Privileges/descendant::*[@id=\"#{name}\"]")
     #puts "principal.exists?"
     #puts "guery #{query}"
     handle = connector.execute_query(query)

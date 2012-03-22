@@ -1,11 +1,5 @@
 <!ELEMENT acl (ace*)>
     <!ATTLIST acl aclname CDATA #REQUIRED>
-
-
-
-        
-
-<!ELEMENT ACEs (ace)*>
     <!ELEMENT ace (principal, accessType, privilege, resourceObject)>
         <!ATTLIST ace id ID #REQUIRED>
         

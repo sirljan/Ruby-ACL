@@ -1,13 +1,13 @@
 <!DOCTYPE acl SYSTEM "acl.dtd">
 <acl aclname="my_first_acl">
     
-    <ace id="987">
+    <ace id="a987">
         <principal idref="Klubicko"/>
         <accessType>allow</accessType>
         <privilege idref="KUTALET"/>
         <resourceObject idref="456"/>
     </ace>
-    <ace id="894">
+    <ace id="a894">
         <principal idref="Users"/>
         <accessType>allow</accessType>
         <privilege idref="SELECT"/>

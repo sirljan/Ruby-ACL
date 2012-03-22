@@ -10,6 +10,7 @@ class Document
     @client = client
     @path = colname + hash['name']
     @name = @path[/[^\/]+$/]
+    #puts "filename #{@name}"
     @owner = hash['owner']
     @group = hash['group']
     @permissions = hash['permissions']

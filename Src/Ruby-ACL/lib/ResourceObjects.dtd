@@ -1,5 +1,5 @@
 <!ELEMENT ResourceObjects (resourceObject*)>
-    <!ELEMENT resourceObject (docAddress|ANY)>
-        <!ELEMENT docAddress (#PCDATA)>
-        <!--ELEMENT ANY #PCDATA-->
+    <!ELEMENT resourceObject (type,address)>
+        <!ELEMENT type (#PCDATA)>
+        <!ELEMENT address (#PCDATA)>
         <!ATTLIST resourceObject id ID #REQUIRED>

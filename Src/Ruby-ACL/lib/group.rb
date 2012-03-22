@@ -3,7 +3,7 @@ class Group < Principal
     @name = name
     expr = generate_expr()
     #puts expr
-    connector.update_insert(expr, "following", "/acl/Principals/Groups/group[last()]")
+    connector.update_insert(expr, "following", "/Principals/Groups/group[last()]")
   end
   
   attr_reader :name

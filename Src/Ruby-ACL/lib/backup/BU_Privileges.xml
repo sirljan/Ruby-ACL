@@ -1,4 +1,3 @@
-<!DOCTYPE Privileges SYSTEM "Privileges.dtd">
 <Privileges>
     <privilege id="ALL_PRIVILEGES">
         <membership/>
@@ -43,6 +42,9 @@
         <membership/>
     </privilege>
     <privilege id="USAGE">
+        <membership/>
+    </privilege>
+    <privilege id="KUTALET">
         <membership/>
     </privilege>
 </Privileges>

@@ -1,0 +1,14 @@
+<acl aclname="my_first_acl">
+    <ace id="a894">
+        <principal idref="Users"/>
+        <accessType>allow</accessType>
+        <privilege idref="SELECT"/>
+        <resourceObject idref="852"/>
+    </ace>
+    <ace id="a0">
+        <principal idref="Houby"/>
+        <accessType>allow</accessType>
+        <privilege idref="RUST"/>
+        <resourceObject idref="963"/>
+    </ace>
+</acl>

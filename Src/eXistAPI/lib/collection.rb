@@ -7,6 +7,7 @@ class Collection
   attr_reader :owner
   attr_reader :group
   attr_reader :permissions
+  attr_reader :documents
     
   def initialize(client, collectionName)
     @client = client
@@ -19,6 +20,12 @@ class Collection
 
   def documents
     @documents.each { |d| yield d }
+  end
+  
+  def docs    #returns string array of all documents in collection
+    ds = []
+    @documents.each{ |d| ds.push(d.name)}
+    return ds
   end
 
   def [](key)
@@ -41,6 +48,7 @@ class Collection
             
       @documents = Array.new
       docs = resp['documents']
+      #puts "docs #{docs}"
       docs.each { |d| @documents.push(Document.new(@client, d, @name)) }
     rescue XMLRPC::FaultException => e
       puts e

@@ -29,23 +29,50 @@ class RubyACL
   def create_acl_in_db()
     col = @connector.getcollection(@colpath)
     if(col.name != @colpath)
-      puts "Kolekce neexistuje. Vytvarim kolekci."
+      puts "Collection doesn't exist. Creating collection."
       @connector.createcollection(@colpath)
       col = @connector.getcollection(@colpath)
     end
-    if(col['acl.xml'] == nil)
-      puts "Zdrojovy soubor neexistuje. Vytvarim soubor."
-      xmlfile = File.read("acl.xml")
-      @connector.storeresource(xmlfile, @colpath + "acl.xml")
+    sfs = src_files(col)
+    if(sfs != [])
+      fns=""
+      sfs.each { |sf| 
+        fns = fns + '"'+sf+'"' 
+        if(sf != sfs.last())
+          fns = fns+", "
+        end
+      }
+      puts "Source file(s) #{fns} doesn't/don't exist. Creating new source file(s)."
+      for sfile in sfs
+        xmlfile = File.read(sfile)
+        @connector.storeresource(xmlfile, @colpath + sfile)
+      end
       col = @connector.getcollection(@colpath)
     end
-    if(col.name == @colpath && col['acl.xml'] != nil)
-      puts "Kolekce i zdrojovy soubor pro acl existuje"
+    if(col.name == @colpath && src_files(col) == [])
+      puts "Collection and source files exist."
       doc = col['acl.xml']
       doc.to_s
     else
-      puts "Kolekce nebo zdrojovy soubor pro acl neexistuje"
+      puts "Collection and source files doesn't/don't exist."
     end
+  end
+  
+  def src_files(col)   #return array of files that are not present in acl collection
+    files = []
+    if(col['acl.xml'] == nil)
+      files.push('acl.xml')
+    end
+    if(col['Principals.xml'] == nil)
+      files.push('Principals.xml')
+    end
+    if(col['Privileges.xml'] == nil)
+      files.push('Privileges.xml')
+    end
+    if(col['ResourceObjects.xml'] == nil)
+      files.push('ResourceObjects.xml')
+    end
+    return files
   end
   
   def find_parent(id)
@@ -67,7 +94,7 @@ class RubyACL
   protected
 
   public              # follow public methods
-  
+
   def to_s
     puts "Name = #{@name} \n\n"
     col = @connector.getcollection(@colpath)
@@ -75,13 +102,17 @@ class RubyACL
     doc.content
   end
   
-  def save(filename)
-    filename=filename + ".xml"
-    col = @connector.getcollection(@colpath)
-    doc = col['acl.xml']
-    f = File.new(filename, 'w')
-    f.puts(doc.content)    
-    f.close
+  def save(path)
+    col = @connector.getcollection(@colpath)    
+    docs = col.docs()
+    docs.each{|doc| 
+      document = col[doc] 
+      doc = "BU_"+doc
+      filename = path + doc
+      f = File.new(filename, 'w')
+      f.puts(document.content)    
+      f.close
+    }
   end
   
   def RubyACL.load(filename, connector, colpath = "/db/acl/")
@@ -104,12 +135,12 @@ class RubyACL
     privs = [priv_name] + find_parent(priv_name)
     
     query = <<END 
-for $ace in /acl/ACEs/ace
+for $ace in /acl/ace
 where $ace/principal/@idref="#{prin_name}" and $ace/privilege/@idref="#{priv_name}" and $ace/resourceObject/@idref="#{res_ob_id}"
 return $ace/accessType/text()
 END
     query = <<END 
-for $ace in /acl/ACEs/ace
+for $ace in /acl/ace
 where (
 END
     for prin in prins
@@ -131,7 +162,7 @@ END
       end
     end
     query += "return $ace/accessType/text()"
-    puts query
+    #puts query
     
     handle = @connector.execute_query(query)
     
@@ -162,7 +193,7 @@ END
   
   def del_ace(ace_id)
     if(Ace.exists?(ace_id, @connector))
-      expr = "/acl/ACEs/descendant::*[@id=\"#{ace_id}\"]"
+      expr = "/acl/descendant::*[@id=\"#{ace_id}\"]"
       @connector.update_delete(expr)
     else
       puts "ACE with id \"#{ace_id}\" does not exist."
@@ -233,7 +264,7 @@ END
         end
         expr = "<group idref=\"#{group}\"/>"
         #expr = '<group xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="acl.xml#'+"#{group}"+"\"/>"
-        expr_single = "/acl/Principals/descendant::*[@id=\"#{prin_name}\"]/membership"
+        expr_single = "/Principals/descendant::*[@id=\"#{prin_name}\"]/membership"
         #puts expr_single
         @connector.update_insert(expr, "into", expr_single)
       end
@@ -246,8 +277,8 @@ END
     if(Principal.exists?(prin_name, @connector))
       for group in groups
         if(Group.exists?(group, @connector))
-          expr = "/acl/Principals/descendant::*[@id=\"#{prin_name}\"]/membership/group[@idref=\"#{group}\"]"
-          #expr = "/acl/Principals/descendant::*[@id=\"#{prin_name}\"]/membership/group[@xlink:href=\"acl.xml##{group}\"]"
+          expr = "/Principals/descendant::*[@id=\"#{prin_name}\"]/membership/group[@idref=\"#{group}\"]"
+          #expr = "/Principals/descendant::*[@id=\"#{prin_name}\"]/membership/group[@xlink:href=\"acl.xml##{group}\"]"
           @connector.update_delete(expr)
         else
           puts "WARNING: Can not delete membership in \"#{group}\". Group \"#{group}\" does not exist."
@@ -262,7 +293,7 @@ END
   def del_prin(name)
     #smazat i vsechny ResourceObjets 
     if(Principal.exists?(name, @connector))
-      expr = "/acl/Principals/descendant::*[@id=\"#{name}\"]"
+      expr = "/Principals/descendant::*[@id=\"#{name}\"]"
       @connector.update_delete(expr)
     else
       puts "Principal with name \"#{name}\" does not exist."
@@ -304,7 +335,7 @@ END
           puts "WARNING: Privilege \"#{ppriv}\" does not exist."
         end
         expr = "<privilege idref=\"#{ppriv}\"/>"
-        expr_single = "/acl/Privileges/descendant::*[@id=\"#{priv_name}\"]/membership"
+        expr_single = "/Privileges/descendant::*[@id=\"#{priv_name}\"]/membership"
         #puts expr_single
         @connector.update_insert(expr, "into", expr_single)
       end
@@ -315,7 +346,7 @@ END
   
   def del_priv(name)
     if(Privilege.exists?(name, @connector))
-      expr = "/acl/Privileges/descendant::*[@id=\"#{name}\"]"
+      expr = "/Privileges/descendant::*[@id=\"#{name}\"]"
       #puts expr
       @connector.update_delete(expr)
     else
@@ -361,15 +392,16 @@ puts "Creating privilege"
 mojeacl.create_priv('KUTALET')
 puts "Creating privilege"
 mojeacl.create_priv('STAT')
+puts "Adding membership to privilege"
 mojeacl.add_priv_memship('STAT', ["KUTALET"])
-#puts "Deleting parent privilege"
-#mojeacl.del_priv("STAT")
+puts "Deleting parent privilege"
+mojeacl.del_priv("STAT")
 puts "Adding ACE"
 mojeacl.add_ace("Houby", "allow", "RUST", "963")
-#puts "Deleting ACE"
-#mojeacl.del_ace(987)
-puts "Checking ACE "+'("Houby", "RUST", "963")'
-if(mojeacl.check("Houby", "RUST", "963"))
+puts "Deleting ACE"
+mojeacl.del_ace("a987")
+puts "Checking ACE "+'("Houby", "SELECT", "a963")'
+if(mojeacl.check("Houby", "SELECT", "a963"))
   puts "Access was allowed"
 else
   puts "Access was denied"
@@ -381,8 +413,8 @@ else
   puts "Access was denied"
 end
 puts "Saving acl from db to local file."
-mojeacl.save("pokus")
-
+mojeacl.save("./backup/")
+ 
 
 
 

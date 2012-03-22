@@ -4,7 +4,7 @@ class Principal
     @name = name
     @groups = groups
     expr = generate_expr()
-    connector.update_insert(expr, "following", "/acl/Principals/Individuals/principal[last()]")
+    connector.update_insert(expr, "following", "/Principals/Individuals/principal[last()]")
   end
   
   attr_reader :name, :groups
@@ -21,7 +21,7 @@ END
     return expr
   end
   
-  def Principal.exists?(name, connector, query = "/acl/Principals/descendant::*[@id=\"#{name}\"]")
+  def Principal.exists?(name, connector, query = "/Principals/descendant::*[@id=\"#{name}\"]")
     #puts "principal.exists?"
     #puts "guery #{query}"
     handle = connector.execute_query(query)

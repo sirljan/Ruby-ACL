@@ -1,0 +1,42 @@
+<Principals>
+    <Groups>
+        <group id="all">
+            <membership/>
+        </group>
+        <group id="Developers">
+            <membership>    <!-->Developers are members of Administrators<!-->
+                <mgroup idref="Administrators"/>
+                <group idref="Users"/>
+            </membership>
+        </group>
+        <group id="Administrators">
+            <membership/>
+        </group>
+        <group id="Users">
+            <membership>
+                <mgroup idref="all"/>
+            </membership>
+        </group>
+        <group id="labutiHejno">
+            <membership>
+                <group idref="Users"/>
+            </membership>
+        </group>
+    </Groups>
+    <Individuals>
+        <principal id="sirljan">
+            <membership>
+                <mgroup idref="Users"/>
+                <mgroup idref="Developers"/>
+            </membership>
+        </principal>
+        <principal id="labut">
+            <membership>
+                <group idref="labutiHejno"/>
+                <group idref="Administrators"/>
+                <group idref="Developers"/>
+                <group idref="Houbari"/>
+            </membership>
+        </principal>
+    </Individuals>
+</Principals>

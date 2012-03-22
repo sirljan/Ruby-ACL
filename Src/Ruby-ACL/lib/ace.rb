@@ -8,7 +8,7 @@ class Ace
     @res_ob_id = res_ob_id
     @@ace_counter += 1
     expr = generate_expr()
-    connector.update_insert(expr, "following", "/acl/ACEs/ace[last()]")
+    connector.update_insert(expr, "following", "/acl/ace[last()]")
   end
   
   attr_reader :id, :prin_id, :priv_id, :res_ob_id
@@ -16,7 +16,7 @@ class Ace
   private
   def generate_expr()
     expr = <<END
-    <ace id="#{@id}">
+    <ace id="a#{@id}">
       <principal idref="#{@prin_id}"/>
       <accessType>#{@acc_type}</accessType>
       <privilege idref="#{@priv_id}"/>
@@ -25,7 +25,7 @@ class Ace
 END
     return expr
   end
-  def Ace.exists?(name, connector, query = "/acl/ACEs/descendant::*[@id=\"#{name}\"]")
+  def Ace.exists?(name, connector, query = "/acl/descendant::*[@id=\"#{name}\"]")
     #puts "principal.exists?"
     #puts "guery #{query}"
     handle = connector.execute_query(query)
