@@ -5,7 +5,6 @@
         <group id="all">
             <membership/>
         </group>
-        
         <group id="Developers">
             <membership>    <!-->Developers are members of Administrators<!-->
                 <mgroup idref="Administrators"/>

@@ -38,7 +38,18 @@ END
     end
   end
   
+  protected
+  
   public
+  
+  def Ace.del_ace(ace_id)
+    if(Ace.exists?(ace_id, @connector))
+      expr = "/acl/descendant::*[@id=\"#{ace_id}\"]"
+      @connector.update_delete(expr)
+    else
+      puts "ACE with id \"#{ace_id}\" does not exist."
+    end
+  end
     
   def Ace.ace_counter
     @@ace_counter

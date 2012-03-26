@@ -192,167 +192,34 @@ END
   end
   
   def del_ace(ace_id)
-    if(Ace.exists?(ace_id, @connector))
-      expr = "/acl/descendant::*[@id=\"#{ace_id}\"]"
-      @connector.update_delete(expr)
-    else
-      puts "ACE with id \"#{ace_id}\" does not exist."
-    end
+    Ace.del_ace(ace_id)
   end
   
   def create_principal(name, groups = [])
-    #osetrit name==''
-    #existenci name a groups
-    bool=true
-    if(name == nil || name == '')
-      puts "Name is empty."
-      bool=false
-    end
-    if(Principal.exists?(name, @connector))
-      puts "Principal \"#{name}\" already exist. Please choose different name."
-      bool=false
-    end
-  
-    if(bool)
-      Principal.new(name, @connector)
-      if(Principal.exists?(name, @connector))
-        puts "New principal \"#{name}\" created."
-      else
-        puts "Principal \"#{name}\" was not able to create."
-      end
-    end
-    add_membership(name, groups, true)
+    Principal.new(name, @connector, groups)
   end
   
   def create_group(name, member_of = [], members = [])    # members can be groups or individuals; check if it the name already exist. or if groups and members exist at all
-    bool=true
-    if(name == nil || name == '')
-      puts "Name is empty."
-      bool=false
-    end
-    if(Group.exists?(name, @connector))
-      puts "Group \"#{name}\" already exist. Please choose different name."
-      bool=false
-    end
-  
-    if(bool)
-      Group.new(name, @connector)
-      if(Group.exists?(name, @connector))
-        puts "New group \"#{name}\" created."
-      else
-        puts "Group \"#{name}\" was not able to create."
-      end
-    end
-    if(member_of.length > 0)
-      add_membership(name, member_of, true)
-    end
-    if(members.length > 0)
-      for each in members
-        add_membership(each, [name], true)
-      end
-    end
-    
+    Principal.new(name, @connector, member_of, groups)    
   end
   
-  def add_membership(prin_name, groups = [], prin_exists=false) #adds prin_name into group(s); if you know prin exists set true for prin_exists
-    if(prin_exists || Principal.exists?(prin_name, @connector))
-      #puts "podminka"
-      #puts prin_name
-      for group in groups
-        if(!Group.exists?(group, @connector))
-          puts "WARNING: Group \"#{group}\" does not exist."
-        end
-        expr = "<group idref=\"#{group}\"/>"
-        #expr = '<group xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="acl.xml#'+"#{group}"+"\"/>"
-        expr_single = "/Principals/descendant::*[@id=\"#{prin_name}\"]/membership"
-        #puts expr_single
-        @connector.update_insert(expr, "into", expr_single)
-      end
-    else
-      puts "Principal with name \"#{prin_name}\" does not exist."
-    end
+  def create_privilege(name, member_of = [])
+    Privilege.new(name, connector, member_of)    
+  end
+  
+  def add_membership(name, groups = [], prin_exists=false) #adds prin_name into group(s); if you know prin exists set true for prin_exists
+    ACL_Object.add_membership(name, groups, prin_exists)
   end
   
   def del_membership(prin_name, groups) #deletes prin_name from group(s)
-    if(Principal.exists?(prin_name, @connector))
-      for group in groups
-        if(Group.exists?(group, @connector))
-          expr = "/Principals/descendant::*[@id=\"#{prin_name}\"]/membership/group[@idref=\"#{group}\"]"
-          #expr = "/Principals/descendant::*[@id=\"#{prin_name}\"]/membership/group[@xlink:href=\"acl.xml##{group}\"]"
-          @connector.update_delete(expr)
-        else
-          puts "WARNING: Can not delete membership in \"#{group}\". Group \"#{group}\" does not exist."
-        end
+    ACL_Object.del_membership(prin_name, groups)
+  end
+  
+  def delete(name)
+    ACL_Object.del_prin(name)
+  end
+  
 
-      end
-    else
-      puts "Principal with name \"#{prin_name}\" does not exist."
-    end
-  end
-  
-  def del_prin(name)
-    #smazat i vsechny ResourceObjets 
-    if(Principal.exists?(name, @connector))
-      expr = "/Principals/descendant::*[@id=\"#{name}\"]"
-      @connector.update_delete(expr)
-    else
-      puts "Principal with name \"#{name}\" does not exist."
-    end
-  end
-  
-  def create_priv(name, member_of = [])
-    bool=true
-    if(name == nil || name == '')
-      puts "Name is empty."
-      bool=false
-    end
-    if(Privilege.exists?(name, @connector))
-      puts "Privilege \"#{name}\" already exist. Please choose different name."
-      bool=false
-    end
-  
-    if(bool)
-      Privilege.new(name, @connector)
-      if(Privilege.exists?(name, @connector))
-        puts "New privilege \"#{name}\" created."
-      else
-        puts "Privilege \"#{name}\" was not able to create."
-      end
-    end
-    if(member_of.length > 0)
-      add_priv_memship(name, member_of, true)
-    end
-    
-  end
-  
-  def add_priv_memship(priv_name, parent_priv = [], priv_exists=false)
-    #osetrit aby neslo pridat pod allow pravidlo deny a naopak
-    if(priv_exists || Privilege.exists?(priv_name, @connector))
-      #puts "podminka"
-      #puts priv_name
-      for ppriv in parent_priv
-        if(Privilege.exists?(ppriv, @connector))
-          puts "WARNING: Privilege \"#{ppriv}\" does not exist."
-        end
-        expr = "<privilege idref=\"#{ppriv}\"/>"
-        expr_single = "/Privileges/descendant::*[@id=\"#{priv_name}\"]/membership"
-        #puts expr_single
-        @connector.update_insert(expr, "into", expr_single)
-      end
-    else
-      puts "Privilege \"#{priv_name}\" does not exist."
-    end
-  end
-  
-  def del_priv(name)
-    if(Privilege.exists?(name, @connector))
-      expr = "/Privileges/descendant::*[@id=\"#{name}\"]"
-      #puts expr
-      @connector.update_delete(expr)
-    else
-      puts "Privilege with name \"#{name}\" does not exist."
-    end
-  end
   
 end
 
@@ -397,7 +264,7 @@ mojeacl.add_priv_memship('STAT', ["KUTALET"])
 puts "Deleting parent privilege"
 mojeacl.del_priv("STAT")
 puts "Adding ACE"
-mojeacl.add_ace("Houby", "allow", "RUST", "963")
+mojeacl.add_ace("Houby", "allow", "RUST", "a963")
 puts "Deleting ACE"
 mojeacl.del_ace("a987")
 puts "Checking ACE "+'("Houby", "SELECT", "a963")'
@@ -406,8 +273,8 @@ if(mojeacl.check("Houby", "SELECT", "a963"))
 else
   puts "Access was denied"
 end
-puts "Checking ACE - group " + '("sirljan", "SELECT", "852")'
-if(mojeacl.check("sirljan", "SELECT", "852"))
+puts "Checking ACE - group " + '("sirljan", "SELECT", "a852")'
+if(mojeacl.check("sirljan", "SELECT", "a852"))
   puts "Access was allowed"
 else
   puts "Access was denied"
