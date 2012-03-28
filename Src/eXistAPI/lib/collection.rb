@@ -7,7 +7,8 @@ class Collection
   attr_reader :owner
   attr_reader :group
   attr_reader :permissions
-  attr_reader :documents
+  #attr_reader :documents
+  attr_reader :childCollection
     
   def initialize(client, collectionName)
     @client = client

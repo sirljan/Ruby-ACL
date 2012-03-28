@@ -1,3 +1,5 @@
+
+<!DOCTYPE Principals SYSTEM "Principals.dtd">
 <Principals>
     <Groups>
         <group id="all">
@@ -20,8 +22,8 @@
     <Individuals>
         <principal id="sirljan">
             <membership>
-                <mgroup idref="Users"/>
-                <mgroup idref="Developers"/>
+                <mgroup idref="Users" />
+                <mgroup idref="Developers" />
             </membership>
         </principal>
         <principal id="Klubicko">
@@ -30,4 +32,5 @@
             </membership>
         </principal>
     </Individuals>
+
 </Principals>

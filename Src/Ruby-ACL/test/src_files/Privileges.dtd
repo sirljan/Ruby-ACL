@@ -1,0 +1,6 @@
+<!ELEMENT Privileges (privilege+)>
+    <!ELEMENT privilege (membership)>
+        <!ATTLIST privilege id ID #REQUIRED>
+    <!ELEMENT membership (mprivilege*)>
+        <!ELEMENT mprivilege EMPTY>
+        <!ATTLIST mprivilege idref IDREF #REQUIRED>

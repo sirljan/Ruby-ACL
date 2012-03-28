@@ -1,6 +1,15 @@
-class Individual < Principal     #user, proces or whoever is accessing resource objects
-  #mel by byt Is A Child Principal stejne jako Group
-  def initialize(id, name, member_of)
-    super(id, name, member_of)   #initialize of ancestor Principal
+class Individual < ACL_Object
+  
+  
+  
+  def initialize(connector, col_path)
+    super(connector, col_path)
+    @doc = "doc(\"#{@col_path}Principals.xml\")/Principals"
+  end
+  
+  public
+  def create_new(name, groups)
+    super(name, groups)
   end
 end
+

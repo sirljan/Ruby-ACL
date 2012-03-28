@@ -1,0 +1,5 @@
+<!ELEMENT ResourceObjects (resourceObject*)>
+    <!ELEMENT resourceObject (type,address)>
+        <!ELEMENT type (#PCDATA)>
+        <!ELEMENT address (#PCDATA)>
+        <!ATTLIST resourceObject id ID #REQUIRED>

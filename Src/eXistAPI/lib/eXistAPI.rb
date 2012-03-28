@@ -1,3 +1,4 @@
+$:.unshift("C:/Users/sirljan/Documents/NetBeansProjects/eXistAPI/lib")
 require "xmlrpc/client"
 require 'collection'
 
@@ -35,9 +36,7 @@ class ExistAPI
       raise ExistException.new("Database login failed", 1), "Database login failed", caller
     end
   end
-
-
-  #
+  
   def createcollection(_name, _parent = nil)
     if (_parent == nil)
       begin
@@ -56,14 +55,41 @@ class ExistAPI
       raise ExistException.new("Failed to create Collection", 2), "Failed to create Collection", caller
     end
   end
-
+  
   # psat kolekci s lomitkem na konci
   def getcollection(path)
     col = Collection.new(@client, path)
     return col
   end
+  
+  def existscollection?(orig_path)
+    collections = orig_path.split("/")
+    collections.delete("")
+    i=0
+    path = "/" 
+    while(i < collections.length)
+      path = path + collections[i] + "/"
+      col = Collection.new(@client, path)
+      if (!col.childCollection.include?(collections[i+1]))
+        break
+      end
+      i = i + 1
+    end
+    
+    if(path[-1]=="/")
+      path = path[0..-2]
+    end
+    if(orig_path[-1]=="/")
+      orig_path = orig_path[0..-2]
+    end
+    
+    if(path == orig_path)
+      return true
+    else
+      return false
+    end
+  end
 
-  #
   def remove_collection(_name)
     # boolean removeCollection( String collection)
     result = @client.call("removeCollection", _name)
@@ -142,8 +168,13 @@ class ExistAPI
 
 end
 
+
+#db = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "admin")
+#puts db.existscollection?("db")
+
 #client = XMLRPC::Client.new("localhost", "/exist/xmlrpc", 8080)
-#
+
+#-----------------
 #if $*.length < 1 then
 #  puts "usage: collections.rb collection-path"
 #  exit(0)

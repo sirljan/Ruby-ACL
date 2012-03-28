@@ -1,33 +1,33 @@
 <Principals>
     <Groups>
-        <group id="all">
+        <Group id="all">
             <membership/>
-        </group>
-        <group id="Developers">
+        </Group>
+        <Group id="Developers">
             <membership>    <!-->Developers are members of Administrators<!-->
                 <mgroup idref="Administrators"/>
             </membership>
-        </group>
-        <group id="Administrators">
+        </Group>
+        <Group id="Administrators">
             <membership/>
-        </group>
-        <group id="Users">
+        </Group>
+        <Group id="Users">
             <membership>
                 <mgroup idref="all"/>
             </membership>
-        </group>
+        </Group>
     </Groups>
     <Individuals>
-        <principal id="sirljan">
+        <Individual id="sirljan">
             <membership>
                 <mgroup idref="Users"/>
                 <mgroup idref="Developers"/>
             </membership>
-        </principal>
-        <principal id="Klubicko">
+        </Individual>
+        <Individual id="Klubicko">
             <membership>
                 <mgroup idref="Users"/>
             </membership>
-        </principal>
+        </Individual>
     </Individuals>
 </Principals>

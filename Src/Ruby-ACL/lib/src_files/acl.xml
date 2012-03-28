@@ -1,4 +1,6 @@
+<!DOCTYPE acl SYSTEM "acl.dtd">
 <acl aclname="my_first_acl">
+    
     <ace id="a987">
         <principal idref="Klubicko"/>
         <accessType>allow</accessType>
@@ -11,4 +13,5 @@
         <privilege idref="SELECT"/>
         <resourceObject idref="852"/>
     </ace>
+    
 </acl>

@@ -1,10 +1,9 @@
-class Privilege
+class Privilege < ACL_Object
   
-  attr_reader :access_type
-  attr_reader :name
-  
-  def initialize(name, connector)
-    super(name, connector)
+ 
+  def initialize(connector, col_path)
+    super(connector, col_path)
+    @doc = "doc(\"#{@col_path}Privileges.xml\")"
   end
   
 end

@@ -1,5 +1,6 @@
 class Ace
   @@ace_counter = 0
+  @@filename = "acl.xml"
   def initialize(prin_name, acc_type, priv_name, res_ob_id, connector)
     @id = @@ace_counter
     @prin_id = prin_name

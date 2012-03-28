@@ -1,64 +1,74 @@
 $:.unshift("C:/Users/sirljan/Documents/NetBeansProjects/Ruby-ACL/lib")
-require 'principal'
-require 'accessor'
+require 'ACL_Object'
+require 'individual'
 require 'group'
 require 'privilege'
 require 'resource_object'
 require 'ace'
 require 'main'
-
+require 'date'
+require 'nokogiri'
 
 class RubyACL
-  def initialize(name, connector, colpath = "/db/acl/")
-    @name = name
+  
+  # common access methods
+  attr_reader :name
+  attr_reader :col_path
+  
+  def initialize(name, connector, colpath = "/db/acl/", src_files_path = "./src_files/")
+    @name = name #TODO vloz jmeno do acl documentu
     @connector = connector
-    @colpath = colpath
+    if(colpath[-1] != "/")
+      colpath += "/"
+    end
+    @col_path = colpath
+    @src_files_path = src_files_path
+    @indi = Individual.new(@connector, @col_path)
+    @group = Group.new(@connector, @col_path)
+    @priv = Privilege.new(@connector, @col_path)
+    #@res_obj = ResourceObject(@connector, @col_path)
     create_acl_in_db()
-    #@aces = []
-    #@principals = []           #pole s principals - docasne reseni, nez se vymysli pripojeni na db
-    #@privileges = []
-    #@resource_objects = []     #docasne reseni, nez se vymysli pripojeni na db
-    #@all = Group.new('all')   #root group
-    #@principals.push(@all)
   end
   
-  attr_reader :name, :aces, :privileges, :resource_objects # běžné přístupové metody pro čtení
+  private   # private methods follow
   
-  private   #follow private methods
+  def setname(new_name)
+    
+  end
   
   def create_acl_in_db()
-    col = @connector.getcollection(@colpath)
-    if(col.name != @colpath)
-      puts "Collection doesn't exist. Creating collection."
-      @connector.createcollection(@colpath)
-      col = @connector.getcollection(@colpath)
+    if(!@connector.existscollection?(@col_path))
+      #puts "Collection doesn't exist. Creating collection."
+      @connector.createcollection(@col_path)
     end
-    sfs = src_files(col)
-    if(sfs != [])
-      fns=""
+    
+    col = @connector.getcollection(@col_path)
+    sfs = missing_src_files(col)
+    if(sfs != [])   #creates array of documents that dont exist in collection
+      missing_files = ""
       sfs.each { |sf| 
-        fns = fns + '"'+sf+'"' 
+        missing_files = missing_files + '"'+sf+'"' 
         if(sf != sfs.last())
-          fns = fns+", "
+          missing_files = missing_files + ", "
         end
       }
-      puts "Source file(s) #{fns} doesn't/don't exist. Creating new source file(s)."
+      #puts "Source file(s) #{missing_files} doesn't/don't exist. Creating new source file(s)."  
       for sfile in sfs
-        xmlfile = File.read(sfile)
-        @connector.storeresource(xmlfile, @colpath + sfile)
+        #TODO osetrit nacitani souboru - vyjimka pri neexistujicim souboru
+        xmlfile = File.read(@src_files_path + sfile)
+        @connector.storeresource(xmlfile, @col_path + sfile)
       end
-      col = @connector.getcollection(@colpath)
+      col = @connector.getcollection(@col_path)
     end
-    if(col.name == @colpath && src_files(col) == [])
-      puts "Collection and source files exist."
-      doc = col['acl.xml']
-      doc.to_s
+    
+    if(col.name == @col_path && missing_src_files(col) == [])
+      #puts "Collection and source files exist."
     else
-      puts "Collection and source files doesn't/don't exist."
+      #puts "Collection and source files doesn't/don't exist."
     end
   end
   
-  def src_files(col)   #return array of files that are not present in acl collection
+  def missing_src_files(col)   #returns array of files that are not present in acl collection
     files = []
     if(col['acl.xml'] == nil)
       files.push('acl.xml')
@@ -97,36 +107,37 @@ class RubyACL
 
   def to_s
     puts "Name = #{@name} \n\n"
-    col = @connector.getcollection(@colpath)
+    col = @connector.getcollection(@col_path)
     doc = col['acl.xml']
     doc.content
   end
   
-  def save(path)
-    col = @connector.getcollection(@colpath)    
+  def save(path, date = false)
+    col = @connector.getcollection(@col_path)    
     docs = col.docs()
+    if(date)
+      path = path + Date.today.to_s + "/"
+    end
+    if(!File.exists?(path))
+      Dir.mkdir(path)
+    end
     docs.each{|doc| 
       document = col[doc] 
-      doc = "BU_"+doc
+      #doc = doc + "_BU"
       filename = path + doc
       f = File.new(filename, 'w')
-      f.puts(document.content)    
+      f.puts(document.content)
       f.close
     }
   end
   
-  def RubyACL.load(filename, connector, colpath = "/db/acl/")
-    connector.remove_collection(colpath)
-    connector.createcollection(colpath)
-    #osetrit nacitani souboru - vyjimka pri neexistujicim souboru
-    xmlfile = File.read(filename)
-    connector.storeresource(xmlfile, colpath + "acl.xml")
-    handle = connector.execute_query("/acl/string(@aclname)")
-    name = connector.retrieve(handle, 0)
-    newacl=RubyACL.new(name, connector, colpath)
+  def RubyACL.load(connector, colpath = "/db/acl/", src_files_path)
+    xmlfile = File.read(src_files_path+"acl.xml") #TODO vyjimka?
+    startindex = xmlfile.index('"', xmlfile.index("aclname="))
+    endindex = xmlfile.index('"', startindex+1)
+    name = xmlfile[startindex+1..endindex-1]
+    newacl = RubyACL.new(name, connector, colpath, src_files_path)
     return newacl
-
-    #puts @name
   end
   
   def check(prin_name, priv_name, res_ob_id)
@@ -136,7 +147,7 @@ class RubyACL
     
     query = <<END 
 for $ace in /acl/ace
-where $ace/principal/@idref="#{prin_name}" and $ace/privilege/@idref="#{priv_name}" and $ace/resourceObject/@idref="#{res_ob_id}"
+where $ace/Principal/@idref="#{prin_name}" and $ace/privilege/@idref="#{priv_name}" and $ace/resourceObject/@idref="#{res_ob_id}"
 return $ace/accessType/text()
 END
     query = <<END 
@@ -144,7 +155,7 @@ for $ace in /acl/ace
 where (
 END
     for prin in prins
-      query += "$ace/principal/@idref=\"#{prin}\""
+      query += "$ace/Principal/@idref=\"#{prin}\""
       if(prin != prins.last)
         query+=" or "
       else
@@ -196,19 +207,19 @@ END
   end
   
   def create_principal(name, groups = [])
-    Principal.new(name, @connector, groups)
+    @indi.create_new(name, groups)
   end
   
   def create_group(name, member_of = [], members = [])    # members can be groups or individuals; check if it the name already exist. or if groups and members exist at all
-    Principal.new(name, @connector, member_of, groups)    
+    @group.create_new(name, member_of, members)    
   end
   
   def create_privilege(name, member_of = [])
-    Privilege.new(name, connector, member_of)    
+    @priv.create_new(name, member_of)
   end
   
-  def add_membership(name, groups = [], prin_exists=false) #adds prin_name into group(s); if you know prin exists set true for prin_exists
-    ACL_Object.add_membership(name, groups, prin_exists)
+  def add_membership(name, groups = [], existance = false) #adds prin_name into group(s); if you know prin exists set true for prin_exists
+    ACL_Object.add_membership(name, groups, existance)
   end
   
   def del_membership(prin_name, groups) #deletes prin_name from group(s)
@@ -216,78 +227,68 @@ END
   end
   
   def delete(name)
-    ACL_Object.del_prin(name)
+    ACL_Object.delete(name)
   end
   
 
   
 end
 
-$:.unshift("C:/Users/sirljan/Documents/NetBeansProjects/eXistAPI/lib")
-require "eXistAPI"
-
-db = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "admin")
-
-#mojeacl = RubyACL.load("pokus.xml", db, "/db/acl/")
-
-puts "Deleting old ACL from db for testing purposes."
-db.remove_collection("/db/acl/")
-puts 'Creating new acl'
-mojeacl = RubyACL.new("prvniacl", db)
-puts "to_s. JESTLI TO PORAD NEFUNGUJE, TAK TO KOUKEJ DODELAT!!!"
-mojeacl.to_s
-puts "Adding membership"
-mojeacl.add_membership('Developers', ['Users'])
-groups = ['Administrators', 'Users', 'Developers', 'Houbari']
-puts "Creating new group"
-mojeacl.create_group('labutiHejno')
-puts "Adding membership"
-mojeacl.add_membership('labutiHejno', ['Users'])
-puts "Creating new principal"
-mojeacl.create_principal("labut", ['labutiHejno'])
-#mojeacl.create_principal("ara")
-mojeacl.add_membership("labut", groups)
-puts "Deleting membership"
-mojeacl.del_membership('labut',['Users'])
-puts "Deleting membership"
-mojeacl.del_membership('Developers',['Administrators'])
-puts "Deleting individual"
-mojeacl.del_prin('Klubicko')
-puts "Deleting group"
-mojeacl.del_prin('Kosik')
-puts "Creating privilege"
-mojeacl.create_priv('KUTALET')
-puts "Creating privilege"
-mojeacl.create_priv('STAT')
-puts "Adding membership to privilege"
-mojeacl.add_priv_memship('STAT', ["KUTALET"])
-puts "Deleting parent privilege"
-mojeacl.del_priv("STAT")
-puts "Adding ACE"
-mojeacl.add_ace("Houby", "allow", "RUST", "a963")
-puts "Deleting ACE"
-mojeacl.del_ace("a987")
-puts "Checking ACE "+'("Houby", "SELECT", "a963")'
-if(mojeacl.check("Houby", "SELECT", "a963"))
-  puts "Access was allowed"
-else
-  puts "Access was denied"
-end
-puts "Checking ACE - group " + '("sirljan", "SELECT", "a852")'
-if(mojeacl.check("sirljan", "SELECT", "a852"))
-  puts "Access was allowed"
-else
-  puts "Access was denied"
-end
-puts "Saving acl from db to local file."
-mojeacl.save("./backup/")
- 
-
-
-
-
-
-#mojeacl.add_ace('silvejan', 'allow', 'write', 'ryba')
+#$:.unshift("C:/Users/sirljan/Documents/NetBeansProjects/eXistAPI/lib")
+#require "eXistAPI"
 #
-#puts mojeacl.check('silvejan', 'allow', 'write', 'ryba')
-
+#db = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "admin")
+#
+##mojeacl = RubyACL.load("pokus.xml", db, "/db/acl/")
+#
+#puts "Deleting old ACL from db for testing purposes."
+#db.remove_collection("/db/acl/")
+#puts 'Creating new acl'
+#mojeacl = RubyACL.new("prvniacl", db)
+#puts "to_s. JESTLI TO PORAD NEFUNGUJE, TAK TO KOUKEJ DODELAT!!!"
+#mojeacl.to_s
+#puts "Adding membership"
+#mojeacl.add_membership('Developers', ['Users'])
+#groups = ['Administrators', 'Users', 'Developers', 'Houbari']
+#puts "Creating new group"
+#mojeacl.create_group('labutiHejno')
+#puts "Adding membership"
+#mojeacl.add_membership('labutiHejno', ['Users'])
+#puts "Creating new principal"
+#mojeacl.create_principal("labut", ['labutiHejno'])
+##mojeacl.create_principal("ara")
+#mojeacl.add_membership("labut", groups)
+#puts "Deleting membership"
+#mojeacl.del_membership('labut',['Users'])
+#puts "Deleting membership"
+#mojeacl.del_membership('Developers',['Administrators'])
+#puts "Deleting individual"
+#mojeacl.del_prin('Klubicko')
+#puts "Deleting group"
+#mojeacl.del_prin('Kosik')
+#puts "Creating privilege"
+#mojeacl.create_priv('KUTALET')
+#puts "Creating privilege"
+#mojeacl.create_priv('STAT')
+#puts "Adding membership to privilege"
+#mojeacl.add_priv_memship('STAT', ["KUTALET"])
+#puts "Deleting parent privilege"
+#mojeacl.del_priv("STAT")
+#puts "Adding ACE"
+#mojeacl.add_ace("Houby", "allow", "RUST", "a963")
+#puts "Deleting ACE"
+#mojeacl.del_ace("a987")
+#puts "Checking ACE "+'("Houby", "SELECT", "a963")'
+#if(mojeacl.check("Houby", "SELECT", "a963"))
+#  puts "Access was allowed"
+#else
+#  puts "Access was denied"
+#end
+#puts "Checking ACE - group " + '("sirljan", "SELECT", "a852")'
+#if(mojeacl.check("sirljan", "SELECT", "a852"))
+#  puts "Access was allowed"
+#else
+#  puts "Access was denied"
+#end
+#puts "Saving acl from db to local file."
+#mojeacl.save("./backup/")
