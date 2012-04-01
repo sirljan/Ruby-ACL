@@ -1,5 +1,4 @@
-<!DOCTYPE ResourceObjects SYSTEM "ResourceObjects.dtd">    
-<ResourceObjects>    
+<ResourceObjects>
     <ResourceObject id="r456">
         <type>Kosik</type>
         <address>Pleteny</address>

@@ -24,17 +24,19 @@ END
     return expr
   end
   
-  def exists?(name, query = "#{@doc}/#{self.class.name}s/descendant::*[@id=\"#{name}\"]")
-    #puts "principal.exists?"
-    #puts "guery #{query}"
+  def exists?(name, query = "#{@doc}//#{self.class.name}s/descendant::*[@id=\"#{name}\"]")
     handle = @connector.execute_query(query)
     hits = @connector.get_hits(handle)
-    #puts "hits #{hits}"
     if(hits >= 1)
       return true
     else 
       return false
     end
+  end
+  
+  def exist_membership?(name, member_of)        #Is <name> member of <member_of>
+    expr = "#{@doc}//#{self.class.name}s/descendant::*[@id=\"#{name}\"]/membership/mgroup[@idref=\"#{member_of}\"]"
+    exists?(name, expr)
   end
   
   public #------------------PUBLIC----------------------------------------------
@@ -50,20 +52,18 @@ END
       bool = false
     end
     if(exists?(name))
-      #puts "#{self.class.name} \"#{name}\" already exist. Please choose different name."
+      puts "#{self.class.name} \"#{name}\" already exist. Please choose different name."
       bool = false
     end
   
     if(bool)
       expr = generate_expr(name)
-      #puts expr
-      expr_loc = "#{@doc}/#{self.class.name}s/#{self.class.name}[last()]"
-      #puts expr_loc
+      expr_loc = "#{@doc}//#{self.class.name}s/#{self.class.name}[last()]"
       @connector.update_insert(expr, "following", expr_loc)
       if(exists?(name))
         #puts "New #{self.class.name} \"#{name}\" created."
       else
-        #puts "#{self.class.name} \"#{name}\" was not able to create."
+        puts "#{self.class.name} \"#{name}\" was not able to create."
       end
     end
     if(groups.length > 0)
@@ -71,46 +71,46 @@ END
     end
   end
     
-  def add_membership(name, groups = [], ob_exists = false) #adds acl object into group(s); if you know prin exists set true for prin_exists
+  #adds acl object into group(s); if you know prin exists set true for prin_exists
+  def add_membership(name, groups, ob_exists = false) 
     if(ob_exists || exists?(name))
-      #puts "podminka"
-      #puts prin_name
       for group in groups
-        if(!exists?(group, @connector))
+        if(!exists?(group))
           puts "WARNING: Group \"#{group}\" does not exist."
         end
         expr = "<mgroup idref=\"#{group}\"/>"
-        #expr = '<group xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="acl.xml#'+"#{group}"+"\"/>"
-        expr_single = "#{@doc}/#{self.class.name}s/descendant::*[@id=\"#{name}\"]/membership"
-        #puts expr_single
+        expr_single = "#{@doc}//#{self.class.name}s/descendant::*[@id=\"#{name}\"]/membership"
         @connector.update_insert(expr, "into", expr_single)
       end
     else
-      puts "#{self.class.name} with name \"#{name}\" does not exist."
+      raise RubyACL_Exception.new("Failed to add membership. #{self.class.name} \"#{name}\" does not exist.", 1), 
+        "Failed to add membership. #{self.class.name} \"#{name}\" does not exist.", caller
     end
   end
   
   def del_membership(name, groups) #deletes prin_name from group(s)
-    if(exists?(name, @connector))
+    if(exists?(name))
       for group in groups
-        if(exists?(group, @connector))
-          expr = "#{@doc}/#{self.class.name}s/descendant::*[@id=\"#{name}\"]/membership/group[@idref=\"#{group}\"]"
-          @connector.update_delete(expr)
-        else
-          puts "WARNING: Can not delete membership in \"#{group}\". Group \"#{group}\" does not exist."
+        #if(exist_membership?)
+        expr = "#{@doc}//#{self.class.name}s/descendant::*[@id=\"#{name}\"]/membership/mgroup[@idref=\"#{group}\"]"
+        @connector.update_delete(expr)
+        #end
+        if(!exists?(group))
+          puts "WARNING: #{self.class.name} \"#{group}\" does not exist."
         end
       end
     else
       puts "#{self.class.name} with name \"#{name}\" does not exist."
+      raise RubyACL_Exception.new("Failed to delete membership", 2), "Failed to delete membership", caller
     end
   end
   
   def delete(name)
-    if(Principal.exists?(name, @connector))
-      expr = "#{@doc}/#{self.class.name}s/descendant::*[@id=\"#{name}\"]"
+    if(exists?(name))
+      expr = "#{@doc}//#{self.class.name}s/descendant::*[@id=\"#{name}\"]"
       @connector.update_delete(expr)
     else
-      puts "#{self.class.name} with name \"#{name}\" does not exist."
+      puts "WARNING: #{self.class.name} \"#{name}\" does not exist."
     end
   end
   

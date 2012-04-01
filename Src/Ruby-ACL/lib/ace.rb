@@ -1,63 +1,42 @@
-class Ace
-  @@ace_counter = 0
-  @@filename = "acl.xml"
-  def initialize(prin_name, acc_type, priv_name, res_ob_id, connector)
-    @id = @@ace_counter
-    @prin_id = prin_name
-    @acc_type = acc_type
-    @priv_id = priv_name
-    @res_ob_id = res_ob_id
-    @@ace_counter += 1
-    expr = generate_expr()
-    connector.update_insert(expr, "following", "/acl/ace[last()]")
+class Ace < ACL_Object
+  
+  def initialize(connector, col_path)
+    super(connector, col_path)
+    @doc = "doc(\"#{@col_path}acl.xml\")"
   end
   
-  attr_reader :id, :prin_id, :priv_id, :res_ob_id
-  
   private
-  def generate_expr()
+  def generate_expr(id, prin_id, acc_type, priv_id, res_ob_id)
     expr = <<END
-    <ace id="a#{@id}">
-      <principal idref="#{@prin_id}"/>
-      <accessType>#{@acc_type}</accessType>
-      <privilege idref="#{@priv_id}"/>
-      <resourceObject idref="#{@res_ob_id}"/>
+    <ace id="a#{id}">
+      <principal idref="#{prin_id}"/>
+      <accessType>#{acc_type}</accessType>
+      <privilege idref="#{priv_id}"/>
+      <resourceObject idref="#{res_ob_id}"/>
     </ace>
 END
     return expr
-  end
-  def Ace.exists?(name, connector, query = "/acl/descendant::*[@id=\"#{name}\"]")
-    #puts "principal.exists?"
-    #puts "guery #{query}"
-    handle = connector.execute_query(query)
-    hits = connector.get_hits(handle)
-    #puts "hits #{hits}"
-    if(hits >= 1)
-      return true
-    else
-      return false
-    end
   end
   
   protected
   
   public
-  
-  def Ace.del_ace(ace_id)
-    if(Ace.exists?(ace_id, @connector))
-      expr = "/acl/descendant::*[@id=\"#{ace_id}\"]"
-      @connector.update_delete(expr)
-    else
-      puts "ACE with id \"#{ace_id}\" does not exist."
+  def create_new(prin_id, acc_type, priv_id, res_ob_id)
+    id = "a" + Random.rand(1000000000).to_s
+    while(exists?(id))
+      id = "a" + Random.rand(1000000000).to_s
     end
-  end
+    expr = generate_expr(prin_id, acc_type, priv_id, res_ob_id)
+    expr_loc = "#{@doc}//#{self.class.name}s/#{self.class.name}[last()]"
+    #puts expr_loc
+    @connector.update_insert(expr, "following", expr_loc)
+    if(exists?(id))
+      #puts "New #{self.class.name} \"#{name}\" created."
+      return id
+    else
+      puts "#{self.class.name} \"#{id}\" was not able to create."
+      return nil
+    end
     
-  def Ace.ace_counter
-    @@ace_counter
   end
-  
-  def to_s
-    "#{principal.id} \t #{principal.name} \t #{privilege.access_type} \t #{privilege.operation} \t #{resource_object.name}"
-  end
-  
 end

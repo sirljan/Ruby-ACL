@@ -1,4 +1,3 @@
-<!DOCTYPE Privileges SYSTEM "Privileges.dtd">
 <Privileges>
     <Privilege id="ALL_PRIVILEGES">
         <membership/>

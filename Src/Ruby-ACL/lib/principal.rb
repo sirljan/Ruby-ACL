@@ -1,10 +1,12 @@
 class Principal < ACL_Object
-  
-  attr_reader :name
-  attr_reader :groups
-  
-  def initialize(name, connector, groups = [])
-    super(name, connector, groups)
+  def initialize(connector, col_path)
+    super(connector, col_path)
+    @doc = "doc(\"#{@col_path}Principals.xml\")"
   end
+  
+  def exists?(name)
+    query = "#{@doc}//#{self.class.name}s/descendant::*[@id=\"#{name}\"]"
+    super(name, query)
+  end
+  
 end
-

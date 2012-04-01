@@ -112,6 +112,7 @@ class ExistAPI
   end
   
   def execute_query(xquery, parameters = @parameters)
+    #puts xquery
     begin
       handle = @client.call("executeQuery", XMLRPC::Base64.new(xquery), parameters)
       return handle
@@ -139,7 +140,8 @@ class ExistAPI
     end
   end
   
-  def update_insert(expr, pos, exprSingle) #<email type="office">andrew@gmail.com</email>, pos = into | following | preceding, exprSingle e.g. //address[fname="Andrew"]
+  #<email type="office">andrew@gmail.com</email>, pos = into | following | preceding, exprSingle e.g. //address[fname="Andrew"]
+  def update_insert(expr, pos, exprSingle) 
     query = "update insert "+expr+" "+pos+" "+exprSingle
     #puts "query #{query}"
     execute_query(query)

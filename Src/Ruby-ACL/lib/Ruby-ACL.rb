@@ -1,5 +1,6 @@
 $:.unshift("C:/Users/sirljan/Documents/NetBeansProjects/Ruby-ACL/lib")
 require 'ACL_Object'
+require 'Principal'
 require 'individual'
 require 'group'
 require 'privilege'
@@ -7,7 +8,7 @@ require 'resource_object'
 require 'ace'
 require 'main'
 require 'date'
-require 'nokogiri'
+require 'rubyacl_exception'
 
 class RubyACL
   
@@ -23,10 +24,12 @@ class RubyACL
     end
     @col_path = colpath
     @src_files_path = src_files_path
+    @prin = Principal.new(@connector, @col_path)
     @indi = Individual.new(@connector, @col_path)
     @group = Group.new(@connector, @col_path)
     @priv = Privilege.new(@connector, @col_path)
-    #@res_obj = ResourceObject(@connector, @col_path)
+    @res_obj = ResourceObject.new(@connector, @col_path)
+    @ace = Ace.new(@connector, @col_path)
     create_acl_in_db()
   end
   
@@ -85,12 +88,12 @@ class RubyACL
     return files
   end
   
-  def find_parent(id)
+  def find_parent(id)   #finds membership parrent, e.g. dog's parrent is mammal
     ids = []
     query = "//node()[@id=\"#{id}\"]/membership/*/string(@idref)"
     handle = @connector.execute_query(query)
     hits = @connector.get_hits(handle)
-    hits.times { 
+    hits.times {
       |i|
       id_ref = @connector.retrieve(handle, i)
       if(id_ref=="")
@@ -198,12 +201,9 @@ END
     
   end
   
-  def add_ace(prin_name, acc_type, priv_name, res_ob_id)
-    Ace.new(prin_name, acc_type, priv_name, res_ob_id, @connector)
-  end
-  
-  def del_ace(ace_id)
-    Ace.del_ace(ace_id)
+  def create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
+    res_ob_id = @res_obj.find_res_ob(res_ob_type, res_ob_adrs)
+    @ace.new(prin_name, acc_type, priv_name, res_ob_id)
   end
   
   def create_principal(name, groups = [])
@@ -218,18 +218,47 @@ END
     @priv.create_new(name, member_of)
   end
   
-  def add_membership(name, groups = [], existance = false) #adds prin_name into group(s); if you know prin exists set true for prin_exists
-    ACL_Object.add_membership(name, groups, existance)
+  def create_resource_object(type, address)
+    #puts "type #{type} add #{address}"
+    @res_obj.create_new(type, address)
   end
   
-  def del_membership(prin_name, groups) #deletes prin_name from group(s)
-    ACL_Object.del_membership(prin_name, groups)
+  def add_membership_principal(name, groups, existance = false) #adds principal into group(s); if you know prin exists set true for prin_exists
+    @prin.add_membership(name, groups, existance)
   end
   
-  def delete(name)
-    ACL_Object.delete(name)
+  def add_membership_privilege (name, groups, existance = false) #adds privilege into group(s); if you know prin exists set true for prin_exists
+    @priv.add_membership(name, groups, existance)
   end
   
+  def del_membership_principal(prin_name, groups) #deletes prin_name from group(s)
+    @prin.del_membership(prin_name, groups)
+  end
+  
+  def del_membership_privilege(priv_name, groups) #deletes prin_name from group(s)
+    @priv.del_membership(priv_name, groups)
+  end
+  
+  def delete_principal(name)
+    @prin.delete(name)
+  end
+  
+  def delete_privilege(name)
+    @priv.delete(name)
+  end
+  
+  def delete_res_object(type, address)
+    res_ob_id = @res_obj.find_res_ob(type, address)
+    @res_obj.delete(res_ob_id)
+  end
+  
+  def delete_res_object_by_id(id)
+    @res_obj.delete(id)
+  end
+  
+  def delete_ace(ace_id)
+    @ace.delete(ace_id)
+  end
 
   
 end
@@ -238,24 +267,42 @@ end
 #require "eXistAPI"
 #
 #db = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "admin")
-#
-##mojeacl = RubyACL.load("pokus.xml", db, "/db/acl/")
-#
 #puts "Deleting old ACL from db for testing purposes."
 #db.remove_collection("/db/acl/")
 #puts 'Creating new acl'
 #mojeacl = RubyACL.new("prvniacl", db)
-#puts "to_s. JESTLI TO PORAD NEFUNGUJE, TAK TO KOUKEJ DODELAT!!!"
-#mojeacl.to_s
-#puts "Adding membership"
-#mojeacl.add_membership('Developers', ['Users'])
-#groups = ['Administrators', 'Users', 'Developers', 'Houbari']
+#
+#puts "Creating new principal"
+#mojeacl.create_principal("labut")
+#
 #puts "Creating new group"
 #mojeacl.create_group('labutiHejno')
+#
+#puts "Adding membership"
+#mojeacl.add_membership_principal('Developers', ['Users'])
+#
+#puts "Creating privilege"
+#mojeacl.create_privilege('KUTALET')
+#puts "Creating privilege"
+#mojeacl.create_privilege('STAT')
+#puts "Adding membership to privilege"
+#mojeacl.add_membership_privilege('STAT', ["KUTALET"])
+#puts "Deleting privilege"
+#mojeacl.del_membership_privilege('STAT', ["KUTALET"])
+
+
+##mojeacl = RubyACL.load("pokus.xml", db, "/db/acl/")
+#
+
+
+#puts "to_s. JESTLI TO PORAD NEFUNGUJE, TAK TO KOUKEJ DODELAT!!!"
+#mojeacl.to_s
+
+#groups = ['Administrators', 'Users', 'Developers', 'Houbari']
+
 #puts "Adding membership"
 #mojeacl.add_membership('labutiHejno', ['Users'])
-#puts "Creating new principal"
-#mojeacl.create_principal("labut", ['labutiHejno'])
+
 ##mojeacl.create_principal("ara")
 #mojeacl.add_membership("labut", groups)
 #puts "Deleting membership"
@@ -266,12 +313,8 @@ end
 #mojeacl.del_prin('Klubicko')
 #puts "Deleting group"
 #mojeacl.del_prin('Kosik')
-#puts "Creating privilege"
-#mojeacl.create_priv('KUTALET')
-#puts "Creating privilege"
-#mojeacl.create_priv('STAT')
-#puts "Adding membership to privilege"
-#mojeacl.add_priv_memship('STAT', ["KUTALET"])
+
+
 #puts "Deleting parent privilege"
 #mojeacl.del_priv("STAT")
 #puts "Adding ACE"
