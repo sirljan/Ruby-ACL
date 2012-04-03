@@ -21,6 +21,9 @@ class Test_RubyACL < Test::Unit::TestCase
     end
     @test_acl = RubyACL.new("test_acl", @db, @col_path, @src_files_path)
   end
+  def teardown
+    #delete loaded acl and remove last line in test_load
+  end
   
   def test_create_acl
     #TODO bez existujici koleckce, s existujici kolekci, s kolekci a par souborama, se vsim
@@ -46,6 +49,15 @@ class Test_RubyACL < Test::Unit::TestCase
     test_save
     test_loaded_acl = RubyACL.load(@db, "/db/loaded_acl/", @save_path)
     assert_equal(acl_name, test_loaded_acl.name)
+    @db.remove_collection("/db/loaded_acl/")
+  end
+  
+  def test_setname(new_name = "other_name")
+    @test_acl.setname(new_name)
+    query = "doc(\"#{@col_path}acl.xml\")/acl[@aclname=\"#{new_name}\"]"
+    handle = @db.execute_query(query)
+    hits = @db.get_hits(handle)
+    assert_equal(1, hits)
   end
   
   def test_create_principal(name = 'labut')
@@ -90,17 +102,18 @@ class Test_RubyACL < Test::Unit::TestCase
     hits = @db.get_hits(handle)
     #puts "hits #{hits}"
     assert_equal(1, hits)
+    return id
   end
   
-#  def test_create_ace(prin_name = 'sirljan', acc_type = 'allow', priv_name = 'SELECT', res_ob_type = 'doc', res_ob_adrs='/db/cities/cities.xml')
-#    id = @test_acl.create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
-#    query = "doc(\"#{@col_path}ResourceObjects.xml\")//ResourceObjects/descendant::*[@id=\"#{id}\"]"
-#    #puts "query #{query}"
-#    handle = @db.execute_query(query)
-#    hits = @db.get_hits(handle)
-#    #puts "hits #{hits}"
-#    assert_equal(1, hits)
-#  end
+  def test_create_ace(prin_name = 'sirljan', acc_type = 'allow', priv_name = 'SELECT', res_ob_type = 'doc', res_ob_adrs='/db/cities/cities.xml')
+    id = @test_acl.create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
+    query = "doc(\"#{@col_path}acl.xml\")//Aces/descendant::*[@id=\"#{id}\"]"
+    #puts "query #{query}"
+    handle = @db.execute_query(query)
+    hits = @db.get_hits(handle)
+    #puts "hits #{hits}"
+    assert_equal(1, hits)
+  end
   
   def test_add_membership_principal
     #TODO vytvori i kdyz skupina neexistuje. Nevytvori/vyhodi error kdyz principal neexistuje
@@ -172,22 +185,39 @@ class Test_RubyACL < Test::Unit::TestCase
     assert_equal(0, hits)
   end
 
-  def test_zdelete_res_object(type = 'Les', address = 'cernocerny')
-    r = ResourceObject.new(@db, @col_path)
-    puts r.find_res_ob(type, address)
-    test_create_resource_object(type, address)
-    puts r.find_res_ob(type, address)
-    id = @test_acl.delete_res_object(type, address)
-    query = "doc(\"#{@col_path}ResourceObjects.xml\")/ResourceObjects/descendant::*[@id=\"#{id}\"]"
+  def test_delete_res_object(type = 'Les', address = 'cernocerny')
+    #r = ResourceObject.new(@db, @col_path)
+    #puts r.find_res_ob(type, address)
+    id_created = test_create_resource_object(type, address)
+    #puts r.find_res_ob(type, address)
+    id_del = @test_acl.delete_res_object(type, address)
+    assert(id_created, id_del)
+    #puts "res ID #{id_del}"
+    query = "doc(\"#{@col_path}ResourceObjects.xml\")/ResourceObjects/descendant::*[@id=\"#{id_del}\"]"
+    handle = @db.execute_query(query)
+    hits = @db.get_hits(handle)
+    assert_equal(0, hits, "Method \"delete_res_object\" is not working properly.")
+  end
+    
+  def test_del_ace(prin_name = 'Klubicko', acc_type = 'allow', priv_name = 'ALL_PRIVILEGES', res_ob_type = 'Kosik', res_ob_adrs = 'Pleteny')
+    id_created = test_create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
+    id_deleted = @test_acl.delete_ace(id_created)
+    assert_equal(id_created, id_deleted)
+    query = "doc(\"#{@col_path}ResourceObjects.xml\")/ResourceObjects/descendant::*[@id=\"#{id_deleted}\"]"
     handle = @db.execute_query(query)
     hits = @db.get_hits(handle)
     assert_equal(0, hits)
   end
-    
-  #  def test_del_ace
-  #    flunk "TODO"
-  #  end
   
+  def test_check(prin_name, priv_name, res_ob_id)
+    prin_name = 'sirljan'
+    acc_type = 'allow'
+    priv_name = 'SELECT'
+    res_ob_type = 'doc'
+    res_ob_adrs='/db/cities/cities.xml'
+    test_create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
+    @test_acl.check(prin_name, priv_name, res_ob_id, res_ob_type, res_ob_adrs)
+  end
   
   #  def test_missing_src_files
   #    #flunk "TODO"

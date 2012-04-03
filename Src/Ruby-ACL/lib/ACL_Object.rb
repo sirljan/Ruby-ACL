@@ -112,6 +112,7 @@ END
     else
       puts "WARNING: #{self.class.name} \"#{name}\" does not exist."
     end
+    return name
   end
   
   def rename(old_name, new_name)

@@ -5,9 +5,9 @@ class ResourceObject < ACL_Object
   end
   
   private
-  def generate_expr(name, type, address)
+  def generate_expr(id, type, address)
     expr = <<END
-    <#{self.class.name} id="#{name}">
+    <#{self.class.name} id="#{id}">
       <type>#{type}</type>
       <address>#{address}</address>
     </#{self.class.name}>
@@ -17,8 +17,9 @@ END
   
   public
   def create_new(type, address)
+    #TODO check if res_ob type doc exists in db (it is not meant in res_ob list)
     id = find_res_ob(type, address)
-    if(id != nil)
+    if(id == nil) #this resOb doesnt exist
       id = "r" + Random.rand(1000000000).to_s
       while(exists?(id))
         id = "r" + Random.rand(1000000000).to_s
@@ -33,15 +34,11 @@ END
       else
         #puts "#{self.class.name} \"#{id}\" was not able to create."
         raise RubyACL_Exception.new("#{self.class.name} type=\"#{type}\", address=\"#{address}\" was not able to create.", 33), 
-        "#{self.class.name} type=\"#{type}\", address=\"#{address}\" was not able to create.", caller
+          "#{self.class.name} type=\"#{type}\", address=\"#{address}\" was not able to create.", caller
       end
-    else  #already exists
-      raise RubyACL_Exception.new("#{self.class.name} type=\"#{type}\", address=\"#{address}\" exists more then once.", 33), 
-        "#{self.class.name} type=\"#{type}\", address=\"#{address}\" exists more then once. (#{hits} times)", caller
+    else #already exists
+      return id
     end
-    
-    
-    
   end
   
   def find_res_ob(type, address)
@@ -49,11 +46,16 @@ END
     #puts query
     handle = @connector.execute_query(query)
     hits = @connector.get_hits(handle)
-    puts hits
+    #puts hits
     case hits
-    when 1 
+    when 1
       res_ob_id = @connector.retrieve(handle, 0)
-      return res_ob_id
+      if(res_ob_id == "")   #eXist returns empty result => should return no result
+        return nil
+      else
+        return res_ob_id
+      end
+      
     when 0
       return nil
     else

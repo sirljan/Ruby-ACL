@@ -1,4 +1,3 @@
-<!DOCTYPE acl SYSTEM "acl.dtd">
 <acl aclname="my_first_acl">
     <Aces>
         <Ace id="a987">

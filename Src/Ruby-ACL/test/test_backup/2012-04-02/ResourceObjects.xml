@@ -1,0 +1,14 @@
+<ResourceObjects>
+    <ResourceObject id="r456">
+        <type>Kosik</type>
+        <address>Pleteny</address>
+    </ResourceObject>
+    <ResourceObject id="r963">
+        <type>Les</type>
+        <address>cernocerny</address>
+    </ResourceObject>
+    <ResourceObject id="r852">
+        <type>doc</type>
+        <address>/db/cities/cities.xml</address>
+    </ResourceObject>
+</ResourceObjects>
