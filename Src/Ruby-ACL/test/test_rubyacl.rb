@@ -1,5 +1,4 @@
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
+#TODO test coverige
 
 $:.unshift File.join(File.dirname(__FILE__),'..','lib')
 $:.unshift("C:/Users/sirljan/Documents/NetBeansProjects/eXistAPI/lib")
@@ -22,7 +21,7 @@ class Test_RubyACL < Test::Unit::TestCase
     @test_acl = RubyACL.new("test_acl", @db, @col_path, @src_files_path)
   end
   def teardown
-    #delete loaded acl and remove last line in test_load
+    #TODO delete loaded acl and remove last line in test_load
   end
   
   def test_create_acl
@@ -209,14 +208,51 @@ class Test_RubyACL < Test::Unit::TestCase
     assert_equal(0, hits)
   end
   
-  def test_check(prin_name, priv_name, res_ob_id)
+  def test_zcheck1a()    
     prin_name = 'sirljan'
     acc_type = 'allow'
     priv_name = 'SELECT'
     res_ob_type = 'doc'
     res_ob_adrs='/db/cities/cities.xml'
     test_create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
-    @test_acl.check(prin_name, priv_name, res_ob_id, res_ob_type, res_ob_adrs)
+    access = @test_acl.check(prin_name, priv_name, res_ob_type, res_ob_adrs)
+    assert_equal(true, access)
+  end
+  
+  def test_zcheck1b()    
+    prin_name = 'sirljan'
+    acc_type = 'deny'
+    priv_name = 'SELECT'
+    res_ob_type = 'doc'
+    res_ob_adrs='/db/cities/cities.xml'
+    test_create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
+    access = @test_acl.check(prin_name, priv_name, res_ob_type, res_ob_adrs)
+    assert_equal(false, access)
+  end
+  
+  def test_zcheck2()    #Add privilege to group. Checking if member has privilege too.
+    prin_name = 'Users'
+    acc_type = 'allow'
+    priv_name = 'SELECT'
+    res_ob_type = 'doc'
+    res_ob_adrs='/db/cities/cities.xml'
+    test_create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
+    access = @test_acl.check('sirljan', priv_name, res_ob_type, res_ob_adrs)
+    assert_equal(true, access)
+  end
+  
+  def test_zcheck3()
+    prin_name = 'Users'
+    acc_type = 'allow'
+    priv_name = 'SELECT'
+    res_ob_type = 'doc'
+    res_ob_adrs='/db/cities/cities.xml'
+    test_create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
+    prin_name = 'sirljan'
+    acc_type = 'deny'
+    test_create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
+    access = @test_acl.check('sirljan', priv_name, res_ob_type, res_ob_adrs)
+    assert_equal(false, access)
   end
   
   #  def test_missing_src_files

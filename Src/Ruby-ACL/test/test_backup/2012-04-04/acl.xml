@@ -1,0 +1,16 @@
+<acl aclname="my_first_acl">
+    <Aces>
+        <Ace id="a987">
+            <Principal idref="Klubicko"/>
+            <accessType>allow</accessType>
+            <Privilege idref="KUTALET"/>
+            <ResourceObject idref="456"/>
+        </Ace>
+        <Ace id="a894">
+            <Principal idref="Users"/>
+            <accessType>allow</accessType>
+            <Privilege idref="SELECT"/>
+            <ResourceObject idref="852"/>
+        </Ace>
+    </Aces>
+</acl>

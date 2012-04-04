@@ -1,29 +1,20 @@
 class Group < Principal
-  def initialize(name, member_of = [], members = [])
-    super(name, member_of)
-    @members = members
+  
+  def initialize(connector, col_path)
+    super(connector, col_path)
   end
   
-  attr_reader :members
+  private
   
-  def has_member(member)
-    for m in @members
-      if(member == m.name)
-          return true
+  public
+  
+  def create_new(name, groups, members)
+    super(name, groups)
+    if(members.length > 0)
+      for each in members
+        add_membership(each, [name], true)
       end
     end
-    return false
   end
-  
-  def add_members()
-  end
-  
-  def to_s
-    super + " \t #{@members} \t group"
-  end
-  
-  public :to_s
-  protected
-  private :add_members, :has_member
   
 end

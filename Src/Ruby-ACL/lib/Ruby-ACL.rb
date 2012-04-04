@@ -86,7 +86,17 @@ class RubyACL
     return files
   end
   
-  def find_parent(query)   #finds membership parrent, e.g. dog's parrent is mammal
+  def parent(adr)
+    if(adr[-1] == "/")
+      adr = adr[0..-2]
+    end
+    pos = adr.rindex("/")
+    adr = adr[0..pos]
+    return adr
+  end
+  
+  def find_parent(id, doc)   #finds membership parrent, e.g. dog's parrent is mammal
+    query = "#{doc}//node()[@id=\"#{id}\"]/membership/*/string(@idref)"
     ids = []
     handle = @connector.execute_query(query)
     hits = @connector.get_hits(handle)
@@ -94,36 +104,31 @@ class RubyACL
       |i|
       id_ref = @connector.retrieve(handle, i)
       if(id_ref=="")
-        next      #for unknown reason eXist returns 1 empty hit even any exists therefore unite is skipped e.g. //node()[@id="all"]/membership/*/string(@idref)
+        next      #for unknown reason eXist returns 1 empty hit even any exists therefore unite is skipped (e.g. //node()[@id="all"]/membership/*/string(@idref)
       end
-      ids = ids | [id_ref] | find_parent(id_ref)   #unite arrays
+      ids = ids | [id_ref] | find_parent(id_ref, doc)   #unite arrays
     }
     return ids
   end
   
-  def find_prin_parent(id)   #finds membership parrent, e.g. dog's parrent is mammal
-    query = "doc(\"#{@prin.doc}\")//node()[@id=\"#{id}\"]/membership/*/string(@idref)"
-    ids = find_parent(query)
-    return ids
-  end
-  
-  def find_priv_parent(id)   #finds membership parrent, e.g. dog's parrent is mammal
-    query = "doc(\"#{@priv.doc}\")//node()[@id=\"#{id}\"]/membership/*/string(@idref)"
-    ids = find_parent(query)
-    return ids
-  end
-  
   def find_res_ob_parent(res_ob_type, res_ob_adrs)   #finds membership parrent, e.g. dog's parrent is mammal
-   
-   
-        query = "doc(\"#{@priv.doc}\")//node()[(@type=\"#{res_ob_type}\") and()]/membership/*/string(@idref)"
-    #    ids = find_parent(query)
-    #    return ids
+    query = "#{@res_obj.doc}//node()[(type=\"#{res_ob_type}\") and(address=\"#{res_ob_adrs}\")]/membership/*/string(@idref)"
+    ids = []
+    handle = @connector.execute_query(query)
+    hits = @connector.get_hits(handle)
+    hits.times {
+      |i|
+      id_ref = @connector.retrieve(handle, i)
+      if(id_ref=="")
+        next      #for unknown reason eXist returns 1 empty hit even any exists therefore unite is skipped (e.g. //node()[@id="all"]/membership/*/string(@idref)
+      end
+      res_ob_adrs = parent(res_ob_adrs)
+      ids = ids | [id_ref] | find_res_ob_parent(res_ob_type, res_ob_adrs)   #unite arrays
+    }
+    return ids
   end
   
   protected
-  
-
 
   public              # follow public methods
 
@@ -175,16 +180,16 @@ class RubyACL
   
   def check(prin_name, priv_name, res_ob_type, res_ob_adrs)
     
-    prins = [prin_name] + find_parent(prin_name)    #creates the set of principals {wanted principal and all groups wanted principal is member of}
-    privs = [priv_name] + find_parent(priv_name)    #creates the set of privileges {wanted privilege and all privileges wanted privilege is member of}
-    res_obs = [@res_obj.find_res_ob(res_ob_type, res_ob_adrs)] + find_parent(res_ob_type, res_ob_adrs)
+    prins = [prin_name] + find_parent(prin_name, @prin.doc)    #creates the set of principals {wanted principal and all groups wanted principal is member of}
+    privs = [priv_name] + find_parent(priv_name, @priv.doc)    #creates the set of privileges {wanted privilege and all privileges wanted privilege is member of}
+    res_obs = [@res_obj.find_res_ob(res_ob_type, res_ob_adrs)] + find_res_ob_parent(res_ob_type, res_ob_adrs)
     
     query = <<END 
-for $ace in /acl/ace
+for $ace in #{@ace.doc}//Ace
 where (
 END
     for prin in prins
-      query += "$Ace/Principal/@idref=\"#{prin}\""
+      query += "$ace/Principal/@idref=\"#{prin}\""
       if(prin != prins.last)
         query+=" or "
       else
@@ -194,7 +199,7 @@ END
     
     query += " and ("
     for priv in privs
-      query += "$Ace/Privilege/@idref=\"#{priv}\""
+      query += "$ace/Privilege/@idref=\"#{priv}\""
       if(priv != privs.last)
         query+=" or "
       else
@@ -204,7 +209,7 @@ END
     
     query += " and ("
     for res_ob in res_obs
-      query += "$Ace/ResourceObject/@idref=\"#{res_ob}\""
+      query += "$ace/ResourceObject/@idref=\"#{res_ob}\""
       if(priv != privs.last)
         query+=" or "
       else
@@ -212,27 +217,28 @@ END
       end
     end
     
-    query += "return $Ace/accessType/text()"
+    query += "return $ace/accessType/text()"
     #puts query
     
     handle = @connector.execute_query(query)
-    
+    #puts "handle nil? #{handle.nil?}"
     hits = @connector.get_hits(handle)
     #    puts "hits #{hits}"
-    if(hits>0)
-      if(hits==1)
+    if(hits > 0)
+      if(hits == 1)
         res = @connector.retrieve(handle, 0)
-        if(res=="allow")
+        if(res == "allow")
           return true
-        elsif(res=="deny")
+        elsif(res == "deny")
           return false
         end
       else
         puts "Not implemented yet. Sorry :("
+        #TODO Vice zaznamu
       end
       
     else
-      puts "Required rule (#{prin_name},#{priv_name},#{res_ob_id}) does not exist. Access denied."
+      puts "Required rule (#{prin_name}, #{priv_name}, #{res_ob_type}, #{res_ob_adrs}) does not exist. Access denied."
       return false
     end
     
