@@ -39,7 +39,7 @@ Privilege/@idref=\"#{priv_id}\" and ResourceObject/@idref=\"#{res_ob_id}\"]
     when 0
       return nil
     else
-      raise RubyACL_Exception.new("#{self.class.name} Principal=\"#{prin_id}\" and accessType=\"#{acc_type}\" and 
+      raise RubyACLExceptionRubyACLException.new("#{self.class.name} Principal=\"#{prin_id}\" and accessType=\"#{acc_type}\" and 
 Privilege=\"#{priv_id}\" and ResourceObject=\"#{res_ob_id}\" exists more then once.", 32), 
         "#{self.class.name} Principal=\"#{prin_id}\" and accessType=\"#{acc_type}\" and 
 Privilege=\"#{priv_id}\" and ResourceObject=\"#{res_ob_id}\" exists more then once. (#{hits} times)", caller

@@ -76,6 +76,7 @@ END
     if(ob_exists || exists?(name))
       for group in groups
         if(!exists?(group))
+          #TODO udelat neco s warningama
           puts "WARNING: Group \"#{group}\" does not exist."
         end
         expr = "<mgroup idref=\"#{group}\"/>"
@@ -83,7 +84,7 @@ END
         @connector.update_insert(expr, "into", expr_single)
       end
     else
-      raise RubyACL_Exception.new("Failed to add membership. #{self.class.name} \"#{name}\" does not exist.", 1), 
+      raise RubyACLException.new("Failed to add membership. #{self.class.name} \"#{name}\" does not exist.", 1), 
         "Failed to add membership. #{self.class.name} \"#{name}\" does not exist.", caller
     end
   end
@@ -101,7 +102,7 @@ END
       end
     else
       puts "#{self.class.name} with name \"#{name}\" does not exist."
-      raise RubyACL_Exception.new("Failed to delete membership", 2), "Failed to delete membership", caller
+      raise RubyACLException.new("Failed to delete membership", 2), "Failed to delete membership", caller
     end
   end
   

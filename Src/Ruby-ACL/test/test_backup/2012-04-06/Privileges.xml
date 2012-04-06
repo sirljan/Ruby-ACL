@@ -1,0 +1,47 @@
+<Privileges>
+    <Privilege id="ALL_PRIVILEGES">
+        <membership/>
+    </Privilege>
+    <Privilege id="ALTER">
+        <membership/>
+    </Privilege>
+    <Privilege id="CREATE">
+        <membership/>
+    </Privilege>
+    <Privilege id="DELETE">
+        <membership/>
+    </Privilege>
+    <Privilege id="DROP">
+        <membership/>
+    </Privilege>
+    <Privilege id="FILE">
+        <membership/>
+    </Privilege>
+    <Privilege id="INDEX">
+        <membership/>
+    </Privilege>
+    <Privilege id="INSERT">
+        <membership/>
+    </Privilege>
+    <Privilege id="PROCESS">
+        <membership/>
+    </Privilege>
+    <Privilege id="REFERENCES">
+        <membership/>
+    </Privilege>
+    <Privilege id="RELOAD">
+        <membership/>
+    </Privilege>
+    <Privilege id="SELECT">
+        <membership/>
+    </Privilege>
+    <Privilege id="SHUTDOWN">
+        <membership/>
+    </Privilege>
+    <Privilege id="UPDATE">
+        <membership/>
+    </Privilege>
+    <Privilege id="USAGE">
+        <membership/>
+    </Privilege>
+</Privileges>

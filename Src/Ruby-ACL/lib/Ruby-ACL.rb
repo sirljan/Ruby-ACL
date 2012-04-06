@@ -17,7 +17,7 @@ class RubyACL
   attr_reader :col_path
   
   def initialize(name, connector, colpath = "/db/acl/", src_files_path = "./src_files/")
-    @name = name #TODO vloz jmeno do acl documentu
+    @name = name
     @connector = connector
     if(colpath[-1] != "/")
       colpath += "/"
@@ -31,6 +31,7 @@ class RubyACL
     @res_obj = ResourceObject.new(@connector, @col_path)
     @ace = Ace.new(@connector, @col_path)
     create_acl_in_db()
+    setname(name)
   end
   
   private   # private methods follow
@@ -128,6 +129,59 @@ class RubyACL
     return ids
   end
   
+  def decide(ace_id)
+    query = "#{@ace.doc}//Ace[@id=\"#{ace_id}\"]/accessType/text()"   #Ace is only one > retrieve accessType
+    handle = @connector.execute_query(query)
+    res = @connector.retrieve(handle, 0)
+    if(res == "allow")
+      return true
+    elsif(res == "deny")
+      return false
+    end
+  end
+  
+  def compare(temp, ace_id)
+    #TODO compare
+  end
+  
+  def prepare_query(prins, privs, res_obs)
+    query = <<END 
+for $ace in #{@ace.doc}//Ace
+where (
+END
+    for prin in prins
+      query += "$ace/Principal/@idref=\"#{prin}\""
+      if(prin != prins.last)
+        query+=" or "
+      else
+        query+=") "
+      end
+    end
+    
+    query += " and ("
+    for priv in privs
+      query += "$ace/Privilege/@idref=\"#{priv}\""
+      if(priv != privs.last)
+        query+=" or "
+      else
+        query+=") "
+      end
+    end
+    
+    query += " and ("
+    for res_ob in res_obs
+      query += "$ace/ResourceObject/@idref=\"#{res_ob}\""
+      if(priv != privs.last)
+        query+=" or "
+      else
+        query+=") "
+      end
+    end
+    
+    query += "return $ace/string(@id)"
+    return query
+  end
+  
   protected
 
   public              # follow public methods
@@ -138,7 +192,7 @@ class RubyACL
     query = "doc(\"#{@col_path}acl.xml\")/acl/string(@aclname)"
     handle = @connector.execute_query(query)
     if(new_name != @connector.retrieve(handle, 0))
-      raise RubyACL_Exception.new("Failed to set new name.", 1), 
+      raise RubyACLException.new("Failed to set new name.", 1), 
         "Failed to set new name.", caller
     end
   end
@@ -184,64 +238,31 @@ class RubyACL
     privs = [priv_name] + find_parent(priv_name, @priv.doc)    #creates the set of privileges {wanted privilege and all privileges wanted privilege is member of}
     res_obs = [@res_obj.find_res_ob(res_ob_type, res_ob_adrs)] + find_res_ob_parent(res_ob_type, res_ob_adrs)
     
-    query = <<END 
-for $ace in #{@ace.doc}//Ace
-where (
-END
-    for prin in prins
-      query += "$ace/Principal/@idref=\"#{prin}\""
-      if(prin != prins.last)
-        query+=" or "
-      else
-        query+=") "
-      end
-    end
-    
-    query += " and ("
-    for priv in privs
-      query += "$ace/Privilege/@idref=\"#{priv}\""
-      if(priv != privs.last)
-        query+=" or "
-      else
-        query+=") "
-      end
-    end
-    
-    query += " and ("
-    for res_ob in res_obs
-      query += "$ace/ResourceObject/@idref=\"#{res_ob}\""
-      if(priv != privs.last)
-        query+=" or "
-      else
-        query+=") "
-      end
-    end
-    
-    query += "return $ace/accessType/text()"
+    query = prepare_query(prins, privs, res_obs)
     #puts query
     
     handle = @connector.execute_query(query)
     #puts "handle nil? #{handle.nil?}"
     hits = @connector.get_hits(handle)
     #    puts "hits #{hits}"
-    if(hits > 0)
+    if(hits > 0)    
+      ace_id = @connector.retrieve(handle, 0)   #retrieve id of first Ace
       if(hits == 1)
-        res = @connector.retrieve(handle, 0)
-        if(res == "allow")
-          return true
-        elsif(res == "deny")
-          return false
+        return decide(ace_id)
+      else    #there are more rules
+        temp_id = ace_id
+        i = 0
+        while(i < hits-1)
+          i += 1
+          ace_id = @connector.retrieve(handle, i)   #retrieve id of next Ace
+          temp_id = compare(temp_id, ace_id)
         end
-      else
-        puts "Not implemented yet. Sorry :("
-        #TODO Vice zaznamu
+        return decide(ace_id)
       end
-      
-    else
+    else    #Rule doesnt exist = access denied
       puts "Required rule (#{prin_name}, #{priv_name}, #{res_ob_type}, #{res_ob_adrs}) does not exist. Access denied."
       return false
     end
-    
   end
   
   def create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)

@@ -17,7 +17,6 @@ END
   
   public
   def create_new(type, address)
-    #TODO check if res_ob type doc exists in db (it is not meant in res_ob list)
     id = find_res_ob(type, address)
     if(id == nil) #this resOb doesnt exist
       id = "r" + Random.rand(1000000000).to_s
@@ -33,7 +32,7 @@ END
         return id
       else
         #puts "#{self.class.name} \"#{id}\" was not able to create."
-        raise RubyACL_Exception.new("#{self.class.name} type=\"#{type}\", address=\"#{address}\" was not able to create.", 33), 
+        raise RubyACLException.new("#{self.class.name} type=\"#{type}\", address=\"#{address}\" was not able to create.", 33), 
           "#{self.class.name} type=\"#{type}\", address=\"#{address}\" was not able to create.", caller
       end
     else #already exists
@@ -59,7 +58,7 @@ END
     when 0
       return nil
     else
-      raise RubyACL_Exception.new("#{self.class.name} type=\"#{type}\", address=\"#{address}\" exists more then once.", 32), 
+      raise RubyACLExceptionRubyACLException.new("#{self.class.name} type=\"#{type}\", address=\"#{address}\" exists more then once.", 32), 
         "#{self.class.name} type=\"#{type}\", address=\"#{address}\" exists more then once. (#{hits} times)", caller
       #return nil
     end

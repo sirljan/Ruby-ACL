@@ -2,27 +2,32 @@
 
 $:.unshift File.join(File.dirname(__FILE__),'..','lib')
 $:.unshift("C:/Users/sirljan/Documents/NetBeansProjects/eXistAPI/lib")
+$:.unshift("C:/Users/sirljan/Documents/NetBeansProjects/Ruby-ACL/lib")
 
 require 'eXistAPI'
 require 'test/unit'
 require 'ruby-acl.rb'
 
-class Test_RubyACL < Test::Unit::TestCase
+class TestRubyACL < Test::Unit::TestCase
   #@@runs = 0
   def setup
     #@@runs += 1
     #puts @@runs
     @db = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "admin")
     @col_path = "/db/test_acl/"
-    @src_files_path = "./../lib/src_files/"
+    @src_files_path = "C:/Users/sirljan/Documents/NetBeansProjects/Ruby-ACL/lib/src_files/"
     if(@db.existscollection?(@col_path))
       @db.remove_collection(@col_path) #Deleting old ACL from db for testing purposes.
     end
     @test_acl = RubyACL.new("test_acl", @db, @col_path, @src_files_path)
   end
-  def teardown
-    #TODO delete loaded acl and remove last line in test_load
-  end
+  
+  #  def teardown
+  #    #TODO delete loaded acl and remove last line in test_load
+  #    if(@db.existscollection?("/db/loaded_acl/"))
+  #      @db.remove_collection("/db/loaded_acl/") #Deleting loaded ACL from db after test_load
+  #    end
+  #  end
   
   def test_create_acl
     #TODO bez existujici koleckce, s existujici kolekci, s kolekci a par souborama, se vsim
@@ -33,7 +38,7 @@ class Test_RubyACL < Test::Unit::TestCase
   end
   
   def test_save
-    @save_path = "./test_backup/"
+    @save_path = "C:/Users/sirljan/Documents/NetBeansProjects/Ruby-ACL/test/test_backup/"
     @test_acl.save(@save_path, true)
     @save_path = @save_path + Date.today.to_s + "/"
     assert_not_nil(File.size?(@save_path+'acl.xml'))
@@ -48,7 +53,9 @@ class Test_RubyACL < Test::Unit::TestCase
     test_save
     test_loaded_acl = RubyACL.load(@db, "/db/loaded_acl/", @save_path)
     assert_equal(acl_name, test_loaded_acl.name)
-    @db.remove_collection("/db/loaded_acl/")
+    if(@db.existscollection?("/db/loaded_acl/"))
+      @db.remove_collection("/db/loaded_acl/") #Deleting loaded ACL from db after test_load
+    end
   end
   
   def test_setname(new_name = "other_name")
@@ -128,7 +135,7 @@ class Test_RubyACL < Test::Unit::TestCase
   end
   
   def test_add_membership_privilege
-    assert_raise ( RubyACL_Exception ) {@test_acl.add_membership_privilege("STAT", ['KUTALET'])}
+    assert_raise ( RubyACLException ) {@test_acl.add_membership_privilege("STAT", ['KUTALET'])}
     @test_acl.create_privilege("STAT")
     @test_acl.add_membership_privilege("STAT", ['KUTALET'])
     query = "doc(\"#{@col_path}Privileges.xml\")/Privileges/descendant::*[@id=\"STAT\"]/membership/mgroup[@idref=\"KUTALET\"]"
@@ -264,3 +271,7 @@ class Test_RubyACL < Test::Unit::TestCase
   #  end
   
 end
+
+#runner = Test::Unit::UI::GTK::TestRunner
+#Console::TestRunner 
+#runner.run(TestRubyACL)
