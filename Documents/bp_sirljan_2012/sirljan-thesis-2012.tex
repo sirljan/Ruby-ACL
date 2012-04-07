@@ -282,11 +282,15 @@ Funkčnost knihovny byla vyvíjena a testována na eXistDB.
 
 %*****************************************************************************
 \chapter{Úvod}
+
+\section{Úvod k }
 Tato bakalářská práce navazuje na můj semestrální projekt. Jejím úkolem bylo vytvořit, navrhnout a realizovat v jazyce Ruby model uživatelských přístupových práv určenou pro objektovou databázi Cellstore. V současnosti neexistuje žádný model uživatelských přístupových práv pro Cellstore. 
 
 Součástí práce byl návrh knihovny. Navržený modul realizuje správu řízení přístupu pomocí ACL (Access Control List). Protože moje bakalářská práce je prací implementační, včetně testů navrženého modulu, zaměřil jsem se na specifikaci rozhraní knihovny a na příklady jejího použití.
 
 Výsledkem bakalářské práce je nejen samotná realizace knihovny, ale i podrobná programátorská dokumentace.
+
+\section{Motivace}
 
 
 
@@ -301,11 +305,21 @@ Výsledkem bakalářské práce je nejen samotná realizace knihovny, ale i podr
 
 \section{Popis řešeného problému}
 
-Ruby ACL je knihovna spravující přístupová práva pro databáze. Je určena pro objektovou databázi Cellstore. Cellstore v současné době nemá žádný model uživatelských přístupových práv. Hlavním cílem projektu je vytvoření jemně nastavitelných („fine-grained“) řízení přístupu. Toho se docílí pomocí Access Control Listu. ACL obsahuje seznam pravidel jednotlivých přístupů. Pravidlo se nazývá Access Control Entry (ACE). V ACE je uloženo Kdo, nebo Co má jaká Práva přistupovat k jakým Objektům. Těmto třem rozměrům se v problematice přístupových práv říka: Principals, Privileges, Resource Objects.
+XML databáze Cellstore v současné době nemá žádný model uživatelských přístupových práv. Bylo potřeba tento nedostatek vyřešit knihovnou implementovanou v jazyce Ruby, protože v Ruby je něco napsané asi engine DB aplikace nebo samotna DB. Mnou naimplementovaná knihovna Ruby ACL řeší problém se spravováním přístupových práv.
 
-\section{Vymezení cílů}
+\section{Vymezení cílů a požadavků}
+Cílem bakalářská práce bylo navrhnout, realizovat a otestovat knihovnu v jazyce Ruby, která bude spravovat uživatelská přístupová práva pro objektovou databázi Cellstore.
+Vytyčil jsem si vytvořit co nejjednodušší knihovnu, která by splňovala všechna kritéria zadání. Nechtěl jsem jsem používat a "lepit" dohromady existující moduly a knihovny, které danou problematiku řeší, protože jsem chtěl vytvořit něco svého a projít si vývojem softwaru od požadavků přes analýzu a návrh k realizaci a testování. 
+I když Ruby ACL je primárně určena pro XML databázi Cellstore chtěl jsem, aby byla použitelná i pro jiné databáze a reálné přístupy do budov apod.
+Určil jsem si, že by bylo pěkné, kdyby knihovna umožňovala jemně nastavit přístupy (Tzv.„fine-grained“).
 
 Seznam požadavků je popsán v tabulce 2.1.
+
+\section{Popis struktury bakalářské práce ve vztahu k vytyčeným cílům}
+
+V analýze je analýza.
+V realizaci je realizace.
+V testování je testování.
 
 \begin{table}%[h]
 \begin{center}
@@ -381,7 +395,7 @@ Nurses & X & 1 & 1\\
 Patients & X & X & 1\\
 \hline
 \end{tabular}
-\caption{Tabulkové řešení}
+\caption{Obešné řešení modelu práv je maticové řešení}
 \end{table}
 
 
@@ -422,6 +436,7 @@ Analýza a návrh implementace (včetně diskuse různých alternativ a volby im
 \section{Analýza}
 
 ???
+Jemně nastavitelných přístupových práv se docílí pomocí Access Control Listu. ACL obsahuje seznam pravidel jednotlivých přístupů. Pravidlo se nazývá Access Control Entry (ACE). V ACE je uloženo Kdo, nebo Co má jaká Práva přistupovat k jakým Objektům. Těmto třem rozměrům se v problematice přístupových práv říka: Principals, Privileges, Resource Objects.
 
 \section{Návrh implementace}
 Nechal jsem se inspirovat jak Oraclem tak phpGACL. Oba modely řízení přístupových práv mají podobnou strukturu nebo stejnou s jiným pojmenováním. Z Oraclu jsem převzal pojmenování dimenzí: Principals, Privileges, Objects, ze kterých jsem vytvořil hlavní třídy. 
