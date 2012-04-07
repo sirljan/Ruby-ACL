@@ -188,7 +188,7 @@ unicode=true,
 % oficialnim zadanim vasi prace.
 {
 \pagenumbering{roman} \cleardoublepage \thispagestyle{empty}
-\chapter*{Na tomto místě bude oficiální zadání vaší práce asdffsdfsdfsdf}
+\chapter*{Na tomto místě bude oficiální zadání vaší práce}
 \begin{itemize}
 \item Toto zadání je podepsané děkanem a vedoucím katedry,
 \item musíte si ho vyzvednout na studiijním oddělení Katedry počítačů na Karlově náměstí,
@@ -206,12 +206,11 @@ unicode=true,
 
 \acknowledgements
 \noindent
-Zde můžete napsat své poděkování, pokud chcete a máte komu děkovat.
-
+Chtěl bych především poděkovat panu Ing. Pavlu Strnadovi%, že se mě ujal jako vedoucí prácí a poskytl mi rady motivaci. Poděkování také patří mé přítelkyni a rodině za nemalou podporu při tvorbě bakalářské práce a v průběhu celého studia.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%   Prohlaseni / Declaration 
 
-\declaration{V~Praze dne 18.\,3.\,2012}
+\declaration{V~Praze dne 25.\,5.\,2012}
 %\declaration{In Prague on March 18, 2012}
 
 
@@ -219,7 +218,10 @@ Zde můžete napsat své poděkování, pokud chcete a máte komu děkovat.
  
 \abstractpage
 
-In this work is developed a proposal for a library / module source code in the Ruby programming language that addresses the management of access rights. The library / module is designed for object database Cellstore and is solved using the Access Control List.
+This paper presents the design and implementation of library management access rights in the programming language Ruby.
+
+The library is designed for object database CellStore and is solved using the Access Control List. Library used for storing and querying the database itself, which communicates with the protocol XML-RPC (Remote Procedure Call) XQuery and XQuery Update Facility.
+The functionality of the library was developed and tested on eXistDB.
 
 % Prace v cestine musi krome abstraktu v anglictine obsahovat i
 % abstrakt v cestine.
@@ -232,10 +234,11 @@ In this work is developed a proposal for a library / module source code in the R
 Tato práce prezentuje návrh a realizaci knihovny pro správu přístupových práv v programovacím jazyku Ruby. 
 
 Knihovna  je určena pro objektovou databázi Cellstore a je řešena pomocí Access Control List. Knihovna využívá pro ukládání a dotazování samotnou databázi, se kterou komunikuje pomocí protokolu XML-RPC (Remote Procedure Call) technologií xQuery a xQuery Update Facility. 
+Funkčnost knihovny byla vyvíjena a testována na eXistDB.
 
 
 \noindent
-Očekávají se cca 1 -- 2 odstavce, maximálně půl stránky.
+%Očekávají se cca 1 -- 2 odstavce, maximálně půl stránky.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Obsah / Table of Contents 
 
@@ -574,10 +577,16 @@ Popis implementace/realizace se zaměřením na nestandardní části řešení.
 
 \item id u resob. Pokud to bude poradi, mohlo byt snaze napadnutelne nez kdyby id nedavalo smysl.
 
-\item eXist xpath chyba. Na dotaz doc("/db/test_acl/ResourceObjects.xml")/ResourceObjects/descendant::*[type="Rybnik"] najde 0 vysledky
-ale na dotaz doc("/db/test_acl/ResourceObjects.xml")/ResourceObjects/descendant::*[type="Rybnik"]/string(@id) najde 1 vysledek = "" (prazdny string)
+\item eXist xpath chyba. Na dotaz 
+\begin{verbatim}
+doc("/db/test_acl/ResourceObjects.xml")/ResourceObjects/descendant::*[type="Rybnik"] najde 0 vysledky
+\end{verbatim}
+ale na dotaz 
+\begin{verbatim}
+doc("/db/test_acl/ResourceObjects.xml")/ResourceObjects/descendant::*[type="Rybnik"]/string(@id) najde 1 vysledek = "" (prazdny string)
+\end{verbatim}
 
-\item res_ob se muzou vytvorit dopredu v seznamu res_obs. Res_ob musi byt kazdopadne v seznamu (vytvori se pri vytvoreni pravidla).
+\item res\_ob se muzou vytvorit dopredu v seznamu res\_obs. Res\_ob musi byt kazdopadne v seznamu (vytvori se pri vytvoreni pravidla).
 
 \end{itemize}
 %*****************************************************************************
