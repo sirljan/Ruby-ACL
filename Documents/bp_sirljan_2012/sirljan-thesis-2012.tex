@@ -562,6 +562,23 @@ Popis implementace/realizace se zaměřením na nestandardní části řešení.
 
 \item Je třeba se věnovat uvolňování paměti, protože aplikace bude spuštěna dny až měsíce. Špatné zacházení s pamětí by, proto bylo kritické pro server, na kterém aplikace s Ruby-ACL knihovnou bude spuštěna.
 
+\item sedna db apod.
+
+\item zase nejaky problem s rubygem. Pritom mi uz fungoval, protoze jsem si stahl ahoj gem. Snad to vyreší reinstalace. Ha pomohlo. Takovehle veci me tak stvou. 
+
+\item predelavam structuru z tridniho volani na singleton nebo jak se to jmenuje.
+
+\item poresit zacykleni membership
+
+\item kdyz smazu nadrazenou skupinu tak smazu vsechny jeji clenstvi
+
+\item id u resob. Pokud to bude poradi, mohlo byt snaze napadnutelne nez kdyby id nedavalo smysl.
+
+\item eXist xpath chyba. Na dotaz doc("/db/test_acl/ResourceObjects.xml")/ResourceObjects/descendant::*[type="Rybnik"] najde 0 vysledky
+ale na dotaz doc("/db/test_acl/ResourceObjects.xml")/ResourceObjects/descendant::*[type="Rybnik"]/string(@id) najde 1 vysledek = "" (prazdny string)
+
+\item res_ob se muzou vytvorit dopredu v seznamu res_obs. Res_ob musi byt kazdopadne v seznamu (vytvori se pri vytvoreni pravidla).
+
 \end{itemize}
 %*****************************************************************************
 \chapter{Testování}
