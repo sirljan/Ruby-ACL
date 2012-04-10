@@ -182,6 +182,19 @@ END
     return query
   end
   
+  def is_owner?(prin_name, res_ob_id)
+    query = "#{@res_obj.doc}//ResourceObject[@idref==\"#{res_ob_id}\"]/owner/string(@idref)"
+    handle = @connector.execute_query(query)
+    hits = @connector.get_hits(handle)
+    #TODO res_ob nemusi existovat
+    owner = @connector.retrieve(handle, 0)   #retrieve owner id of res_ob
+    if(prin_name == owner)
+      return true
+    else 
+      return false
+    end
+  end
+  
   protected
 
   public              # follow public methods
@@ -234,6 +247,9 @@ END
   
   def check(prin_name, priv_name, res_ob_type, res_ob_adrs)
     
+    res_ob_id = @res_obj.find_res_ob(res_ob_type, res_ob_adrs)
+    is_owner?(res_ob_id, prin_name)
+    
     prins = [prin_name] + find_parent(prin_name, @prin.doc)    #creates the set of principals {wanted principal and all groups wanted principal is member of}
     privs = [priv_name] + find_parent(priv_name, @priv.doc)    #creates the set of privileges {wanted privilege and all privileges wanted privilege is member of}
     res_obs = [@res_obj.find_res_ob(res_ob_type, res_ob_adrs)] + find_res_ob_parent(res_ob_type, res_ob_adrs)
@@ -285,9 +301,9 @@ END
     @priv.create_new(name, member_of)
   end
   
-  def create_resource_object(type, address)
+  def create_resource_object(type, address, owner)
     #puts "type #{type} add #{address}"
-    id = @res_obj.create_new(type, address)
+    id = @res_obj.create_new(type, address, owner)
     return id
   end
   

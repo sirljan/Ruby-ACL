@@ -5,25 +5,26 @@ class ResourceObject < ACL_Object
   end
   
   private
-  def generate_expr(id, type, address)
+  def generate_expr(id, type, address, owner)
     expr = <<END
     <#{self.class.name} id="#{id}">
       <type>#{type}</type>
       <address>#{address}</address>
+      <owner idref="#{owner}">
     </#{self.class.name}>
 END
     return expr
   end
   
   public
-  def create_new(type, address)
+  def create_new(type, address, owner)
     id = find_res_ob(type, address)
     if(id == nil) #this resOb doesnt exist
       id = "r" + Random.rand(1000000000).to_s
       while(exists?(id))
         id = "r" + Random.rand(1000000000).to_s
       end
-      expr = generate_expr(id, type, address)
+      expr = generate_expr(id, type, address, owner)
       expr_loc = "#{@doc}//#{self.class.name}s/#{self.class.name}[last()]"
       #puts expr_loc
       @connector.update_insert(expr, "following", expr_loc)
@@ -40,7 +41,7 @@ END
     end
   end
   
-  def find_res_ob(type, address)
+  def find_res_ob(type, address)    #finds resource object's id by type and address
     query = "#{@doc}//#{self.class.name}s/descendant::*[type=\"#{type}\" and address=\"#{address}\"]/string(@id)"
     #puts query
     handle = @connector.execute_query(query)

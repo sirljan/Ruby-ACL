@@ -1,8 +1,14 @@
 #TODO test coverige
+#TODO testy v rake http://guides.rubygems.org/make-your-own-gem/#writing-tests
+
 
 $:.unshift File.join(File.dirname(__FILE__),'..','lib')
 $:.unshift("C:/Users/sirljan/Documents/NetBeansProjects/eXistAPI/lib")
 $:.unshift("C:/Users/sirljan/Documents/NetBeansProjects/Ruby-ACL/lib")
+
+
+require 'simplecov'
+SimpleCov.start
 
 require 'eXistAPI'
 require 'test/unit'

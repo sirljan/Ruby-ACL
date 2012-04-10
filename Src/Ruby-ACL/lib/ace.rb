@@ -18,7 +18,7 @@ END
     return expr
   end
   
-  def find_ace(prin_id, acc_type, priv_id, res_ob_id)
+  def find_ace(prin_id, acc_type, priv_id, res_ob_id)   #finds ace's id by principal id, acc_type, privilege id, resource object id
     query = "#{@doc}//#{self.class.name}s/descendant::*
 [Principal/@idref=\"#{prin_id}\" and accessType=\"#{acc_type}\" and 
 Privilege/@idref=\"#{priv_id}\" and ResourceObject/@idref=\"#{res_ob_id}\"]
