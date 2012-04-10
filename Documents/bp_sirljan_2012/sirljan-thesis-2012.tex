@@ -283,7 +283,16 @@ Funkčnost knihovny byla vyvíjena a testována na eXistDB.
 %*****************************************************************************
 \chapter{Úvod}
 
-\section{Úvod k }
+\section{Úvod do problematiky}
+Řízení uživatelských práv...
+
+Ruby je programovací jazyk ...
+
+ACL je zkratka pro access control list...
+
+Cellstore je XML databáze ...
+
+
 Tato bakalářská práce navazuje na můj semestrální projekt. Jejím úkolem bylo vytvořit, navrhnout a realizovat v jazyce Ruby model uživatelských přístupových práv určenou pro objektovou databázi Cellstore. V současnosti neexistuje žádný model uživatelských přístupových práv pro Cellstore. 
 
 Součástí práce byl návrh knihovny. Navržený modul realizuje správu řízení přístupu pomocí ACL (Access Control List). Protože moje bakalářská práce je prací implementační, včetně testů navrženého modulu, zaměřil jsem se na specifikaci rozhraní knihovny a na příklady jejího použití.
@@ -314,6 +323,7 @@ I když Ruby ACL je primárně určena pro XML databázi Cellstore chtěl jsem, 
 Určil jsem si, že by bylo pěkné, kdyby knihovna umožňovala jemně nastavit přístupy (Tzv.„fine-grained“).
 
 Seznam požadavků je popsán v tabulce 2.1.
+K určení operace a objektu z dotazu bude použit SQL parser třetí strany.
 
 \section{Popis struktury bakalářské práce ve vztahu k vytyčeným cílům}
 
@@ -325,53 +335,72 @@ V testování je testování.
 \begin{center}
 \begin{tabular}{|l|p{9cm}|l|}
 \hline
-\textbf{SRS id} & \textbf{SRS description} & \textbf{SRS priority} \\
+\textbf{id} & \textbf{Specifikace požadavků na software} & \textbf{priorita} \\
 \hline
-\multicolumn{3}{|l|}{FUNCTIONAL REQUIREMENTS} \\
+\multicolumn{3}{|l|}{FUNKČNÍ POŽADAVKY} \\
 \hline
-0 & Ruby ACL is library for Ruby programming language.  Ruby ACL will manage control of access by ACL (Access Control List). & must have\\
+0 & Ruby ACL je knihovna v jazyce Ruby. Ruby bude umožňovat řízení přístupů pomocí ACL & povinný\\
 \hline
-1.0 & Ruby ACL will allow to define Principals(Groups, Users, Processes) & must have\\
+1.0 & Ruby ACL bude umožňovat definovat zmocnitele (principals) & povinný\\
 \hline
-1.1 & Ruby ACL will allow to define Privileges & must have\\
+1.1 & Ruby ACL bude umožňovat definovat oprávnění (privileges) & povinný\\
 \hline
-1.2 & Ruby ACL will allow to define Resource objects & must have\\
+1.2 & Ruby ACL bude umožňovat definovat  zdrojové objekty (resource objects) & povinný\\
 \hline
-1.3 & Ruby ACL will allow to edit or delete Principals(Groups, Users, Processes) & must have\\
+1.3 & Ruby ACL bude umožňovat editovat or mazat zmocnitele (principals) & povinný\\
 \hline
-1.4 & Ruby ACL will allow to edit or delete Privileges & must have\\
+1.4 & Ruby ACL bude umožňovat editovat or mazat oprávnění (privileges) & povinný\\
 \hline
-1.5 & Ruby ACL will allow to edit or delete Resource objects & must have\\
+1.5 & Ruby ACLbude umožňovat editovat or mazat zdrojové objekty (resource objects) & povinný\\
 \hline
-1.6 & Ruby ACL will allow to define,edit or delete access control rule & must have\\
+1.6 & Ruby ACL bude umožňovat definovat, editovat a mazat pravidla přístupu (ACE) & povinný\\
 \hline
-2.0 & Ruby ACL will allow to create, load and save ACL into XML file & must have\\
+2.0 & Ruby ACL bude umožňovat vytvářet ACL & povinný\\
 \hline
-2.1 & XML file will be defined by DTD or XML Schema & must have\\
+2.1 & Ruby ACL bude umožňovat načítat a ukládat ACL z a do XML souboru & povinný\\
 \hline
-2.2 & XML file will be well formated according to W3C recommendations & must have\\
+2.2 & XML soubor bude definovaný pomocí DTD or XML Schema & povinný\\
 \hline
-3.0 & Ruby ACL will offer Default-Deny policy (At the beginning nobody cannot access to anywhere) or Default-Allow policy (At the beginning everybody can access to everywhere) & must have \\
+2.3 & XML soubor bude "well formated" podle W3C doporučení & povinný\\
 \hline
-4.0 & Ruby ACL will use XML-RPC interface to comunicate with database & must have\\
+3.0 & Ruby ACL will offer Default-Deny policy (At the beginning nobody cannot access to anywhere) or Default-Allow policy (At the beginning everybody can access to everywhere) & povinný\\
 \hline
-5.0 & Ruby ACL will be tested on eXist DB & must have \\
+4.0 & Ruby ACL bude používat XML-RPC rozhraní ke komunikaci s databází & povinný\\
 \hline
-\multicolumn{3}{|l|}{NON-FUNCTIONAL REQUIREMENTS} \\
+5.0 & Ruby ACL bude testována na eXist DB & povinný\\
 \hline
-1.0 & Ruby ACL will be programmed in Ruby & must have \\
+\multicolumn{3}{|l|}{NEFUNKČNÍ POŽADAVKY} \\
 \hline
-2.0 & Ruby ACL will be released as RubyGem & must have \\
+1.0 & Ruby ACL bude naprogramována v jazyce Ruby & povinný \\
 \hline
-3.0 & Ruby ACL will have visual representation & won't have\\
+2.0 & Ruby ACL bude vydaná jako RubyGem & volitelný\\
 \hline
-4.0 & Ruby ACL will need database with XML-RPC interface & must have\\
+3.0 & Ruby ACL potřebuje databázi s XML-RPC rozhraním & povinný\\
+\hline
+4.0 & Ruby ACL potřebuje databázi s podporou xQuery a xQuery Update Facility & povinný\\
 \hline
 \end{tabular}
 \end{center}
-\caption{Tabulka Funkčních a nefunkčních požadavků. Note: SRS priority= (must have, should have, nice to have, won’t have)}
+\caption{Tabulka funkčních a nefunkčních požadavků. priorita = (povinný, volitelný, nepovinný)}
 \label{tab:tab1}
 \end{table}
+
+\section{Dostupné knihovny}
+
+Ruby knihovny (lehce je popsat): acl9, activeacl, ... 
+
+Reseni Oracle, phpGACL, Obecne. Take lehce popsat. Hlavni popsani bude v analyze.
+
+
+
+%*****************************************************************************
+\chapter{Analýza a návrh řešení}
+Analýza a návrh implementace (včetně diskuse různých alternativ a volby implementačního prostředí).
+Tato kapitola ... proc pomoci acl, popisuje nejznámější rešení acl, 
+\section{Analýza}
+
+???
+Jemně nastavitelných přístupových práv se docílí pomocí Access Control Listu. ACL obsahuje seznam pravidel jednotlivých přístupů. Pravidlo se nazývá Access Control Entry (ACE). V ACE je uloženo Kdo, nebo Co má jaká Práva přistupovat k jakým Objektům. Těmto třem rozměrům se v problematice přístupových práv říka: Principals, Privileges, Resource Objects.
 
 \section{Exitující řešení}
 
@@ -395,15 +424,13 @@ Nurses & X & 1 & 1\\
 Patients & X & X & 1\\
 \hline
 \end{tabular}
-\caption{Obešné řešení modelu práv je maticové řešení}
+\caption{Obecné řešení modelu práv pomocí matice}
 \end{table}
-
-
 
 %-------------------------------------
 
 \subsection{Oracle}
-Prvním z konkurenčních řešení je řešení prezentované v Oracle® XML DB Developer's Guide, 11g Release 1 (11.1), Part Number B28369-04 na \url{http://docs.oracle.com/cd/B28359_01/appdev.111/b28369/xdb21sec.htm}. Ve stati Access Control Lists and Security Classes je popsán koncept firmy ORACLE.
+Jedním z řešení je podnikové řešení prezentované v Oracle® XML DB Developer's Guide, 11g Release 1 (11.1), Part Number B28369-04 na \url{http://docs.oracle.com/cd/B28359_01/appdev.111/b28369/xdb21sec.htm}. Ve stati Access Control Lists and Security Classes je popsán koncept firmy ORACLE.
  
 Text popisuje několik podmínek a pojetí řízení přístupu. Každá z popsaných entit, uživatel, role, privilegia, bezpečnostní třídy, Access Control List (ACL) a Access Control Entry (ACE), je realizována deklarativně jako XML dokument nebo fragment.  
 
@@ -430,19 +457,11 @@ Nástroj phpGACL používá pojmy jako ACO a ARO:
 \item Chceme-li přiřadit přístupovou politiku ve stromu směrem dolů, explicitně přiřazujeme oprávnění skupinám a ARO pro každou ACO, pro kterou je potřeba.
 \end{itemize}
 
-%*****************************************************************************
-\chapter{Analýza a návrh řešení}
-Analýza a návrh implementace (včetně diskuse různých alternativ a volby implementačního prostředí).
-\section{Analýza}
-
-???
-Jemně nastavitelných přístupových práv se docílí pomocí Access Control Listu. ACL obsahuje seznam pravidel jednotlivých přístupů. Pravidlo se nazývá Access Control Entry (ACE). V ACE je uloženo Kdo, nebo Co má jaká Práva přistupovat k jakým Objektům. Těmto třem rozměrům se v problematice přístupových práv říka: Principals, Privileges, Resource Objects.
-
 \section{Návrh implementace}
 Nechal jsem se inspirovat jak Oraclem tak phpGACL. Oba modely řízení přístupových práv mají podobnou strukturu nebo stejnou s jiným pojmenováním. Z Oraclu jsem převzal pojmenování dimenzí: Principals, Privileges, Objects, ze kterých jsem vytvořil hlavní třídy. 
 Ruby ACL je vydávána ve formě balíčkovacího systému RubyGem.
 
-K určení operace a objektu z SQL bude použit SQL parser třetí strany.
+
 
 \subsection{Vstupy a výstupy}
 Vstupy budou parametry: 
@@ -569,6 +588,8 @@ Ruby-ACL nabídne vlastní přidané privilegia a základní sadu privilegií a 
 \chapter{Realizace}
 Popis implementace/realizace se zaměřením na nestandardní části řešení.
 
+eXistDBAPI
+
 \begin{itemize}
 \item Ušetření času db serveru vhodným uspořádáním dotazů. Místo iterace dotazů jeden dotaz s vhodnou podmínkou. (tvoreni clenstvi) 
 
@@ -602,6 +623,10 @@ doc("/db/test_acl/ResourceObjects.xml")/ResourceObjects/descendant::*[type="Rybn
 \end{verbatim}
 
 \item res\_ob se muzou vytvorit dopredu v seznamu res\_obs. Res\_ob musi byt kazdopadne v seznamu (vytvori se pri vytvoreni pravidla).
+
+\item Use “all” or “*” to match any address.
+
+\item vysledek rozhodnuti jde nechranenou cestou. pokud ma napadajici pristup ke kanalu mezi db a rubyacl potazmo db aplikaci, tak muze zmenit vysledek dotazu a tim i rozhodnuti.
 
 \end{itemize}
 %*****************************************************************************
