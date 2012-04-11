@@ -396,17 +396,19 @@ Reseni Oracle, phpGACL, Obecne. Take lehce popsat. Hlavni popsani bude v analyze
 %*****************************************************************************
 \chapter{Analýza a návrh řešení}
 Analýza a návrh implementace (včetně diskuse různých alternativ a volby implementačního prostředí).
-Tato kapitola ... proc pomoci acl, popisuje nejznámější rešení acl, 
+Tato kapitola se dělí na analýzu a návrh. V analýze se zaměřilo na prostudování tří existujících řešení. Z informací získaných z dokumentace jsem sestavil návrh pro Ruby ACL.
+
 \section{Analýza}
 
-???
-Jemně nastavitelných přístupových práv se docílí pomocí Access Control Listu. ACL obsahuje seznam pravidel jednotlivých přístupů. Pravidlo se nazývá Access Control Entry (ACE). V ACE je uloženo Kdo, nebo Co má jaká Práva přistupovat k jakým Objektům. Těmto třem rozměrům se v problematice přístupových práv říka: Principals, Privileges, Resource Objects.
+... proc pomoci acl, popisuje nejznámější rešení acl, 
 
-\section{Exitující řešení}
+
+
+\subsection{Exitující řešení}
 
 Při řešení vlastního návrhu na model uživatelských přístupových práv jsem vycházel ze dvou zdrojů – známých řešení a jednoho obecného řešení.
 
-\subsection{Obecné řešení}
+\subsubsection{Obecné řešení}
 Obecným řešením je držet si tabulku, kde ve sloupcích budou objekty, ke kterým je možno přistupovat a v řádcích jsou přistupující. V poli pak jsou hodnoty boolean, které vyjadřují buď allow nebo deny. Příklad tabulkového řešení je v tabulce 2.1.
 
 \begin{table}%[h]
@@ -429,7 +431,7 @@ Patients & X & X & 1\\
 
 %-------------------------------------
 
-\subsection{Oracle}
+\subsubsection{Oracle}
 Jedním z řešení je podnikové řešení prezentované v Oracle® XML DB Developer's Guide, 11g Release 1 (11.1), Part Number B28369-04 na \url{http://docs.oracle.com/cd/B28359_01/appdev.111/b28369/xdb21sec.htm}. Ve stati Access Control Lists and Security Classes je popsán koncept firmy ORACLE.
  
 Text popisuje několik podmínek a pojetí řízení přístupu. Každá z popsaných entit, uživatel, role, privilegia, bezpečnostní třídy, Access Control List (ACL) a Access Control Entry (ACE), je realizována deklarativně jako XML dokument nebo fragment.  
@@ -440,7 +442,7 @@ Principals a privileges (dimenze 1 a 2) jsou deklarativním způsobem spojeni v 
 
 %-------------------------------------
 
-\subsection{phpGACL}
+\subsubsection{phpGACL}
 Druhým ze zdrojů, z nichž jsem vycházel, je řešení prezentované v Generic Access Control List with PHP - phpGACL na  \url{phpgacl.sourceforge.net/manual.pdf}.
 
 Nástroj phpGACL je sada funkcí, která umožňuje použít řízení přístupu na libovolné objekty (webové stránky, databáze, atd.), jiným libovolným objektům (uživatelé, vzdálené počítače, atd.). 
@@ -459,19 +461,39 @@ Nástroj phpGACL používá pojmy jako ACO a ARO:
 
 \section{Návrh implementace}
 Nechal jsem se inspirovat jak Oraclem tak phpGACL. Oba modely řízení přístupových práv mají podobnou strukturu nebo stejnou s jiným pojmenováním. Z Oraclu jsem převzal pojmenování dimenzí: Principals, Privileges, Objects, ze kterých jsem vytvořil hlavní třídy. 
-Ruby ACL je vydávána ve formě balíčkovacího systému RubyGem.
+
+???Jemně nastavitelných přístupových práv se docílí pomocí Access Control Listu. ACL obsahuje seznam pravidel jednotlivých přístupů. Pravidlo se nazývá Access Control Entry (ACE). V ACE je uloženo Kdo, nebo Co má jaká Práva přistupovat k jakým Objektům. Těmto třem rozměrům se v problematice přístupových práv říka: principals, privileges, resource objects.
 
 
 
-\subsection{Vstupy a výstupy}
-Vstupy budou parametry: 
-\begin{enumerate}
-\item Principals - který přistupující
-\item Privileges - může/nesmí provádět jaké operace
-\item Objects - na jakých datech
-\end{enumerate}
+\subsection{Rozhraní}
 
-Výstup: Allow/Deny specifikováno v boolean
+S knihovnou Ruby ACL je zapotřebí nějak komunikovat. Za účelem vytvoření a nastavení zmoctnitelů, oprávněních, zdrojových objektů a pravidel musí uživatel předat knihovně potřebné vstupy popsané v tabulce. Hlavní účel knihovny je rozlišit jestli někdo nebo něco má oprávnění na nějaký cílový objekt. Pokud zmocnitel má nebo nemá přístup se uživatel dozví podle výstupu. Výtupem je true nebo false hodnota.
+
+TODO co takhle přidat do tabulky i popis?
+
+\begin{table}%[b]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{jméno} & \textbf{typ} \\
+\hline
+\multicolumn{2}{|l|}{Vstupy} \\
+\hline
+principal & string\\
+\hline
+privilege & string\\
+\hline
+resource object & string\\
+\hline
+\hline
+\multicolumn{2}{|l|}{Výstupy} \\
+\hline
+access & boolean\\
+\hline
+\end{tabular}
+\caption{Vstupy a výstupy knihovny}
+\end{table}
 
 \subsection{Ukázky použití}
 \subsubsection{Příklad kontroly práv}
@@ -501,6 +523,8 @@ else
 end
 \end{verbatim}
 
+Příklad tohoto kódu v podstatě říká: Pokud metoda acl\_check vratí hodnotu true, přístup povolen a aplikace provede co zamýšlela provést. Pokud vrátí hodnotu false, tak je přístup zamítnut.
+
 \subsubsection{Příklad nastavení práv}
 
 \begin{verbatim}
@@ -510,28 +534,26 @@ username = "pepanovak"
 access_type = "deny"
 desired_privilege = "create"
 desired_object = "dbi:OCIU:mydb"
-acl = Racl.new("test2")
-acl.init_from_db("dbi:OCIU:mydb",“tabulka_Useru_a_Skupin“)
-acl.set_new_ace(username,access_type,desired_privilege,desired_object)
+acl = Ruby-ACL.new("test2")
+acl.create_ace(username, access_type, desired_privilege, desired_object)
 \end{verbatim}
 
-
-init\_from\_db načte všechny objekty z databáze. Tj. Principals a ResourceObject.
+Druhý příklad naznačuje použití metody pro vytvoření pravidla. Pro vytvoření pravidla musí existovat instance Ruby ACL. Metodě \begin{verbatim}create_ace\end{verbatim} aplikace předá uživatelské jméno zmocnitele, typ přístupu (allow nebo deny), oprávnění a požadovaný objekt.
 
 \subsection{Use Case Scénáře}
 %\begin{verbatim}\end{verbatim}
 \subsubsection{Ověřování oprávnění k objektu}
-Uživatel má vytvořenou instanci RubyACL, která obsahuje pravidla.
+Uživatel má vytvořenou instanci RubyACL, která pracuje s pravidly.
 Hlavní úspěšný scénář:
 \begin{enumerate}
-\item Uživatel zavolá metodu acl\_check. Přes tuto metodu se dotázá systému, jestli uživatel/skupina (ne)mají oprávnění ke zdrojovému objektu.
+\item Uživatel zavolá metodu acl\_check. Přes tuto metodu se dotáže knihovny, jestli uživatel/skupina (ne)mají oprávnění ke zdrojovému objektu.
 \item a) Systém vrátí true v případě, že uživatel/skupina má specifikované nebo vyšší oprávnění.
 \item b) Systém vrátí false v případě, že uživatel/skupina nemají specifikované nebo vyšší oprávnění.
 \end{enumerate}
 Rozšíření:
 
-0a) Pokud neexistují pravidla v instanci, systém vrátí false, protože nenašel, žádné vyhovující pravidlo.
-\begin{verbatim}\end{verbatim}
+0a) Pokud neexistuje žádné pravidlo, systém vrátí false, protože nenašel, žádné vyhovující pravidlo.
+%\begin{verbatim}\end{verbatim}
 
 \subsubsection{Zadávání pravidla (ACE)}
 Uživatel má vytvořenou instanci RubyACL, která obsahuje pravidla.
@@ -559,7 +581,7 @@ Všechny případy užití předpokládají vytvořenou instanci RubyACL, která
 %-------------------------------------
 
 \subsection{Data flow diagram}
-Data flow diagram (viz "Obrázek 2") znázorňuje tok dat mezi jednotlivými funkcemi aplikace. Popisuje funkce a jejich vazby. Uložiště pro ACL bude používaná databáze. Pro každou databázi bude jedna instance Ruby-ACL.
+Data flow diagram (viz "Obrázek 2") znázorňuje tok dat mezi jednotlivými funkcemi aplikace. Popisuje funkce a jejich vazby. Uložiště pro ACL je používaná databáze. Pro každou databázi bude jedna instance Ruby-ACL.
 \begin{figure}
 %\centering
 \includegraphics[width=15cm]{DataFlowBigFont.jpg}
@@ -588,28 +610,39 @@ Ruby-ACL nabídne vlastní přidané privilegia a základní sadu privilegií a 
 \chapter{Realizace}
 Popis implementace/realizace se zaměřením na nestandardní části řešení.
 
-eXistDBAPI
+\section{GIT}
+%-------------------------------------
+\section{Databáze}
+Protože databáze Cellstore není plně funkční, nebylo možné implementaci testovat přímo na ní. Za tímto učelem se musela vybrat jiná podobná databáze.
+\subsection{Sedna}
 
+
+Sedna knihovna v Ruby poskytuje rozhraní pro databázi Sedna. Klient je Ruby rozšíření, které používá ovladač jazyka C, který je dodáván jako součást distribuce Sedna. To má být jednoduché a snadno použitelné. Ovšem zprovoznění knihovny Sedna neproběhlo tak hladce, jak se tvrdí.
+
+\subsection{eXist-db}
+eXist-db je open source systém pro správu databáze vytvořena pomocí technologie XML. Ukládá XML data podle datového modelu XML a nabízí efektivní a indexovaná XQuery zpracování. Podporuje velké množství technologií. Uvedu zde pouze ty, které se týkají Ruby ACL: XPath 2.0(odkaz), XQuery(odkaz), XML-RPC(odkaz), XQuery Update Facility 1.0(odkaz)
+
+XML databáze eXist-db se podobá Cellstore a byla doporučena vedoucím práce jako ideální. Přesto proběhly komplikace s XUpdate navzdory přesné interpretace dokumentace.
+
+\subsubsection{komunikace}
+Použití xQuery Update Facility místo xUpdate. (Možná vložím ukázku implementace)
+
+\subsubsection{eXistDBAPI}
+%-------------------------------------
+\section{Implementace}
+\subsection{Uvolňování paměti}
+Je třeba se věnovat uvolňování paměti, protože aplikace bude spuštěna dny až měsíce. Špatné zacházení s pamětí by, proto bylo kritické pro server, na kterém aplikace s Ruby-ACL knihovnou bude spuštěna.
 \begin{itemize}
 \item Ušetření času db serveru vhodným uspořádáním dotazů. Místo iterace dotazů jeden dotaz s vhodnou podmínkou. (tvoreni clenstvi) 
-
-\item Použití xQuery Update Facility místo xUpdate. (Možná vložím ukázku implementace)
-
 \item Pro identifikaci a propojení jsem uvažoval mezi xLink a idref. Idref nabízí jednoduchý systém, ale xLink nabídl podrobné specifikace W3C, velké množství návodů a turtoriálů a především se jedná o novější technologii, jejíž osvojení jsem považoval za výhodné. Rozhodl jsem se proto implementovat xLink. Problém nastal při některých vkládání textů a dotazování. EXist DB měla problém s jmeným prostorem xLink i přes zkutečnost, že jmený prostor byl uveden. Troufám si říct, že byl uveden správně, protože při většině použití fungoval. Než abych se zabýval mnoho času proč použití xLink nejde, raději jsem přešel na jednoduchý idref. Implementace idref proběhla bez problémů.
-
 \item Občas je kód zdvojený, ale má to svoje opodstatnění. Například addmembership a addmembershippriv. Kdyby nebylo zdvojeno, šlo by přidávat privilige k principal a naopak.
-
-\item Je třeba se věnovat uvolňování paměti, protože aplikace bude spuštěna dny až měsíce. Špatné zacházení s pamětí by, proto bylo kritické pro server, na kterém aplikace s Ruby-ACL knihovnou bude spuštěna.
-
-\item sedna db apod.
-
-\item zase nejaky problem s rubygem. Pritom mi uz fungoval, protoze jsem si stahl ahoj gem. Snad to vyreší reinstalace. Ha pomohlo. Takovehle veci me tak stvou. 
-
-\item predelavam structuru z tridniho volani na singleton nebo jak se to jmenuje.
-
-\item poresit zacykleni membership
-
+\item predelavam structuru z tridniho volani na singleton nebo jak se to jmenuje.\item predelavam structuru z tridniho volani na singleton nebo jak se to jmenuje.
 \item kdyz smazu nadrazenou skupinu tak smazu vsechny jeji clenstvi
+\end{itemize}
+
+%-------------------------------------
+
+\begin{itemize}
 
 \item id u resob. Pokud to bude poradi, mohlo byt snaze napadnutelne nez kdyby id nedavalo smysl.
 

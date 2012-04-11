@@ -1,4 +1,3 @@
-#TODO owner objektu
 
 class ACL_Object
   

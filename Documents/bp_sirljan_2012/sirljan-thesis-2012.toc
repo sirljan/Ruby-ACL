@@ -10,23 +10,31 @@
 \contentsline {section}{\numberline {2.4}Dostupn\IeC {\'e} knihovny}{4}{section.2.4}
 \contentsline {chapter}{\numberline {3}Anal\IeC {\'y}za a n\IeC {\'a}vrh \IeC {\v r}e\IeC {\v s}en\IeC {\'\i }}{7}{chapter.3}
 \contentsline {section}{\numberline {3.1}Anal\IeC {\'y}za}{7}{section.3.1}
-\contentsline {section}{\numberline {3.2}Exituj\IeC {\'\i }c\IeC {\'\i } \IeC {\v r}e\IeC {\v s}en\IeC {\'\i }}{7}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}Obecn\IeC {\'e} \IeC {\v r}e\IeC {\v s}en\IeC {\'\i }}{7}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Oracle}{8}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}phpGACL}{8}{subsection.3.2.3}
-\contentsline {section}{\numberline {3.3}N\IeC {\'a}vrh implementace}{9}{section.3.3}
-\contentsline {subsection}{\numberline {3.3.1}Vstupy a v\IeC {\'y}stupy}{9}{subsection.3.3.1}
-\contentsline {subsection}{\numberline {3.3.2}Uk\IeC {\'a}zky pou\IeC {\v z}it\IeC {\'\i }}{9}{subsection.3.3.2}
-\contentsline {subsubsection}{\numberline {3.3.2.1}P\IeC {\v r}\IeC {\'\i }klad kontroly pr\IeC {\'a}v}{9}{subsubsection.3.3.2.1}
-\contentsline {subsubsection}{\numberline {3.3.2.2}P\IeC {\v r}\IeC {\'\i }klad nastaven\IeC {\'\i } pr\IeC {\'a}v}{10}{subsubsection.3.3.2.2}
-\contentsline {subsection}{\numberline {3.3.3}Use Case Sc\IeC {\'e}n\IeC {\'a}\IeC {\v r}e}{10}{subsection.3.3.3}
-\contentsline {subsubsection}{\numberline {3.3.3.1}Ov\IeC {\v e}\IeC {\v r}ov\IeC {\'a}n\IeC {\'\i } opr\IeC {\'a}vn\IeC {\v e}n\IeC {\'\i } k objektu}{10}{subsubsection.3.3.3.1}
-\contentsline {subsubsection}{\numberline {3.3.3.2}Zad\IeC {\'a}v\IeC {\'a}n\IeC {\'\i } pravidla (ACE)}{10}{subsubsection.3.3.3.2}
-\contentsline {subsection}{\numberline {3.3.4}Use Case Diagram}{11}{subsection.3.3.4}
-\contentsline {subsection}{\numberline {3.3.5}Data flow diagram}{11}{subsection.3.3.5}
-\contentsline {subsection}{\numberline {3.3.6}Class diagram}{11}{subsection.3.3.6}
-\contentsline {subsection}{\numberline {3.3.7}Opr\IeC {\'a}vn\IeC {\v e}n\IeC {\'\i }}{14}{subsection.3.3.7}
+\contentsline {subsection}{\numberline {3.1.1}Exituj\IeC {\'\i }c\IeC {\'\i } \IeC {\v r}e\IeC {\v s}en\IeC {\'\i }}{7}{subsection.3.1.1}
+\contentsline {subsubsection}{\numberline {3.1.1.1}Obecn\IeC {\'e} \IeC {\v r}e\IeC {\v s}en\IeC {\'\i }}{7}{subsubsection.3.1.1.1}
+\contentsline {subsubsection}{\numberline {3.1.1.2}Oracle}{7}{subsubsection.3.1.1.2}
+\contentsline {subsubsection}{\numberline {3.1.1.3}phpGACL}{8}{subsubsection.3.1.1.3}
+\contentsline {section}{\numberline {3.2}N\IeC {\'a}vrh implementace}{9}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Rozhran\IeC {\'\i }}{9}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Uk\IeC {\'a}zky pou\IeC {\v z}it\IeC {\'\i }}{9}{subsection.3.2.2}
+\contentsline {subsubsection}{\numberline {3.2.2.1}P\IeC {\v r}\IeC {\'\i }klad kontroly pr\IeC {\'a}v}{9}{subsubsection.3.2.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2.2}P\IeC {\v r}\IeC {\'\i }klad nastaven\IeC {\'\i } pr\IeC {\'a}v}{10}{subsubsection.3.2.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Use Case Sc\IeC {\'e}n\IeC {\'a}\IeC {\v r}e}{10}{subsection.3.2.3}
+\contentsline {subsubsection}{\numberline {3.2.3.1}Ov\IeC {\v e}\IeC {\v r}ov\IeC {\'a}n\IeC {\'\i } opr\IeC {\'a}vn\IeC {\v e}n\IeC {\'\i } k objektu}{10}{subsubsection.3.2.3.1}
+\contentsline {subsubsection}{\numberline {3.2.3.2}Zad\IeC {\'a}v\IeC {\'a}n\IeC {\'\i } pravidla (ACE)}{11}{subsubsection.3.2.3.2}
+\contentsline {subsection}{\numberline {3.2.4}Use Case Diagram}{11}{subsection.3.2.4}
+\contentsline {subsection}{\numberline {3.2.5}Data flow diagram}{11}{subsection.3.2.5}
+\contentsline {subsection}{\numberline {3.2.6}Class diagram}{11}{subsection.3.2.6}
+\contentsline {subsection}{\numberline {3.2.7}Opr\IeC {\'a}vn\IeC {\v e}n\IeC {\'\i }}{14}{subsection.3.2.7}
 \contentsline {chapter}{\numberline {4}Realizace}{15}{chapter.4}
+\contentsline {section}{\numberline {4.1}GIT}{15}{section.4.1}
+\contentsline {section}{\numberline {4.2}Datab\IeC {\'a}ze}{15}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Sedna}{15}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}eXist-db}{15}{subsection.4.2.2}
+\contentsline {subsubsection}{\numberline {4.2.2.1}komunikace}{15}{subsubsection.4.2.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2.2}eXistDBAPI}{16}{subsubsection.4.2.2.2}
+\contentsline {section}{\numberline {4.3}Implementace}{16}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Uvol\IeC {\v n}ov\IeC {\'a}n\IeC {\'\i } pam\IeC {\v e}ti}{16}{subsection.4.3.1}
 \contentsline {chapter}{\numberline {5}Testov\IeC {\'a}n\IeC {\'\i }}{17}{chapter.5}
 \contentsline {chapter}{\numberline {6}Z\IeC {\'a}v\IeC {\v e}r}{19}{chapter.6}
 \contentsline {chapter}{\numberline {A}Testov\IeC {\'a}n\IeC {\'\i } zapln\IeC {\v e}n\IeC {\'\i } str\IeC {\'a}nky a odsazen\IeC {\'\i } odstavc\IeC {\r u}}{23}{appendix.A}
