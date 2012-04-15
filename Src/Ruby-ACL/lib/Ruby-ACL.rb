@@ -96,7 +96,7 @@ class RubyACL
     return adr
   end
   
-  def find_parent(id, doc)   #finds membership parrent, e.g. dog's parrent is mammal
+  def find_parent(id, doc)   #finds membership parrent and returns in array, e.g. dog's parrent is mammal
     query = "#{doc}//node()[@id=\"#{id}\"]/membership/*/string(@idref)"
     ids = []
     handle = @connector.execute_query(query)
@@ -140,8 +140,14 @@ class RubyACL
     end
   end
   
-  def compare(temp, ace_id)
+  def compare(temp_id, ace_id)   #returns ace that is 
     #TODO compare
+    if(temp_id == nil)
+      returm ace_id
+    end
+    if(Principal.ge(ace_id, temp_id) && Privilege.ge(ace_id, temp_id) && ResourceObject.ge(ace_id, temp_id))
+      temp_id = ace_id
+    end
   end
   
   def prepare_query(prins, privs, res_obs)
@@ -185,7 +191,7 @@ END
   def is_owner?(prin_name, res_ob_id)
     query = "#{@res_obj.doc}//ResourceObject[@idref==\"#{res_ob_id}\"]/owner/string(@idref)"
     handle = @connector.execute_query(query)
-    hits = @connector.get_hits(handle)
+    #hits = @connector.get_hits(handle)
     #TODO res_ob nemusi existovat
     owner = @connector.retrieve(handle, 0)   #retrieve owner id of res_ob
     if(prin_name == owner)
@@ -248,37 +254,42 @@ END
   def check(prin_name, priv_name, res_ob_type, res_ob_adrs)
     
     res_ob_id = @res_obj.find_res_ob(res_ob_type, res_ob_adrs)
-    is_owner?(res_ob_id, prin_name)
+    if(is_owner?(res_ob_id, prin_name))
+      return true   #access allowed - owner can do everything
+    end
     
     prins = [prin_name] + find_parent(prin_name, @prin.doc)    #creates the set of principals {wanted principal and all groups wanted principal is member of}
     privs = [priv_name] + find_parent(priv_name, @priv.doc)    #creates the set of privileges {wanted privilege and all privileges wanted privilege is member of}
     res_obs = [@res_obj.find_res_ob(res_ob_type, res_ob_adrs)] + find_res_ob_parent(res_ob_type, res_ob_adrs)
     
-    query = prepare_query(prins, privs, res_obs)
-    #puts query
-    
-    handle = @connector.execute_query(query)
-    #puts "handle nil? #{handle.nil?}"
-    hits = @connector.get_hits(handle)
-    #    puts "hits #{hits}"
-    if(hits > 0)    
-      ace_id = @connector.retrieve(handle, 0)   #retrieve id of first Ace
-      if(hits == 1)
-        return decide(ace_id)
-      else    #there are more rules
-        temp_id = ace_id
-        i = 0
-        while(i < hits-1)
-          i += 1
-          ace_id = @connector.retrieve(handle, i)   #retrieve id of next Ace
+    temp_id = nil
+    for prin in prins
+      query = prepare_query2(prin, privs, res_obs)
+      handle = @connector.execute_query(query)
+      hits = @connector.get_hits(handle)
+      if(hits > 0)    
+        ace_id = @connector.retrieve(handle, 0)   #retrieve id of first Ace
+        if(hits == 1)
           temp_id = compare(temp_id, ace_id)
+        else    #there are more rules
+          hits.times { |i|  
+            ace_id = @connector.retrieve(handle, i)   #retrieve id of next Ace
+            temp_id = compare(temp_id, ace_id)  
+          }
         end
-        return decide(ace_id)
       end
-    else    #Rule doesnt exist = access denied
+    end
+    
+    if(temp_id == nil)  #Rule doesnt exist = access denied
       puts "Required rule (#{prin_name}, #{priv_name}, #{res_ob_type}, #{res_ob_adrs}) does not exist. Access denied."
       return false
+    else
+      return decide(temp_id)
     end
+  end
+  
+  def show_permissions_for(prin_name)
+    #TODO
   end
   
   def create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
@@ -378,8 +389,6 @@ end
 
 ##mojeacl = RubyACL.load("pokus.xml", db, "/db/acl/")
 #
-
-
 #puts "to_s. JESTLI TO PORAD NEFUNGUJE, TAK TO KOUKEJ DODELAT!!!"
 #mojeacl.to_s
 
