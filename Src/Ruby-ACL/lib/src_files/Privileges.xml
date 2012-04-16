@@ -4,45 +4,73 @@
         <membership/>
     </Privilege>
     <Privilege id="ALTER">
-        <membership/>
+        <membership>
+            <mgroup idref="ALL_PRIVILEGES" />
+        </membership>
     </Privilege>
     <Privilege id="CREATE">
-        <membership/>
+        <membership>             
+            <mgroup idref="ALL_PRIVILEGES" />         
+        </membership>
     </Privilege>
     <Privilege id="DELETE">
-        <membership/>
+        <membership>             
+            <mgroup idref="ALL_PRIVILEGES" />         
+        </membership>
     </Privilege>
     <Privilege id="DROP">
-        <membership/>
+        <membership>             
+            <mgroup idref="ALL_PRIVILEGES" />         
+        </membership>
     </Privilege>
     <Privilege id="FILE">
-        <membership/>
+        <membership>             
+            <mgroup idref="ALL_PRIVILEGES" />         
+        </membership>
     </Privilege>
     <Privilege id="INDEX">
-        <membership/>
+        <membership>             
+            <mgroup idref="ALL_PRIVILEGES" />         
+        </membership>
     </Privilege>
     <Privilege id="INSERT">
-        <membership/>
+        <membership>             
+            <mgroup idref="ALL_PRIVILEGES" />         
+        </membership>
     </Privilege>
     <Privilege id="PROCESS">
-        <membership/>
+        <membership>             
+            <mgroup idref="ALL_PRIVILEGES" />         
+        </membership>
     </Privilege>
     <Privilege id="REFERENCES">
-        <membership/>
+        <membership>             
+            <mgroup idref="ALL_PRIVILEGES" />         
+        </membership>
     </Privilege>
     <Privilege id="RELOAD">
-        <membership/>
+        <membership>             
+            <mgroup idref="ALL_PRIVILEGES" />         
+        </membership>
     </Privilege>
     <Privilege id="SELECT">
-        <membership/>
+        <membership>             
+            <mgroup idref="ALL_PRIVILEGES" />         
+        </membership>
     </Privilege>
     <Privilege id="SHUTDOWN">
-        <membership/>
+        <membership>             
+            <mgroup idref="ALL_PRIVILEGES" />         
+        </membership>
     </Privilege>
     <Privilege id="UPDATE">
-        <membership/>
+        <membership>             
+            <mgroup idref="ALL_PRIVILEGES" />         
+        </membership>
     </Privilege>
     <Privilege id="USAGE">
-        <membership/>
+        <membership>             
+            <mgroup idref="ALL_PRIVILEGES" />         
+        </membership>
     </Privilege>
 </Privileges>

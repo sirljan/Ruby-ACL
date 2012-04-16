@@ -9,4 +9,12 @@ class Principal < ACL_Object
     super(name, query)
   end
   
+  def eq (temp_ace, final_ace)
+    if(temp_ace.prin == final_ace.prin)
+      return true
+    else 
+      return false
+    end
+  end
+  
 end

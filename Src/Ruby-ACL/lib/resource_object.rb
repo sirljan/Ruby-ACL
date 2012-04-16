@@ -10,7 +10,7 @@ class ResourceObject < ACL_Object
     <#{self.class.name} id="#{id}">
       <type>#{type}</type>
       <address>#{address}</address>
-      <owner idref="#{owner}">
+      <owner idref="#{owner}" />
     </#{self.class.name}>
 END
     return expr
@@ -63,6 +63,5 @@ END
         "#{self.class.name} type=\"#{type}\", address=\"#{address}\" exists more then once. (#{hits} times)", caller
       #return nil
     end
-  end
-
+  end  
 end

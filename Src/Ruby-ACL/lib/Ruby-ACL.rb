@@ -1,4 +1,4 @@
-$:.unshift("C:/Users/sirljan/Documents/NetBeansProjects/Ruby-ACL/lib")
+$:.unshift("./lib")
 require 'ACL_Object'
 require 'Principal'
 require 'individual'
@@ -140,29 +140,33 @@ class RubyACL
     end
   end
   
-  def compare(temp_id, ace_id)   #returns ace that is 
+  def compare(final_ace, temp_ace)   #returns ace that is 
     #TODO compare
-    if(temp_id == nil)
-      returm ace_id
+    if(final_ace == nil)
+      returm temp_ace
     end
-    if(Principal.ge(ace_id, temp_id) && Privilege.ge(ace_id, temp_id) && ResourceObject.ge(ace_id, temp_id))
-      temp_id = ace_id
+    
+    if(@prin.eq(temp_ace, final_ace) && final_ace.acc_type == "deny")
+      if(@priv.ge(temp_ace, final_ace, @privs) && @res_obj.ge(temp_ace, final_ace, @res_obs))
+        final_ace = temp_ace
+      end
     end
+    
+    if(@prin.ne(temp_ace, final_ace))
+      if(@priv.ge(temp_ace, final_ace, @privs) && @res_obj.ge(temp_ace, final_ace, @privs))
+        final_ace = temp_ace
+      end
+    end
+    return final_ace
   end
   
-  def prepare_query(prins, privs, res_obs)
+  def prepare_query(prin, privs, res_obs)
     query = <<END 
 for $ace in #{@ace.doc}//Ace
 where (
 END
-    for prin in prins
-      query += "$ace/Principal/@idref=\"#{prin}\""
-      if(prin != prins.last)
-        query+=" or "
-      else
-        query+=") "
-      end
-    end
+    
+    query += "($ace/Principal/@idref=\"#{prin}\")"
     
     query += " and ("
     for priv in privs
@@ -185,13 +189,15 @@ END
     end
     
     query += "return $ace/string(@id)"
-    return query
+    return query 
   end
   
   def is_owner?(prin_name, res_ob_id)
-    query = "#{@res_obj.doc}//ResourceObject[@idref==\"#{res_ob_id}\"]/owner/string(@idref)"
+    query = "#{@res_obj.doc}//ResourceObject[@id=\"#{res_ob_id}\"]/owner/string(@idref)"
+    #puts "query #{query}"
     handle = @connector.execute_query(query)
-    #hits = @connector.get_hits(handle)
+    hits = @connector.get_hits(handle)
+    #puts hits
     #TODO res_ob nemusi existovat
     owner = @connector.retrieve(handle, 0)   #retrieve owner id of res_ob
     if(prin_name == owner)
@@ -254,37 +260,38 @@ END
   def check(prin_name, priv_name, res_ob_type, res_ob_adrs)
     
     res_ob_id = @res_obj.find_res_ob(res_ob_type, res_ob_adrs)
-    if(is_owner?(res_ob_id, prin_name))
+    if(is_owner?(prin_name, res_ob_id))
       return true   #access allowed - owner can do everything
     end
     
     prins = [prin_name] + find_parent(prin_name, @prin.doc)    #creates the set of principals {wanted principal and all groups wanted principal is member of}
-    privs = [priv_name] + find_parent(priv_name, @priv.doc)    #creates the set of privileges {wanted privilege and all privileges wanted privilege is member of}
-    res_obs = [@res_obj.find_res_ob(res_ob_type, res_ob_adrs)] + find_res_ob_parent(res_ob_type, res_ob_adrs)
+    @privs = [priv_name] + find_parent(priv_name, @priv.doc)    #creates the set of privileges {wanted privilege and all privileges wanted privilege is member of}
+    @res_obs = [@res_obj.find_res_ob(res_ob_type, res_ob_adrs)] + find_res_ob_parent(res_ob_type, res_ob_adrs)
     
-    temp_id = nil
+    final_ace = nil
     for prin in prins
-      query = prepare_query2(prin, privs, res_obs)
+      query = prepare_query(prin, privs, res_obs)
       handle = @connector.execute_query(query)
       hits = @connector.get_hits(handle)
       if(hits > 0)    
-        ace_id = @connector.retrieve(handle, 0)   #retrieve id of first Ace
+        temp_id = @connector.retrieve(handle, 0)   #retrieve id of first Ace
+        temp_ace = AceRule.new(temp_id)
         if(hits == 1)
-          temp_id = compare(temp_id, ace_id)
+          final_ace = compare(final_ace, temp_ace)
         else    #there are more rules
-          hits.times { |i|  
-            ace_id = @connector.retrieve(handle, i)   #retrieve id of next Ace
-            temp_id = compare(temp_id, ace_id)  
+          hits.times { |i|
+            temp_id = @connector.retrieve(handle, i)   #retrieve id of next Ace
+            temp_id = compare(final_ace, temp_ace)  
           }
         end
       end
     end
     
-    if(temp_id == nil)  #Rule doesnt exist = access denied
+    if(final_ace == nil)  #Rule doesnt exist = access denied
       puts "Required rule (#{prin_name}, #{priv_name}, #{res_ob_type}, #{res_ob_adrs}) does not exist. Access denied."
       return false
     else
-      return decide(temp_id)
+      return final_ace.acc_type
     end
   end
   

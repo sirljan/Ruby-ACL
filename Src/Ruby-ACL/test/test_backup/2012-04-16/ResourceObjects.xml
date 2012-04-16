@@ -1,5 +1,4 @@
-<!DOCTYPE ResourceObjects SYSTEM "ResourceObjects.dtd">    
-<ResourceObjects>    
+<ResourceObjects>
     <ResourceObject id="r456">
         <type>Kosik</type>
         <address>Pleteny</address>
@@ -10,7 +9,7 @@
         <address>cernocerny</address>
         <owner idref="sirljan"/>
     </ResourceObject>
-    <ResourceObject id="r8525">
+    <ResourceObject id="r852">
         <type>doc</type>
         <address>(/db/cities/cities.xml)/cities/*</address>
         <owner idref="sirljan"/>
