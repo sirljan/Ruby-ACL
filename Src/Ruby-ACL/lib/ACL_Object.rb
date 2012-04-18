@@ -118,9 +118,7 @@ END
     
   end
   
-  def ge(temp_ace, final_ace, grid)
-    t = grid.find_index(temp_ace.priv)
-    f = grid.find_index(final_ace.priv)
+  def ge(t, f)
     if(t >= f)
       return true
     else

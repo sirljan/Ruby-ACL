@@ -8,6 +8,7 @@ require 'resource_object'
 require 'ace'
 require 'main'
 require 'date'
+require 'ace_rule'
 require 'rubyacl_exception'
 
 class RubyACL
@@ -17,6 +18,7 @@ class RubyACL
   attr_reader :col_path
   
   def initialize(name, connector, colpath = "/db/acl/", src_files_path = "./src_files/")
+    
     @name = name
     @connector = connector
     if(colpath[-1] != "/")
@@ -88,15 +90,16 @@ class RubyACL
   end
   
   def parent(adr)
-    if(adr[-1] == "/")
+    if(adr[-1] == "/")    #if last is "/" then delete it
       adr = adr[0..-2]
     end
     pos = adr.rindex("/")
     adr = adr[0..pos]
+
     return adr
   end
   
-  def find_parent(id, doc)   #finds membership parrent and returns in array, e.g. dog's parrent is mammal
+  def find_parent(id, doc)   #finds membership parrent and returns in sorted array by level, e.g. dog's parrent is mammal. Root is first leave is last.
     query = "#{doc}//node()[@id=\"#{id}\"]/membership/*/string(@idref)"
     ids = []
     handle = @connector.execute_query(query)
@@ -107,32 +110,26 @@ class RubyACL
       if(id_ref=="")
         next      #for unknown reason eXist returns 1 empty hit even any exists therefore unite is skipped (e.g. //node()[@id="all"]/membership/*/string(@idref)
       end
-      ids = ids | [id_ref] | find_parent(id_ref, doc)   #unite arrays
+      ids = find_parent(id_ref, doc) | ids | [id_ref]    #unite arrays
     }
     return ids
   end
   
   def find_res_ob_parent(res_ob_type, res_ob_adrs)   #finds membership parrent, e.g. dog's parrent is mammal
-    query = "#{@res_obj.doc}//node()[(type=\"#{res_ob_type}\") and(address=\"#{res_ob_adrs}\")]/membership/*/string(@idref)"
-    ids = []
-    handle = @connector.execute_query(query)
-    hits = @connector.get_hits(handle)
-    hits.times {
-      |i|
-      id_ref = @connector.retrieve(handle, i)
-      if(id_ref=="")
-        next      #for unknown reason eXist returns 1 empty hit even any exists therefore unite is skipped (e.g. //node()[@id="all"]/membership/*/string(@idref)
-      end
+    ids = Array.new
+    while(res_ob_adrs.rindex("/") != 0)
       res_ob_adrs = parent(res_ob_adrs)
-      ids = ids | [id_ref] | find_res_ob_parent(res_ob_type, res_ob_adrs)   #unite arrays
-    }
+      if(res_ob_adrs[-1] == "/")    #if last is "/" then delete it
+        res_ob_adrs = res_ob_adrs[0..-2]
+      end
+      #puts res_ob_adrs
+      ids.push(@res_obj.find_res_ob(res_ob_type, res_ob_adrs))      
+    end    
+    ids.compact!
     return ids
   end
   
-  def decide(ace_id)
-    query = "#{@ace.doc}//Ace[@id=\"#{ace_id}\"]/accessType/text()"   #Ace is only one > retrieve accessType
-    handle = @connector.execute_query(query)
-    res = @connector.retrieve(handle, 0)
+  def decide(res)
     if(res == "allow")
       return true
     elsif(res == "deny")
@@ -143,7 +140,7 @@ class RubyACL
   def compare(final_ace, temp_ace)   #returns ace that is 
     #TODO compare
     if(final_ace == nil)
-      returm temp_ace
+      return temp_ace
     end
     
     if(@prin.eq(temp_ace, final_ace) && final_ace.acc_type == "deny")
@@ -181,13 +178,13 @@ END
     query += " and ("
     for res_ob in res_obs
       query += "$ace/ResourceObject/@idref=\"#{res_ob}\""
-      if(priv != privs.last)
+      if(res_ob != res_obs.last)
         query+=" or "
       else
         query+=") "
       end
     end
-    
+    query+=")"
     query += "return $ace/string(@id)"
     return query 
   end
@@ -258,30 +255,40 @@ END
   end
   
   def check(prin_name, priv_name, res_ob_type, res_ob_adrs)
-    
+    #puts "check"
     res_ob_id = @res_obj.find_res_ob(res_ob_type, res_ob_adrs)
     if(is_owner?(prin_name, res_ob_id))
+      #puts "is owner"
       return true   #access allowed - owner can do everything
     end
     
-    prins = [prin_name] + find_parent(prin_name, @prin.doc)    #creates the set of principals {wanted principal and all groups wanted principal is member of}
-    @privs = [priv_name] + find_parent(priv_name, @priv.doc)    #creates the set of privileges {wanted privilege and all privileges wanted privilege is member of}
+    prins = find_parent(prin_name, @prin.doc) + [prin_name]    #creates the set of principals {wanted principal and all groups wanted principal is member of}
+    @privs = find_parent(priv_name, @priv.doc) + [priv_name]   #creates the set of privileges {wanted privilege and all privileges wanted privilege is member of}
     @res_obs = [@res_obj.find_res_ob(res_ob_type, res_ob_adrs)] + find_res_ob_parent(res_ob_type, res_ob_adrs)
+    
+    #puts prins
+    #    puts @privs
+    #puts "length #{@res_obs.length}"
+    #puts @res_obs.to_s
     
     final_ace = nil
     for prin in prins
-      query = prepare_query(prin, privs, res_obs)
+      query = prepare_query(prin, @privs, @res_obs)
+      #puts query
       handle = @connector.execute_query(query)
       hits = @connector.get_hits(handle)
+      #puts hits
       if(hits > 0)    
         temp_id = @connector.retrieve(handle, 0)   #retrieve id of first Ace
-        temp_ace = AceRule.new(temp_id)
+        temp_ace = AceRule.new(temp_id, @ace, @connector)
         if(hits == 1)
           final_ace = compare(final_ace, temp_ace)
         else    #there are more rules
           hits.times { |i|
             temp_id = @connector.retrieve(handle, i)   #retrieve id of next Ace
-            temp_id = compare(final_ace, temp_ace)  
+            temp_ace.reload!(temp_id)
+            final_ace = compare(final_ace, temp_ace)  
+            #puts final_ace.priv
           }
         end
       end
@@ -291,7 +298,12 @@ END
       puts "Required rule (#{prin_name}, #{priv_name}, #{res_ob_type}, #{res_ob_adrs}) does not exist. Access denied."
       return false
     else
-      return final_ace.acc_type
+      #      puts final_ace.prin
+      #      puts final_ace.priv
+      #      puts final_ace.res_obj
+      #      puts final_ace.acc_type
+      
+      return decide(final_ace.acc_type)
     end
   end
   
@@ -302,20 +314,20 @@ END
   def create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
     res_ob_id = @res_obj.find_res_ob(res_ob_type, res_ob_adrs)
     if(res_ob_id == nil)
-      res_ob_id = @res_obj.create_new(res_ob_type, res_ob_adrs)
+      res_ob_id = @res_obj.create_new(res_ob_type, res_ob_adrs, prin_name)
     end
     @ace.create_new(prin_name, acc_type, priv_name, res_ob_id)
   end
   
-  def create_principal(name, groups = [])
+  def create_principal(name, groups = ["ALL"])
     @indi.create_new(name, groups)
   end
   
-  def create_group(name, member_of = [], members = [])    # members can be groups or individuals; check if it the name already exist. or if groups and members exist at all
+  def create_group(name, member_of = ["ALL"], members = ["ALL"])    # members can be groups or individuals; check if it the name already exist. or if groups and members exist at all
     @group.create_new(name, member_of, members)    
   end
   
-  def create_privilege(name, member_of = [])
+  def create_privilege(name, member_of = ["ALL_PRIVILEGES"])
     @priv.create_new(name, member_of)
   end
   
@@ -323,6 +335,10 @@ END
     #puts "type #{type} add #{address}"
     id = @res_obj.create_new(type, address, owner)
     return id
+  end
+  
+  def change_owner(type, address, new_owner)
+    @res_obj.change_owner(type, address, new_owner)
   end
   
   def add_membership_principal(name, groups, existance = false) #adds principal into group(s); if you know prin exists set true for prin_exists

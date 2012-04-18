@@ -2,7 +2,7 @@
     <ResourceObject id="r456">
         <type>Kosik</type>
         <address>Pleteny</address>
-        <owner idref="sirljan"/>
+        <owner idref="Klubicko"/>
     </ResourceObject>
     <ResourceObject id="r963">
         <type>Les</type>

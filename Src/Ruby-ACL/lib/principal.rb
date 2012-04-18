@@ -17,4 +17,8 @@ class Principal < ACL_Object
     end
   end
   
+  def ne (temp_ace, final_ace)
+    return !eq(temp_ace, final_ace)
+  end
+  
 end

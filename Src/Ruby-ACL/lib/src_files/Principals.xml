@@ -2,7 +2,7 @@
 <!DOCTYPE Principals SYSTEM "Principals.dtd">
 <Principals>
     <Groups>
-        <Group id="all">
+        <Group id="ALL">
             <membership/>
         </Group>
         <Group id="Developers">
@@ -11,11 +11,13 @@
             </membership>
         </Group>
         <Group id="Administrators">
-            <membership/>
+            <membership>
+                <mgroup idref="ALL"/>
+            </membership>
         </Group>
         <Group id="Users">
             <membership>
-                <mgroup idref="all"/>
+                <mgroup idref="ALL"/>
             </membership>
         </Group>
     </Groups>

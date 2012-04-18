@@ -59,9 +59,28 @@ END
     when 0
       return nil
     else
-      raise RubyACLExceptionRubyACLException.new("#{self.class.name} type=\"#{type}\", address=\"#{address}\" exists more then once.", 32), 
+      raise RubyACLException.new("#{self.class.name} type=\"#{type}\", address=\"#{address}\" exists more then once.", 32), 
         "#{self.class.name} type=\"#{type}\", address=\"#{address}\" exists more then once. (#{hits} times)", caller
       #return nil
     end
   end  
+  
+  def ge(temp_ace, final_ace, grid)
+    temp = grid.find_index(temp_ace.res_obj)
+    final = grid.find_index(final_ace.res_obj)
+    return super(temp, final)
+  end
+  
+  def change_owner(type, address, new_owner)
+    res_ob_id = find_res_ob(type, address)
+    
+    query = "update value doc(\"#{@doc}\")/ResourceObjects/ResourceObject[#{res_ob_id}]/owner with \"#{new_owner}\""
+    @connector.execute_query(query)
+    query = "doc(\"#{@col_path}acl.xml\")/acl/string(@aclname)"
+    handle = @connector.execute_query(query)
+    if(new_owner != @connector.retrieve(handle, 0))
+      raise RubyACLException.new("Failed to set new owner.", 51), 
+        "Failed to set new owner.", caller
+    end
+  end
 end

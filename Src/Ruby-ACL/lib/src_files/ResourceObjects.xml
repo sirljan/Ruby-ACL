@@ -3,11 +3,11 @@
     <ResourceObject id="r456">
         <type>Kosik</type>
         <address>Pleteny</address>
-        <owner idref="sirljan"/>
+        <owner idref="Klubicko"/>
     </ResourceObject>
     <ResourceObject id="r963">
         <type>Les</type>
-        <address>cernocerny</address>
+        <address>/V_Hodkovickach</address>
         <owner idref="sirljan"/>
     </ResourceObject>
     <ResourceObject id="r8525">
@@ -18,6 +18,21 @@
     <ResourceObject id="r852">
         <type>doc</type>
         <address>/db/cities/cities.xml</address>
-        <owner idref="sirljan"/>
+        <owner idref="nikdo"/>
+    </ResourceObject>
+    <ResourceObject id="r111111111">
+        <type>doc</type>
+        <address>/db/temp</address>
+        <owner idref="nikdo"/>
+    </ResourceObject>
+    <ResourceObject id="r222222222">
+        <type>doc</type>
+        <address>/db/temp/test</address>
+        <owner idref="nikdo"/>
+    </ResourceObject>
+        <ResourceObject id="r333333333">
+        <type>doc</type>
+        <address>/db/temp/test/hokus</address>
+        <owner idref="nikdo"/>
     </ResourceObject>
 </ResourceObjects>
