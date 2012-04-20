@@ -7,6 +7,8 @@ class Individual < Principal
   public
   def create_new(name, groups)
     super(name, groups)
+  rescue => e
+    raise e
   end
 end
 

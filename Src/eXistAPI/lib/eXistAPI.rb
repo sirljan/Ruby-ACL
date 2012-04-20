@@ -1,4 +1,3 @@
-$:.unshift("C:/Users/sirljan/Documents/NetBeansProjects/eXistAPI/lib")
 require "xmlrpc/client"
 require 'collection'
 

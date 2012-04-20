@@ -24,10 +24,8 @@ END
 [Principal/@idref=\"#{prin_id}\" and accessType=\"#{acc_type}\" and 
 Privilege/@idref=\"#{priv_id}\" and ResourceObject/@idref=\"#{res_ob_id}\"]
 /string(@id)"
-    #puts query
     handle = @connector.execute_query(query)
     hits = @connector.get_hits(handle)
-    #puts hits
     case hits
     when 1
       ace_id = @connector.retrieve(handle, 0)
@@ -40,13 +38,15 @@ Privilege/@idref=\"#{priv_id}\" and ResourceObject/@idref=\"#{res_ob_id}\"]
     when 0
       return nil
     else
-      raise RubyACLExceptionRubyACLException.new("#{self.class.name} Principal=\"#{prin_id}\" and accessType=\"#{acc_type}\" and 
-Privilege=\"#{priv_id}\" and ResourceObject=\"#{res_ob_id}\" exists more then once.", 32), 
-        "#{self.class.name} Principal=\"#{prin_id}\" and accessType=\"#{acc_type}\" and 
-Privilege=\"#{priv_id}\" and ResourceObject=\"#{res_ob_id}\" exists more then once. (#{hits} times)", caller
-      #return nil
+      raise RubyACLExceptionRubyACLException.new(self.class.name, __method__,
+        "#{self.class.name} 
+Principal=\"#{prin_id}\" and accessType=\"#{acc_type}\" and 
+Privilege=\"#{priv_id}\" and ResourceObject=\"#{res_ob_id}\" 
+exists more then once. (#{hits}x)", 20), caller
     end
-  end
+  rescue => e
+    raise e
+  end   #def find_ace
   
   protected
   
@@ -67,12 +67,14 @@ Privilege=\"#{priv_id}\" and ResourceObject=\"#{res_ob_id}\" exists more then on
         return id
       else
         puts "#{self.class.name} \"#{id}\" was not able to create."
+        raise RubyACLException.new(self.class.name, __method__, 
+          "#{self.class.name} \"#{id}\" was not able to create.", 21), caller
         return nil
       end
     else #already exists
       return id
     end
-  end
-  
-
-end
+  rescue => e
+    raise e
+  end   #def create_new
+end   #class Ace

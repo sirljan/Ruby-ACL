@@ -1,5 +1,4 @@
 class Privilege < ACL_Object
-  
  
   def initialize(connector, col_path)
     super(connector, col_path)
@@ -11,5 +10,4 @@ class Privilege < ACL_Object
     final = grid.find_index(final_ace.priv)
     return super(temp, final)
   end
-  
 end

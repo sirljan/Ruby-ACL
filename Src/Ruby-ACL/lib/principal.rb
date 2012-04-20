@@ -7,6 +7,8 @@ class Principal < ACL_Object
   def exists?(name)
     query = "#{@doc}//#{self.class.name}s/descendant::*[@id=\"#{name}\"]"
     super(name, query)
+  rescue => e
+    raise e
   end
   
   def eq (temp_ace, final_ace)
@@ -20,5 +22,4 @@ class Principal < ACL_Object
   def ne (temp_ace, final_ace)
     return !eq(temp_ace, final_ace)
   end
-  
 end

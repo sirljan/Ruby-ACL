@@ -31,32 +31,25 @@ class RubyACLException < RuntimeError
   def method
     return "#{@clas}.#{@method}"
   end
-
-
-  #List of all exception. In brackets is method, that raise mentioned exception
-  #ACL_Object:
-  #1: 
-  #
-
-  #Soupis jednotlivych vyjimek, v zavorce metoda tera tuto vyjimku vyhazuje
-  #1: Database login failed (DatabaseManager.connect)
-  #2: Failed to create Collection (DatabaseManager.createcollection)
-  #3: Failed to remove Collection (DatabaseManager.removecollection)
-  #
-  #10: Failed to initialize Collection (Collection.initialize)
-  #11: Failed to close Collection (Collection.close)
-  #12: No such child Collection (Collection.getchildcollection)
-  #13: Failed to get parent Collection (Collection.getparentcollection)
-  #14: Unknown resource (Collection.getresource)
-  #15: Failed to list child Collections (Collection.listchildcollection)
-  #16: Failed to list resources (Collection.listresources)
-  #17: Failed to remove resource (Collection.removeresource)
-  #18: Failed to store resource (Collection.storeresource)
-  #
-  #20: Failed to execute query (XPathQueryService.query)
-  #21: Failed to query Resource (XPathQueryService.queryresource)
-  #
-  #30: Failed to update Collection (XUpdateService.update)
-  #31: Failed to update Resource (XUpdateService.updateResource)
-  #
 end
+
+#List of all exception. In brackets is method, that raise mentioned exception
+#ACL_Object:
+#0: Name is empty                       (RubyACL.initialize)
+#1: Failed to create ACL in database    (RubyACL.create_acl_in_db)
+#2: Failed to set new name              (RubyACL.setname)
+  
+#10: Name is empty                      (ACL_Object.create_new)
+#11: ... already exist(s)               (ACL_Object.create_new)
+#12: ... was not able to create         (ACL_Object.create_new)
+#13: Failed to add membership. Group ... does not exist.    (ACL_Object.add_membership)
+#14: Failed to add membership. ... does not exist.          (ACL_Object.add_membership)
+#15: Failed to delete membership. Group ... does not exist. (ACL_Object.del_membership)
+#16: Failed to delete membership. ... does not exist.       (ACL_Object.del_membership)
+#17: Failed to delete #{self.class.name}. #{self.class.name} \"#{name}\" does not exist. (ACL_Object.delete)
+  
+#20: #{self.class.name}                                     (Ace.find_ace)
+#Principal=\"#{prin_id}\" and accessType=\"#{acc_type}\" and 
+#Privilege=\"#{priv_id}\" and ResourceObject=\"#{res_ob_id}\" 
+#exists more then once. (#{hits}x)
+#21: #{self.class.name} \"#{id}\" was not able to create.     (Ace.create_new)

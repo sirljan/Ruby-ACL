@@ -9,7 +9,8 @@ class AceRule
     @ace = ace
     @connector = connector
     reload!(ace_id)
-
+  rescue => e
+    raise e
   end
   
   def reload!(ace_id)
@@ -29,5 +30,7 @@ class AceRule
     #puts query
     handle = @connector.execute_query(query)
     @acc_type = @connector.retrieve(handle, 0)
-  end
-end
+  rescue => e
+    raise e
+  end   #def reload!
+end   #class AceRule

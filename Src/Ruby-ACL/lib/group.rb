@@ -15,6 +15,8 @@ class Group < Principal
         add_membership(each, [name], true)
       end
     end
+  rescue => e
+    raise e
   end
   
 end
