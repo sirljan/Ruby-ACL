@@ -7,12 +7,13 @@ class Collection
   attr_reader :owner
   attr_reader :group
   attr_reader :permissions
-  #attr_reader :documents
   attr_reader :childCollection
     
   def initialize(client, collectionName)
     @client = client
     load(collectionName)
+  rescue  => e
+    raise e  
   end
 
   def to_s()
@@ -39,20 +40,20 @@ class Collection
   protected
 
   def load(collectionName)
-    begin
-      resp = @client.call("getCollectionDesc", collectionName)
-      @name = resp['name']+"/"
-      @owner = resp['owner']
-      @group = resp['group']
-      @permissions = resp['permissions']
-      @childCollection = resp['collections']
+    resp = @client.call("getCollectionDesc", collectionName)
+    @name = resp['name']+"/"
+    @owner = resp['owner']
+    @group = resp['group']
+    @permissions = resp['permissions']
+    @childCollection = resp['collections']
             
-      @documents = Array.new
-      docs = resp['documents']
-      #puts "docs #{docs}"
-      docs.each { |d| @documents.push(Document.new(@client, d, @name)) }
-    rescue XMLRPC::FaultException => e
-      puts e
-    end
-  end
-end
+    @documents = Array.new
+    docs = resp['documents']
+    #puts "docs #{docs}"
+    docs.each { |d| @documents.push(Document.new(@client, d, @name)) }
+  rescue XMLRPC::FaultException => e
+    raise e
+  rescue
+    raise ExistException.new("Failed to load Collection", 10), callers
+  end #end def load
+end #end class Collection

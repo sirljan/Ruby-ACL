@@ -59,8 +59,9 @@ END
     when 0
       return nil
     else
-      raise RubyACLException.new("#{self.class.name} type=\"#{type}\", address=\"#{address}\" exists more then once.", 32), 
-        "#{self.class.name} type=\"#{type}\", address=\"#{address}\" exists more then once. (#{hits} times)", caller
+      raise RubyACLException.new(self.class.name, __method__, "#{self.class.name}(type=\"#{type}\", address=\"#{address}\") exists more then once. (#{hits} times)", 32), caller
+        #"#{self.class.name}(type=\"#{type}\", address=\"#{address}\") exists more then once. (#{hits} times)", caller
+      #raise RubyACLException.new("neco se podelalo", 32), "neco se podelalo2", caller
       #return nil
     end
   end  

@@ -33,23 +33,24 @@
 \contentsline {subsection}{\numberline {4.2.2}eXist-db}{15}{subsection.4.2.2}
 \contentsline {subsubsection}{\numberline {4.2.2.1}komunikace}{15}{subsubsection.4.2.2.1}
 \contentsline {subsubsection}{\numberline {4.2.2.2}eXistDBAPI}{16}{subsubsection.4.2.2.2}
-\contentsline {section}{\numberline {4.3}Implementace}{16}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}Uvol\IeC {\v n}ov\IeC {\'a}n\IeC {\'\i } pam\IeC {\v e}ti}{16}{subsection.4.3.1}
-\contentsline {chapter}{\numberline {5}Testov\IeC {\'a}n\IeC {\'\i }}{17}{chapter.5}
-\contentsline {chapter}{\numberline {6}Z\IeC {\'a}v\IeC {\v e}r}{19}{chapter.6}
-\contentsline {chapter}{\numberline {A}Testov\IeC {\'a}n\IeC {\'\i } zapln\IeC {\v e}n\IeC {\'\i } str\IeC {\'a}nky a odsazen\IeC {\'\i } odstavc\IeC {\r u}}{23}{appendix.A}
-\contentsline {chapter}{\numberline {B}Pokyny a n\IeC {\'a}vody k form\IeC {\'a}tov\IeC {\'a}n\IeC {\'\i } textu pr\IeC {\'a}ce}{27}{appendix.B}
-\contentsline {section}{\numberline {B.1}Vkl\IeC {\'a}d\IeC {\'a}n\IeC {\'\i } obr\IeC {\'a}zk\IeC {\r u}}{27}{section.B.1}
-\contentsline {section}{\numberline {B.2}Kreslen\IeC {\'\i } obr\IeC {\'a}zk\IeC {\r u}}{28}{section.B.2}
-\contentsline {section}{\numberline {B.3}Tabulky}{28}{section.B.3}
-\contentsline {section}{\numberline {B.4}Odkazy v textu}{29}{section.B.4}
-\contentsline {subsection}{\numberline {B.4.1}Odkazy na literaturu}{29}{subsection.B.4.1}
-\contentsline {subsection}{\numberline {B.4.2}Odkazy na obr\IeC {\'a}zky, tabulky a kapitoly}{31}{subsection.B.4.2}
-\contentsline {section}{\numberline {B.5}Rovnice, centrovan\IeC {\'a}, \IeC {\v c}\IeC {\'\i }slovan\IeC {\'a} matematika}{31}{section.B.5}
-\contentsline {section}{\numberline {B.6}K\IeC {\'o}dy programu}{32}{section.B.6}
-\contentsline {section}{\numberline {B.7}Dal\IeC {\v s}\IeC {\'\i } pozn\IeC {\'a}mky}{32}{section.B.7}
-\contentsline {subsection}{\numberline {B.7.1}\IeC {\v C}esk\IeC {\'e} uvozovky}{32}{subsection.B.7.1}
-\contentsline {chapter}{\numberline {C}Seznam pou\IeC {\v z}it\IeC {\'y}ch zkratek}{33}{appendix.C}
-\contentsline {chapter}{\numberline {D}UML diagramy}{35}{appendix.D}
-\contentsline {chapter}{\numberline {E}Instala\IeC {\v c}n\IeC {\'\i } a u\IeC {\v z}ivatelsk\IeC {\'a} p\IeC {\v r}\IeC {\'\i }ru\IeC {\v c}ka}{37}{appendix.E}
-\contentsline {chapter}{\numberline {F}Obsah p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}ho CD}{39}{appendix.F}
+\contentsline {section}{\numberline {4.3}Priorita rozhodov\IeC {\'a}n\IeC {\'\i }}{16}{section.4.3}
+\contentsline {section}{\numberline {4.4}Implementace}{16}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}Uvol\IeC {\v n}ov\IeC {\'a}n\IeC {\'\i } pam\IeC {\v e}ti}{16}{subsection.4.4.1}
+\contentsline {chapter}{\numberline {5}Testov\IeC {\'a}n\IeC {\'\i }}{19}{chapter.5}
+\contentsline {chapter}{\numberline {6}Z\IeC {\'a}v\IeC {\v e}r}{21}{chapter.6}
+\contentsline {chapter}{\numberline {A}Testov\IeC {\'a}n\IeC {\'\i } zapln\IeC {\v e}n\IeC {\'\i } str\IeC {\'a}nky a odsazen\IeC {\'\i } odstavc\IeC {\r u}}{25}{appendix.A}
+\contentsline {chapter}{\numberline {B}Pokyny a n\IeC {\'a}vody k form\IeC {\'a}tov\IeC {\'a}n\IeC {\'\i } textu pr\IeC {\'a}ce}{29}{appendix.B}
+\contentsline {section}{\numberline {B.1}Vkl\IeC {\'a}d\IeC {\'a}n\IeC {\'\i } obr\IeC {\'a}zk\IeC {\r u}}{29}{section.B.1}
+\contentsline {section}{\numberline {B.2}Kreslen\IeC {\'\i } obr\IeC {\'a}zk\IeC {\r u}}{30}{section.B.2}
+\contentsline {section}{\numberline {B.3}Tabulky}{30}{section.B.3}
+\contentsline {section}{\numberline {B.4}Odkazy v textu}{31}{section.B.4}
+\contentsline {subsection}{\numberline {B.4.1}Odkazy na literaturu}{31}{subsection.B.4.1}
+\contentsline {subsection}{\numberline {B.4.2}Odkazy na obr\IeC {\'a}zky, tabulky a kapitoly}{33}{subsection.B.4.2}
+\contentsline {section}{\numberline {B.5}Rovnice, centrovan\IeC {\'a}, \IeC {\v c}\IeC {\'\i }slovan\IeC {\'a} matematika}{33}{section.B.5}
+\contentsline {section}{\numberline {B.6}K\IeC {\'o}dy programu}{34}{section.B.6}
+\contentsline {section}{\numberline {B.7}Dal\IeC {\v s}\IeC {\'\i } pozn\IeC {\'a}mky}{34}{section.B.7}
+\contentsline {subsection}{\numberline {B.7.1}\IeC {\v C}esk\IeC {\'e} uvozovky}{34}{subsection.B.7.1}
+\contentsline {chapter}{\numberline {C}Seznam pou\IeC {\v z}it\IeC {\'y}ch zkratek}{35}{appendix.C}
+\contentsline {chapter}{\numberline {D}UML diagramy}{37}{appendix.D}
+\contentsline {chapter}{\numberline {E}Instala\IeC {\v c}n\IeC {\'\i } a u\IeC {\v z}ivatelsk\IeC {\'a} p\IeC {\v r}\IeC {\'\i }ru\IeC {\v c}ka}{39}{appendix.E}
+\contentsline {chapter}{\numberline {F}Obsah p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}ho CD}{41}{appendix.F}

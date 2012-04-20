@@ -29,24 +29,15 @@ class ExistException < RuntimeError
 
 end
 
-#Soupis jednotlivych vyjimek, v zavorce metoda tera tuto vyjimku vyhazuje
-#1: Database login failed (DatabaseManager.connect)
-#2: Failed to create Collection (DatabaseManager.createcollection)
-#3: Failed to remove Collection (DatabaseManager.removecollection)
+#Soupis jednotlivych vyjimek, v zavorce metoda ktera tuto vyjimku vyhazuje
+#1: Database login failed         (ExistAPI.connect)
+#2: Failed to create Collection   (ExistAPI.createcollection)
+#3: Failed to remove Collection   (ExistAPI.removecollection)
+#4: Resource or document name is nil (ExistAPI.storeresource)
+#5: Failed to store resource      (ExistAPI.storeresource)
+#6: Failed to execute query       (ExistAPI.execute_query)
+#7: Failed to retrieve resource   (ExistAPI.retrieve)
+#8: Failed to get number of hits  (ExistAPI.get_hits)
 #
-#10: Failed to initialize Collection (Collection.initialize)
-#11: Failed to close Collection (Collection.close)
-#12: No such child Collection (Collection.getchildcollection)
-#13: Failed to get parent Collection (Collection.getparentcollection)
-#14: Unknown resource (Collection.getresource)
-#15: Failed to list child Collections (Collection.listchildcollection)
-#16: Failed to list resources (Collection.listresources)
-#17: Failed to remove resource (Collection.removeresource)
-#18: Failed to store resource (Collection.storeresource)
-#
-#20: Failed to execute query (XPathQueryService.query)
-#21: Failed to query Resource (XPathQueryService.queryresource)
-#
-#30: Failed to update Collection (XUpdateService.update)
-#31: Failed to update Resource (XUpdateService.updateResource)
-#
+#10: Failed to load Collection (Collection.load)
+#11: Failed to load content of Document (Document.content)

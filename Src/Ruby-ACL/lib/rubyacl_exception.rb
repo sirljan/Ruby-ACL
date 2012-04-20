@@ -6,7 +6,9 @@ class RubyACLException < RuntimeError
   @description
   @number
   
-  def initialize(_description = "Epic fail \n", _number = nil)
+  def initialize(called_class, called_method, _description = "Epic fail \n", _number = nil)
+    @clas = called_class
+    @method = called_method
     @description = _description + "\n"
     @number  = _number
   end
@@ -19,11 +21,15 @@ class RubyACLException < RuntimeError
   end
 
   def tostring
-    @number.to_s + ": " +@description
+    @number.to_s + ": " + method + "\n" + @description
   end
 
   def code
     @number
+  end
+  
+  def method
+    return "#{@clas}.#{@method}"
   end
 
 

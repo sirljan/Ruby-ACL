@@ -2,12 +2,6 @@ $:.unshift("C:/Users/sirljan/Documents/NetBeansProjects/eXistAPI/lib")
 require "xmlrpc/client"
 require 'collection'
 
-def error(s)
-  puts s
-end
-
-
-
 class ExistAPI
   @uri
   @username
@@ -20,7 +14,7 @@ class ExistAPI
     @username = username
     @password = password
     @parameters = { "encoding" => "UTF-8", "indent" => "yes"}
-    outputoptions = { "encoding" => "UTF-8", "indent" => "yes"}
+    #outputoptions = { "encoding" => "UTF-8", "indent" => "yes"}
     connect
   end
 
@@ -29,12 +23,11 @@ class ExistAPI
     @client = XMLRPC::Client.new2(@uri)
     @client.user=(@username)
     @client.password=(@password)
-    #tohle tady slouzi jako test, zda se pripojeni zdarilo
-    @client.call("isXACMLEnabled")
+    @client.call("isXACMLEnabled")  #test if the connection is established.
+  rescue XMLRPC::FaultException => e
+    raise e    
   rescue
-    begin
-      raise ExistException.new("Database login failed", 1), "Database login failed", caller
-    end
+    raise ExistException.new("Database login failed", 1), caller
   end
   
   def createcollection(_name, _parent = nil)
@@ -50,16 +43,18 @@ class ExistAPI
         return result
       end
     end
+  rescue XMLRPC::FaultException => e
+    raise e    
   rescue
-    begin
-      raise ExistException.new("Failed to create Collection", 2), "Failed to create Collection", caller
-    end
+    raise ExistException.new("Failed to create Collection", 2), caller
   end
   
-  # psat kolekci s lomitkem na konci
+  # TODO psat kolekci s lomitkem na konci
   def getcollection(path)
     col = Collection.new(@client, path)
     return col
+  rescue  => e
+    raise e  
   end
   
   def existscollection?(orig_path)
@@ -88,26 +83,32 @@ class ExistAPI
     else
       return false
     end
+  rescue  => e
+    raise e  
   end
 
   def remove_collection(_name)
     # boolean removeCollection( String collection)
     result = @client.call("removeCollection", _name)
     return result
+  rescue XMLRPC::FaultException => e
+    raise e    
   rescue
-    begin
-      raise ExistException.new("Failed to remove Collection", 3), "Failed to remove Collection", caller
-    end
+    raise ExistException.new("Failed to remove Collection", 3), caller
   end
   
   def storeresource(_res, _docname, _overwrite = 1)
     if ((_res == nil)||(_docname == nil))
-      raise ExistException.new("Resource or document name is nil",18), "Resource or document name is nil", caller
+      raise ExistException.new("Resource or document name is nil", 4), caller
     end
     begin
       @client.call("parse",_res.to_s, _docname, _overwrite)
     rescue XMLRPC::FaultException => e
-      puts e
+      raise e    
+    rescue ExistException => e
+      raise e
+    rescue
+      raise ExistException.new("Failed to store resource", 5), caller
     end
   end
   
@@ -117,7 +118,9 @@ class ExistAPI
       handle = @client.call("executeQuery", XMLRPC::Base64.new(xquery), parameters)
       return handle
     rescue XMLRPC::FaultException => e
-      puts e
+      raise e    
+    rescue
+      raise ExistException.new("Failed to execute query", 6), caller
     end
   end
   
@@ -126,7 +129,9 @@ class ExistAPI
       res = @client.call("retrieve", handle, pos, @parameters)
       return res
     rescue XMLRPC::FaultException => e
-      puts e
+      raise e   
+    rescue
+      raise ExistException.new("Failed to retrive resource", 7), caller
     end
   end
   
@@ -136,7 +141,9 @@ class ExistAPI
       hits = summary['hits']
       return hits
     rescue XMLRPC::FaultException => e
-      puts e
+      raise e
+    rescue
+      raise ExistException.new("Failed to get number of hits", 8), caller
     end
   end
   
@@ -145,27 +152,37 @@ class ExistAPI
     query = "update insert "+expr+" "+pos+" "+exprSingle
     #puts "query #{query}"
     execute_query(query)
+  rescue  => e
+    raise e    
   end
   
   def update_replace(expr, exprSingle)
     query = "update replace "+expr+" with "+exprSingle
     execute_query(query)
+  rescue  => e
+    raise e  
   end
   
   def update_value(expr, exprSingle)
     query = "update replace "+expr+" with "+exprSingle
     execute_query(query)
+  rescue  => e
+    raise e  
   end
   
   def update_delete(expr)
     query = "update delete "+expr
     #puts "query #{query}"
     execute_query(query)
+  rescue  => e
+    raise e  
   end
   
   def update_rename(expr, exprSingle)
     query = expr + " as " + exprSingle
     execute_query(query)
+  rescue  => e
+    raise e  
   end
 
 end

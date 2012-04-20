@@ -629,6 +629,26 @@ Použití xQuery Update Facility místo xUpdate. (Možná vložím ukázku imple
 
 \subsubsection{eXistDBAPI}
 %-------------------------------------
+\section{Priorita rozhodování}
+
+\begin{enumerate}
+\item Owner
+\item Explicit Deny
+\item Explicit Allow
+\item Inherited Deny
+\item Inherited Allow
+\item If not found > Deny
+\end{enumerate}
+
+%1) Owner
+%2) Explicit Deny
+%3) Explicit Allow
+%4) Inherited Deny
+%5) Inherited Allow
+%---
+%6) If not found > Deny
+
+%-------------------------------------
 \section{Implementace}
 \subsection{Uvolňování paměti}
 Je třeba se věnovat uvolňování paměti, protože aplikace bude spuštěna dny až měsíce. Špatné zacházení s pamětí by, proto bylo kritické pro server, na kterém aplikace s Ruby-ACL knihovnou bude spuštěna.

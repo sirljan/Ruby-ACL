@@ -34,11 +34,11 @@ class RubyACL
     @ace = Ace.new(@connector, @col_path)
     create_acl_in_db()
     setname(name)
+  rescue => e
+    raise e
   end
   
   private   # private methods follow
-  
-
   
   def create_acl_in_db()
     if(!@connector.existscollection?(@col_path))
@@ -266,18 +266,11 @@ END
     @privs = find_parent(priv_name, @priv.doc) + [priv_name]   #creates the set of privileges {wanted privilege and all privileges wanted privilege is member of}
     @res_obs = [@res_obj.find_res_ob(res_ob_type, res_ob_adrs)] + find_res_ob_parent(res_ob_type, res_ob_adrs)
     
-    #puts prins
-    #    puts @privs
-    #puts "length #{@res_obs.length}"
-    #puts @res_obs.to_s
-    
     final_ace = nil
     for prin in prins
       query = prepare_query(prin, @privs, @res_obs)
-      #puts query
       handle = @connector.execute_query(query)
       hits = @connector.get_hits(handle)
-      #puts hits
       if(hits > 0)    
         temp_id = @connector.retrieve(handle, 0)   #retrieve id of first Ace
         temp_ace = AceRule.new(temp_id, @ace, @connector)
@@ -287,8 +280,7 @@ END
           hits.times { |i|
             temp_id = @connector.retrieve(handle, i)   #retrieve id of next Ace
             temp_ace.reload!(temp_id)
-            final_ace = compare(final_ace, temp_ace)  
-            #puts final_ace.priv
+            final_ace = compare(final_ace, temp_ace)
           }
         end
       end
@@ -298,20 +290,20 @@ END
       puts "Required rule (#{prin_name}, #{priv_name}, #{res_ob_type}, #{res_ob_adrs}) does not exist. Access denied."
       return false
     else
-      #      puts final_ace.prin
-      #      puts final_ace.priv
-      #      puts final_ace.res_obj
-      #      puts final_ace.acc_type
-      
       return decide(final_ace.acc_type)
     end
+  rescue => e
+    raise e
+    #puts e.backtrace.join("\n")
+    #raise RubyACLException.new(self.class.name, __method__, "Failed to check ACE", 3), caller
   end
   
   def show_permissions_for(prin_name)
     #TODO
   end
   
-  def create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
+  def create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs, grand_2_children = false)
+    #TODO grand_2_children = false, dont forget that /neco/necojinyho doesnt inherit to children
     res_ob_id = @res_obj.find_res_ob(res_ob_type, res_ob_adrs)
     if(res_ob_id == nil)
       res_ob_id = @res_obj.create_new(res_ob_type, res_ob_adrs, prin_name)

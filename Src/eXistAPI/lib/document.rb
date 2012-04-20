@@ -14,6 +14,8 @@ class Document
     @owner = hash['owner']
     @group = hash['group']
     @permissions = hash['permissions']
+  rescue  => e
+    raise e  
   end
 
   def to_s
@@ -21,12 +23,12 @@ class Document
   end
 
   def content
-    begin 
-      options = { "indent" => "yes", "encoding" => "UTF-8",
-        "expand-xincludes" => "yes" }
-      return @client.call("getDocument", @path, options)
-    rescue XMLRPC::FaultException => e
-      error(e)
-    end
+    options = { "indent" => "yes", "encoding" => "UTF-8",
+      "expand-xincludes" => "yes" }
+    return @client.call("getDocument", @path, options)
+  rescue XMLRPC::FaultException => e
+    raise e
+  rescue
+    raise ExistException.new("Failed to load content of Document", 11), callers
   end
 end
