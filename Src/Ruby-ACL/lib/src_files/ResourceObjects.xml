@@ -10,9 +10,19 @@
         <address>/V_Hodkovickach</address>
         <owner idref="sirljan"/>
     </ResourceObject>
+    <ResourceObject id="r753951654">
+        <type>doc</type>
+        <address>/db/cities/cities.xml/cities</address>
+        <owner idref="sirljan"/>
+    </ResourceObject>
+    <ResourceObject id="r624125384">
+        <type>doc</type>
+        <address>/db/*</address>
+        <owner idref="nikdo"/>
+    </ResourceObject>
     <ResourceObject id="r8525">
         <type>doc</type>
-        <address>(/db/cities/cities.xml)/cities/*</address>
+        <address>/db/cities/cities.xml/cities/*</address>
         <owner idref="sirljan"/>
     </ResourceObject>
     <ResourceObject id="r852">

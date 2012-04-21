@@ -651,6 +651,24 @@ Owner může být jednotlivec, množina jednotlivců i skupina.
 Množina jednotlivců je v případě pokud se od kořene zdrojových objektů k listu mnění vlastník. Vlastník nejnadřazenějšího zdroje má největší práva. Vlastník může být o 
 /* nemá význam, protože vlastník zdrojového objektu vlastní i všechny podřazené zdrojové objekty.
 
+\subsubsection {Zdrojový objekt (Resource object)}
+Skládá se ze tří položek:
+\begin{enumerate}
+\item typ
+\item adresa
+\item vlastník
+\end{enumerate}
+
+Při zadávání adresy je potřeba dodržet jediné pravidlo. V adrese oddělovat každý jednotlivý objekt dopředným lomítkem. ( / )
+
+Pokud je zdrojový objekt typu doc, adresa může obsahovat klauzuli ve formátu ("/koren/vetev/list-soubor_s_příponou") a pokud je zapotřebí jemnější řízení přístupu uvnitř dokumentu následuje klauzule /koren/vetev. Nicméně do databáze se ukládá sloučená adresa bez ("")
+Příklad:  ("/db/data/cities.xml")/cities/city
+V databázi je uložen pod adresou: /db/data/cities.xml/cities/city
+
+Klauzule /* (lomítko hvězdička) vyjadřuje všechny podřadné objekty
+Příklad:  /db/data/*
+Nyní jsou vybrány všechny podřadné objekty objektu data.
+/* nemá význam u vlastníka, protože vlastník zdrojového objektu vlastní i všechny podřazené zdrojové objekty.
 
 %-------------------------------------
 \section{Implementace}

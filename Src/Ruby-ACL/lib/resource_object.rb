@@ -15,9 +15,10 @@ class ResourceObject < ACL_Object
 END
     return expr
   end
-  
+    
   public
   def create_new(type, address, owner)
+    address.delete!('(")')
     id = find_res_ob(type, address)
     if(id == nil) #this resOb doesnt exist
       id = "r" + Random.rand(1000000000).to_s
@@ -42,6 +43,7 @@ END
   end
   
   def find_res_ob(type, address)    #finds resource object's id by type and address
+    address.delete!('(")')
     query = "#{@doc}//#{self.class.name}s/descendant::*[type=\"#{type}\" and address=\"#{address}\"]/string(@id)"
     #puts query
     handle = @connector.execute_query(query)
@@ -60,7 +62,7 @@ END
       return nil
     else
       raise RubyACLException.new(self.class.name, __method__, "#{self.class.name}(type=\"#{type}\", address=\"#{address}\") exists more then once. (#{hits} times)", 32), caller
-        #"#{self.class.name}(type=\"#{type}\", address=\"#{address}\") exists more then once. (#{hits} times)", caller
+      #"#{self.class.name}(type=\"#{type}\", address=\"#{address}\") exists more then once. (#{hits} times)", caller
       #raise RubyACLException.new("neco se podelalo", 32), "neco se podelalo2", caller
       #return nil
     end
@@ -73,6 +75,7 @@ END
   end
   
   def change_owner(type, address, new_owner)
+    address.delete!('(")')
     res_ob_id = find_res_ob(type, address)
     
     query = "update value doc(\"#{@doc}\")/ResourceObjects/ResourceObject[#{res_ob_id}]/owner with \"#{new_owner}\""
@@ -83,5 +86,31 @@ END
       raise RubyACLException.new("Failed to set new owner.", 51), 
         "Failed to set new owner.", caller
     end
+  end
+  
+  def parent(adr)
+    if(adr[-1] == "/")    #if last is "/" then delete it
+      adr = adr[0..-2]
+    end
+    pos = adr.rindex("/")
+    adr = adr[0..pos]
+    return adr
+  end
+  
+  #finds membership parrent, e.g. dog's parrent is mammal
+  def find_res_ob_parent(res_ob_type, res_ob_adrs)   
+    ids = Array.new
+    while(res_ob_adrs.rindex("/") != 0)
+      res_ob_adrs = parent(res_ob_adrs)
+      if(res_ob_adrs[-1] == "/")    #if last is "/" then delete it
+        res_ob_adrs = res_ob_adrs[0..-2]
+      end
+      #puts res_ob_adrs
+      ids.push(@res_obj.find_res_ob(res_ob_type, res_ob_adrs))      
+    end    
+    ids.compact!
+    return ids
+  rescue => e
+    raise e
   end
 end

@@ -89,15 +89,24 @@ END
     
   #adds acl object into group(s); if you know prin exists set true for prin_exists
   def add_membership(name, groups, ob_exists = false) 
+    #protection against cycle in membership
+    
     if(ob_exists || exists?(name))
       for group in groups
         if(!exists?(group))
           raise RubyACLException.new(self.class.name, __method__, 
             "Failed to add membership. Group \"#{group}\" does not exist.", 13), caller
+        end        
+        asdf=[]
+        asdf.fin
+        if(find_parents(group).find_index(name).nil?)
+          expr = "<mgroup idref=\"#{group}\"/>"
+          expr_single = "#{@doc}//#{self.class.name}s/descendant::*[@id=\"#{name}\"]/membership"
+          @connector.update_insert(expr, "into", expr_single)
+        else
+          raise RubyACLException.new(self.class.name, __method__, 
+        "Failed to add membership. Membership is in cycle.", 18), caller
         end
-        expr = "<mgroup idref=\"#{group}\"/>"
-        expr_single = "#{@doc}//#{self.class.name}s/descendant::*[@id=\"#{name}\"]/membership"
-        @connector.update_insert(expr, "into", expr_single)
       end
     else
       raise RubyACLException.new(self.class.name, __method__, 
@@ -110,7 +119,6 @@ END
   def del_membership(name, groups) #deletes prin_name from group(s)
     if(exists?(name))
       for group in groups
-        #if(exist_membership?)
         expr = "#{@doc}//#{self.class.name}s/descendant::*[@id=\"#{name}\"]/membership/mgroup[@idref=\"#{group}\"]"
         @connector.update_delete(expr)
         #end
@@ -152,6 +160,27 @@ END
     else
       return false
     end
+  end
+  
+  #finds membership parrent and returns in sorted array by level, 
+  #Root is first leaf is last.
+  #e.g. dog's parrent is mammal.
+  def find_parents(id, doc)   
+    query = "#{doc}//node()[@id=\"#{id}\"]/membership/*/string(@idref)"
+    ids = []
+    handle = @connector.execute_query(query)
+    hits = @connector.get_hits(handle)
+    hits.times {
+      |i|
+      id_ref = @connector.retrieve(handle, i)
+      if(id_ref=="")
+        next      #for unknown reason eXist returns 1 empty hit even any exists therefore unite is skipped (e.g. //node()[@id="all"]/membership/*/string(@idref)
+      end
+      ids = find_parent(id_ref, doc) | ids | [id_ref]    #unite arrays
+    }
+    return ids
+  rescue => e
+    raise e
   end
   
 end

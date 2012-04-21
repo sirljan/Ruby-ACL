@@ -96,53 +96,6 @@ class RubyACL
     return files
   end
   
-  def parent(adr)
-    if(adr[-1] == "/")    #if last is "/" then delete it
-      adr = adr[0..-2]
-    end
-    pos = adr.rindex("/")
-    adr = adr[0..pos]
-    return adr
-  end
-  
-  #finds membership parrent and returns in sorted array by level, 
-  #Root is first leaf is last.
-  #e.g. dog's parrent is mammal.
-  def find_parent(id, doc)   
-    query = "#{doc}//node()[@id=\"#{id}\"]/membership/*/string(@idref)"
-    ids = []
-    handle = @connector.execute_query(query)
-    hits = @connector.get_hits(handle)
-    hits.times {
-      |i|
-      id_ref = @connector.retrieve(handle, i)
-      if(id_ref=="")
-        next      #for unknown reason eXist returns 1 empty hit even any exists therefore unite is skipped (e.g. //node()[@id="all"]/membership/*/string(@idref)
-      end
-      ids = find_parent(id_ref, doc) | ids | [id_ref]    #unite arrays
-    }
-    return ids
-  rescue => e
-    raise e
-  end
-  
-  #finds membership parrent, e.g. dog's parrent is mammal
-  def find_res_ob_parent(res_ob_type, res_ob_adrs)   
-    ids = Array.new
-    while(res_ob_adrs.rindex("/") != 0)
-      res_ob_adrs = parent(res_ob_adrs)
-      if(res_ob_adrs[-1] == "/")    #if last is "/" then delete it
-        res_ob_adrs = res_ob_adrs[0..-2]
-      end
-      #puts res_ob_adrs
-      ids.push(@res_obj.find_res_ob(res_ob_type, res_ob_adrs))      
-    end    
-    ids.compact!
-    return ids
-  rescue => e
-    raise e
-  end
-  
   def decide(res)
     if(res == "allow")
       return true
@@ -245,7 +198,7 @@ END
     @ace.create_new(prin_name, acc_type, priv_name, res_ob_id)
   end
   
-  def res_ob_parent_grand2children(res_obs) 
+  def res_ob_parent_grand2children(res_obs)
     for res_ob in res_obs
       res_ob += "/*"  
     end

@@ -47,6 +47,7 @@ end
 #15: Failed to delete membership. Group ... does not exist. (ACL_Object.del_membership)
 #16: Failed to delete membership. ... does not exist.       (ACL_Object.del_membership)
 #17: Failed to delete #{self.class.name}. #{self.class.name} \"#{name}\" does not exist. (ACL_Object.delete)
+#18: Failed to add membership. Membership is in cycle.      (ACL_Object.add_membership)
   
 #20: #{self.class.name}                                     (Ace.find_ace)
 #Principal=\"#{prin_id}\" and accessType=\"#{acc_type}\" and 
