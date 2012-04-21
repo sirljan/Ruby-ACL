@@ -30,9 +30,14 @@
         <address>/db/temp/test</address>
         <owner idref="nikdo"/>
     </ResourceObject>
-        <ResourceObject id="r333333333">
+    <ResourceObject id="r333333333">
         <type>doc</type>
         <address>/db/temp/test/hokus</address>
+        <owner idref="nikdo"/>
+    </ResourceObject>
+    <ResourceObject id="r444444444">
+        <type>doc</type>
+        <address>/db/temp/test/*</address>
         <owner idref="nikdo"/>
     </ResourceObject>
 </ResourceObjects>

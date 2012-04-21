@@ -151,7 +151,7 @@ class RubyACL
     end
   end
   
-  def compare(final_ace, temp_ace)   #returns ace that is 
+  def compare(final_ace, temp_ace)   #returns ace that has higher priority
     #TODO compare
     if(final_ace == nil)
       return temp_ace
@@ -207,16 +207,49 @@ END
     raise e
   end
   
-  def is_owner?(prin_name, res_ob_id)
-    query = "#{@res_obj.doc}//ResourceObject[@id=\"#{res_ob_id}\"]/owner/string(@idref)"
-    #puts "query #{query}"
+  def is_owner?(prin_name, res_obs)
+    #TODO
+    #In array res_obs are all optencial res_obs
+    #transform array into string if id="something" OR id=... and so
+    res_obs = prepare_res_obs(res_obs)    
+    #Select only those resOb that have wanted owner.
+    query = "#{@res_obj.doc}//ResourceObject[#{res_obs} AND /owner/string(@idref)=\"#{prin_name}\"]" 
     handle = @connector.execute_query(query)
-    owner = @connector.retrieve(handle, 0)   #retrieve owner id of res_ob
-    if(prin_name == owner)
+    hits = @connector.get_hits(handle)
+    if(hits>0)    #if owner exist, lets grand access
       return true
-    else 
+    else
       return false
     end
+  rescue => e
+    raise e
+  end
+  
+  def prepare_res_obs(res_obs)
+    str = "("
+    for res_ob in res_obs
+      str = str + "@id=\""
+      str += res_ob
+      str += "\" OR "
+    end
+    str = str[0..-4]    #delete last " OR "
+    str += ")"
+    return str
+  end
+  
+  def insert_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
+    res_ob_id = @res_obj.find_res_ob(res_ob_type, res_ob_adrs)
+    if(res_ob_id == nil)
+      res_ob_id = @res_obj.create_new(res_ob_type, res_ob_adrs, prin_name)
+    end
+    @ace.create_new(prin_name, acc_type, priv_name, res_ob_id)
+  end
+  
+  def res_ob_parent_grand2children(res_obs) 
+    for res_ob in res_obs
+      res_ob += "/*"  
+    end
+    return res_obs
   rescue => e
     raise e
   end
@@ -281,15 +314,19 @@ END
   end
   
   def check(prin_name, priv_name, res_ob_type, res_ob_adrs)
-    res_ob_id = @res_obj.find_res_ob(res_ob_type, res_ob_adrs)
-    if(is_owner?(prin_name, res_ob_id))
-      #puts "is owner"
+    #TODO Taky nezapomen, ze ted je /neco/necojinyho jako grand2children
+    res_ob_id = @res_obj.find_res_ob(res_ob_type, res_ob_adrs)  
+    
+    #creates the set of resOb {wanted resOb and all resOb from root to leaf}
+    @res_obs = find_res_ob_parent(res_ob_type, res_ob_adrs) + [res_ob_id]
+    if(is_owner?(prin_name, @res_obs))
       return true   #access allowed - owner can do everything
     end
     
-    prins = find_parent(prin_name, @prin.doc) + [prin_name]    #creates the set of principals {wanted principal and all groups wanted principal is member of}
-    @privs = find_parent(priv_name, @priv.doc) + [priv_name]   #creates the set of privileges {wanted privilege and all privileges wanted privilege is member of}
-    @res_obs = [@res_obj.find_res_ob(res_ob_type, res_ob_adrs)] + find_res_ob_parent(res_ob_type, res_ob_adrs)
+    #creates the set of principals {wanted principal and all groups wanted principal is member of}
+    prins = find_parent(prin_name, @prin.doc) + [prin_name]    
+    @privs = find_parent(priv_name, @priv.doc) + [priv_name]   #same for privilege
+    @res_obs = res_ob_parent_grand2children(@res_obs)  #finds only parent resOb, which ends with /*
     
     final_ace = nil
     for prin in prins
@@ -329,13 +366,22 @@ END
     raise e
   end
   
-  def create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs, grand_2_children = false)
-    #TODO grand_2_children = false, dont forget that /neco/necojinyho doesnt inherit to children
-    res_ob_id = @res_obj.find_res_ob(res_ob_type, res_ob_adrs)
-    if(res_ob_id == nil)
-      res_ob_id = @res_obj.create_new(res_ob_type, res_ob_adrs, prin_name)
+  #If is used:
+  #  resource address /something/somethingelse and grand2children = true
+  #  then will be created access for somthingelse and its children
+  #If is used:  
+  #  only /something/somethingelse/*
+  # then will be created access only to somethingelse's children
+  def create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs, grand2children = false)
+    if(adr[-2..-1] == "/*")
+      insert_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
+    else
+      insert_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
+      if(grand2children)
+        res_ob_adrs = res_ob_adrs + "/*"
+        insert_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
+      end
     end
-    @ace.create_new(prin_name, acc_type, priv_name, res_ob_id)
   rescue => e
     raise e
   end

@@ -629,7 +629,13 @@ Použití xQuery Update Facility místo xUpdate. (Možná vložím ukázku imple
 
 \subsubsection{eXistDBAPI}
 %-------------------------------------
-\section{Priorita rozhodování}
+\section{Pravidla rozhodování}
+V této kapitole je popsáno jakým způsobem RubyACL rozhoduje o přidělení přístupu. 
+Vše se odvijí od priority rozhodování
+
+\subsection{Priorita rozhodování}
+
+Nejnižší má největší prioritu.
 
 \begin{enumerate}
 \item Owner
@@ -640,13 +646,11 @@ Použití xQuery Update Facility místo xUpdate. (Možná vložím ukázku imple
 \item If not found > Deny
 \end{enumerate}
 
-%1) Owner
-%2) Explicit Deny
-%3) Explicit Allow
-%4) Inherited Deny
-%5) Inherited Allow
-%---
-%6) If not found > Deny
+\subsubsection{Vlastník / Owner}
+Owner může být jednotlivec, množina jednotlivců i skupina.
+Množina jednotlivců je v případě pokud se od kořene zdrojových objektů k listu mnění vlastník. Vlastník nejnadřazenějšího zdroje má největší práva. Vlastník může být o 
+/* nemá význam, protože vlastník zdrojového objektu vlastní i všechny podřazené zdrojové objekty.
+
 
 %-------------------------------------
 \section{Implementace}
