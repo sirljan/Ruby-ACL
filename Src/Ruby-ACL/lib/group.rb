@@ -10,9 +10,9 @@ class Group < Principal
   
   def create_new(name, groups, members)
     super(name, groups)
-    if(members.length > 0)
-      for each in members
-        add_membership(each, [name], true)
+    if(members.length > 0)    #add members into group
+      for member in members
+        add_membership(member, [name], true)
       end
     end
   rescue => e

@@ -24,7 +24,7 @@ END
     raise e
   end
   
-  def exists?(name, query = "#{@doc}//#{self.class.name}s/descendant::*[@id=\"#{name}\"]")
+  def exists?(name, query = "#{@doc}//node()[@id=\"#{name}\"]")
     handle = @connector.execute_query(query)
     hits = @connector.get_hits(handle)
     if(hits >= 1)
@@ -88,20 +88,17 @@ END
   end
     
   #adds acl object into group(s); if you know prin exists set true for prin_exists
-  def add_membership(name, groups, ob_exists = false) 
-    #protection against cycle in membership
-    
+  def add_membership(name, groups, ob_exists = false)   
     if(ob_exists || exists?(name))
       for group in groups
         if(!exists?(group))
           raise RubyACLException.new(self.class.name, __method__, 
             "Failed to add membership. Group \"#{group}\" does not exist.", 13), caller
-        end        
-        asdf=[]
-        asdf.fin
-        if(find_parents(group).find_index(name).nil?)
+        end
+        #protection against cycle in membership
+        if(find_parents(group).find_index(name).nil?) 
           expr = "<mgroup idref=\"#{group}\"/>"
-          expr_single = "#{@doc}//#{self.class.name}s/descendant::*[@id=\"#{name}\"]/membership"
+          expr_single = "#{@doc}//node()[@id=\"#{name}\"]/membership"
           @connector.update_insert(expr, "into", expr_single)
         else
           raise RubyACLException.new(self.class.name, __method__, 
@@ -165,8 +162,8 @@ END
   #finds membership parrent and returns in sorted array by level, 
   #Root is first leaf is last.
   #e.g. dog's parrent is mammal.
-  def find_parents(id, doc)   
-    query = "#{doc}//node()[@id=\"#{id}\"]/membership/*/string(@idref)"
+  def find_parents(id)   
+    query = "#{@doc}//node()[@id=\"#{id}\"]/membership/*/string(@idref)"
     ids = []
     handle = @connector.execute_query(query)
     hits = @connector.get_hits(handle)
@@ -176,7 +173,7 @@ END
       if(id_ref=="")
         next      #for unknown reason eXist returns 1 empty hit even any exists therefore unite is skipped (e.g. //node()[@id="all"]/membership/*/string(@idref)
       end
-      ids = find_parent(id_ref, doc) | ids | [id_ref]    #unite arrays
+      ids = find_parents(id_ref) | ids | [id_ref]    #unite arrays
     }
     return ids
   rescue => e

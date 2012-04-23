@@ -4,12 +4,12 @@ class Principal < ACL_Object
     @doc = "doc(\"#{@col_path}Principals.xml\")"
   end
   
-  def exists?(name)
-    query = "#{@doc}//#{self.class.name}s/descendant::*[@id=\"#{name}\"]"
-    super(name, query)
-  rescue => e
-    raise e
-  end
+#  def exists?(name)
+#    query = "#{@doc}//#{self.class.name}s/descendant::*[@id=\"#{name}\"]"
+#    super(name, query)
+#  rescue => e
+#    raise e
+#  end
   
   def eq (temp_ace, final_ace)
     if(temp_ace.prin == final_ace.prin)

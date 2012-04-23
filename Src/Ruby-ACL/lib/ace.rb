@@ -76,5 +76,5 @@ exists more then once. (#{hits}x)", 20), caller
     end
   rescue => e
     raise e
-  end   #def create_new
+  end   #def create_new  
 end   #class Ace

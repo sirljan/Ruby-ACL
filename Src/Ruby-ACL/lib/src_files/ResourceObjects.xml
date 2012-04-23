@@ -1,8 +1,8 @@
 <!DOCTYPE ResourceObjects SYSTEM "ResourceObjects.dtd">    
 <ResourceObjects>    
     <ResourceObject id="r456">
-        <type>Kosik</type>
-        <address>Pleteny</address>
+        <type>Pleteny_kosik</type>
+        <address>/v_obyvaku/na_skrini</address>
         <owner idref="Klubicko"/>
     </ResourceObject>
     <ResourceObject id="r963">

@@ -16,6 +16,15 @@ END
     return expr
   end
     
+  def parent(adr)
+    if(adr[-1] == "/")    #if last is "/" then delete it
+      adr = adr[0..-2]
+    end
+    pos = adr.rindex("/")
+    adr = adr[0..pos]
+    return adr
+  end
+  
   public
   def create_new(type, address, owner)
     address.delete!('(")')
@@ -88,29 +97,16 @@ END
     end
   end
   
-  def parent(adr)
-    if(adr[-1] == "/")    #if last is "/" then delete it
-      adr = adr[0..-2]
-    end
-    pos = adr.rindex("/")
-    adr = adr[0..pos]
-    return adr
-  end
-  
   #finds membership parrent, e.g. dog's parrent is mammal
-  def find_res_ob_parent(res_ob_type, res_ob_adrs)   
+  def find_res_ob_parents(res_ob_type, res_ob_adr)   
     ids = Array.new
-    while(res_ob_adrs.rindex("/") != 0)
-      res_ob_adrs = parent(res_ob_adrs)
-      if(res_ob_adrs[-1] == "/")    #if last is "/" then delete it
-        res_ob_adrs = res_ob_adrs[0..-2]
-      end
-      #puts res_ob_adrs
-      ids.push(@res_obj.find_res_ob(res_ob_type, res_ob_adrs))      
-    end    
+    while(res_ob_adr.rindex("/") != 0)
+      res_ob_adr = parent(res_ob_adr)
+      ids.push(find_res_ob(res_ob_type, res_ob_adr))      
+    end
     ids.compact!
     return ids
   rescue => e
     raise e
   end
-end
+end #class ResourceObject

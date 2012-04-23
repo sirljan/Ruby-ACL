@@ -6,7 +6,6 @@ require 'group'
 require 'privilege'
 require 'resource_object'
 require 'ace'
-require 'main'
 require 'date'
 require 'ace_rule'
 require 'rubyacl_exception'
@@ -17,7 +16,7 @@ class RubyACL
   attr_reader :name
   attr_reader :col_path
   
-  def initialize(name, connector, colpath = "/db/acl/", src_files_path = "./src_files/", report = true) #TODO report
+  def initialize(name, connector, colpath = "/db/acl/", src_files_path = "./src_files/", report = false) #TODO report
     
     if(name == "")
       raise RubyACLException.new(self.class.name, __method__, "Name is empty", 0), caller
@@ -105,7 +104,6 @@ class RubyACL
   end
   
   def compare(final_ace, temp_ace)   #returns ace that has higher priority
-    #TODO compare
     if(final_ace == nil)
       return temp_ace
     end
@@ -166,7 +164,8 @@ END
     #transform array into string if id="something" OR id=... and so
     res_obs = prepare_res_obs(res_obs)    
     #Select only those resOb that have wanted owner.
-    query = "#{@res_obj.doc}//ResourceObject[#{res_obs} AND /owner/string(@idref)=\"#{prin_name}\"]" 
+    query = "#{@res_obj.doc}//ResourceObject[#{res_obs} and owner/string(@idref)=\"#{prin_name}\"]" 
+    #puts query
     handle = @connector.execute_query(query)
     hits = @connector.get_hits(handle)
     if(hits>0)    #if owner exist, lets grand access
@@ -195,7 +194,8 @@ END
     if(res_ob_id == nil)
       res_ob_id = @res_obj.create_new(res_ob_type, res_ob_adrs, prin_name)
     end
-    @ace.create_new(prin_name, acc_type, priv_name, res_ob_id)
+    id = @ace.create_new(prin_name, acc_type, priv_name, res_ob_id)
+    return id
   end
   
   def res_ob_parent_grand2children(res_obs)
@@ -271,13 +271,13 @@ END
     res_ob_id = @res_obj.find_res_ob(res_ob_type, res_ob_adrs)  
     
     #creates the set of resOb {wanted resOb and all resOb from root to leaf}
-    @res_obs = find_res_ob_parent(res_ob_type, res_ob_adrs) + [res_ob_id]
+    @res_obs = @res_obj.find_res_ob_parents(res_ob_type, res_ob_adrs) + [res_ob_id]
     if(is_owner?(prin_name, @res_obs))
       return true   #access allowed - owner can do everything
     end
     
     #creates the set of principals {wanted principal and all groups wanted principal is member of}
-    prins = find_parent(prin_name, @prin.doc) + [prin_name]    
+    prins = find_parents(prin_name, @prin.doc) + [prin_name]    
     @privs = find_parent(priv_name, @priv.doc) + [priv_name]   #same for privilege
     @res_obs = res_ob_parent_grand2children(@res_obs)  #finds only parent resOb, which ends with /*
     
@@ -325,16 +325,17 @@ END
   #If is used:  
   #  only /something/somethingelse/*
   # then will be created access only to somethingelse's children
-  def create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs, grand2children = false)
-    if(adr[-2..-1] == "/*")
-      insert_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
+  def create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adr, grand2children = false)
+    if(res_ob_adr[-2..-1] == "/*")
+      id = insert_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adr)
     else
-      insert_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
+      id = insert_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adr)
       if(grand2children)
-        res_ob_adrs = res_ob_adrs + "/*"
-        insert_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
+        res_ob_adr = res_ob_adr + "/*"
+        insert_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adr)
       end
     end
+    return id
   rescue => e
     raise e
   end
@@ -345,7 +346,7 @@ END
     raise e
   end
   
-  def create_group(name, member_of = ["ALL"], members = ["ALL"])    # members can be groups or individuals; check if it the name already exist. or if groups and members exist at all
+  def create_group(name, member_of = ["ALL"], members = [])    # members can be groups or individuals; check if it the name already exist. or if groups and members exist at all
     @group.create_new(name, member_of, members)   
   rescue => e
     raise e
