@@ -52,27 +52,33 @@ exists more then once. (#{hits}x)", 20), caller
   
   public
   def create_new(prin_id, acc_type, priv_id, res_ob_id)
-    id = find_ace(prin_id, acc_type, priv_id, res_ob_id)
-    if(id == nil) #this ace doesnt exist
-      id = "a" + Random.rand(1000000000).to_s
-      while(exists?(id))
+    if(acc_type == "deny" || acc_type == "allow")
+      id = find_ace(prin_id, acc_type, priv_id, res_ob_id)
+      if(id == nil) #this ace doesnt exist
         id = "a" + Random.rand(1000000000).to_s
-      end
-      expr = generate_expr(id, prin_id, acc_type, priv_id, res_ob_id)
-      expr_loc = "#{@doc}//#{self.class.name}s/#{self.class.name}[last()]"
-      #puts expr_loc
-      @connector.update_insert(expr, "following", expr_loc)
-      if(exists?(id))
-        #puts "New #{self.class.name} \"#{name}\" created."
+        while(exists?(id))
+          id = "a" + Random.rand(1000000000).to_s
+        end
+        expr = generate_expr(id, prin_id, acc_type, priv_id, res_ob_id)
+        expr_loc = "#{@doc}//#{self.class.name}s/#{self.class.name}[last()]"
+        #puts expr_loc
+        @connector.update_insert(expr, "following", expr_loc)
+        if(exists?(id))
+          #puts "New #{self.class.name} \"#{name}\" created."
+          return id
+        else
+          puts "#{self.class.name} \"#{id}\" was not able to create."
+          raise RubyACLException.new(self.class.name, __method__, 
+            "#{self.class.name} \"#{id}\" was not able to create.", 21), caller
+          return nil
+        end
+      else #already exists
         return id
-      else
-        puts "#{self.class.name} \"#{id}\" was not able to create."
-        raise RubyACLException.new(self.class.name, __method__, 
-          "#{self.class.name} \"#{id}\" was not able to create.", 21), caller
-        return nil
       end
-    else #already exists
-      return id
+    else
+      raise RubyACLException.new(self.class.name, __method__, 
+        "Access type \"#{acc_type}\" is not allowed. Only allowed type is \"deny\" or \"allow\".", 22), caller
+      return nil
     end
   rescue => e
     raise e

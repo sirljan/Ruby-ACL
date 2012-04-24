@@ -19,7 +19,7 @@ class TestRubyACL < Test::Unit::TestCase
     @test_acl = RubyACL.new("test_acl", @db, @col_path, @src_files_path)
   end
 
-  def test_01_create_acl
+  def test_set1_01_create_acl
     #TODO bez existujici koleckce, s existujici kolekci, s kolekci a par souborama, se vsim
     collection = @db.getcollection(@col_path)
     assert_equal(true, @db.existscollection?(@col_path))  # Collection must existc
@@ -27,7 +27,7 @@ class TestRubyACL < Test::Unit::TestCase
     assert_equal(['acl.xml','Principals.xml','Privileges.xml','ResourceObjects.xml'], collection.docs)
   end
   
-  def test_02_save
+  def test_set1_02_save
     @save_path = "./test/test_backup/"
     @test_acl.save(@save_path, true)
     @save_path = @save_path + Date.today.to_s + "/"
@@ -37,10 +37,10 @@ class TestRubyACL < Test::Unit::TestCase
     assert_not_nil(File.size?(@save_path+'ResourceObjects.xml'))
   end
   
-  def test_03_load
+  def test_set1_03_load
     handle = @db.execute_query("doc(\"#{@col_path}acl.xml\")/acl/string(@aclname)")
     acl_name = @db.retrieve(handle, 0)
-    test_02_save
+    test_set1_02_save
     test_loaded_acl = RubyACL.load(@db, "/db/loaded_acl/", @save_path)
     assert_equal(acl_name, test_loaded_acl.name)
     if(@db.existscollection?("/db/loaded_acl/"))
@@ -48,7 +48,7 @@ class TestRubyACL < Test::Unit::TestCase
     end
   end
   
-  def test_04_setname(new_name = "other_name")
+  def test_set1_04_setname(new_name = "other_name")
     @test_acl.setname(new_name)
     query = "doc(\"#{@col_path}acl.xml\")/acl[@aclname=\"#{new_name}\"]"
     handle = @db.execute_query(query)

@@ -9,7 +9,7 @@ require 'test/unit'
 require 'ruby-acl.rb'
 
 class TestRubyACL < Test::Unit::TestCase
-  def test_05_create_principal(name = 'labut')
+  def test_set2_01_create_principal(name = 'labut')
     #TODO with same name, group with same name
     @test_acl.create_principal(name)
     query = "doc(\"#{@col_path}Principals.xml\")/Principals/descendant::*[@id=\"#{name}\"]"
@@ -20,7 +20,7 @@ class TestRubyACL < Test::Unit::TestCase
     assert_equal(1, hits)
   end
   
-  def test_06_create_group(name = 'ptaciHejno')
+  def test_set2_02_create_group(name = 'ptaciHejno')
     #TODO with same name, group with same name
     @test_acl.create_group(name)
     query = "doc(\"#{@col_path}Principals.xml\")/Principals/descendant::*[@id=\"#{name}\"]"
@@ -31,7 +31,7 @@ class TestRubyACL < Test::Unit::TestCase
     assert_equal(1, hits)
   end
   
-  def test_07_create_privilege(name = "LITAT")
+  def test_set2_03_create_privilege(name = "LITAT")
     #TODO with same name, group with same name
     @test_acl.create_privilege(name)
     query = "doc(\"#{@col_path}Privileges.xml\")/Privileges/descendant::*[@id=\"#{name}\"]"
@@ -42,7 +42,7 @@ class TestRubyACL < Test::Unit::TestCase
     assert_equal(1, hits)
   end
   
-  def test_08_create_resource_object(type = 'Rybnik', address = '/Rozmberk', owner = 'sirljan')
+  def test_set2_04_create_resource_object(type = 'Rybnik', address = '/Rozmberk', owner = 'sirljan')
     #TODO create identical
     #TODO check owner
     id = @test_acl.create_resource_object(type, address, owner)
@@ -55,7 +55,7 @@ class TestRubyACL < Test::Unit::TestCase
     return id
   end
   
-  def test_09_create_ace(prin_name = 'sirljan', acc_type = 'allow', priv_name = 'SELECT', res_ob_type = 'doc', res_ob_adrs='/db/cities/cities.xml')
+  def test_set2_05_create_ace(prin_name = 'sirljan', acc_type = 'allow', priv_name = 'SELECT', res_ob_type = 'doc', res_ob_adrs='/db/cities/cities.xml')
     id = @test_acl.create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
     query = "doc(\"#{@col_path}acl.xml\")//Aces/descendant::*[@id=\"#{id}\"]"
     #puts "query #{query}"
@@ -64,5 +64,17 @@ class TestRubyACL < Test::Unit::TestCase
     #puts "hits #{hits}"
     assert_equal(1, hits)
     return id
+  end
+  
+  #if different acctype will raise exception
+  def test_set2_06_create_ace()
+    prin_name = 'Misa'
+    acc_type = 'smrdi'
+    priv_name = 'SELECT'
+    res_ob_type = 'doc'
+    res_ob_adrs='/db/cities/cities.xml'
+    assert_raise RubyACLException do
+      @test_acl.create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
+    end
   end
 end

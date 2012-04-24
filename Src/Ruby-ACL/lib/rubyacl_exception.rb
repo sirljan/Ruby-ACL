@@ -54,3 +54,8 @@ end
 #Privilege=\"#{priv_id}\" and ResourceObject=\"#{res_ob_id}\" 
 #exists more then once. (#{hits}x)
 #21: #{self.class.name} \"#{id}\" was not able to create.     (Ace.create_new)
+#22: Access type #{acc_type} is not allowed. Only allowed type is \"deny\" and \"allow\".   (Ace.create_new)
+
+#30: "#{self.class.name}(type=\"#{type}\", address=\"#{address}\") exists more then once. (#{hits}x)"   (ResourceObject.find_res_ob)
+#31: "#{self.class.name}(id=\"#{res_ob_id}\") exists more then once. (#{hits}x)"     (ResourceObject.get_adr)
+#32: "#{self.class.name}(id=\"#{res_ob_id}\") exists more then once. (#{hits}x)"     (ResourceObject.get_type)

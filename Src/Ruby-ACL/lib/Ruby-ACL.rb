@@ -96,6 +96,7 @@ class RubyACL
   end
   
   def decide(res)
+    #puts "decide"
     if(res == "allow")
       return true
     elsif(res == "deny")
@@ -115,7 +116,7 @@ class RubyACL
     end
     
     if(@prin.ne(temp_ace, final_ace))
-      if(@priv.ge(temp_ace, final_ace, @privs) && @res_obj.ge(temp_ace, final_ace, @privs))
+      if(@priv.ge(temp_ace, final_ace, @privs) && @res_obj.ge(temp_ace, final_ace, @res_obs))
         final_ace = temp_ace
       end
     end
@@ -159,7 +160,6 @@ END
   end
   
   def is_owner?(prin_name, res_obs)
-    #TODO
     #In array res_obs are all optencial res_obs
     #transform array into string if id="something" OR id=... and so
     res_obs = prepare_res_obs(res_obs)    
@@ -182,7 +182,7 @@ END
     for res_ob in res_obs
       str = str + "@id=\""
       str += res_ob
-      str += "\" OR "
+      str += "\" or "
     end
     str = str[0..-4]    #delete last " OR "
     str += ")"
@@ -196,15 +196,6 @@ END
     end
     id = @ace.create_new(prin_name, acc_type, priv_name, res_ob_id)
     return id
-  end
-  
-  def res_ob_parent_grand2children(res_obs)
-    for res_ob in res_obs
-      res_ob += "/*"  
-    end
-    return res_obs
-  rescue => e
-    raise e
   end
   
   protected
@@ -266,27 +257,29 @@ END
     raise e
   end
   
-  def check(prin_name, priv_name, res_ob_type, res_ob_adrs)
-    #TODO Taky nezapomen, ze ted je /neco/necojinyho jako grand2children
-    res_ob_id = @res_obj.find_res_ob(res_ob_type, res_ob_adrs)  
+  def check(prin_name, priv_name, res_ob_type, res_ob_adr)
+    res_ob_id = @res_obj.find_res_ob(res_ob_type, res_ob_adr)
+    #creates the set of resOb (wanted resOb and all resOb from root to address, unsorted)
+    @res_obs = @res_obj.find_res_ob_parents(res_ob_type, res_ob_adr) 
+    @res_obs = @res_obj.res_obs_grand2children(@res_obs) + [res_ob_id]  #adds resOb, which ends with /* + wanted resOb
     
-    #creates the set of resOb {wanted resOb and all resOb from root to leaf}
-    @res_obs = @res_obj.find_res_ob_parents(res_ob_type, res_ob_adrs) + [res_ob_id]
     if(is_owner?(prin_name, @res_obs))
+      #puts "owner"
       return true   #access allowed - owner can do everything
     end
     
     #creates the set of principals {wanted principal and all groups wanted principal is member of}
-    prins = find_parents(prin_name, @prin.doc) + [prin_name]    
-    @privs = find_parent(priv_name, @priv.doc) + [priv_name]   #same for privilege
-    @res_obs = res_ob_parent_grand2children(@res_obs)  #finds only parent resOb, which ends with /*
+    prins = @prin.find_parents(prin_name) + [prin_name]    
+    @privs = @priv.find_parents(priv_name) + [priv_name]   #same for privilege
     
     final_ace = nil
     for prin in prins
-      query = prepare_query(prin, @privs, @res_obs)
+      query = prepare_query(prin, @privs, @res_obs)   #ask for principal with privilege or higher privileges and and resob or higher resob. 
+      #puts query
       handle = @connector.execute_query(query)
       hits = @connector.get_hits(handle)
-      if(hits > 0)    
+      #puts "hits #{hits}"
+      if(hits > 0)   
         temp_id = @connector.retrieve(handle, 0)   #retrieve id of first Ace
         temp_ace = AceRule.new(temp_id, @ace, @connector)
         if(hits == 1)
@@ -302,7 +295,8 @@ END
     end
     
     if(final_ace == nil)  #Rule doesnt exist = access denied
-      puts "Required rule (#{prin_name}, #{priv_name}, #{res_ob_type}, #{res_ob_adrs}) does not exist. Access denied."
+      #puts "nil"
+      puts "Required rule (#{prin_name}, #{priv_name}, #{res_ob_type}, #{res_ob_adr}) does not exist. Access denied." if @report
       return false
     else
       return decide(final_ace.acc_type)

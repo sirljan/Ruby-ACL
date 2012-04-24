@@ -21,8 +21,40 @@ END
       adr = adr[0..-2]
     end
     pos = adr.rindex("/")
-    adr = adr[0..pos]
+    adr = adr[0..pos-1]
     return adr
+  end
+  
+  def get_adr(res_ob_id)
+    query = "#{@doc}//node()[@id=\"#{res_ob_id}\"]/address/text()"
+    #puts query
+    handle = @connector.execute_query(query)
+    hits = @connector.get_hits(handle)
+    if(hits == 1)
+      adr = @connector.retrieve(handle, 0)
+    else
+      raise RubyACLException.new(self.class.name, __method__, 
+        "#{self.class.name}(id=\"#{res_ob_id}\") exists more then once. (#{hits}x)", 31), caller
+    end
+    return adr
+  rescue => e
+    raise e
+  end
+  
+  def get_type(res_ob_id)
+    query = "#{@doc}//node()[@id=\"#{res_ob_id}\"]/type/text()"
+    #puts query
+    handle = @connector.execute_query(query)
+    hits = @connector.get_hits(handle)
+    if(hits == 1)
+      type = @connector.retrieve(handle, 0)
+    else
+      raise RubyACLException.new(self.class.name, __method__, 
+        "#{self.class.name}(id=\"#{res_ob_id}\") exists more then once. (#{hits}x)", 32), caller
+    end
+    return type
+  rescue => e
+    raise e
   end
   
   public
@@ -70,7 +102,8 @@ END
     when 0
       return nil
     else
-      raise RubyACLException.new(self.class.name, __method__, "#{self.class.name}(type=\"#{type}\", address=\"#{address}\") exists more then once. (#{hits} times)", 32), caller
+      raise RubyACLException.new(self.class.name, __method__, 
+        "#{self.class.name}(type=\"#{type}\", address=\"#{address}\") exists more then once. (#{hits}x)", 30), caller
       #"#{self.class.name}(type=\"#{type}\", address=\"#{address}\") exists more then once. (#{hits} times)", caller
       #raise RubyACLException.new("neco se podelalo", 32), "neco se podelalo2", caller
       #return nil
@@ -99,10 +132,28 @@ END
   
   #finds membership parrent, e.g. dog's parrent is mammal
   def find_res_ob_parents(res_ob_type, res_ob_adr)   
-    ids = Array.new
+    ids = Array.new    
     while(res_ob_adr.rindex("/") != 0)
       res_ob_adr = parent(res_ob_adr)
+      #puts res_ob_adr 
       ids.push(find_res_ob(res_ob_type, res_ob_adr))      
+    end
+    #puts "ids #{ids.to_s}"
+    ids.compact!
+    #puts "ids #{ids.to_s}"
+    return ids
+  rescue => e
+    raise e
+  end
+  
+  #finds resOb, which ends with /*
+  def res_obs_grand2children(res_ob_ids)
+    ids = Array.new    
+    for res_ob_id in res_ob_ids
+      adr = get_adr(res_ob_id)
+      type = get_type(res_ob_id)
+      adr += "/*"  
+      ids.push(find_res_ob(type, adr))      
     end
     ids.compact!
     return ids
