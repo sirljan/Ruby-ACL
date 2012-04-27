@@ -2,12 +2,7 @@ require "xmlrpc/client"
 require 'collection'
 
 class ExistAPI
-  @uri
-  @username
-  @password
-  @client
-
-  #
+  #example ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "password")    
   def initialize(uri = nil , username = nil, password = nil)
     @uri = uri
     @username = username
@@ -17,7 +12,7 @@ class ExistAPI
     connect
   end
 
-  #
+  private
   def connect
     @client = XMLRPC::Client.new2(@uri)
     @client.user=(@username)
@@ -28,6 +23,8 @@ class ExistAPI
   rescue
     raise ExistException.new("Database login failed", 1), caller
   end
+  
+  public
   
   def createcollection(_name, _parent = nil)
     if (_parent == nil)

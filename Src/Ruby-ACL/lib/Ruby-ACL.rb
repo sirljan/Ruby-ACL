@@ -465,6 +465,8 @@ Access denied." if @report
   
 end
 
+#TODO Vzorovou tridu API s vyhazovanim vyjimek must be implemented
+
 #Usage example. Also very good source of information are test cases.
 puts "start"
 $:.unshift("../../eXistAPI/lib")
@@ -524,7 +526,7 @@ perm = @my_acl.show_permissions_for("Penny")
 puts perm
 
 #EXCEPTION EXAMPLE
-@my_acl.create_group("Scientists")    #you must create group before you use it
+#@my_acl.create_group("Scientists")    #you must create group before you use it
 @my_acl.add_membership_principal("Sheldon", ["Scientists"])
 
 #You also must create privileges before you use them
