@@ -682,6 +682,9 @@ Je třeba se věnovat uvolňování paměti, protože aplikace bude spuštěna d
 \item kdyz smazu nadrazenou skupinu tak smazu vsechny jeji clenstvi
 \end{itemize}
 
+\subsection{Comunikace s jinou db}
+metody ktere pouzivam, co vraci
+
 %-------------------------------------
 
 \begin{itemize}
@@ -702,6 +705,10 @@ doc("/db/test_acl/ResourceObjects.xml")/ResourceObjects/descendant::*[type="Rybn
 \item Use “all” or “*” to match any address.
 
 \item vysledek rozhodnuti jde nechranenou cestou. pokud ma napadajici pristup ke kanalu mezi db a rubyacl potazmo db aplikaci, tak muze zmenit vysledek dotazu a tim i rozhodnuti.
+
+\item to_s jsem vynechal, protoze knihovna bude pouzita aplikaci a ne clovekem, ktery by si mohl precist stringovy obsah.
+
+\item 
 
 \end{itemize}
 %*****************************************************************************

@@ -1,7 +1,7 @@
 class Ace < ACL_Object
   
-  def initialize(connector, col_path)
-    super(connector, col_path)
+  def initialize(connector, col_path, report = false)
+    super(connector, col_path, report)
     @doc = "doc(\"#{@col_path}acl.xml\")"
   end
   
@@ -42,7 +42,7 @@ Privilege/@idref=\"#{priv_id}\" and ResourceObject/@idref=\"#{res_ob_id}\"]
         "#{self.class.name} 
 Principal=\"#{prin_id}\" and accessType=\"#{acc_type}\" and 
 Privilege=\"#{priv_id}\" and ResourceObject=\"#{res_ob_id}\" 
-exists more then once. (#{hits}x)", 20), caller
+exists more then once. (#{hits}x)", 220), caller
     end
   rescue => e
     raise e
@@ -69,7 +69,7 @@ exists more then once. (#{hits}x)", 20), caller
         else
           puts "#{self.class.name} \"#{id}\" was not able to create."
           raise RubyACLException.new(self.class.name, __method__, 
-            "#{self.class.name} \"#{id}\" was not able to create.", 21), caller
+            "#{self.class.name} \"#{id}\" was not able to create.", 221), caller
           return nil
         end
       else #already exists
@@ -77,10 +77,15 @@ exists more then once. (#{hits}x)", 20), caller
       end
     else
       raise RubyACLException.new(self.class.name, __method__, 
-        "Access type \"#{acc_type}\" is not allowed. Only allowed type is \"deny\" or \"allow\".", 22), caller
+        "Access type \"#{acc_type}\" is not allowed. Only allowed type is \"deny\" or \"allow\".", 222), caller
       return nil
     end
   rescue => e
     raise e
   end   #def create_new  
+  
+  def rename()
+    raise RubyACLException.new(self.class.name, __method__, 
+      "Rename method is not supported for ACE.", 223), caller
+  end  
 end   #class Ace

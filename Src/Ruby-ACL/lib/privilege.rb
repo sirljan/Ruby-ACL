@@ -1,7 +1,7 @@
 class Privilege < ACL_Object
  
-  def initialize(connector, col_path)
-    super(connector, col_path)
+  def initialize(connector, col_path, report = false)
+    super(connector, col_path, report)
     @doc = "doc(\"#{@col_path}Privileges.xml\")"
   end
   

@@ -48,8 +48,10 @@ class ExistAPI
     raise ExistException.new("Failed to create Collection", 2), caller
   end
   
-  # TODO psat kolekci s lomitkem na konci
   def getcollection(path)
+    if(path[-1] != "/")    #if last is not "/" then add it
+      path += "/"
+    end
     col = Collection.new(@client, path)
     return col
   rescue  => e
@@ -163,14 +165,14 @@ class ExistAPI
   end
   
   def update_value(expr, exprSingle)
-    query = "update replace "+expr+" with "+exprSingle
+    query = "update replace " + expr + " with "+exprSingle
     execute_query(query)
   rescue  => e
     raise e  
   end
   
   def update_delete(expr)
-    query = "update delete "+expr
+    query = "update delete " + expr
     #puts "query #{query}"
     execute_query(query)
   rescue  => e

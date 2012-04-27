@@ -1,7 +1,7 @@
 class Individual < Principal
   
-  def initialize(connector, col_path)
-    super(connector, col_path)
+  def initialize(connector, col_path, report = false)
+    super(connector, col_path, report)
   end
   
   public

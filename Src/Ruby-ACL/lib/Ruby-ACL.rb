@@ -1,4 +1,5 @@
 $:.unshift("./lib")
+$:.unshift(".")
 require 'ACL_Object'
 require 'Principal'
 require 'individual'
@@ -16,7 +17,7 @@ class RubyACL
   attr_reader :name
   attr_reader :col_path
   
-  def initialize(name, connector, colpath = "/db/acl/", src_files_path = "./src_files/", report = false) #TODO report
+  def initialize(name, connector, colpath = "/db/acl/", src_files_path = "./src_files/", report = false)
     
     if(name == "")
       raise RubyACLException.new(self.class.name, __method__, "Name is empty", 0), caller
@@ -29,14 +30,14 @@ class RubyACL
     @col_path = colpath
     @src_files_path = src_files_path
     @report = report
-    @prin = Principal.new(@connector, @col_path)
-    @indi = Individual.new(@connector, @col_path)
-    @group = Group.new(@connector, @col_path)
-    @priv = Privilege.new(@connector, @col_path)
-    @res_obj = ResourceObject.new(@connector, @col_path)
-    @ace = Ace.new(@connector, @col_path)
+    @prin = Principal.new(@connector, @col_path, @report)
+    @indi = Individual.new(@connector, @col_path, @report)
+    @group = Group.new(@connector, @col_path, @report)
+    @priv = Privilege.new(@connector, @col_path, @report)
+    @res_obj = ResourceObject.new(@connector, @col_path, @report)
+    @ace = Ace.new(@connector, @col_path, @report)
     create_acl_in_db()
-    setname(name)
+    rename(name)
   rescue => e
     raise e
   end
@@ -202,7 +203,7 @@ END
 
   public              # follow public methods
 
-  def setname(new_name)
+  def rename(new_name)
     query = "update value doc(\"#{@col_path}acl.xml\")/acl/@aclname with \"#{new_name}\""
     @connector.execute_query(query)
     query = "doc(\"#{@col_path}acl.xml\")/acl/string(@aclname)"
@@ -216,16 +217,8 @@ END
     raise e
   end
   
-  def to_s  #TODO
-    puts "Name = #{@name} \n\n"
-    col = @connector.getcollection(@col_path)
-    doc = col['acl.xml']
-    doc.content
-  rescue => e
-    raise e
-  end
-  
   def save(path, date = false)
+    #TODO proverit
     col = @connector.getcollection(@col_path)    
     docs = col.docs()
     if(date)
@@ -247,6 +240,7 @@ END
   end
   
   def RubyACL.load(connector, colpath = "/db/acl/", src_files_path)
+    #TODO proverit
     xmlfile = File.read(src_files_path+"acl.xml")
     startindex = xmlfile.index('"', xmlfile.index("aclname="))
     endindex = xmlfile.index('"', startindex+1)
@@ -261,7 +255,8 @@ END
     res_ob_id = @res_obj.find_res_ob(res_ob_type, res_ob_adr)
     #creates the set of resOb (wanted resOb and all resOb from root to address, unsorted)
     @res_obs = @res_obj.find_res_ob_parents(res_ob_type, res_ob_adr) 
-    @res_obs = @res_obj.res_obs_grand2children(@res_obs) + [res_ob_id]  #adds resOb, which ends with /* + wanted resOb
+    #adds resOb, which ends with /* + wanted resOb
+    @res_obs = @res_obj.res_obs_grand2children(@res_obs) + [res_ob_id]  
     
     if(is_owner?(prin_name, @res_obs))
       #puts "owner"
@@ -274,7 +269,8 @@ END
     
     final_ace = nil
     for prin in prins
-      query = prepare_query(prin, @privs, @res_obs)   #ask for principal with privilege or higher privileges and and resob or higher resob. 
+      #ask for principal with privilege or higher privileges and and resob or higher resob. 
+      query = prepare_query(prin, @privs, @res_obs)   
       #puts query
       handle = @connector.execute_query(query)
       hits = @connector.get_hits(handle)
@@ -296,7 +292,9 @@ END
     
     if(final_ace == nil)  #Rule doesnt exist = access denied
       #puts "nil"
-      puts "Required rule (#{prin_name}, #{priv_name}, #{res_ob_type}, #{res_ob_adr}) does not exist. Access denied." if @report
+      puts "Required rule 
+(#{prin_name}, #{priv_name}, #{res_ob_type}, #{res_ob_adr}) does not exist. 
+Access denied." if @report
       return false
     else
       return decide(final_ace.acc_type)
@@ -308,7 +306,25 @@ END
   end
   
   def show_permissions_for(prin_name)
-    #TODO
+    #creates the set of principals {wanted principal and all groups wanted principal is member of}
+    prins = [prin_name] + @prin.find_parents(prin_name)
+    
+    #creates query, ask for principal permisions and all his parents permisions
+    query = "for $ace in #{@ace.doc}//Ace where ("    
+    for prin in prins
+      query += "($ace/Principal/@idref=\"#{prin}\") or"
+    end
+    query = query[0..-4]    #delete last or
+    query += ") return $ace"
+    
+    ace = ""  
+    handle = @connector.execute_query(query)
+    hits = @connector.get_hits(handle)
+    hits.times { |i|
+      ace = ace + @connector.retrieve(handle, i) + "\n"  #retrieve and add next ACE
+    }
+    ace = ace[0..-2]    #delete last \n
+    return ace
   rescue => e
     raise e
   end
@@ -340,7 +356,9 @@ END
     raise e
   end
   
-  def create_group(name, member_of = ["ALL"], members = [])    # members can be groups or individuals; check if it the name already exist. or if groups and members exist at all
+  # members can be groups or individuals; 
+  # check if it the name already exist. Or if groups and members exist at all
+  def create_group(name, member_of = ["ALL"], members = [])    
     @group.create_new(name, member_of, members)   
   rescue => e
     raise e
@@ -360,19 +378,41 @@ END
     raise e
   end
   
-  def change_owner(type, address, new_owner)
+  def change_res_ob_type(type, address, new_type)
+    @res_obj.change_type(type, address, new_type)
+  rescue => e
+    raise e
+  end
+  
+  def change_of_res_ob_address(type, address, new_address)
+    @res_obj.change_address(type, address, new_address)
+  rescue => e
+    raise e
+  end
+  
+  def change_of_res_ob_owner(type, address, new_owner)
     @res_obj.change_owner(type, address, new_owner)
   rescue => e
     raise e
   end
   
-  def add_membership_principal(name, groups, existance = false) #adds principal into group(s); if you know prin exists set true for prin_exists
+  def rename_principal(old_name, new_name)
+    @prin.rename(old_name, new_name)
+  end
+  
+  def rename_privilege(old_name, new_name)
+    @priv.rename(old_name, new_name)
+  end
+  
+  #adds principal into group(s); if you know prin exists set true for prin_exists
+  def add_membership_principal(name, groups, existance = false) 
     @prin.add_membership(name, groups, existance)
   rescue => e
     raise e
   end
   
-  def add_membership_privilege (name, groups, existance = false) #adds privilege into group(s); if you know prin exists set true for prin_exists
+  #adds privilege into group(s); if you know prin exists set true for prin_exists
+  def add_membership_privilege (name, groups, existance = false) 
     @priv.add_membership(name, groups, existance)
   rescue => e
     raise e
@@ -425,73 +465,98 @@ END
   
 end
 
-#$:.unshift("C:/Users/sirljan/Documents/NetBeansProjects/eXistAPI/lib")
-#require "eXistAPI"
+#Usage example. Also very good source of information are test cases.
+puts "start"
+$:.unshift("../../eXistAPI/lib")
+require 'eXistAPI'    #must require 'eXistAPI' to comunicated with eXist-db
+
+#create instance of ExistAPI
+@db = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "admin")    
+@col_path = "/db/test_acl/"         #sets the collection where you want to have ACL in db
+@src_files_path = "./src_files/"    #path to source files
+if(@db.existscollection?(@col_path))
+  @db.remove_collection(@col_path) #Deleting old ACL from db
+end
+report = true
+@my_acl = RubyACL.new("my_acl", @db, @col_path, @src_files_path, report)
+
+#it's good to create some principals add the begging
+@my_acl.create_principal("Sheldon")  
+@my_acl.create_principal("Leonard")   
+@my_acl.create_principal("Rajesh")   
+@my_acl.create_principal("Howarda")   
+@my_acl.create_principal("Penny")   
+@my_acl.create_principal("Kripkie") 
+
+#Besides given privileges you can create your owns
+@my_acl.create_privilege("WATCH")   
+@my_acl.create_privilege("SIT")
+
+#You can create resource object and get id of it.
+resource_id = @my_acl.create_resource_object("mov", "/Movies", "Sheldon")
+@my_acl.create_resource_object("couch", "/livingroom", "Sheldon")
+
+#Now we have everything we need to create the rule.
+#Lets see what we must hand over
+#1) One individual or group that    (principal)
+#2) will or won't have access       (access type = {allow, deny})
+#3) to do something with            (privilege)
+#4) which type of                   (resource type)
+#5) resource.                       (resource object)
+#6) And if we needs to grand all this to children of resource.  (grant to children)
+@my_acl.create_ace("Sheldon", "allow", "DELETE", "mov", "/Movies", true)
+
+
+#You can easily check e.g. if Penny may delete all movies.
+@my_acl.check("Penny", "DELETE", "mov", "/Movies")
+
+#You can create group and immidiatly insert members or do it later.
+@my_acl.create_group("4th_floor", ["ALL"], ["Sheldon","Leonard","Penny"])
+#Here are other possible ways of creating group
+#@my_acl.create_group("4th_floor")
+#@my_acl.create_group("4th_floor", ["ALL"])
 #
-#db = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "admin")
-#puts "Deleting old ACL from db for testing purposes."
-#db.remove_collection("/db/acl/")
-#puts 'Creating new acl'
-#mojeacl = RubyACL.new("prvniacl", db)
-#
-#puts "Creating new principal"
-#mojeacl.create_principal("labut")
-#
-#puts "Creating new group"
-#mojeacl.create_group('labutiHejno')
-#
-#puts "Adding membership"
-#mojeacl.add_membership_principal('Developers', ['Users'])
-#
-#puts "Creating privilege"
-#mojeacl.create_privilege('KUTALET')
-#puts "Creating privilege"
-#mojeacl.create_privilege('STAT')
-#puts "Adding membership to privilege"
-#mojeacl.add_membership_privilege('STAT', ["KUTALET"])
-#puts "Deleting privilege"
-#mojeacl.del_membership_privilege('STAT', ["KUTALET"])
+#Create access control entry with group as principal.
+ace_id = @my_acl.create_ace("4th_floor", "allow", "WATCH", "mov", "/Movies/*")
 
+#You can show all privileges connected with principal
+perm = @my_acl.show_permissions_for("Penny")
+puts perm
 
-##mojeacl = RubyACL.load("pokus.xml", db, "/db/acl/")
-#
-#puts "to_s. JESTLI TO PORAD NEFUNGUJE, TAK TO KOUKEJ DODELAT!!!"
-#mojeacl.to_s
+#EXCEPTION EXAMPLE
+@my_acl.create_group("Scientists")    #you must create group before you use it
+@my_acl.add_membership_principal("Sheldon", ["Scientists"])
 
-#groups = ['Administrators', 'Users', 'Developers', 'Houbari']
+#You also must create privileges before you use them
+@my_acl.create_privilege("TALK")
+@my_acl.create_privilege("COMUNICATE")
+#You can gather privileges in treelike structure
+@my_acl.add_membership_privilege("TALK", ["COMUNICATE"])
 
-#puts "Adding membership"
-#mojeacl.add_membership('labutiHejno', ['Users'])
+#You can delete membership of principal and privilege, 
+#ace, principal, privilege, resource object, if exists. 
+#Otherwise you will get exception
+@my_acl.del_membership_principal("Sheldon", ["Scientists"])
+@my_acl.del_membership_privilege("TALK", ["COMUNICATE"])
+@my_acl.delete_ace(ace_id)
+@my_acl.delete_principal("Kripkie")
+@my_acl.delete_privilege("SIT")
+@my_acl.delete_res_object("couch", "/livingroom")
+@my_acl.delete_res_object_by_id(resource_id)
 
-##mojeacl.create_principal("ara")
-#mojeacl.add_membership("labut", groups)
-#puts "Deleting membership"
-#mojeacl.del_membership('labut',['Users'])
-#puts "Deleting membership"
-#mojeacl.del_membership('Developers',['Administrators'])
-#puts "Deleting individual"
-#mojeacl.del_prin('Klubicko')
-#puts "Deleting group"
-#mojeacl.del_prin('Kosik')
+@my_acl.create_resource_object("mov", "/Movies", "Sheldon") #create again for demonstration purposes
+#You can rename principal, privilege and change every part of resource object.
+@my_acl.rename_principal("Kripkie", "Kwipkie")
+@my_acl.rename_privilege("TALK", "CHAT")
+@my_acl.change_of_res_ob_address("mov", "/Movies", "/Films")
+@my_acl.change_of_res_ob_owner("mov", "/Films", "Leonard")
+@my_acl.change_res_ob_type("mov", "/Films", "motion picture")
 
+#You can save or load ACL
+#@my_acl.save('C:\\storage')
+#RubyACL.load(@db, "C:\\backup")
 
-#puts "Deleting parent privilege"
-#mojeacl.del_priv("STAT")
-#puts "Adding ACE"
-#mojeacl.add_ace("Houby", "allow", "RUST", "a963")
-#puts "Deleting ACE"
-#mojeacl.del_ace("a987")
-#puts "Checking ACE "+'("Houby", "SELECT", "a963")'
-#if(mojeacl.check("Houby", "SELECT", "a963"))
-#  puts "Access was allowed"
-#else
-#  puts "Access was denied"
-#end
-#puts "Checking ACE - group " + '("sirljan", "SELECT", "a852")'
-#if(mojeacl.check("sirljan", "SELECT", "a852"))
-#  puts "Access was allowed"
-#else
-#  puts "Access was denied"
-#end
-#puts "Saving acl from db to local file."
-#mojeacl.save("./backup/")
+#You can rename ACL
+@my_acl.rename("my_beloved_acl")
+
+puts "finished"

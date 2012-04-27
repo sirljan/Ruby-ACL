@@ -4,9 +4,10 @@ class ACL_Object
   attr_reader :doc
   attr_reader :col_path
   
-  def initialize(connector, col_path)#TODO, report = false)
+  def initialize(connector, col_path, report = false)
     @connector = connector
     @col_path = col_path
+    @report = report
   end
   
   private  #--------------PRIVATE-----------------------------------------------
@@ -45,25 +46,17 @@ END
   
   public #------------------PUBLIC----------------------------------------------
   
-  def to_s #TODO
-    #return "#{id} \t #{name} \t #{groups}"
-  rescue => e
-    raise e
-  end
-  
   def create_new(name, groups)
     bool=true
     if(name == nil || name == '')
-      puts "Name is empty."
       bool = false
       raise RubyACLException.new(self.class.name, __method__, 
-        "Name is empty", 10), caller
+        "Name is empty", 110), caller
     end
     if(exists?(name))
-      puts "#{self.class.name} \"#{name}\" already exist. Please choose different name."
       bool = false
       raise RubyACLException.new(self.class.name, __method__, 
-        "#{self.class.name} \"#{name}\" already exist(s)", 11), caller
+        "#{self.class.name} \"#{name}\" already exist(s)", 111), caller
     end
   
     if(bool)
@@ -71,11 +64,10 @@ END
       expr_loc = "#{@doc}//#{self.class.name}s/#{self.class.name}[last()]"
       @connector.update_insert(expr, "following", expr_loc)
       if(exists?(name))
-        #TODO puts "New #{self.class.name} \"#{name}\" created." if @report
+        puts "New #{self.class.name} \"#{name}\" created." if @report
       else
-        puts "#{self.class.name} \"#{name}\" was not able to create."
         raise RubyACLException.new(self.class.name, __method__, 
-          "#{self.class.name} \"#{name}\" was not able to create", 12), caller
+          "#{self.class.name} \"#{name}\" was not able to create", 112), caller
       end
     end
     if(groups.length > 0)
@@ -89,25 +81,32 @@ END
     
   #adds acl object into group(s); if you know prin exists set true for prin_exists
   def add_membership(name, groups, ob_exists = false)   
-    if(ob_exists || exists?(name))
+    if(ob_exists || exists?(name))#, "#{@doc}//Individual[@id=\"#{name}\"]"))
       for group in groups
-        if(!exists?(group))
+        if(!exists?(group))#, "#{@doc}//Group[@id=\"#{group}\"]"))
           raise RubyACLException.new(self.class.name, __method__, 
-            "Failed to add membership. Group \"#{group}\" does not exist.", 13), caller
+            "Failed to add membership. Group \"#{group}\" does not exist.", 113), caller
         end
-        #protection against cycle in membership
-        if(find_parents(group).find_index(name).nil?) 
-          expr = "<mgroup idref=\"#{group}\"/>"
-          expr_single = "#{@doc}//node()[@id=\"#{name}\"]/membership"
-          @connector.update_insert(expr, "into", expr_single)
+        query = "#{@doc}//node()[@id=\"#{name}\"]/membership/mgroup[@idref=\"#{group}\"]"
+        handle = @connector.execute_query(query)
+        hits = @connector.get_hits(handle)
+        if(hits == 0)
+          #protection against cycle in membership
+          if(find_parents(group).find_index(name).nil?) 
+            expr = "<mgroup idref=\"#{group}\"/>"
+            expr_single = "#{@doc}//node()[@id=\"#{name}\"]/membership"
+            @connector.update_insert(expr, "into", expr_single)
+          else
+            raise RubyACLException.new(self.class.name, __method__, 
+              "Failed to add membership. Membership is in cycle.", 118), caller
+          end
         else
-          raise RubyACLException.new(self.class.name, __method__, 
-        "Failed to add membership. Membership is in cycle.", 18), caller
+          puts "Membership already exists." if @report
         end
       end
     else
       raise RubyACLException.new(self.class.name, __method__, 
-        "Failed to add membership. #{self.class.name} \"#{name}\" does not exist.", 14), caller
+        "Failed to add membership. #{self.class.name} \"#{name}\" does not exist.", 114), caller
     end
   rescue => e
     raise e
@@ -121,13 +120,12 @@ END
         #end
         if(!exists?(group))
           raise RubyACLException.new(self.class.name, __method__, 
-            "Failed to delete membership. Group \"#{group}\" does not exist.", 15), caller
+            "Failed to delete membership. Group \"#{group}\" does not exist.", 115), caller
         end
       end
     else
-      puts "#{self.class.name} with name \"#{name}\" does not exist."
       raise RubyACLException.new(self.class.name, __method__,
-        "Failed to delete membership. #{self.class.name} \"#{name}\" does not exist.", 16), caller
+        "Failed to delete membership. #{self.class.name} \"#{name}\" does not exist.", 116), caller
     end
   rescue => e
     raise e
@@ -135,12 +133,18 @@ END
   
   def delete(name)
     if(exists?(name))
+      #deletes ACL_Object
       expr = "#{@doc}//#{self.class.name}s/descendant::*[@id=\"#{name}\"]"
       @connector.update_delete(expr)
+      #deletes references at ACL_Object
+      expr = "#{@doc}//node()[@idref=\"#{name}\"]"
+      @connector.update_delete(expr)
+      #deletes ACE mentioning ACL_Object
+      expr = "doc(\"#{@col_path}acl.xml\")//node()[@idref=\"#{name}\"]/parent::node()"
+      @connector.update_delete(expr)
     else
-      puts "WARNING: #{self.class.name} \"#{name}\" does not exist."
       raise RubyACLException.new(self.class.name, __method__,
-        "Failed to delete #{self.class.name}. #{self.class.name} \"#{name}\" does not exist.", 17), caller
+        "Failed to delete #{self.class.name}. #{self.class.name} \"#{name}\" does not exist.", 117), caller
     end
     return name
   rescue => e
@@ -148,7 +152,40 @@ END
   end #def delete
   
   def rename(old_name, new_name)
-    #TODO rename
+    if(!exists?(new_name))
+      
+      expr = "#{@doc}//node()[@id=\"#{old_name}\"]/@id"
+      expr_single = "\"#{new_name}\""
+      @connector.update_value(expr, expr_single)
+      
+      expr = "#{@doc}//node()[@idref=\"#{old_name}\"]/@idref"
+      expr_single = "\"#{new_name}\""
+      @connector.update_value(expr, expr_single)
+      
+      expr = "doc(\"#{@col_path}acl.xml\")//node()[@idref=\"#{old_name}\"]/@idref"
+      expr_single = "\"#{new_name}\""
+      @connector.update_value(expr, expr_single)
+      
+      query = "doc(\"#{@col_path}acl.xml\")//node()[@id=\"#{old_name}\"]"
+      handle = @connector.execute_query(query)
+      hits = @connector.get_hits(handle)
+      query = "#{@doc}//node()[@id=\"#{old_name}\"]"
+      handle = @connector.execute_query(query)
+      hits += @connector.get_hits(handle)
+      if(hits == 0)
+        puts "Rename succeeded." if @report
+      else
+        raise RubyACLException.new(self.class.name, __method__, 
+          "Failed to rename", 120), caller
+      end
+    else
+      raise RubyACLException.new(self.class.name, __method__,
+        "Failed to rename #{self.class.name}. #{self.class.name} \"#{new_name}\" already exists.", 119), caller
+    end
+  rescue XMLRPC::FaultException => e
+    raise e
+  rescue => e
+    raise e
   end
   
   def ge(t, f)

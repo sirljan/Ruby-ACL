@@ -1,6 +1,6 @@
 class ResourceObject < ACL_Object
-  def initialize(connector, col_path)
-    super(connector, col_path)
+  def initialize(connector, col_path, report = false)
+    super(connector, col_path, report)
     @doc = "doc(\"#{@col_path}ResourceObjects.xml\")"
   end
   
@@ -57,6 +57,49 @@ END
     raise e
   end
   
+  def change(type, address, what_is_changed, with_what)
+    address.delete!('(")')
+#    puts "type ,#{type},"
+#    puts "adr ,#{address},"
+    res_ob_id = find_res_ob(type, address)
+    if(res_ob_id.nil?)
+      raise RubyACLException.new(self.class.name, __method__, 
+        "Failed to change #{what_is_changed}. Resource objects doesn't exist.", 36), caller
+    end
+    if(what_is_changed == "owner")
+      expr = "#{@doc}//node()[@id=\"#{res_ob_id}\"]/#{what_is_changed}/@idref"
+    else
+      expr = "#{@doc}//node()[@id=\"#{res_ob_id}\"]/#{what_is_changed}/text()"  
+    end
+    expr_single = "\"#{with_what}\""
+    @connector.update_value(expr, expr_single)
+    if(what_is_changed == "type")
+      res_ob_id = find_res_ob(with_what, address)
+    end
+    if (what_is_changed == "address")
+      res_ob_id = find_res_ob(type, with_what)
+    end
+    if(what_is_changed == "owner")
+      expr = "#{@doc}//node()[@id=\"#{res_ob_id}\"]/#{what_is_changed}/string(@idref)"
+    end
+    handle = @connector.execute_query(expr)
+    hits = @connector.get_hits(handle)
+    if(hits == 1)
+      res = @connector.retrieve(handle, 0)
+      if(with_what == res)
+        puts "Change #{what_is_changed} succeeded." if @report
+      else
+        raise RubyACLException.new(self.class.name, __method__, 
+          "Failed to change #{what_is_changed}.", 34), caller
+      end
+    else
+      raise RubyACLException.new(self.class.name, __method__, 
+        "Failed to change #{what_is_changed}.", 34), caller
+    end
+  rescue => e
+    raise e
+  end
+  
   public
   def create_new(type, address, owner)
     address.delete!('(")')
@@ -71,14 +114,14 @@ END
       #puts expr_loc
       @connector.update_insert(expr, "following", expr_loc)
       if(exists?(id))
-        #puts "New #{self.class.name} \"#{name}\" created."
+        puts "New #{self.class.name} \"#{id}\" created." if @report
         return id
       else
-        #puts "#{self.class.name} \"#{id}\" was not able to create."
-        raise RubyACLException.new("#{self.class.name} type=\"#{type}\", address=\"#{address}\" was not able to create.", 33), 
-          "#{self.class.name} type=\"#{type}\", address=\"#{address}\" was not able to create.", caller
+        raise RubyACLException.new(self.class.name, __method__, 
+          "#{self.class.name} type=\"#{type}\", address=\"#{address}\" was not able to create.", 33), caller
       end
     else #already exists
+      puts "#{self.class.name} \"#{id}\" was already created created." if @report
       return id
     end
   end
@@ -104,9 +147,6 @@ END
     else
       raise RubyACLException.new(self.class.name, __method__, 
         "#{self.class.name}(type=\"#{type}\", address=\"#{address}\") exists more then once. (#{hits}x)", 30), caller
-      #"#{self.class.name}(type=\"#{type}\", address=\"#{address}\") exists more then once. (#{hits} times)", caller
-      #raise RubyACLException.new("neco se podelalo", 32), "neco se podelalo2", caller
-      #return nil
     end
   end  
   
@@ -114,20 +154,6 @@ END
     temp = grid.find_index(temp_ace.res_obj)
     final = grid.find_index(final_ace.res_obj)
     return super(temp, final)
-  end
-  
-  def change_owner(type, address, new_owner)
-    address.delete!('(")')
-    res_ob_id = find_res_ob(type, address)
-    
-    query = "update value doc(\"#{@doc}\")/ResourceObjects/ResourceObject[#{res_ob_id}]/owner with \"#{new_owner}\""
-    @connector.execute_query(query)
-    query = "doc(\"#{@col_path}acl.xml\")/acl/string(@aclname)"
-    handle = @connector.execute_query(query)
-    if(new_owner != @connector.retrieve(handle, 0))
-      raise RubyACLException.new("Failed to set new owner.", 51), 
-        "Failed to set new owner.", caller
-    end
   end
   
   #finds membership parrent, e.g. dog's parrent is mammal
@@ -160,4 +186,22 @@ END
   rescue => e
     raise e
   end
+  
+  def rename()
+    raise RubyACLException.new(self.class.name, __method__, 
+      "Rename method is not supported for resource object", 35), caller
+  end
+  
+  def change_type(type, address, new_type)
+    change(type, address, "type", new_type)
+  end
+  
+  def change_address(type, address, new_address)
+    change(type, address, "address", new_address)
+  end
+  
+  def change_owner(type, address, new_owner)
+    change(type, address, "owner", new_owner)
+  end
+  
 end #class ResourceObject

@@ -16,11 +16,10 @@ class TestRubyACL < Test::Unit::TestCase
     if(@db.existscollection?(@col_path))
       @db.remove_collection(@col_path) #Deleting old ACL from db for testing purposes.
     end
-    @test_acl = RubyACL.new("test_acl", @db, @col_path, @src_files_path)
+     @test_acl = RubyACL.new("test_acl", @db, @col_path, @src_files_path)
   end
 
   def test_set1_01_create_acl
-    #TODO bez existujici koleckce, s existujici kolekci, s kolekci a par souborama, se vsim
     collection = @db.getcollection(@col_path)
     assert_equal(true, @db.existscollection?(@col_path))  # Collection must existc
     # In collecition must be acl.xml, Principals.xml, Privileges.xml, ResourceObjects.xml
@@ -28,6 +27,7 @@ class TestRubyACL < Test::Unit::TestCase
   end
   
   def test_set1_02_save
+    #TODO proverit
     @save_path = "./test/test_backup/"
     @test_acl.save(@save_path, true)
     @save_path = @save_path + Date.today.to_s + "/"
@@ -38,6 +38,7 @@ class TestRubyACL < Test::Unit::TestCase
   end
   
   def test_set1_03_load
+    #TODO proverit
     handle = @db.execute_query("doc(\"#{@col_path}acl.xml\")/acl/string(@aclname)")
     acl_name = @db.retrieve(handle, 0)
     test_set1_02_save
@@ -49,10 +50,21 @@ class TestRubyACL < Test::Unit::TestCase
   end
   
   def test_set1_04_setname(new_name = "other_name")
-    @test_acl.setname(new_name)
+    @test_acl.rename(new_name)
     query = "doc(\"#{@col_path}acl.xml\")/acl[@aclname=\"#{new_name}\"]"
     handle = @db.execute_query(query)
     hits = @db.get_hits(handle)
     assert_equal(1, hits)
+  end
+  
+  def test_set1_05_show_permissions_of()
+    perm = @test_acl.show_permissions_for("sirljan")
+    shouldbe = '<Ace id="a894">
+    <Principal idref="Users"/>
+    <accessType>allow</accessType>
+    <Privilege idref="SELECT"/>
+    <ResourceObject idref="852"/>
+</Ace>'
+    assert_equal(shouldbe, perm)
   end
 end
