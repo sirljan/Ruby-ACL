@@ -466,6 +466,7 @@ Access denied." if @report
 end
 
 #TODO Vzorovou tridu API s vyhazovanim vyjimek must be implemented
+#TODO ptam se jestli nekdo kdo neexistuje ma pristup. Pozor na vyjimku, mel bych vratit rovnou false.
 
 #Usage example. Also very good source of information are test cases.
 puts "start"
@@ -482,7 +483,7 @@ end
 report = true
 @my_acl = RubyACL.new("my_acl", @db, @col_path, @src_files_path, report)
 
-#it's good to create some principals add the begging
+#it's good to create some principals at the begging
 @my_acl.create_principal("Sheldon")  
 @my_acl.create_principal("Leonard")   
 @my_acl.create_principal("Rajesh")   
@@ -497,6 +498,7 @@ report = true
 #You can create resource object and get id of it.
 resource_id = @my_acl.create_resource_object("mov", "/Movies", "Sheldon")
 @my_acl.create_resource_object("couch", "/livingroom", "Sheldon")
+@my_acl.create_resource_object("seat", "/livingroom/couch/Sheldon's_spot", "Sheldon")
 
 #Now we have everything we need to create the rule.
 #Lets see what we must hand over
@@ -507,10 +509,14 @@ resource_id = @my_acl.create_resource_object("mov", "/Movies", "Sheldon")
 #5) resource.                       (resource object)
 #6) And if we needs to grand all this to children of resource.  (grant to children)
 @my_acl.create_ace("Sheldon", "allow", "DELETE", "mov", "/Movies", true)
+@my_acl.create_ace("Sheldon", "allow", "SIT", "seat", "/livingroom/couch/Sheldon's_spot")
 
 
 #You can easily check e.g. if Penny may delete all movies.
 @my_acl.check("Penny", "DELETE", "mov", "/Movies")
+
+#Next method call returns deny
+@my_acl.check("Penny", "SIT", "seat", "/livingroom/couch/Sheldon's_spot")
 
 #You can create group and immidiatly insert members or do it later.
 @my_acl.create_group("4th_floor", ["ALL"], ["Sheldon","Leonard","Penny"])
@@ -526,7 +532,7 @@ perm = @my_acl.show_permissions_for("Penny")
 puts perm
 
 #EXCEPTION EXAMPLE
-#@my_acl.create_group("Scientists")    #you must create group before you use it
+@my_acl.create_group("Scientists")    #you must create group before you use it
 @my_acl.add_membership_principal("Sheldon", ["Scientists"])
 
 #You also must create privileges before you use them

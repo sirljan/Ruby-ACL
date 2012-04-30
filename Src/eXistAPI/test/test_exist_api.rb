@@ -1,7 +1,7 @@
 $:.unshift File.join(File.dirname(__FILE__),'..','lib')
 
 require 'test/unit'
-require 'exist_a_p_i'
+require 'eXistAPI'
 
 class TestExistAPI < Test::Unit::TestCase
   def setup
@@ -9,7 +9,7 @@ class TestExistAPI < Test::Unit::TestCase
     @col_path = "/db/testcollection"
     @cities = "doc(\"#{@col_path}/cities.xml\")"
     @api.createcollection(@col_path)
-    source = File.read("./cities.xml")
+    source = File.read("./test/cities.xml")
     @api.storeresource(source, @col_path+"/cities.xml")
   end
   
@@ -58,10 +58,10 @@ class TestExistAPI < Test::Unit::TestCase
     handle = @api.execute_query("doc(\"#{@col_path}/cities.xml\")//city[population>1000000]/name/text()")
     hits = @api.get_hits(handle)
     retrieved_cities = Array.new
-    for hit in hits
+    hits.times{ |hit|  
       city = @api.retrieve(handle, hit)
       retrieved_cities.push(city)
-    end
+    }
     cities = ["Los Angeles","Praha"]
     cities.sort!
     retrieved_cities.sort!
@@ -75,24 +75,55 @@ class TestExistAPI < Test::Unit::TestCase
   end 
   
   def test_09_update_insert
-    expr = "#{@cities}//city[name=\"Praha\"]"
+    expr = "<capital>yes</capital>"
     pos = "into"
-    expr_single = "<capital>yes</capital>"
+    expr_single = "#{@cities}//city[name=\"Praha\"]"
     @api.update_insert(expr, pos, expr_single)
-    
-    handle = @api.execute_query("#{@cities}//city[capital=\"yes\"]")
+    query = "#{@cities}//city[name=\"Praha\" and capital=\"yes\"]"
+    handle = @api.execute_query(query)
+    #puts query    
     hits = @api.get_hits(handle)
-    assert_eqaul(1, hits)
+    #puts hits
+    assert_equal(1, hits)
   end
   
   def test_10_update_replace
-    expr = "#{@cities}//city[name=\"Praha\"]"
-    pos = "into"
+    test_09_update_insert
+    expr = "#{@cities}//city[name=\"Praha\"]/capital"
     expr_single = "<capital_of>Czech Republic</capital_of>"
-    @api.update_replace(expr, pos, expr_single)
+    @api.update_replace(expr, expr_single)
     handle = @api.execute_query("#{@cities}//city[capital_of=\"Czech Republic\"]")
     hits = @api.get_hits(handle)
-    assert_eqaul(1, hits)
+    assert_equal(1, hits)
   end
   
+  def test_11_update_value
+    expr = "#{@cities}//city[name=\"Praha\"]/name/text()"
+    expr_single = '"Prague"'
+    @api.update_value(expr, expr_single)
+    handle = @api.execute_query("#{@cities}//city[name=#{expr_single}]")
+    hits = @api.get_hits(handle)
+    assert_equal(1, hits)
+  end
+  
+  def test_12_update_delete
+    expr = "#{@cities}//city[name=\"Praha\"]"
+    @api.update_delete(expr)
+    handle = @api.execute_query("#{@cities}//city[name=\"Praha\"]")
+    hits = @api.get_hits(handle)
+    assert_equal(0, hits)
+  end
+  
+  def test_13_update_rename
+    expr = "#{@cities}//population"
+    #puts expr
+    expr_single = '"citizens"'
+    @api.update_rename(expr, expr_single)
+    handle = @api.execute_query("#{@cities}//population")
+    hits = @api.get_hits(handle)
+    assert_equal(0, hits)
+    handle = @api.execute_query("#{@cities}//citizens")
+    hits = @api.get_hits(handle)
+    assert(hits>0)
+  end
 end

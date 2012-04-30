@@ -284,14 +284,6 @@ Funkčnost knihovny byla vyvíjena a testována na eXistDB.
 \chapter{Úvod}
 
 \section{Úvod do problematiky}
-Řízení uživatelských práv...
-
-Ruby je programovací jazyk ...
-
-ACL je zkratka pro access control list...
-
-Cellstore je XML databáze ...
-
 
 Tato bakalářská práce navazuje na můj semestrální projekt. Jejím úkolem bylo vytvořit, navrhnout a realizovat v jazyce Ruby model uživatelských přístupových práv určenou pro objektovou databázi Cellstore. V současnosti neexistuje žádný model uživatelských přístupových práv pro Cellstore. 
 
@@ -299,8 +291,19 @@ Součástí práce byl návrh knihovny. Navržený modul realizuje správu říz
 
 Výsledkem bakalářské práce je nejen samotná realizace knihovny, ale i podrobná programátorská dokumentace.
 
-\section{Motivace}
+V druhé části úvodu je vysvětlení nejdůležistějších pojmů.
 
+Chcete-li zabezpečit zdroje a jeho prostředky, je nutné vzít v úvahu, jakými právy budou disponovat ti, kteří k nim budou přistupovat. Zabezpečit objekt, například dokument či kolekci, lze přidělením oprávnění, která umožňují uživatelům nebo skupinám provádět u tohoto objektu určité akce. Řízení přístupů je činnost zabývající se přidáváním a zamítáním oprávnění přistupujícím.
+
+Ruby je interpretovaný skriptovací programovací jazyk. Díky své jednoduché syntaxi je poměrně snadný, přesto však dostatečně výkonný, aby dokázal konkurovat známějším jazykům jako je Python a Perl. Je objektově orientovaný.
+
+ACL je zkratka pro access control list, což v překladu znamená seznam pro řízení přístupů. ACL je v oblasti počítačové bezpečnosti seznam oprávnění připojený k nějakému objektu. Seznam určuje, kdo nebo co má povolení přistupovat k objektu a jaké operace s ním může nebo nesmí provádět. V typickém ACL specifikuje každý záznam v seznamu uživatele a operaci.
+
+Cellstore je XML databáze ...
+
+\section{Motivace}
+Zaujala mě problematika práv, databází a pro mě neznámého jazyka.
+Jádro celé mé motivace, bylo projít si vývojem softwaru, v tomto případě knihovny, od návrhu přes implementaci k testování a dokumentaci a ověřit si získané poznatky z předmětu softwarového inženýrství. Soustředil jsem se na vlastní nápady. Nechtěl jsem skládat a kopírovat polotvary a "lepit" je dohromady.
 
 
 %*****************************************************************************
@@ -314,22 +317,24 @@ Výsledkem bakalářské práce je nejen samotná realizace knihovny, ale i podr
 
 \section{Popis řešeného problému}
 
-XML databáze Cellstore v současné době nemá žádný model uživatelských přístupových práv. Bylo potřeba tento nedostatek vyřešit knihovnou implementovanou v jazyce Ruby, protože v Ruby je něco napsané asi engine DB aplikace nebo samotna DB. Mnou naimplementovaná knihovna Ruby ACL řeší problém se spravováním přístupových práv.
+XML databáze Cellstore v současné době nemá žádný model uživatelských přístupových práv. Bylo potřeba tento nedostatek vyřešit knihovnou implementovanou v jazyce Ruby. Jazyk Ruby byl vybrán proto, že Ruby je rozšířený jazyk a z důvodu kompatibilty s  budoucími částmi databáze, které budou taktéž naimplementované v Ruby. Mnou naimplementovaná knihovna Ruby ACL řeší problém se spravováním přístupových práv.
 
 \section{Vymezení cílů a požadavků}
 Cílem bakalářská práce bylo navrhnout, realizovat a otestovat knihovnu v jazyce Ruby, která bude spravovat uživatelská přístupová práva pro objektovou databázi Cellstore.
-Vytyčil jsem si vytvořit co nejjednodušší knihovnu, která by splňovala všechna kritéria zadání. Nechtěl jsem jsem používat a "lepit" dohromady existující moduly a knihovny, které danou problematiku řeší, protože jsem chtěl vytvořit něco svého a projít si vývojem softwaru od požadavků přes analýzu a návrh k realizaci a testování. 
+Vytyčil jsem si vytvořit co nejjednodušší knihovnu, která by splňovala všechna kritéria zadání. Nechtěl jsem jsem používat a "lepit" dohromady existující moduly a knihovny, které danou problematiku řeší, protože jsem si za cíl dall vytvořit něco svého a projít si vývojem softwaru od požadavků, analýzu, návrh přes realizaci k testování a dokumentaci. 
 I když Ruby ACL je primárně určena pro XML databázi Cellstore chtěl jsem, aby byla použitelná i pro jiné databáze a reálné přístupy do budov apod.
 Určil jsem si, že by bylo pěkné, kdyby knihovna umožňovala jemně nastavit přístupy (Tzv.„fine-grained“).
 
-Seznam požadavků je popsán v tabulce 2.1.
-K určení operace a objektu z dotazu bude použit SQL parser třetí strany.
+Seznam požadavků je popsán v tabulce 2.1.%TODO - odkazy na tabulky
 
 \section{Popis struktury bakalářské práce ve vztahu k vytyčeným cílům}
 
-V analýze je analýza.
-V realizaci je realizace.
-V testování je testování.
+V kapitole Analýza a návrh řešení je analýza a návrh tak jsem je vytvořil před implementací.
+Zato kapitola realizace popisuje realizaci a stav po realizaci a dokumentační část popisující pravidla rozhodování apod.
+
+V analýze je analýza...
+V realizaci je realizace...
+V testování je testování...
 
 \begin{table}%[h]
 \begin{center}
@@ -460,15 +465,15 @@ Nástroj phpGACL používá pojmy jako ACO a ARO:
 \end{itemize}
 
 \section{Návrh implementace}
-Nechal jsem se inspirovat jak Oraclem tak phpGACL. Oba modely řízení přístupových práv mají podobnou strukturu nebo stejnou s jiným pojmenováním. Z Oraclu jsem převzal pojmenování dimenzí: Principals, Privileges, Objects, ze kterých jsem vytvořil hlavní třídy. 
+Nechal jsem se inspirovat jak Oraclem tak phpGACL. Oba modely řízení přístupových práv mají podobnou strukturu nebo stejnou s jiným pojmenováním. Z Oraclu jsem převzal koncept a pojmenování dimenzí: principals, privileges, objects, ze kterých jsem vytvořil hlavní třídy. 
 
-???Jemně nastavitelných přístupových práv se docílí pomocí Access Control Listu. ACL obsahuje seznam pravidel jednotlivých přístupů. Pravidlo se nazývá Access Control Entry (ACE). V ACE je uloženo Kdo, nebo Co má jaká Práva přistupovat k jakým Objektům. Těmto třem rozměrům se v problematice přístupových práv říka: principals, privileges, resource objects.
+Jemně nastavitelných přístupových práv se docílí pomocí Access Control Listu. ACL obsahuje seznam pravidel jednotlivých přístupů. Pravidlo se nazývá Access Control Entry (ACE). V ACE je uloženo Kdo, nebo Co má jaká Práva přistupovat k jakým Objektům. Těmto třem rozměrům se v problematice přístupových práv říka: principals, privileges, resource objects.
 
 
 
 \subsection{Rozhraní}
 
-S knihovnou Ruby ACL je zapotřebí nějak komunikovat. Za účelem vytvoření a nastavení zmoctnitelů, oprávněních, zdrojových objektů a pravidel musí uživatel předat knihovně potřebné vstupy popsané v tabulce. Hlavní účel knihovny je rozlišit jestli někdo nebo něco má oprávnění na nějaký cílový objekt. Pokud zmocnitel má nebo nemá přístup se uživatel dozví podle výstupu. Výtupem je true nebo false hodnota.
+S knihovnou Ruby ACL je zapotřebí nějak komunikovat. Za účelem vytvoření a nastavení zmoctnitelů, oprávněních, zdrojových objektů a pravidel musí uživatel předat knihovně potřebné vstupy popsané v tabulce. Hlavní účel knihovny je rozlišit jestli někdo nebo něco má oprávnění na nějaký cílový objekt. Pokud zmocnitel má nebo nemá přístup se uživatel dozví podle výstupu. Výstupem je true nebo false hodnota.
 
 TODO co takhle přidat do tabulky i popis?
 
@@ -496,6 +501,8 @@ access & boolean\\
 \end{table}
 
 \subsection{Ukázky použití}
+Tato podsekce ukazuje předpokládaný způsob použití.
+
 \subsubsection{Příklad kontroly práv}
 \begin{verbatim}
 ...DB_Application...
@@ -538,7 +545,7 @@ acl = Ruby-ACL.new("test2")
 acl.create_ace(username, access_type, desired_privilege, desired_object)
 \end{verbatim}
 
-Druhý příklad naznačuje použití metody pro vytvoření pravidla. Pro vytvoření pravidla musí existovat instance Ruby ACL. Metodě \begin{verbatim}create_ace\end{verbatim} aplikace předá uživatelské jméno zmocnitele, typ přístupu (allow nebo deny), oprávnění a požadovaný objekt.
+Druhý příklad naznačuje použití metody pro vytvoření pravidla. Pro vytvoření pravidla musí existovat instance Ruby ACL. Metodě create\_ace aplikace předá uživatelské jméno zmocnitele, typ přístupu (allow nebo deny), oprávnění a požadovaný objekt.
 
 \subsection{Use Case Scénáře}
 %\begin{verbatim}\end{verbatim}
@@ -560,7 +567,7 @@ Uživatel má vytvořenou instanci RubyACL, která obsahuje pravidla.
 Hlavní úspěšný scénář:
 \begin{enumerate}
 \item Uživatel zavolá metodu set\_new\_ace a specifikuje údaje (Uživatel/skupina, typ přístupy (allow/deny), oprávnění, zdrojový objekt
-\item Systém nastavý pravidlo a vrátí 0, když vše proběhlo v pořádku, a 1 když nastala chyba.
+\item Knihovna nastaví pravidlo a vrátí 0, když vše proběhlo v pořádku, a 1 když nastala chyba.
 \end{enumerate}
 Poznámka: Jde vlastně o přiřazování oprávnění uživatelům na objekt
 
@@ -610,13 +617,23 @@ Ruby-ACL nabídne vlastní přidané privilegia a základní sadu privilegií a 
 \chapter{Realizace}
 Popis implementace/realizace se zaměřením na nestandardní části řešení.
 
-\section{GIT}
+\section{Programy použité při vývoji}
+\begin{itemize}
+\item NetBeans s Ruby platformou od Thomase Enebo
+http://blog.enebo.com/
+http://plugins.netbeans.org/plugin/38549/ruby-and-rails
+\item GIT
+https://github.com/sirljan/Ruby-ACL
+\item eXist-db
+http://www.exist-db.org
+\item Enterprise Architect
+\item MikTex
+\end{itemize}
 %-------------------------------------
 \section{Databáze}
 Protože databáze Cellstore není plně funkční, nebylo možné implementaci testovat přímo na ní. Za tímto učelem se musela vybrat jiná podobná databáze.
+
 \subsection{Sedna}
-
-
 Sedna knihovna v Ruby poskytuje rozhraní pro databázi Sedna. Klient je Ruby rozšíření, které používá ovladač jazyka C, který je dodáván jako součást distribuce Sedna. To má být jednoduché a snadno použitelné. Ovšem zprovoznění knihovny Sedna neproběhlo tak hladce, jak se tvrdí.
 
 \subsection{eXist-db}
@@ -624,15 +641,114 @@ eXist-db je open source systém pro správu databáze vytvořena pomocí technol
 
 XML databáze eXist-db se podobá Cellstore a byla doporučena vedoucím práce jako ideální. Přesto proběhly komplikace s XUpdate navzdory přesné interpretace dokumentace.
 
-\subsubsection{komunikace}
+
+\subsubsection{eXistAPI}
+Trochu nestandartní část realizace. Bylo potřeba si vytvořit komunikační rozhraní mezi databázi eXist-db a RubyACL.
+Komunikace s db pomocí eXistAPI.
 Použití xQuery Update Facility místo xUpdate. (Možná vložím ukázku implementace)
-
-\subsubsection{eXistDBAPI}
+XMLRPC
+xQuery
+xPath
+xQuery Update Facility
 %-------------------------------------
-\section{Pravidla rozhodování}
-V této kapitole je popsáno jakým způsobem RubyACL rozhoduje o přidělení přístupu. 
-Vše se odvijí od priority rozhodování
 
+%-------------------------------------
+\section{Implementace}
+\subsection{Model tříd}
+
+\subsection{pracovni poznamky}
+\begin{itemize}
+\item Je třeba se věnovat uvolňování paměti, protože aplikace bude spuštěna dny až měsíce. Špatné zacházení s pamětí by, proto bylo kritické pro server, na kterém aplikace s Ruby-ACL knihovnou bude spuštěna.
+\item Ušetření času db serveru vhodným uspořádáním dotazů. Místo iterace dotazů jeden dotaz s vhodnou podmínkou. (tvoreni clenstvi) 
+\item Pro identifikaci a propojení jsem uvažoval mezi xLink a idref. Idref nabízí jednoduchý systém, ale xLink nabídl podrobné specifikace W3C, velké množství návodů a turtoriálů a především se jedná o novější technologii, jejíž osvojení jsem považoval za výhodné. Rozhodl jsem se proto implementovat xLink. Problém nastal při některých vkládání textů a dotazování. EXist DB měla problém s jmeným prostorem xLink i přes zkutečnost, že jmený prostor byl uveden. Troufám si říct, že byl uveden správně, protože při většině použití fungoval. Než abych se zabýval mnoho času proč použití xLink nejde, raději jsem přešel na jednoduchý idref. Implementace idref proběhla bez problémů.
+\item Občas je kód zdvojený, ale má to svoje opodstatnění. Například addmembership a addmembershippriv. Kdyby nebylo zdvojeno, šlo by přidávat privilige k principal a naopak.
+\item predelavam structuru z tridniho volani na singleton nebo jak se to jmenuje.\item predelavam structuru z tridniho volani na singleton nebo jak se to jmenuje.
+\item kdyz smazu nadrazenou skupinu tak smazu vsechny jeji clenstvi
+\end{itemize}
+
+\section{Rozhraní}
+
+\subsection{RubyACL > DB}
+RubyACL bylo testováno s databází eXist-db, se kterou komunikovalo pomocí eXistAPI. 
+K používání RubyACL s jinou XML databází než eXist je zapotřebí komunikační rozhraní, které nahradí eXistAPI. 
+V ukázkové třídě API je výčet všech potřebných metod, které RubyACL používá, včetně parametrů a výstupů. Je potřeba podle vzorové třídy API naimplementovat nové komunikační rozhraní. 
+\subsection{Aplikace > RubyACL}
+Jedná se o výčet public metod třídy RubyACL.
+...přidat výčet
+
+%*****************************************************************************
+\chapter{Popis funkcionality - To jak to vlastne funguje}
+V této kapitole je popsáno jakým způsobem RubyACL rozhoduje o přidělení přístupu. Nejkonkrétněji se tímto zabývá sekce "Pravidla rozhodování", nicméně k pochopení celku je potřeba vědět vlastnosti jednotlivých objektů, které jsem nazval ACL objekty. O nich se dočtete ve stejnojmenné sekci.
+Vše se odvijí od priority rozhodování.
+
+\section{ACL Objekty}
+ACL objekt je principal, který se dělí na individual a group, privilege
+
+\subsection {Zmocnitel (Principal)}
+Principal = [Individual, Group]
+\begin{verbatim}
+        <Group id="Administrators">
+            <membership>
+                <mgroup idref="ALL"/>
+            </membership>
+        </Group>
+        <Individual id="sirljan">
+            <membership>
+                <mgroup idref="Users" />
+                <mgroup idref="Developers" />
+            </membership>
+        </Individual>
+\end{verbatim}
+
+\subsection {Oprávnění (Privilege)}
+RubyACL obsahuje základní oprávnění Oracle a MySQL. Nevím ale, jestli to bude mít nějaký význam, když XML databáze má jinou formu dotazování. 
+Pravidla lze jednoduše vytvořit a seskupovat.
+\begin{verbatim}
+    <Privilege id="SELECT">
+        <membership>             
+            <mgroup idref="ALL_PRIVILEGES" />         
+        </membership>
+    </Privilege
+\end{verbatim}
+
+\subsection {Zdrojový objekt (Resource object)}
+Skládá se ze tří položek:
+\begin{enumerate}
+\item typ
+\item adresa
+\item vlastník
+\end{enumerate}
+
+Při zadávání adresy je potřeba dodržet jediné pravidlo. V adrese oddělovat každý jednotlivý objekt dopředným lomítkem. ( / )
+
+Pokud je zdrojový objekt typu doc, adresa může obsahovat klauzuli ve formátu ("/koren/vetev/list-soubor\_s\_příponou") a pokud je zapotřebí jemnější řízení přístupu uvnitř dokumentu následuje klauzule /koren/vetev. Nicméně do databáze se ukládá sloučená adresa bez ("")
+Příklad:  ("/db/data/cities.xml")/cities/city
+V databázi je uložen pod adresou: /db/data/cities.xml/cities/city
+
+Klauzule /* (lomítko hvězdička) vyjadřuje všechny podřadné objekty
+Příklad:  /db/data/*
+Nyní jsou vybrány všechny podřadné objekty objektu data.
+/* nemá význam u vlastníka, protože vlastník zdrojového objektu vlastní i všechny podřazené zdrojové objekty.
+
+\subsubsection{Vlastník / Owner}
+Owner může být jednotlivec, množina jednotlivců i skupina.
+Množina jednotlivců je v případě pokud se od kořene zdrojových objektů k listu mnění vlastník. Vlastník nejnadřazenějšího zdroje má největší práva. Vlastník může být o 
+/* nemá význam, protože vlastník zdrojového objektu vlastní i všechny podřazené zdrojové objekty.
+
+\subsection{Pravidlo (ACE)}
+\begin{verbatim}
+        <Ace id="a894">
+            <Principal idref="Users"/>
+            <accessType>allow</accessType>
+            <Privilege idref="SELECT"/>
+            <ResourceObject idref="852"/>
+        </Ace>
+\end{verbatim}
+
+
+%--------------------------------
+
+\section{Pravidla rozhodování}
 \subsection{Priorita rozhodování}
 
 Nejnižší má největší prioritu.
@@ -646,47 +762,28 @@ Nejnižší má největší prioritu.
 \item If not found > Deny
 \end{enumerate}
 
-\subsubsection{Vlastník / Owner}
-Owner může být jednotlivec, množina jednotlivců i skupina.
-Množina jednotlivců je v případě pokud se od kořene zdrojových objektů k listu mnění vlastník. Vlastník nejnadřazenějšího zdroje má největší práva. Vlastník může být o 
-/* nemá význam, protože vlastník zdrojového objektu vlastní i všechny podřazené zdrojové objekty.
+\section{Ukázka použití}
+Tato sekce ukazuje krátké reálné/finální použití.
+\begin{verbatim}
+require 'eXistAPI'    #must require 'eXistAPI' to comunicated with eXist-db
+#create instance of ExistAPI
+@db = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "admin")    
+@col_path = "/db/test_acl/"         #sets the collection where you want to have ACL in db
+@src_files_path = "./src_files/"    #path to source files
+@my_acl = RubyACL.new("my_acl", @db, @col_path, @src_files_path, true)
+#it's good to create some principals at the begging
+@my_acl.create_principal("Sheldon")
+@my_acl.create_privilege("SIT")
+@my_acl.create_resource_object("seat", "/livingroom/couch/Sheldon's_spot", "Sheldon")
+@my_acl.create_ace("Sheldon", "allow", "SIT", "seat", "/livingroom/couch/Sheldon's_spot")
+#Next method call returns deny
+@my_acl.check("Penny", "SIT", "seat", "/livingroom/couch/Sheldon's_spot")
+\end{verbatim}
 
-\subsubsection {Zdrojový objekt (Resource object)}
-Skládá se ze tří položek:
-\begin{enumerate}
-\item typ
-\item adresa
-\item vlastník
-\end{enumerate}
+%*****************************************************************************
 
-Při zadávání adresy je potřeba dodržet jediné pravidlo. V adrese oddělovat každý jednotlivý objekt dopředným lomítkem. ( / )
 
-Pokud je zdrojový objekt typu doc, adresa může obsahovat klauzuli ve formátu ("/koren/vetev/list-soubor_s_příponou") a pokud je zapotřebí jemnější řízení přístupu uvnitř dokumentu následuje klauzule /koren/vetev. Nicméně do databáze se ukládá sloučená adresa bez ("")
-Příklad:  ("/db/data/cities.xml")/cities/city
-V databázi je uložen pod adresou: /db/data/cities.xml/cities/city
-
-Klauzule /* (lomítko hvězdička) vyjadřuje všechny podřadné objekty
-Příklad:  /db/data/*
-Nyní jsou vybrány všechny podřadné objekty objektu data.
-/* nemá význam u vlastníka, protože vlastník zdrojového objektu vlastní i všechny podřazené zdrojové objekty.
-
-%-------------------------------------
-\section{Implementace}
-\subsection{Uvolňování paměti}
-Je třeba se věnovat uvolňování paměti, protože aplikace bude spuštěna dny až měsíce. Špatné zacházení s pamětí by, proto bylo kritické pro server, na kterém aplikace s Ruby-ACL knihovnou bude spuštěna.
-\begin{itemize}
-\item Ušetření času db serveru vhodným uspořádáním dotazů. Místo iterace dotazů jeden dotaz s vhodnou podmínkou. (tvoreni clenstvi) 
-\item Pro identifikaci a propojení jsem uvažoval mezi xLink a idref. Idref nabízí jednoduchý systém, ale xLink nabídl podrobné specifikace W3C, velké množství návodů a turtoriálů a především se jedná o novější technologii, jejíž osvojení jsem považoval za výhodné. Rozhodl jsem se proto implementovat xLink. Problém nastal při některých vkládání textů a dotazování. EXist DB měla problém s jmeným prostorem xLink i přes zkutečnost, že jmený prostor byl uveden. Troufám si říct, že byl uveden správně, protože při většině použití fungoval. Než abych se zabýval mnoho času proč použití xLink nejde, raději jsem přešel na jednoduchý idref. Implementace idref proběhla bez problémů.
-\item Občas je kód zdvojený, ale má to svoje opodstatnění. Například addmembership a addmembershippriv. Kdyby nebylo zdvojeno, šlo by přidávat privilige k principal a naopak.
-\item predelavam structuru z tridniho volani na singleton nebo jak se to jmenuje.\item predelavam structuru z tridniho volani na singleton nebo jak se to jmenuje.
-\item kdyz smazu nadrazenou skupinu tak smazu vsechny jeji clenstvi
-\end{itemize}
-
-\subsection{Comunikace s jinou db}
-metody ktere pouzivam, co vraci
-
-%-------------------------------------
-
+\chapter{Moje pracovni poznamky}
 \begin{itemize}
 
 \item id u resob. Pokud to bude poradi, mohlo byt snaze napadnutelne nez kdyby id nedavalo smysl.
@@ -706,7 +803,7 @@ doc("/db/test_acl/ResourceObjects.xml")/ResourceObjects/descendant::*[type="Rybn
 
 \item vysledek rozhodnuti jde nechranenou cestou. pokud ma napadajici pristup ke kanalu mezi db a rubyacl potazmo db aplikaci, tak muze zmenit vysledek dotazu a tim i rozhodnuti.
 
-\item to_s jsem vynechal, protoze knihovna bude pouzita aplikaci a ne clovekem, ktery by si mohl precist stringovy obsah.
+\item to\_s jsem vynechal, protoze knihovna bude pouzita aplikaci a ne clovekem, ktery by si mohl precist stringovy obsah.
 
 \item 
 
@@ -720,6 +817,13 @@ doc("/db/test_acl/ResourceObjects.xml")/ResourceObjects/descendant::*[type="Rybn
 \end{itemize} 
 
 
+Testování bylo zaměřeno pouza na funkcionalitu. Vynecháno bylo testování rychlosti, práce s operační pamětí, spotřeby procesorového času. 
+
+
+\section{eXistAPI}
+\section{RubyACL}
+
+
 %*****************************************************************************
 \chapter{Závěr}
 
@@ -727,6 +831,9 @@ doc("/db/test_acl/ResourceObjects.xml")/ResourceObjects/descendant::*[type="Rybn
 \item Zhodnocení splnění cílů DP/BP a  vlastního přínosu práce (při formulaci je třeba vzít v potaz zadání práce).
 \item Diskuse dalšího možného pokračování práce.
 \end{itemize} 
+
+Možné zlepšení: 
+rychlost - Jednoznačně časově nejdražší operací je komunikace s databází. Zrychlení by se dalo docílit optimalizací dotazování tak, aby se dotazovalo, co nejméně. Daňí by byla větší paměťová náročnost aplikace, která by knihovnu RubyACL používala. Současný kód knihovny obsahuje opakované dotazování na stejnou věc místo ukládání výsledku do paměti pro případné následující použití. Tento model byl zvolen kvůli jednoduchosti a faktu, že vykonání dotazu a vrácení výsledku trvá řadově milisekundy. Je ale těžké odhadnout, kolik času by zabralo dotazování při plné databázi a použití více uživatelů ve stejný čas. Navíc eXist si po určitou dobu v paměti uchovává výsledky předchozích dotazů, čímž se snižuje naročnost opakovaných dotazů. Vše je ale závislé na lince mezi knihovnou a databází.
 
 %*****************************************************************************
 % Seznam literatury je v samostatnem souboru reference.bib. Ten

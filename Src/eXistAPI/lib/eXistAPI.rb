@@ -145,24 +145,24 @@ class ExistAPI
     end
   end
   
-  #<email type="office">andrew@gmail.com</email>, pos = into | following | preceding, exprSingle e.g. //address[fname="Andrew"]
-  def update_insert(expr, pos, exprSingle) 
-    query = "update insert "+expr+" "+pos+" "+exprSingle
+  #<email type="office">andrew@gmail.com</email>, pos = into | following | preceding, expr_single e.g. //address[fname="Andrew"]
+  def update_insert(expr, pos, expr_single) 
+    query = "update insert "+expr+" "+pos+" "+expr_single
     #puts "query #{query}"
     execute_query(query)
   rescue  => e
     raise e    
   end
   
-  def update_replace(expr, exprSingle)
-    query = "update replace "+expr+" with "+exprSingle
+  def update_replace(expr, expr_single)
+    query = "update replace "+expr+" with "+expr_single
     execute_query(query)
   rescue  => e
     raise e  
   end
   
-  def update_value(expr, exprSingle)
-    query = "update replace " + expr + " with "+exprSingle
+  def update_value(expr, expr_single)
+    query = "update replace " + expr + " with " + expr_single
     execute_query(query)
   rescue  => e
     raise e  
@@ -176,13 +176,13 @@ class ExistAPI
     raise e  
   end
   
-  def update_rename(expr, exprSingle)
-    query = expr + " as " + exprSingle
+  def update_rename(expr, expr_single)
+    query = "update rename " + expr + " as " + expr_single
+    #puts "query #{query}"
     execute_query(query)
   rescue  => e
     raise e  
   end
-
 end
 
 
