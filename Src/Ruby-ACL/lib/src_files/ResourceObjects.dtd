@@ -1,5 +1,7 @@
-<!ELEMENT ResourceObjects (resourceObject*)>
-    <!ELEMENT resourceObject (type,address)>
+<!ELEMENT ResourceObjects (ResourceObject*)>
+    <!ELEMENT ResourceObject (type, address, owner)>
         <!ELEMENT type (#PCDATA)>
         <!ELEMENT address (#PCDATA)>
-        <!ATTLIST resourceObject id ID #REQUIRED>
+        <!ELEMENT owner EMPTY>
+            <!ATTLIST owner idref IDREF #REQUIRED>
+        <!ATTLIST ResourceObject id ID #REQUIRED>

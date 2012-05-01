@@ -1,12 +1,12 @@
-<!ELEMENT acl (ace*)>
+<!ELEMENT acl (Aces)>
     <!ATTLIST acl aclname CDATA #REQUIRED>
-    <!ELEMENT ace (principal, accessType, privilege, resourceObject)>
-        <!ATTLIST ace id ID #REQUIRED>
-        
-        
-        <!ELEMENT accessType (#PCDATA)>
-        <!ELEMENT resourceObject EMPTY>
-            <!ATTLIST resourceObject idref IDREF #REQUIRED>
-
-
-<!ATTLIST principal idref IDREF #IMPLIED>
+    <!ELEMENT Aces (Ace*)>    
+        <!ELEMENT Ace (Principal, accessType, Privilege, ResourceObject)>
+            <!ATTLIST Ace id ID #REQUIRED>
+            <!ELEMENT Principal EMPTY>
+                <!ATTLIST Principal idref IDREF #IMPLIED>
+            <!ELEMENT accessType (#PCDATA)>
+            <!ELEMENT Privilege EMPTY>
+                <!ATTLIST Privilege idref IDREF #IMPLIED>
+            <!ELEMENT ResourceObject EMPTY>
+                <!ATTLIST ResourceObject idref IDREF #REQUIRED>

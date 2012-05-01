@@ -1,12 +1,12 @@
 <!ELEMENT Principals (Groups, Individuals)>
-    <!ELEMENT Groups (group+)>
-    <!ELEMENT group (membership)>
-        <!ATTLIST group id ID #REQUIRED>
+    <!ELEMENT Groups (Group+)>
+    <!ELEMENT Group (membership)>
+        <!ATTLIST Group id ID #REQUIRED>
     <!ELEMENT membership (mgroup*)>
     <!ELEMENT mgroup EMPTY>
         <!ATTLIST mgroup idref IDREF #REQUIRED>
 
-    <!ELEMENT Individuals (principal*)>
-    <!ELEMENT principal (membership)>
-        <!ATTLIST principal id ID #IMPLIED>
+    <!ELEMENT Individuals (Individual*)>
+    <!ELEMENT Individual (membership)>
+        <!ATTLIST Individual id ID #IMPLIED>
         

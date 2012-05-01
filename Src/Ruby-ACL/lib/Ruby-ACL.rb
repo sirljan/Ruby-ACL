@@ -467,6 +467,7 @@ end
 
 #TODO Vzorovou tridu API s vyhazovanim vyjimek must be implemented
 #TODO ptam se jestli nekdo kdo neexistuje ma pristup. Pozor na vyjimku, mel bych vratit rovnou false.
+#TODO Lze pridat privilege do principal a naopak? test na to by byl peknej :)
 
 #Usage example. Also very good source of information are test cases.
 puts "start"

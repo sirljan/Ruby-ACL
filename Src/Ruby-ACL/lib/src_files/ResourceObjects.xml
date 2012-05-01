@@ -1,5 +1,5 @@
 <!DOCTYPE ResourceObjects SYSTEM "ResourceObjects.dtd">    
-<ResourceObjects>    
+<ResourceObjects>
     <ResourceObject id="r456">
         <type>Pleteny_kosik</type>
         <address>/v_obyvaku/na_skrini</address>
@@ -50,5 +50,4 @@
         <address>/db/temp/test/hokus</address>
         <owner idref="nikdo"/>
     </ResourceObject>
-
 </ResourceObjects>
