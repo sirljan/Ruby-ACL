@@ -56,6 +56,7 @@ class ExistAPI
   end
   
   def existscollection?(orig_path)
+    #TODO puts db.existscollection?("db") vyhazuje chybu v irb pri testovani gemu
     collections = orig_path.split("/")
     collections.delete("")
     i=0
