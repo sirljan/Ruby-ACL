@@ -8,14 +8,15 @@ class TestExistAPI < Test::Unit::TestCase
     @api = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "admin")
     @col_path = "/db/testcollection"
     @cities = "doc(\"#{@col_path}/cities.xml\")"
+    @api.remove_collection(@col_path)
     @api.createcollection(@col_path)
     source = File.read("./test/cities.xml")
     @api.storeresource(source, @col_path+"/cities.xml")
   end
   
-  def teardown()
-    @api.remove_collection(@col_path)
-  end
+#  def teardown()
+#    @api.remove_collection(@col_path)
+#  end
   
   def test_00_create_connection()
     #Test if connect is established
@@ -24,6 +25,12 @@ class TestExistAPI < Test::Unit::TestCase
   
   def test_01_createcollection
     path = "/db/testcollection/newcollection"
+    @api.createcollection(path)
+    assert(@api.existscollection?(path))
+    path = "db/testcollection/newcollection2"
+    @api.createcollection(path)
+    assert(@api.existscollection?(path))    
+    path = "/db/testcollection/newcollection3/"
     @api.createcollection(path)
     assert(@api.existscollection?(path))
   end
@@ -35,6 +42,13 @@ class TestExistAPI < Test::Unit::TestCase
   
   def test_03_existscollection?()
     assert(@api.existscollection?(@col_path))
+    col_path = "/db"
+    assert(@api.existscollection?(col_path), '"'+col_path+"\" should exist and doesnt.")
+    col_path = "db"
+    assert(@api.existscollection?(col_path), '"'+col_path+"\" should exist and doesnt.")
+    @api.createcollection("db/nexttest")
+    col_path = "db/nexttest"
+    assert(@api.existscollection?(col_path), '"'+col_path+"\" should exist and doesnt.")
   end
   
   def test_04_remove_collection()

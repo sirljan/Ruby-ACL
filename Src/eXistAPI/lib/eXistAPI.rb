@@ -1,4 +1,5 @@
 require "xmlrpc/client"
+$:.unshift(".")
 require 'collection'
 
 class ExistAPI
@@ -24,17 +25,29 @@ class ExistAPI
     raise ExistException.new("Database login failed", 1), caller
   end
   
+  def check_slashes(path)
+    if(path[0] != "/")
+      path = "/" + path
+    end
+    if(path[-1] != "/")    #if last is not "/" then add it
+      path += "/"
+    end
+    return path
+  end
+  
+  
   public
   
-  def createcollection(_name, _parent = nil)
-    if (_parent == nil)
+  def createcollection(name, parent_col = nil)
+    name = check_slashes(name)
+    if (parent_col == nil)
       begin
-        result = @client.call("createCollection", _name)
+        result = @client.call("createCollection", name)
         return result
       end
     else
       begin
-        colname = _parent.getname + _name
+        colname = parent_col.name + name
         result = @client.call("createCollection", colname)
         return result
       end
@@ -46,9 +59,7 @@ class ExistAPI
   end
   
   def getcollection(path)
-    if(path[-1] != "/")    #if last is not "/" then add it
-      path += "/"
-    end
+    path = check_slashes(path)
     col = Collection.new(@client, path)
     return col
   rescue  => e
@@ -57,6 +68,7 @@ class ExistAPI
   
   def existscollection?(orig_path)
     #TODO puts db.existscollection?("db") vyhazuje chybu v irb pri testovani gemu
+    orig_path = check_slashes(orig_path)
     collections = orig_path.split("/")
     collections.delete("")
     i=0
@@ -189,22 +201,3 @@ end
 
 #db = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "admin")
 #puts db.existscollection?("db")
-
-#client = XMLRPC::Client.new("localhost", "/exist/xmlrpc", 8080)
-
-#-----------------
-#if $*.length < 1 then
-#  puts "usage: collections.rb collection-path"
-#  exit(0)
-#end
-#
-#path = $*[0]
-#collection = Collection.new(client, "/db/pokus/")
-#puts collection.to_s
-#collection.documents { |d| puts d.to_s }
-#
-#doc = collection['books.xml']
-#if doc == nil 
-#  error("document not found")
-#end
-#puts doc.content
