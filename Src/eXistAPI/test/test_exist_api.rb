@@ -8,15 +8,15 @@ class TestExistAPI < Test::Unit::TestCase
     @api = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "admin")
     @col_path = "/db/testcollection"
     @cities = "doc(\"#{@col_path}/cities.xml\")"
-    @api.remove_collection(@col_path)
+    #@api.remove_collection(@col_path)
     @api.createcollection(@col_path)
     source = File.read("./test/cities.xml")
     @api.storeresource(source, @col_path+"/cities.xml")
   end
   
-#  def teardown()
-#    @api.remove_collection(@col_path)
-#  end
+  def teardown()
+    @api.remove_collection(@col_path)
+  end
   
   def test_00_create_connection()
     #Test if connect is established

@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=CP852" http-equiv="Content-Type">
+
+<title>class TestExistAPI - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>test/test_exist_api.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">Test::Unit::TestCase
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-setup">#setup</a>
+    
+    <li><a href="#method-i-teardown">#teardown</a>
+    
+    <li><a href="#method-i-test_00_create_connection">#test_00_create_connection</a>
+    
+    <li><a href="#method-i-test_01_createcollection">#test_01_createcollection</a>
+    
+    <li><a href="#method-i-test_02_getcollection">#test_02_getcollection</a>
+    
+    <li><a href="#method-i-test_03_existscollection-3F">#test_03_existscollection?</a>
+    
+    <li><a href="#method-i-test_04_remove_collection">#test_04_remove_collection</a>
+    
+    <li><a href="#method-i-test_05_storeresource">#test_05_storeresource</a>
+    
+    <li><a href="#method-i-test_06_execute_query">#test_06_execute_query</a>
+    
+    <li><a href="#method-i-test_07_retrieve">#test_07_retrieve</a>
+    
+    <li><a href="#method-i-test_08_get_hits">#test_08_get_hits</a>
+    
+    <li><a href="#method-i-test_09_update_insert">#test_09_update_insert</a>
+    
+    <li><a href="#method-i-test_10_update_replace">#test_10_update_replace</a>
+    
+    <li><a href="#method-i-test_11_update_value">#test_11_update_value</a>
+    
+    <li><a href="#method-i-test_12_update_delete">#test_12_update_delete</a>
+    
+    <li><a href="#method-i-test_13_update_rename">#test_13_update_rename</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./LICENSE.html">LICENSE</a>
+  
+    <li class="file"><a href="./README.html">README</a>
+  
+    <li class="file"><a href="./Rakefile.html">Rakefile</a>
+  
+    <li class="file"><a href="./nbproject/private/rake-d_txt.html">rake-d</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./Collection.html">Collection</a>
+  
+    <li><a href="./Document.html">Document</a>
+  
+    <li><a href="./ExistAPI.html">ExistAPI</a>
+  
+    <li><a href="./ExistException.html">ExistException</a>
+  
+    <li><a href="./TestExistAPI.html">TestExistAPI</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class TestExistAPI</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-setup" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">setup</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="setup-source">
+            <pre><span class="ruby-comment"># File test/test_exist_api.rb, line 7</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">setup</span>
+  <span class="ruby-ivar">@api</span> = <span class="ruby-constant">ExistAPI</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;http://localhost:8080/exist/xmlrpc&quot;</span>, <span class="ruby-string">&quot;admin&quot;</span>, <span class="ruby-string">&quot;admin&quot;</span>)
+  <span class="ruby-ivar">@col_path</span> = <span class="ruby-string">&quot;/db/testcollection&quot;</span>
+  <span class="ruby-ivar">@cities</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}/cities.xml\&quot;)&quot;</span>
+  <span class="ruby-comment">#@api.remove_collection(@col_path)</span>
+  <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">createcollection</span>(<span class="ruby-ivar">@col_path</span>)
+  <span class="ruby-identifier">source</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-string">&quot;./test/cities.xml&quot;</span>)
+  <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">storeresource</span>(<span class="ruby-identifier">source</span>, <span class="ruby-ivar">@col_path</span><span class="ruby-operator">+</span><span class="ruby-string">&quot;/cities.xml&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- setup-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- setup-method -->
+
+    
+      <div id="method-i-teardown" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">teardown</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="teardown-source">
+            <pre><span class="ruby-comment"># File test/test_exist_api.rb, line 17</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">teardown</span>()
+  <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">remove_collection</span>(<span class="ruby-ivar">@col_path</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- teardown-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- teardown-method -->
+
+    
+      <div id="method-i-test_00_create_connection" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_00_create_connection</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_00_create_connection-source">
+            <pre><span class="ruby-comment"># File test/test_exist_api.rb, line 21</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_00_create_connection</span>()
+  <span class="ruby-comment">#Test if connect is established</span>
+  <span class="ruby-identifier">assert</span>(<span class="ruby-ivar">@api</span>.<span class="ruby-identifier">existscollection?</span>(<span class="ruby-ivar">@col_path</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_00_create_connection-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_00_create_connection-method -->
+
+    
+      <div id="method-i-test_01_createcollection" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_01_createcollection</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_01_createcollection-source">
+            <pre><span class="ruby-comment"># File test/test_exist_api.rb, line 26</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_01_createcollection</span>
+  <span class="ruby-identifier">path</span> = <span class="ruby-string">&quot;/db/testcollection/newcollection&quot;</span>
+  <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">createcollection</span>(<span class="ruby-identifier">path</span>)
+  <span class="ruby-identifier">assert</span>(<span class="ruby-ivar">@api</span>.<span class="ruby-identifier">existscollection?</span>(<span class="ruby-identifier">path</span>))
+  <span class="ruby-identifier">path</span> = <span class="ruby-string">&quot;db/testcollection/newcollection2&quot;</span>
+  <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">createcollection</span>(<span class="ruby-identifier">path</span>)
+  <span class="ruby-identifier">assert</span>(<span class="ruby-ivar">@api</span>.<span class="ruby-identifier">existscollection?</span>(<span class="ruby-identifier">path</span>))    
+  <span class="ruby-identifier">path</span> = <span class="ruby-string">&quot;/db/testcollection/newcollection3/&quot;</span>
+  <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">createcollection</span>(<span class="ruby-identifier">path</span>)
+  <span class="ruby-identifier">assert</span>(<span class="ruby-ivar">@api</span>.<span class="ruby-identifier">existscollection?</span>(<span class="ruby-identifier">path</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_01_createcollection-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_01_createcollection-method -->
+
+    
+      <div id="method-i-test_02_getcollection" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_02_getcollection</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_02_getcollection-source">
+            <pre><span class="ruby-comment"># File test/test_exist_api.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_02_getcollection</span>
+  <span class="ruby-identifier">col</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">getcollection</span>(<span class="ruby-ivar">@col_path</span>)
+  <span class="ruby-identifier">assert_not_nil</span>(<span class="ruby-identifier">col</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_02_getcollection-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_02_getcollection-method -->
+
+    
+      <div id="method-i-test_03_existscollection-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_03_existscollection?</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_03_existscollection-3F-source">
+            <pre><span class="ruby-comment"># File test/test_exist_api.rb, line 43</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_03_existscollection?</span>()
+  <span class="ruby-identifier">assert</span>(<span class="ruby-ivar">@api</span>.<span class="ruby-identifier">existscollection?</span>(<span class="ruby-ivar">@col_path</span>))
+  <span class="ruby-identifier">col_path</span> = <span class="ruby-string">&quot;/db&quot;</span>
+  <span class="ruby-identifier">assert</span>(<span class="ruby-ivar">@api</span>.<span class="ruby-identifier">existscollection?</span>(<span class="ruby-identifier">col_path</span>), <span class="ruby-string">'&quot;'</span><span class="ruby-operator">+</span><span class="ruby-identifier">col_path</span><span class="ruby-operator">+</span><span class="ruby-string">&quot;\&quot; should exist and doesnt.&quot;</span>)
+  <span class="ruby-identifier">col_path</span> = <span class="ruby-string">&quot;db&quot;</span>
+  <span class="ruby-identifier">assert</span>(<span class="ruby-ivar">@api</span>.<span class="ruby-identifier">existscollection?</span>(<span class="ruby-identifier">col_path</span>), <span class="ruby-string">'&quot;'</span><span class="ruby-operator">+</span><span class="ruby-identifier">col_path</span><span class="ruby-operator">+</span><span class="ruby-string">&quot;\&quot; should exist and doesnt.&quot;</span>)
+  <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">createcollection</span>(<span class="ruby-string">&quot;db/nexttest&quot;</span>)
+  <span class="ruby-identifier">col_path</span> = <span class="ruby-string">&quot;db/nexttest&quot;</span>
+  <span class="ruby-identifier">assert</span>(<span class="ruby-ivar">@api</span>.<span class="ruby-identifier">existscollection?</span>(<span class="ruby-identifier">col_path</span>), <span class="ruby-string">'&quot;'</span><span class="ruby-operator">+</span><span class="ruby-identifier">col_path</span><span class="ruby-operator">+</span><span class="ruby-string">&quot;\&quot; should exist and doesnt.&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_03_existscollection-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_03_existscollection-3F-method -->
+
+    
+      <div id="method-i-test_04_remove_collection" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_04_remove_collection</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_04_remove_collection-source">
+            <pre><span class="ruby-comment"># File test/test_exist_api.rb, line 54</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_04_remove_collection</span>()
+  <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">remove_collection</span>(<span class="ruby-ivar">@col_path</span>)
+  <span class="ruby-identifier">assert</span>(<span class="ruby-operator">!</span><span class="ruby-ivar">@api</span>.<span class="ruby-identifier">existscollection?</span>(<span class="ruby-ivar">@col_path</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_04_remove_collection-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_04_remove_collection-method -->
+
+    
+      <div id="method-i-test_05_storeresource" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_05_storeresource</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_05_storeresource-source">
+            <pre><span class="ruby-comment"># File test/test_exist_api.rb, line 59</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_05_storeresource</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-node">&quot;doc(\&quot;#{@col_path}/cities.xml\&quot;)/cities&quot;</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_05_storeresource-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_05_storeresource-method -->
+
+    
+      <div id="method-i-test_06_execute_query" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_06_execute_query</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_06_execute_query-source">
+            <pre><span class="ruby-comment"># File test/test_exist_api.rb, line 65</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_06_execute_query</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-node">&quot;doc(\&quot;#{@col_path}/cities.xml\&quot;)//city[population&gt;1000000]/name/text()&quot;</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">2</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_06_execute_query-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_06_execute_query-method -->
+
+    
+      <div id="method-i-test_07_retrieve" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_07_retrieve</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_07_retrieve-source">
+            <pre><span class="ruby-comment"># File test/test_exist_api.rb, line 71</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_07_retrieve</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-node">&quot;doc(\&quot;#{@col_path}/cities.xml\&quot;)//city[population&gt;1000000]/name/text()&quot;</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">retrieved_cities</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">hits</span>.<span class="ruby-identifier">times</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">hit</span><span class="ruby-operator">|</span>  
+    <span class="ruby-identifier">city</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">retrieve</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-identifier">hit</span>)
+    <span class="ruby-identifier">retrieved_cities</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">city</span>)
+  }
+  <span class="ruby-identifier">cities</span> = [<span class="ruby-string">&quot;Los Angeles&quot;</span>,<span class="ruby-string">&quot;Praha&quot;</span>]
+  <span class="ruby-identifier">cities</span>.<span class="ruby-identifier">sort!</span>
+  <span class="ruby-identifier">retrieved_cities</span>.<span class="ruby-identifier">sort!</span>
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-identifier">cities</span>, <span class="ruby-identifier">retrieved_cities</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_07_retrieve-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_07_retrieve-method -->
+
+    
+      <div id="method-i-test_08_get_hits" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_08_get_hits</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_08_get_hits-source">
+            <pre><span class="ruby-comment"># File test/test_exist_api.rb, line 85</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_08_get_hits</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-node">&quot;#{@cities}//city[population&gt;1000000]/name/text()&quot;</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">2</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_08_get_hits-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_08_get_hits-method -->
+
+    
+      <div id="method-i-test_09_update_insert" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_09_update_insert</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_09_update_insert-source">
+            <pre><span class="ruby-comment"># File test/test_exist_api.rb, line 91</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_09_update_insert</span>
+  <span class="ruby-identifier">expr</span> = <span class="ruby-string">&quot;&lt;capital&gt;yes&lt;/capital&gt;&quot;</span>
+  <span class="ruby-identifier">pos</span> = <span class="ruby-string">&quot;into&quot;</span>
+  <span class="ruby-identifier">expr_single</span> = <span class="ruby-node">&quot;#{@cities}//city[name=\&quot;Praha\&quot;]&quot;</span>
+  <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">update_insert</span>(<span class="ruby-identifier">expr</span>, <span class="ruby-identifier">pos</span>, <span class="ruby-identifier">expr_single</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;#{@cities}//city[name=\&quot;Praha\&quot; and capital=\&quot;yes\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-comment">#puts query    </span>
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-comment">#puts hits</span>
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_09_update_insert-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_09_update_insert-method -->
+
+    
+      <div id="method-i-test_10_update_replace" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_10_update_replace</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_10_update_replace-source">
+            <pre><span class="ruby-comment"># File test/test_exist_api.rb, line 104</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_10_update_replace</span>
+  <span class="ruby-identifier">test_09_update_insert</span>
+  <span class="ruby-identifier">expr</span> = <span class="ruby-node">&quot;#{@cities}//city[name=\&quot;Praha\&quot;]/capital&quot;</span>
+  <span class="ruby-identifier">expr_single</span> = <span class="ruby-string">&quot;&lt;capital_of&gt;Czech Republic&lt;/capital_of&gt;&quot;</span>
+  <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">update_replace</span>(<span class="ruby-identifier">expr</span>, <span class="ruby-identifier">expr_single</span>)
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-node">&quot;#{@cities}//city[capital_of=\&quot;Czech Republic\&quot;]&quot;</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_10_update_replace-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_10_update_replace-method -->
+
+    
+      <div id="method-i-test_11_update_value" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_11_update_value</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_11_update_value-source">
+            <pre><span class="ruby-comment"># File test/test_exist_api.rb, line 114</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_11_update_value</span>
+  <span class="ruby-identifier">expr</span> = <span class="ruby-node">&quot;#{@cities}//city[name=\&quot;Praha\&quot;]/name/text()&quot;</span>
+  <span class="ruby-identifier">expr_single</span> = <span class="ruby-string">'&quot;Prague&quot;'</span>
+  <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">update_value</span>(<span class="ruby-identifier">expr</span>, <span class="ruby-identifier">expr_single</span>)
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-node">&quot;#{@cities}//city[name=#{expr_single}]&quot;</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_11_update_value-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_11_update_value-method -->
+
+    
+      <div id="method-i-test_12_update_delete" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_12_update_delete</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_12_update_delete-source">
+            <pre><span class="ruby-comment"># File test/test_exist_api.rb, line 123</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_12_update_delete</span>
+  <span class="ruby-identifier">expr</span> = <span class="ruby-node">&quot;#{@cities}//city[name=\&quot;Praha\&quot;]&quot;</span>
+  <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">update_delete</span>(<span class="ruby-identifier">expr</span>)
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-node">&quot;#{@cities}//city[name=\&quot;Praha\&quot;]&quot;</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_12_update_delete-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_12_update_delete-method -->
+
+    
+      <div id="method-i-test_13_update_rename" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_13_update_rename</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_13_update_rename-source">
+            <pre><span class="ruby-comment"># File test/test_exist_api.rb, line 131</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_13_update_rename</span>
+  <span class="ruby-identifier">expr</span> = <span class="ruby-node">&quot;#{@cities}//population&quot;</span>
+  <span class="ruby-comment">#puts expr</span>
+  <span class="ruby-identifier">expr_single</span> = <span class="ruby-string">'&quot;citizens&quot;'</span>
+  <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">update_rename</span>(<span class="ruby-identifier">expr</span>, <span class="ruby-identifier">expr_single</span>)
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-node">&quot;#{@cities}//population&quot;</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">hits</span>)
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-node">&quot;#{@cities}//citizens&quot;</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@api</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert</span>(<span class="ruby-identifier">hits</span><span class="ruby-operator">&gt;</span><span class="ruby-value">0</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_13_update_rename-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_13_update_rename-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
