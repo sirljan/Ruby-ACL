@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=CP852" http-equiv="Content-Type">
+
+<title>class TestRubyACL - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>test/tc_rubyacl_set1.rb
+    <li>test/tc_rubyacl_set2.rb
+    <li>test/tc_rubyacl_set3.rb
+    <li>test/tc_rubyacl_set4.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">Test::Unit::TestCase
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-setup">#setup</a>
+    
+    <li><a href="#method-i-test_set1_01_create_acl">#test_set1_01_create_acl</a>
+    
+    <li><a href="#method-i-test_set1_02_save">#test_set1_02_save</a>
+    
+    <li><a href="#method-i-test_set1_03_load">#test_set1_03_load</a>
+    
+    <li><a href="#method-i-test_set1_04_setname">#test_set1_04_setname</a>
+    
+    <li><a href="#method-i-test_set1_05_show_permissions_of">#test_set1_05_show_permissions_of</a>
+    
+    <li><a href="#method-i-test_set2_01_create_principal">#test_set2_01_create_principal</a>
+    
+    <li><a href="#method-i-test_set2_02a_create_group">#test_set2_02a_create_group</a>
+    
+    <li><a href="#method-i-test_set2_02b_create_group">#test_set2_02b_create_group</a>
+    
+    <li><a href="#method-i-test_set2_02c_create_group">#test_set2_02c_create_group</a>
+    
+    <li><a href="#method-i-test_set2_03_create_privilege">#test_set2_03_create_privilege</a>
+    
+    <li><a href="#method-i-test_set2_04_create_resource_object">#test_set2_04_create_resource_object</a>
+    
+    <li><a href="#method-i-test_set2_05_create_ace">#test_set2_05_create_ace</a>
+    
+    <li><a href="#method-i-test_set2_06_create_ace">#test_set2_06_create_ace</a>
+    
+    <li><a href="#method-i-test_set3_00a_add_membership_principal">#test_set3_00a_add_membership_principal</a>
+    
+    <li><a href="#method-i-test_set3_00b_add_membership_principal">#test_set3_00b_add_membership_principal</a>
+    
+    <li><a href="#method-i-test_set3_01_add_membership_privilege">#test_set3_01_add_membership_privilege</a>
+    
+    <li><a href="#method-i-test_set3_02_del_membership_principal">#test_set3_02_del_membership_principal</a>
+    
+    <li><a href="#method-i-test_set3_03_del_membership_privilege">#test_set3_03_del_membership_privilege</a>
+    
+    <li><a href="#method-i-test_set3_04a_delete_principal">#test_set3_04a_delete_principal</a>
+    
+    <li><a href="#method-i-test_set3_04b_delete_group">#test_set3_04b_delete_group</a>
+    
+    <li><a href="#method-i-test_set3_04c_delete_principal">#test_set3_04c_delete_principal</a>
+    
+    <li><a href="#method-i-test_set3_05a_delete_privilege">#test_set3_05a_delete_privilege</a>
+    
+    <li><a href="#method-i-test_set3_05b_delete_privilege">#test_set3_05b_delete_privilege</a>
+    
+    <li><a href="#method-i-test_set3_06a_delete_res_object">#test_set3_06a_delete_res_object</a>
+    
+    <li><a href="#method-i-test_set3_06b_delete_res_object">#test_set3_06b_delete_res_object</a>
+    
+    <li><a href="#method-i-test_set3_07_del_ace">#test_set3_07_del_ace</a>
+    
+    <li><a href="#method-i-test_set3_08_rename_principal">#test_set3_08_rename_principal</a>
+    
+    <li><a href="#method-i-test_set3_08a_check1">#test_set3_08a_check1</a>
+    
+    <li><a href="#method-i-test_set3_08b_check1">#test_set3_08b_check1</a>
+    
+    <li><a href="#method-i-test_set3_09_check">#test_set3_09_check</a>
+    
+    <li><a href="#method-i-test_set3_09_rename_privilege">#test_set3_09_rename_privilege</a>
+    
+    <li><a href="#method-i-test_set3_10_check">#test_set3_10_check</a>
+    
+    <li><a href="#method-i-test_set3_11_check">#test_set3_11_check</a>
+    
+    <li><a href="#method-i-test_set3_12_change_res_ob_type">#test_set3_12_change_res_ob_type</a>
+    
+    <li><a href="#method-i-test_set3_12_check">#test_set3_12_check</a>
+    
+    <li><a href="#method-i-test_set3_13_change_of_res_ob_address">#test_set3_13_change_of_res_ob_address</a>
+    
+    <li><a href="#method-i-test_set3_13_check">#test_set3_13_check</a>
+    
+    <li><a href="#method-i-test_set3_14_change_of_res_ob_owner">#test_set3_14_change_of_res_ob_owner</a>
+    
+    <li><a href="#method-i-test_set3_14_check">#test_set3_14_check</a>
+    
+    <li><a href="#method-i-test_set3_15_check">#test_set3_15_check</a>
+    
+    <li><a href="#method-i-test_set3_16_check">#test_set3_16_check</a>
+    
+    <li><a href="#method-i-test_set3_17_check">#test_set3_17_check</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./LICENSE.html">LICENSE</a>
+  
+    <li class="file"><a href="./README.html">README</a>
+  
+    <li class="file"><a href="./Rakefile.html">Rakefile</a>
+  
+    <li class="file"><a href="./nbproject/private/rake-d_txt.html">rake-d</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./ACL_Object.html">ACL_Object</a>
+  
+    <li><a href="./Ace.html">Ace</a>
+  
+    <li><a href="./AceRule.html">AceRule</a>
+  
+    <li><a href="./Group.html">Group</a>
+  
+    <li><a href="./Individual.html">Individual</a>
+  
+    <li><a href="./Principal.html">Principal</a>
+  
+    <li><a href="./Privilege.html">Privilege</a>
+  
+    <li><a href="./ResourceObject.html">ResourceObject</a>
+  
+    <li><a href="./RubyACL.html">RubyACL</a>
+  
+    <li><a href="./RubyACLException.html">RubyACLException</a>
+  
+    <li><a href="./TestRubyACL.html">TestRubyACL</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class TestRubyACL</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-setup" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">setup</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="setup-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set1.rb, line 12</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">setup</span>
+  <span class="ruby-ivar">@db</span> = <span class="ruby-constant">ExistAPI</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;http://localhost:8080/exist/xmlrpc&quot;</span>, <span class="ruby-string">&quot;admin&quot;</span>, <span class="ruby-string">&quot;admin&quot;</span>)
+  <span class="ruby-ivar">@col_path</span> = <span class="ruby-string">&quot;/db/test_acl/&quot;</span>
+  <span class="ruby-ivar">@src_files_path</span> = <span class="ruby-string">&quot;./lib/src_files/&quot;</span>
+  <span class="ruby-keyword">if</span>(<span class="ruby-ivar">@db</span>.<span class="ruby-identifier">existscollection?</span>(<span class="ruby-ivar">@col_path</span>))
+    <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">remove_collection</span>(<span class="ruby-ivar">@col_path</span>) <span class="ruby-comment">#Deleting old ACL from db for testing purposes.</span>
+  <span class="ruby-keyword">end</span>
+   <span class="ruby-ivar">@test_acl</span> = <span class="ruby-constant">RubyACL</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;test_acl&quot;</span>, <span class="ruby-ivar">@db</span>, <span class="ruby-ivar">@col_path</span>, <span class="ruby-ivar">@src_files_path</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- setup-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- setup-method -->
+
+    
+      <div id="method-i-test_set1_01_create_acl" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set1_01_create_acl</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set1_01_create_acl-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set1.rb, line 22</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set1_01_create_acl</span>
+  <span class="ruby-identifier">collection</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">getcollection</span>(<span class="ruby-ivar">@col_path</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">true</span>, <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">existscollection?</span>(<span class="ruby-ivar">@col_path</span>))  <span class="ruby-comment"># Collection must existc</span>
+  <span class="ruby-comment"># In collecition must be acl.xml, Principals.xml, Privileges.xml, ResourceObjects.xml</span>
+  <span class="ruby-identifier">assert_equal</span>([<span class="ruby-string">'acl.xml'</span>,<span class="ruby-string">'Principals.xml'</span>,<span class="ruby-string">'Privileges.xml'</span>,<span class="ruby-string">'ResourceObjects.xml'</span>], <span class="ruby-identifier">collection</span>.<span class="ruby-identifier">docs</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set1_01_create_acl-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set1_01_create_acl-method -->
+
+    
+      <div id="method-i-test_set1_02_save" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set1_02_save</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set1_02_save-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set1.rb, line 29</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set1_02_save</span>
+  <span class="ruby-comment">#TODO proverit</span>
+  <span class="ruby-ivar">@save_path</span> = <span class="ruby-string">&quot;./test/test_backup/&quot;</span>
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">save</span>(<span class="ruby-ivar">@save_path</span>, <span class="ruby-keyword">true</span>)
+  <span class="ruby-ivar">@save_path</span> = <span class="ruby-ivar">@save_path</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">today</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;/&quot;</span>
+  <span class="ruby-identifier">assert_not_nil</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">size?</span>(<span class="ruby-ivar">@save_path</span><span class="ruby-operator">+</span><span class="ruby-string">'acl.xml'</span>))
+  <span class="ruby-identifier">assert_not_nil</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">size?</span>(<span class="ruby-ivar">@save_path</span><span class="ruby-operator">+</span><span class="ruby-string">'Principals.xml'</span>))
+  <span class="ruby-identifier">assert_not_nil</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">size?</span>(<span class="ruby-ivar">@save_path</span><span class="ruby-operator">+</span><span class="ruby-string">'Privileges.xml'</span>))
+  <span class="ruby-identifier">assert_not_nil</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">size?</span>(<span class="ruby-ivar">@save_path</span><span class="ruby-operator">+</span><span class="ruby-string">'ResourceObjects.xml'</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set1_02_save-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set1_02_save-method -->
+
+    
+      <div id="method-i-test_set1_03_load" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set1_03_load</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set1_03_load-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set1.rb, line 40</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set1_03_load</span>
+  <span class="ruby-comment">#TODO proverit</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-node">&quot;doc(\&quot;#{@col_path}acl.xml\&quot;)/acl/string(@aclname)&quot;</span>)
+  <span class="ruby-identifier">acl_name</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">retrieve</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-value">0</span>)
+  <span class="ruby-identifier">test_set1_02_save</span>
+  <span class="ruby-identifier">test_loaded_acl</span> = <span class="ruby-constant">RubyACL</span>.<span class="ruby-identifier">load</span>(<span class="ruby-ivar">@db</span>, <span class="ruby-string">&quot;/db/loaded_acl/&quot;</span>, <span class="ruby-ivar">@save_path</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-identifier">acl_name</span>, <span class="ruby-identifier">test_loaded_acl</span>.<span class="ruby-identifier">name</span>)
+  <span class="ruby-keyword">if</span>(<span class="ruby-ivar">@db</span>.<span class="ruby-identifier">existscollection?</span>(<span class="ruby-string">&quot;/db/loaded_acl/&quot;</span>))
+    <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">remove_collection</span>(<span class="ruby-string">&quot;/db/loaded_acl/&quot;</span>) <span class="ruby-comment">#Deleting loaded ACL from db after test_load</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set1_03_load-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set1_03_load-method -->
+
+    
+      <div id="method-i-test_set1_04_setname" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set1_04_setname</span><span
+            class="method-args">(new_name = "other_name")</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set1_04_setname-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set1.rb, line 52</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set1_04_setname</span>(<span class="ruby-identifier">new_name</span> = <span class="ruby-string">&quot;other_name&quot;</span>)
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">rename</span>(<span class="ruby-identifier">new_name</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}acl.xml\&quot;)/acl[@aclname=\&quot;#{new_name}\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set1_04_setname-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set1_04_setname-method -->
+
+    
+      <div id="method-i-test_set1_05_show_permissions_of" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set1_05_show_permissions_of</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set1_05_show_permissions_of-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set1.rb, line 60</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set1_05_show_permissions_of</span>()
+    <span class="ruby-identifier">perm</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">show_permissions_for</span>(<span class="ruby-string">&quot;sirljan&quot;</span>)
+    <span class="ruby-identifier">shouldbe</span> = <span class="ruby-string">'&lt;Ace id=&quot;a894&quot;&gt;
+    &lt;Principal idref=&quot;Users&quot;/&gt;
+    &lt;accessType&gt;allow&lt;/accessType&gt;
+    &lt;Privilege idref=&quot;SELECT&quot;/&gt;
+    &lt;ResourceObject idref=&quot;852&quot;/&gt;
+&lt;/Ace&gt;'</span>
+    <span class="ruby-identifier">assert_equal</span>(<span class="ruby-identifier">shouldbe</span>, <span class="ruby-identifier">perm</span>)
+  <span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set1_05_show_permissions_of-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set1_05_show_permissions_of-method -->
+
+    
+      <div id="method-i-test_set2_01_create_principal" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set2_01_create_principal</span><span
+            class="method-args">(name = 'labut')</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set2_01_create_principal-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set2.rb, line 13</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set2_01_create_principal</span>(<span class="ruby-identifier">name</span> = <span class="ruby-string">'labut'</span>)
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_principal</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Principals.xml\&quot;)/Principals/descendant::*[@id=\&quot;#{name}\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)
+  <span class="ruby-comment">#checks if creating same principal will raise exception</span>
+  <span class="ruby-identifier">assert_raise</span> ( <span class="ruby-constant">RubyACLException</span> ) {
+    <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_principal</span>(<span class="ruby-identifier">name</span>)
+  }
+  <span class="ruby-identifier">assert_raise</span> ( <span class="ruby-constant">RubyACLException</span> ) {
+    <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_group</span>(<span class="ruby-identifier">name</span>)
+  }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set2_01_create_principal-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set2_01_create_principal-method -->
+
+    
+      <div id="method-i-test_set2_02a_create_group" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set2_02a_create_group</span><span
+            class="method-args">(name = 'ptaciHejno')</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set2_02a_create_group-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set2.rb, line 28</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set2_02a_create_group</span>(<span class="ruby-identifier">name</span> = <span class="ruby-string">'ptaciHejno'</span>)
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_group</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Principals.xml\&quot;)/Principals/descendant::*[@id=\&quot;#{name}\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)
+  <span class="ruby-comment">#checks if creating same principal will raise exception</span>
+  <span class="ruby-identifier">assert_raise</span> ( <span class="ruby-constant">RubyACLException</span> ) {
+    <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_principal</span>(<span class="ruby-identifier">name</span>)
+  }
+  <span class="ruby-identifier">assert_raise</span> ( <span class="ruby-constant">RubyACLException</span> ) {
+    <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_group</span>(<span class="ruby-identifier">name</span>)
+  }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set2_02a_create_group-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set2_02a_create_group-method -->
+
+    
+      <div id="method-i-test_set2_02b_create_group" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set2_02b_create_group</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>if user is member of group</p>
+          
+
+          
+          <div class="method-source-code" id="test_set2_02b_create_group-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set2.rb, line 44</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set2_02b_create_group</span>()
+  <span class="ruby-identifier">group</span> = <span class="ruby-string">&quot;test_group&quot;</span>
+  <span class="ruby-identifier">user</span> = <span class="ruby-string">&quot;test_user&quot;</span>
+  
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_principal</span>(<span class="ruby-identifier">user</span>)
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_group</span>(<span class="ruby-identifier">group</span>, [<span class="ruby-string">&quot;ALL&quot;</span>], [<span class="ruby-identifier">user</span>])
+  
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Principals.xml\&quot;)//node()[@id=\&quot;#{user}\&quot;]/membership/mgroup[@idref=\&quot;#{group}\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set2_02b_create_group-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set2_02b_create_group-method -->
+
+    
+      <div id="method-i-test_set2_02c_create_group" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set2_02c_create_group</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set2_02c_create_group-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set2.rb, line 57</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set2_02c_create_group</span>()
+  <span class="ruby-identifier">group</span> = <span class="ruby-string">&quot;test_group&quot;</span>
+  <span class="ruby-identifier">user</span> = <span class="ruby-string">&quot;notExisting_user&quot;</span>
+  
+  <span class="ruby-identifier">assert_raise</span> (<span class="ruby-constant">RubyACLException</span>) {
+    <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_group</span>(<span class="ruby-identifier">group</span>, [<span class="ruby-string">&quot;ALL&quot;</span>], [<span class="ruby-identifier">user</span>])
+  }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set2_02c_create_group-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set2_02c_create_group-method -->
+
+    
+      <div id="method-i-test_set2_03_create_privilege" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set2_03_create_privilege</span><span
+            class="method-args">(name = "LITAT")</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set2_03_create_privilege-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set2.rb, line 66</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set2_03_create_privilege</span>(<span class="ruby-identifier">name</span> = <span class="ruby-string">&quot;LITAT&quot;</span>)
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_privilege</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Privileges.xml\&quot;)/Privileges/descendant::*[@id=\&quot;#{name}\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)
+  <span class="ruby-identifier">assert_raise</span> ( <span class="ruby-constant">RubyACLException</span> ) {
+    <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_privilege</span>(<span class="ruby-identifier">name</span>)
+  }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set2_03_create_privilege-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set2_03_create_privilege-method -->
+
+    
+      <div id="method-i-test_set2_04_create_resource_object" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set2_04_create_resource_object</span><span
+            class="method-args">(type = 'Rybnik', address = '/Rozmberk', owner = 'sirljan')</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set2_04_create_resource_object-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set2.rb, line 77</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set2_04_create_resource_object</span>(<span class="ruby-identifier">type</span> = <span class="ruby-string">'Rybnik'</span>, <span class="ruby-identifier">address</span> = <span class="ruby-string">'/Rozmberk'</span>, <span class="ruby-identifier">owner</span> = <span class="ruby-string">'sirljan'</span>)
+  <span class="ruby-identifier">id</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_resource_object</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">address</span>, <span class="ruby-identifier">owner</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}ResourceObjects.xml\&quot;)/ResourceObjects/descendant::*[@id=\&quot;#{id}\&quot;]&quot;</span>
+  <span class="ruby-comment">#puts &quot;query #{query}&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-comment">#puts &quot;hits #{hits}&quot;</span>
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)
+  <span class="ruby-identifier">new_id</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_resource_object</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">address</span>, <span class="ruby-identifier">owner</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-identifier">id</span>, <span class="ruby-identifier">new_id</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">id</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set2_04_create_resource_object-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set2_04_create_resource_object-method -->
+
+    
+      <div id="method-i-test_set2_05_create_ace" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set2_05_create_ace</span><span
+            class="method-args">(prin_name = 'sirljan', acc_type = 'allow', priv_name = 'SELECT', res_ob_type = 'doc', res_ob_adrs='/db/cities/cities.xml')</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set2_05_create_ace-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set2.rb, line 90</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'sirljan'</span>, <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'allow'</span>, <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'SELECT'</span>, <span class="ruby-identifier">res_ob_type</span> = <span class="ruby-string">'doc'</span>, <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/cities/cities.xml'</span>)
+  <span class="ruby-identifier">id</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}acl.xml\&quot;)//Aces/descendant::*[@id=\&quot;#{id}\&quot;]&quot;</span>
+  <span class="ruby-comment">#puts &quot;query #{query}&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-comment">#puts &quot;hits #{hits}&quot;</span>
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">id</span>
+  <span class="ruby-identifier">assert_raise</span> ( <span class="ruby-constant">RubyACLException</span> ) {
+    <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set2_05_create_ace-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set2_05_create_ace-method -->
+
+    
+      <div id="method-i-test_set2_06_create_ace" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set2_06_create_ace</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>if different acctype will raise exception</p>
+          
+
+          
+          <div class="method-source-code" id="test_set2_06_create_ace-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set2.rb, line 105</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set2_06_create_ace</span>()
+  <span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'Misa'</span>
+  <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'smrdi'</span>
+  <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'SELECT'</span>
+  <span class="ruby-identifier">res_ob_type</span> = <span class="ruby-string">'doc'</span>
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/cities/cities.xml'</span>
+  <span class="ruby-identifier">assert_raise</span> <span class="ruby-constant">RubyACLException</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set2_06_create_ace-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set2_06_create_ace-method -->
+
+    
+      <div id="method-i-test_set3_00a_add_membership_principal" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_00a_add_membership_principal</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_00a_add_membership_principal-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 12</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_00a_add_membership_principal</span>
+  <span class="ruby-identifier">test_set2_01_create_principal</span>
+  <span class="ruby-identifier">test_set2_02a_create_group</span>
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">add_membership_principal</span>(<span class="ruby-string">&quot;labut&quot;</span>, [<span class="ruby-string">'ptaciHejno'</span>])
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Principals.xml\&quot;)/Principals/descendant::*[@id=\&quot;labut\&quot;]/membership/mgroup[@idref=\&quot;ptaciHejno\&quot;]&quot;</span>
+  <span class="ruby-comment">#puts &quot;query #{query}&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-comment">#puts &quot;hits #{hits}&quot;</span>
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)
+  <span class="ruby-identifier">assert_raise</span> (<span class="ruby-constant">RubyACLException</span>){
+    <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">add_membership_principal</span>(<span class="ruby-string">&quot;labut&quot;</span>, [<span class="ruby-string">'NotExisting'</span>])
+  }
+  <span class="ruby-identifier">assert_raise</span> (<span class="ruby-constant">RubyACLException</span>){
+    <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">add_membership_principal</span>(<span class="ruby-string">&quot;NotExisting&quot;</span>, [<span class="ruby-string">'ptaciHejno'</span>])
+  }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_00a_add_membership_principal-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_00a_add_membership_principal-method -->
+
+    
+      <div id="method-i-test_set3_00b_add_membership_principal" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_00b_add_membership_principal</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_00b_add_membership_principal-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 30</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_00b_add_membership_principal</span>
+  <span class="ruby-identifier">test_set2_01_create_principal</span>
+  <span class="ruby-identifier">test_set2_02a_create_group</span>
+  <span class="ruby-identifier">assert_raise</span> ( <span class="ruby-constant">RubyACLException</span> ) {
+    <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">add_membership_principal</span>(<span class="ruby-string">&quot;ptaciHejno&quot;</span>, [<span class="ruby-string">'labut'</span>])
+  }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_00b_add_membership_principal-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_00b_add_membership_principal-method -->
+
+    
+      <div id="method-i-test_set3_01_add_membership_privilege" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_01_add_membership_privilege</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_01_add_membership_privilege-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_01_add_membership_privilege</span>
+  <span class="ruby-identifier">test_set2_03_create_privilege</span>(<span class="ruby-string">'KUTALET'</span>)
+  <span class="ruby-identifier">assert_raise</span> ( <span class="ruby-constant">RubyACLException</span> ) {
+    <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">add_membership_privilege</span>(<span class="ruby-string">&quot;STAT&quot;</span>, [<span class="ruby-string">'KUTALET'</span>])
+  }
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_privilege</span>(<span class="ruby-string">&quot;STAT&quot;</span>)
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">add_membership_privilege</span>(<span class="ruby-string">&quot;STAT&quot;</span>, [<span class="ruby-string">'KUTALET'</span>])
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Privileges.xml\&quot;)/Privileges/descendant::*[@id=\&quot;STAT\&quot;]/membership/mgroup[@idref=\&quot;KUTALET\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)
+  <span class="ruby-identifier">assert_raise</span> ( <span class="ruby-constant">RubyACLException</span> ) {
+    <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">add_membership_privilege</span>(<span class="ruby-string">&quot;STAT&quot;</span>, [<span class="ruby-string">'NotExisting'</span>])
+  }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_01_add_membership_privilege-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_01_add_membership_privilege-method -->
+
+    
+      <div id="method-i-test_set3_02_del_membership_principal" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_02_del_membership_principal</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_02_del_membership_principal-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 54</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_02_del_membership_principal</span>
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">del_membership_principal</span>(<span class="ruby-string">&quot;Klubicko&quot;</span>, [<span class="ruby-string">'Users'</span>])
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Principals.xml\&quot;)/Principals/descendant::*[@id=\&quot;Klubicko\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-comment">#puts &quot;hits #{hits}&quot;</span>
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Principals.xml\&quot;)/Principals/descendant::*[@id=\&quot;Klubicko\&quot;]/membership/mgroup[@idref=\&quot;Users\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">hits</span>)
+  <span class="ruby-identifier">assert_raise</span> ( <span class="ruby-constant">RubyACLException</span> ) {
+    <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">del_membership_principal</span>(<span class="ruby-string">&quot;NotExisting&quot;</span>, [<span class="ruby-string">'Users'</span>])
+  }    
+  <span class="ruby-identifier">assert_raise</span> ( <span class="ruby-constant">RubyACLException</span> ) {
+    <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">del_membership_principal</span>(<span class="ruby-string">&quot;Klubicko&quot;</span>, [<span class="ruby-string">'NotExisting'</span>])
+  }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_02_del_membership_principal-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_02_del_membership_principal-method -->
+
+    
+      <div id="method-i-test_set3_03_del_membership_privilege" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_03_del_membership_privilege</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_03_del_membership_privilege-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 73</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_03_del_membership_privilege</span>
+  <span class="ruby-identifier">test_set3_01_add_membership_privilege</span>
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">del_membership_privilege</span>(<span class="ruby-string">&quot;STAT&quot;</span>, [<span class="ruby-string">'KUTALET'</span>])
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Privileges.xml\&quot;)/Privileges/descendant::*[@id=\&quot;STAT\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)     <span class="ruby-comment">#confirms STAT exists</span>
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Privileges.xml\&quot;)/Privileges/descendant::*[@id=\&quot;STAT\&quot;]/membership/mgroup[@idref=\&quot;KUTALET\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">hits</span>)     <span class="ruby-comment">#confirms STAT is not in member of privilege KUTALET</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_03_del_membership_privilege-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_03_del_membership_privilege-method -->
+
+    
+      <div id="method-i-test_set3_04a_delete_principal" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_04a_delete_principal</span><span
+            class="method-args">(name = 'blabol')</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_04a_delete_principal-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 86</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_04a_delete_principal</span>(<span class="ruby-identifier">name</span> = <span class="ruby-string">'blabol'</span>)
+  <span class="ruby-identifier">test_set2_01_create_principal</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">delete_principal</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Principals.xml\&quot;)/Principals/descendant::*[@id=\&quot;#{name}\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_04a_delete_principal-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_04a_delete_principal-method -->
+
+    
+      <div id="method-i-test_set3_04b_delete_group" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_04b_delete_group</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>checks if is deleted references of membership</p>
+          
+
+          
+          <div class="method-source-code" id="test_set3_04b_delete_group-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 96</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_04b_delete_group</span>()
+  <span class="ruby-identifier">group</span> = <span class="ruby-string">&quot;test_group&quot;</span>
+  <span class="ruby-identifier">user</span> = <span class="ruby-string">&quot;test_user&quot;</span>
+  
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_principal</span>(<span class="ruby-identifier">user</span>)
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_group</span>(<span class="ruby-identifier">group</span>, [<span class="ruby-string">&quot;ALL&quot;</span>], [<span class="ruby-identifier">user</span>])
+  
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Principals.xml\&quot;)//node()[@id=\&quot;#{user}\&quot;]/membership/mgroup[@idref=\&quot;#{group}\&quot;]&quot;</span>
+  <span class="ruby-comment">#puts query</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)
+  
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">delete_principal</span>(<span class="ruby-identifier">group</span>)
+  
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Principals.xml\&quot;)//node()[@id=\&quot;#{user}\&quot;]/membership/mgroup[@idref=\&quot;#{group}\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_04b_delete_group-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_04b_delete_group-method -->
+
+    
+      <div id="method-i-test_set3_04c_delete_principal" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_04c_delete_principal</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>checks if ACE is deleted</p>
+          
+
+          
+          <div class="method-source-code" id="test_set3_04c_delete_principal-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 118</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_04c_delete_principal</span>()
+  <span class="ruby-identifier">user</span> = <span class="ruby-string">&quot;test_user&quot;</span>
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_principal</span>(<span class="ruby-identifier">user</span>)
+  <span class="ruby-identifier">id</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_ace</span>(<span class="ruby-identifier">user</span>, <span class="ruby-string">&quot;allow&quot;</span>, <span class="ruby-string">&quot;SELECT&quot;</span>, <span class="ruby-string">&quot;test&quot;</span>, <span class="ruby-string">&quot;/db/temporary/testsource&quot;</span>)
+  
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">delete_principal</span>(<span class="ruby-identifier">user</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}acl.xml\&quot;)//node()[@id=\&quot;#{id}\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_04c_delete_principal-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_04c_delete_principal-method -->
+
+    
+      <div id="method-i-test_set3_05a_delete_privilege" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_05a_delete_privilege</span><span
+            class="method-args">(name = 'KECAT')</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_05a_delete_privilege-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 130</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_05a_delete_privilege</span>(<span class="ruby-identifier">name</span> = <span class="ruby-string">'KECAT'</span>)
+  <span class="ruby-identifier">test_set2_03_create_privilege</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">delete_privilege</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Privileges.xml\&quot;)/Privileges/descendant::*[@id=\&quot;#{name}\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_05a_delete_privilege-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_05a_delete_privilege-method -->
+
+    
+      <div id="method-i-test_set3_05b_delete_privilege" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_05b_delete_privilege</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_05b_delete_privilege-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 139</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_05b_delete_privilege</span>()
+  <span class="ruby-identifier">user</span> = <span class="ruby-string">&quot;test_user&quot;</span>
+  <span class="ruby-identifier">priv</span> = <span class="ruby-string">&quot;test_privilege&quot;</span>
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_privilege</span>(<span class="ruby-identifier">priv</span>)
+  <span class="ruby-identifier">id</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_ace</span>(<span class="ruby-identifier">user</span>, <span class="ruby-string">&quot;allow&quot;</span>, <span class="ruby-identifier">priv</span>, <span class="ruby-string">&quot;test&quot;</span>, <span class="ruby-string">&quot;/db/temporary/testsource&quot;</span>)
+  
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">delete_privilege</span>(<span class="ruby-identifier">priv</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}acl.xml\&quot;)//node()[@id=\&quot;#{id}\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_05b_delete_privilege-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_05b_delete_privilege-method -->
+
+    
+      <div id="method-i-test_set3_06a_delete_res_object" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_06a_delete_res_object</span><span
+            class="method-args">(type = 'Les', address = 'cernocerny')</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_06a_delete_res_object-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 152</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_06a_delete_res_object</span>(<span class="ruby-identifier">type</span> = <span class="ruby-string">'Les'</span>, <span class="ruby-identifier">address</span> = <span class="ruby-string">'cernocerny'</span>)
+  <span class="ruby-comment">#r = ResourceObject.new(@db, @col_path)</span>
+  <span class="ruby-comment">#puts r.find_res_ob(type, address)</span>
+  <span class="ruby-identifier">id_created</span> = <span class="ruby-identifier">test_set2_04_create_resource_object</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">address</span>)
+  <span class="ruby-comment">#puts r.find_res_ob(type, address)</span>
+  <span class="ruby-identifier">id_del</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">delete_res_object</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">address</span>)
+  <span class="ruby-identifier">assert</span>(<span class="ruby-identifier">id_created</span>, <span class="ruby-identifier">id_del</span>)
+  <span class="ruby-comment">#puts &quot;res ID #{id_del}&quot;</span>
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}ResourceObjects.xml\&quot;)/ResourceObjects/descendant::*[@id=\&quot;#{id_del}\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">hits</span>, <span class="ruby-string">&quot;Method \&quot;delete_res_object\&quot; is not working properly.&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_06a_delete_res_object-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_06a_delete_res_object-method -->
+
+    
+      <div id="method-i-test_set3_06b_delete_res_object" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_06b_delete_res_object</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Checks if ACE mentioning resOb is deleted too</p>
+          
+
+          
+          <div class="method-source-code" id="test_set3_06b_delete_res_object-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 167</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_06b_delete_res_object</span>()
+  <span class="ruby-identifier">user</span> = <span class="ruby-string">&quot;test_user&quot;</span>
+  <span class="ruby-identifier">priv</span> = <span class="ruby-string">&quot;test_privilege&quot;</span>
+  <span class="ruby-identifier">res_ob_type</span> = <span class="ruby-string">&quot;test&quot;</span>
+  <span class="ruby-identifier">res_ob_adr</span> = <span class="ruby-string">&quot;/db/temporary/testsource&quot;</span>
+  
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_principal</span>(<span class="ruby-identifier">user</span>)
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_resource_object</span>(<span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adr</span>, <span class="ruby-identifier">user</span>)
+  <span class="ruby-identifier">id</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">create_ace</span>(<span class="ruby-identifier">user</span>, <span class="ruby-string">&quot;allow&quot;</span>, <span class="ruby-identifier">priv</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adr</span>)
+  
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">delete_res_object</span>(<span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adr</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}acl.xml\&quot;)//node()[@id=\&quot;#{id}\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_06b_delete_res_object-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_06b_delete_res_object-method -->
+
+    
+      <div id="method-i-test_set3_07_del_ace" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_07_del_ace</span><span
+            class="method-args">(prin_name = 'Klubicko', acc_type = 'allow', priv_name = 'ALL_PRIVILEGES', res_ob_type = 'Kosik', res_ob_adrs = 'Pleteny')</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_07_del_ace-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 184</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_07_del_ace</span>(<span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'Klubicko'</span>, <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'allow'</span>, <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'ALL_PRIVILEGES'</span>, <span class="ruby-identifier">res_ob_type</span> = <span class="ruby-string">'Kosik'</span>, <span class="ruby-identifier">res_ob_adrs</span> = <span class="ruby-string">'Pleteny'</span>)
+  <span class="ruby-identifier">id_created</span> = <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">id_deleted</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">delete_ace</span>(<span class="ruby-identifier">id_created</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-identifier">id_created</span>, <span class="ruby-identifier">id_deleted</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}ResourceObjects.xml\&quot;)/ResourceObjects/descendant::*[@id=\&quot;#{id_deleted}\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_07_del_ace-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_07_del_ace-method -->
+
+    
+      <div id="method-i-test_set3_08_rename_principal" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_08_rename_principal</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_08_rename_principal-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 194</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_08_rename_principal</span>()
+  <span class="ruby-identifier">old_name</span> = <span class="ruby-string">&quot;Klubicko&quot;</span>
+  <span class="ruby-identifier">new_name</span> = <span class="ruby-string">&quot;Kosticka&quot;</span>
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Principals.xml\&quot;)//node()[@id=\&quot;#{new_name}\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">hits</span>)
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">rename_principal</span>(<span class="ruby-identifier">old_name</span>, <span class="ruby-identifier">new_name</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Principals.xml\&quot;)//node()[@id=\&quot;#{new_name}\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_08_rename_principal-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_08_rename_principal-method -->
+
+    
+      <div id="method-i-test_set3_08a_check1" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_08a_check1</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_08a_check1-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set4.rb, line 12</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_08a_check1</span>()    <span class="ruby-comment">#simple test, ask for check if ace exists</span>
+  <span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'sirljan'</span>
+  <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'allow'</span>
+  <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'SELECT'</span>
+  <span class="ruby-identifier">res_ob_type</span> = <span class="ruby-string">'Pleteny_kosik'</span>
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/v_obyvaku/na_skrini'</span>
+  <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">access</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">true</span>, <span class="ruby-identifier">access</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_08a_check1-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_08a_check1-method -->
+
+    
+      <div id="method-i-test_set3_08b_check1" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_08b_check1</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_08b_check1-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set4.rb, line 23</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_08b_check1</span>()    <span class="ruby-comment">#simple test, ask for check if ace doesnt exists</span>
+  <span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'sirljan'</span>
+  <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'SELECT'</span>
+  <span class="ruby-identifier">res_ob_type</span> = <span class="ruby-string">'Pleteny_kosik'</span>
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/v_obyvaku/na_skrini'</span>
+  <span class="ruby-identifier">access</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">false</span>, <span class="ruby-identifier">access</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_08b_check1-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_08b_check1-method -->
+
+    
+      <div id="method-i-test_set3_09_check" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_09_check</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_09_check-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set4.rb, line 32</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_09_check</span>()    <span class="ruby-comment">#if owner and deny</span>
+  <span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'Klubicko'</span>
+  <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'deny'</span>
+  <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'SELECT'</span>
+  <span class="ruby-identifier">res_ob_type</span> = <span class="ruby-string">'Pleteny_kosik'</span>
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/v_obyvaku/na_skrini'</span>
+  <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">access</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-comment">#puts &quot;access #{access}&quot;</span>
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">true</span>, <span class="ruby-identifier">access</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_09_check-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_09_check-method -->
+
+    
+      <div id="method-i-test_set3_09_rename_privilege" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_09_rename_privilege</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_09_rename_privilege-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 208</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_09_rename_privilege</span>()
+  <span class="ruby-identifier">old_name</span> = <span class="ruby-string">&quot;SELECT&quot;</span>
+  <span class="ruby-identifier">new_name</span> = <span class="ruby-string">&quot;ZOBRAZIT&quot;</span>
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Privileges.xml\&quot;)//node()[@id=\&quot;#{new_name}\&quot;]&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">hits</span>)
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">rename_privilege</span>(<span class="ruby-identifier">old_name</span>, <span class="ruby-identifier">new_name</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Privileges.xml\&quot;)//node()[@id=\&quot;#{new_name}\&quot;]&quot;</span>
+  <span class="ruby-comment">#puts query</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-comment">#@db.retrieve(handle, 0)</span>
+  <span class="ruby-identifier">hits</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">get_hits</span>(<span class="ruby-identifier">handle</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>, <span class="ruby-identifier">hits</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_09_rename_privilege-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_09_rename_privilege-method -->
+
+    
+      <div id="method-i-test_set3_10_check" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_10_check</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_10_check-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set4.rb, line 44</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_10_check</span>()    <span class="ruby-comment">#Add privilege to group. Checking if member has privilege too.</span>
+  <span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'Users'</span>
+  <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'allow'</span>
+  <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'SELECT'</span>
+  <span class="ruby-identifier">res_ob_type</span> = <span class="ruby-string">'doc'</span>
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/cities/cities.xml'</span>
+  <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">access</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">check</span>(<span class="ruby-string">'sirljan'</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">true</span>, <span class="ruby-identifier">access</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_10_check-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_10_check-method -->
+
+    
+      <div id="method-i-test_set3_11_check" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_11_check</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_11_check-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set4.rb, line 55</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_11_check</span>()    <span class="ruby-comment">#Allow for group, deny for principal in group</span>
+  <span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'Users'</span>
+  <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'allow'</span>
+  <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'SELECT'</span>
+  <span class="ruby-identifier">res_ob_type</span> = <span class="ruby-string">'doc'</span>
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/cities/cities.xml'</span>
+  <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'sirljan'</span>
+  <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'deny'</span>
+  <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">access</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">false</span>, <span class="ruby-identifier">access</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_11_check-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_11_check-method -->
+
+    
+      <div id="method-i-test_set3_12_change_res_ob_type" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_12_change_res_ob_type</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_12_change_res_ob_type-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 224</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_12_change_res_ob_type</span>()
+  <span class="ruby-identifier">type</span> = <span class="ruby-string">&quot;Pleteny_kosik&quot;</span>
+  <span class="ruby-identifier">adr</span> = <span class="ruby-string">&quot;/v_obyvaku/na_skrini&quot;</span>
+  <span class="ruby-identifier">new_type</span> = <span class="ruby-string">&quot;Prouteny_kosik&quot;</span>
+  <span class="ruby-identifier">res</span> = <span class="ruby-constant">ResourceObject</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@db</span>, <span class="ruby-ivar">@col_path</span>)
+  <span class="ruby-identifier">id</span> = <span class="ruby-identifier">res</span>.<span class="ruby-identifier">find_res_ob</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">adr</span>)
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">change_res_ob_type</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">adr</span>, <span class="ruby-identifier">new_type</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}ResourceObjects.xml\&quot;)//node()[@id=\&quot;#{id}\&quot;]/type/text()&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">res</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">retrieve</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-value">0</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-identifier">new_type</span>, <span class="ruby-identifier">res</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_12_change_res_ob_type-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_12_change_res_ob_type-method -->
+
+    
+      <div id="method-i-test_set3_12_check" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_12_check</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_12_check-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set4.rb, line 69</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_12_check</span>()    <span class="ruby-comment">#Deny for group, allow for principal in group</span>
+  <span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'Users'</span>
+  <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'deny'</span>
+  <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'SELECT'</span>
+  <span class="ruby-identifier">res_ob_type</span> = <span class="ruby-string">'doc'</span>
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/cities/cities.xml'</span>
+  <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'sirljan'</span>
+  <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'allow'</span>
+  <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">access</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">true</span>, <span class="ruby-identifier">access</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_12_check-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_12_check-method -->
+
+    
+      <div id="method-i-test_set3_13_change_of_res_ob_address" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_13_change_of_res_ob_address</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_13_change_of_res_ob_address-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 237</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_13_change_of_res_ob_address</span>()
+  <span class="ruby-identifier">type</span> = <span class="ruby-string">&quot;Pleteny_kosik&quot;</span>
+  <span class="ruby-identifier">adr</span> = <span class="ruby-string">&quot;/v_obyvaku/na_skrini&quot;</span>
+  <span class="ruby-identifier">new_adr</span> = <span class="ruby-string">&quot;/ve_sklepe&quot;</span>
+  <span class="ruby-identifier">res</span> = <span class="ruby-constant">ResourceObject</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@db</span>, <span class="ruby-ivar">@col_path</span>)
+  <span class="ruby-identifier">id</span> = <span class="ruby-identifier">res</span>.<span class="ruby-identifier">find_res_ob</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">adr</span>)
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">change_of_res_ob_address</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">adr</span>, <span class="ruby-identifier">new_adr</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}ResourceObjects.xml\&quot;)//node()[@id=\&quot;#{id}\&quot;]/address/text()&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-identifier">new_adr</span>, <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">retrieve</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-value">0</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_13_change_of_res_ob_address-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_13_change_of_res_ob_address-method -->
+
+    
+      <div id="method-i-test_set3_13_check" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_13_check</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Allow for ALL_PRIVILEGES, deny one.  Check if one is checked as deny and
+some other checked as allow.</p>
+          
+
+          
+          <div class="method-source-code" id="test_set3_13_check-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set4.rb, line 85</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_13_check</span>()    
+  <span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'Klubicko'</span>
+  <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'allow'</span>
+  <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'ALL_PRIVILEGES'</span>
+  <span class="ruby-identifier">res_ob_type</span> = <span class="ruby-string">'doc'</span>
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/temp'</span>
+  <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'Klubicko'</span>
+  <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'deny'</span>
+  <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'ALTER'</span>
+  <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'ALTER'</span>
+  <span class="ruby-identifier">access</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">false</span>, <span class="ruby-identifier">access</span>)
+  <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'DROP'</span>
+  <span class="ruby-identifier">access</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">true</span>, <span class="ruby-identifier">access</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_13_check-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_13_check-method -->
+
+    
+      <div id="method-i-test_set3_14_change_of_res_ob_owner" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_14_change_of_res_ob_owner</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test_set3_14_change_of_res_ob_owner-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set3.rb, line 249</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_14_change_of_res_ob_owner</span>()
+  <span class="ruby-identifier">type</span> = <span class="ruby-string">&quot;Pleteny_kosik&quot;</span>
+  <span class="ruby-identifier">adr</span> = <span class="ruby-string">&quot;/v_obyvaku/na_skrini&quot;</span>
+  <span class="ruby-identifier">new_owner</span> = <span class="ruby-string">&quot;Prouteny_kosik&quot;</span>
+  <span class="ruby-identifier">res</span> = <span class="ruby-constant">ResourceObject</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@db</span>, <span class="ruby-ivar">@col_path</span>)
+  <span class="ruby-identifier">id</span> = <span class="ruby-identifier">res</span>.<span class="ruby-identifier">find_res_ob</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">adr</span>)
+  <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">change_of_res_ob_owner</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">adr</span>, <span class="ruby-identifier">new_owner</span>)
+  <span class="ruby-identifier">query</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}ResourceObjects.xml\&quot;)//node()[@id=\&quot;#{id}\&quot;]/owner/string(@idref)&quot;</span>
+  <span class="ruby-identifier">handle</span> = <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">execute_query</span>(<span class="ruby-identifier">query</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-identifier">new_owner</span>, <span class="ruby-ivar">@db</span>.<span class="ruby-identifier">retrieve</span>(<span class="ruby-identifier">handle</span>, <span class="ruby-value">0</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_14_change_of_res_ob_owner-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_14_change_of_res_ob_owner-method -->
+
+    
+      <div id="method-i-test_set3_14_check" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_14_check</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Allow for parent resource, deny for descendent. Checks if explicit deny
+stronger than inherited allow.</p>
+          
+
+          
+          <div class="method-source-code" id="test_set3_14_check-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set4.rb, line 106</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_14_check</span>()    
+  <span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'Klubicko'</span>
+  <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'allow'</span>
+  <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'SELECT'</span>
+  <span class="ruby-identifier">res_ob_type</span> = <span class="ruby-string">'doc'</span>
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/temp'</span>
+  <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'deny'</span>
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/temp/test'</span>
+  <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)    
+  <span class="ruby-identifier">access</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">false</span>, <span class="ruby-identifier">access</span>)
+
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/temp'</span>
+  <span class="ruby-identifier">access</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">true</span>, <span class="ruby-identifier">access</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_14_check-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_14_check-method -->
+
+    
+      <div id="method-i-test_set3_15_check" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_15_check</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Allow for parent resource. Checks if descendent resource has NOT inherited
+permision.</p>
+          
+
+          
+          <div class="method-source-code" id="test_set3_15_check-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set4.rb, line 126</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_15_check</span>()    
+  <span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'Klubicko'</span>
+  <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'allow'</span>
+  <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'SELECT'</span>
+  <span class="ruby-identifier">res_ob_type</span> = <span class="ruby-string">'doc'</span>
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/temp'</span>
+  <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+
+  <span class="ruby-identifier">access</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">true</span>, <span class="ruby-identifier">access</span>)
+
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/temp/test'</span>    
+  <span class="ruby-identifier">access</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">false</span>, <span class="ruby-identifier">access</span>)
+
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/temp/test/hokus'</span>
+  <span class="ruby-identifier">access</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">false</span>, <span class="ruby-identifier">access</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_15_check-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_15_check-method -->
+
+    
+      <div id="method-i-test_set3_16_check" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_16_check</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>deny and allow for same principal</p>
+          
+
+          
+          <div class="method-source-code" id="test_set3_16_check-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set4.rb, line 147</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_16_check</span>()
+  <span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'Klubicko'</span>
+  <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'allow'</span>
+  <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'SELECT'</span>
+  <span class="ruby-identifier">res_ob_type</span> = <span class="ruby-string">'doc'</span>
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/temp'</span>
+  <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'deny'</span>    
+  <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">access</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">false</span>, <span class="ruby-identifier">access</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_16_check-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_16_check-method -->
+
+    
+      <div id="method-i-test_set3_17_check" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_set3_17_check</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Allow for children resources. Checks if descendent resource has inherited
+permision.</p>
+          
+
+          
+          <div class="method-source-code" id="test_set3_17_check-source">
+            <pre><span class="ruby-comment"># File test/tc_rubyacl_set4.rb, line 162</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_set3_17_check</span>()    
+  <span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'nikdo'</span>
+  <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'allow'</span>
+  <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'SELECT'</span>
+  <span class="ruby-identifier">res_ob_type</span> = <span class="ruby-string">'doc'</span>
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/temp/*'</span>
+  <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">prin_name</span> = <span class="ruby-string">'Klubicko'</span>
+  <span class="ruby-identifier">acc_type</span> = <span class="ruby-string">'allow'</span>
+  <span class="ruby-identifier">priv_name</span> = <span class="ruby-string">'SELECT'</span>
+  <span class="ruby-identifier">res_ob_type</span> = <span class="ruby-string">'doc'</span>
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/temp/*'</span>
+  <span class="ruby-identifier">test_set2_05_create_ace</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">acc_type</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/temp'</span>
+  <span class="ruby-identifier">access</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">false</span>, <span class="ruby-identifier">access</span>)
+  
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/temp/test'</span>
+  <span class="ruby-identifier">access</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">true</span>, <span class="ruby-identifier">access</span>)
+  
+  <span class="ruby-identifier">res_ob_adrs</span>=<span class="ruby-string">'/db/temp/test/hokus'</span>
+  <span class="ruby-identifier">access</span> = <span class="ruby-ivar">@test_acl</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">prin_name</span>, <span class="ruby-identifier">priv_name</span>, <span class="ruby-identifier">res_ob_type</span>, <span class="ruby-identifier">res_ob_adrs</span>)
+  <span class="ruby-identifier">assert_equal</span>(<span class="ruby-keyword">true</span>, <span class="ruby-identifier">access</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_set3_17_check-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_set3_17_check-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

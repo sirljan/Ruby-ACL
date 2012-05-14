@@ -73,6 +73,7 @@ END
     if(groups.length > 0)
       add_membership(name, groups, true)
     end
+    return name
   rescue XMLRPC::FaultException => e
     raise e    
   rescue => e
@@ -108,6 +109,7 @@ END
       raise RubyACLException.new(self.class.name, __method__, 
         "Failed to add membership. #{self.class.name} \"#{name}\" does not exist.", 114), caller
     end
+    return name
   rescue => e
     raise e
   end #def add_membership
@@ -127,6 +129,7 @@ END
       raise RubyACLException.new(self.class.name, __method__,
         "Failed to delete membership. #{self.class.name} \"#{name}\" does not exist.", 116), caller
     end
+    return name
   rescue => e
     raise e
   end #def del_membership
@@ -182,6 +185,7 @@ END
       raise RubyACLException.new(self.class.name, __method__,
         "Failed to rename #{self.class.name}. #{self.class.name} \"#{new_name}\" already exists.", 119), caller
     end
+    return old_name
   rescue XMLRPC::FaultException => e
     raise e
   rescue => e

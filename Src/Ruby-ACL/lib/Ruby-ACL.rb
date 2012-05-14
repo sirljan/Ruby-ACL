@@ -11,10 +11,17 @@ require 'date'
 require 'ace_rule'
 require 'rubyacl_exception'
 
+#RubyACL is library that handles access permisions. RubyACL offers to create and modify three ACL objects - three dimensions: Principal, Privilege, Resource object.
+#Principal is someone or something that want to access.
+#Privilege is level of access. (read, write etc.).
+#Resource object is what is principal accessing.
+#RubyACL uses API interface to communicate with database. This interface is described by class API_inteface.
+#At the end of the class you can see set of examples. Also good source of information are testcases.
 class RubyACL
   
-  # common access methods
+  # name of the ACL
   attr_reader :name
+  # collection path in db, where ACL will be stored.
   attr_reader :col_path
   
   #Creates new instance of Ruby-ACL. Ruby-ACL works if principals, privileges and resource object.
@@ -48,7 +55,8 @@ class RubyACL
     @priv = Privilege.new(@connector, @col_path, @report)
     @res_obj = ResourceObject.new(@connector, @col_path, @report)
     @ace = Ace.new(@connector, @col_path, @report)
-    create_acl_in_db()
+    temp = create_acl_in_db()
+    puts temp.class
     rename(name)
   rescue => e
     raise e
@@ -56,15 +64,6 @@ class RubyACL
   
   private   # private methods follow
   
-  #
-  #
-  # * *Args*    :
-  #   - +none+
-  # * *Returns* :
-  #   - report note if report = true
-  # * *Raises* :
-  #   - +RubyACLException+ -> Failed to create ACL in database
-  #
   def create_acl_in_db()
     if(!@connector.existscollection?(@col_path))
       #puts "Collection doesn't exist. Creating collection."
@@ -172,7 +171,7 @@ class RubyACL
   #   - +privs+ -> privilege and all parental privileges
   #   - +res_obs+ -> resource object and all parental resource objects
   # * *Returns* :
-  #   - query in string
+  #   - string, created query
   # * *Raises* :
   #   - +nothing+
   #
@@ -210,9 +209,9 @@ END
     raise e
   end
   
+  #In array res_obs are all optencial resource objects.
+  #It transform array into string (id="something" or id=... and so on)
   def is_owner?(prin_name, res_obs)
-    #In array res_obs are all optencial res_obs
-    #transform array into string if id="something" OR id=... and so
     res_obs = prepare_res_obs(res_obs)    
     #Select only those resOb that have wanted owner.
     query = "#{@res_obj.doc}//ResourceObject[#{res_obs} and owner/string(@idref)=\"#{prin_name}\"]" 
@@ -280,7 +279,7 @@ END
   # * *Args*    :
   #   - +new_name+ -> new name of acl
   # * *Returns* :
-  #   -nothing
+  #   -int, handle of the query
   # * *Raises* :
   #   - +RubyACLException+ -> Failed to set new name
   #
@@ -303,7 +302,7 @@ END
   # * *Args*    :
   #   - +path+ -> to local location
   # * *Returns* :
-  #   -nothing
+  #   - array of documents in ACL working collection
   # * *Raises* :
   #   - +nothing+
   #
@@ -436,7 +435,7 @@ Access denied." if @report
   # * *Args*    :
   #   - +prin_name+ -> name of the principal
   # * *Returns* :
-  #   -string -> all aces that has principal and all its parents.
+  #   - string -> all aces that has principal and all its parents.
   # * *Raises* :
   #   - +nothing+
   #
@@ -485,7 +484,7 @@ Access denied." if @report
   #         True = grant to all children. 
   #         False = grant only to specified resource object
   # * *Returns* :
-  #   - id of the created ace
+  #   - string, id of the created ace
   # * *Raises* :
   #   - +nothing+
   #
@@ -510,7 +509,7 @@ Access denied." if @report
   #   - +name+ -> name of the princpal
   #   - +groups+ -> array of groups where principal will be member.
   # * *Returns* :
-  #   -nothing
+  #   - string, name of the principal
   # * *Raises* :
   #   - +nothing+
   #
@@ -533,7 +532,7 @@ Access denied." if @report
   #       members can be groups or individuals; 
   #       check if it the name already exist. Or if groups and members exist at all
   # * *Returns* :
-  #   -nothing
+  #   - string, name of the group
   # * *Raises* :
   #   - +nothing+
   #
@@ -549,7 +548,7 @@ Access denied." if @report
   #   - +name+ -> name of the privilege
   #   - +member_of+ -> array of privileges where new privilege will be member.
   # * *Returns* :
-  #   -nothing
+  #   - string, name of the privilege
   # * *Raises* :
   #   - +nothing+
   #
@@ -566,7 +565,7 @@ Access denied." if @report
   #   - +address+ -> address of the resource object. If it ends with /*, it means all children
   #   - +owner+ -> owner of the resource object
   # * *Returns* :
-  #   - id of the created resource object
+  #   - string, id of the created resource object
   # * *Raises* :
   #   - +nothing+
   #
@@ -586,7 +585,7 @@ Access denied." if @report
   #   - +address+ ->  address of resource object
   #   - +new_type+ -> new_type of resource object
   # * *Returns* :
-  #   - nothing
+  #   - string, original type
   # * *Raises* :
   #   - +nothing+
   #
@@ -604,7 +603,7 @@ Access denied." if @report
   #   - +address+ ->  address of resource object
   #   - +new_address+ -> new address of resource object
   # * *Returns* :
-  #   - nothing
+  #   - string, original address
   # * *Raises* :
   #   - +nothing+
   #
@@ -622,7 +621,7 @@ Access denied." if @report
   #   - +address+ ->  address of resource object
   #   - +new_owner+ -> new owner of resource object
   # * *Returns* :
-  #   - nothing
+  #   - string, original owner
   # * *Raises* :
   #   - +nothing+
   #
@@ -638,7 +637,7 @@ Access denied." if @report
   #   - +old_name+ -> old name of principal
   #   - +new_name+ ->  new name of principal
   # * *Returns* :
-  #   - nothing
+  #   - string, original name of the principal
   # * *Raises* :
   #   - +nothing+
   #
@@ -652,7 +651,7 @@ Access denied." if @report
   #   - +old_name+ -> old name of privilege
   #   - +new_name+ ->  new name of privilege
   # * *Returns* :
-  #   - nothing
+  #   - string, original name of the privilege
   # * *Raises* :
   #   - +nothing+
   #
@@ -667,7 +666,7 @@ Access denied." if @report
   #   - +groups+ -> array of groups, where principal will be member.
   #   - +existance+ ->  boolean. If you know that principal exists set true for existance. 
   # * *Returns* :
-  #   -nothing
+  #   - string, name of the principal
   # * *Raises* :
   #   - +nothing+
   #  
@@ -684,7 +683,7 @@ Access denied." if @report
   #   - +groups+ -> array of privileges, where privilege will be member.
   #   - +existance+ ->  boolean. If you know that privielge exists set true for existance. 
   # * *Returns* :
-  #   -nothing
+  #   - string, name of the privilege
   # * *Raises* :
   #   - +nothing+
   #
@@ -700,7 +699,7 @@ Access denied." if @report
   #   - +name+ -> name of the principal
   #   - +groups+ -> array of groups, where principal is member.
   # * *Returns* :
-  #   -nothing
+  #   - string, name of the principal
   # * *Raises* :
   #   - +nothing+
   #  
@@ -716,7 +715,7 @@ Access denied." if @report
   #   - +name+ -> name of the privilege
   #   - +groups+ -> array of groups, where privilege is member.
   # * *Returns* :
-  #   -nothing
+  #   - string, name of the privilege
   # * *Raises* :
   #   - +nothing+
   #  
@@ -731,7 +730,7 @@ Access denied." if @report
   # * *Args*    :
   #   - +name+ -> name of the principal
   # * *Returns* :
-  #   -nothing
+  #   -string, name of the pricipal
   # * *Raises* :
   #   - +nothing+
   #
@@ -741,6 +740,15 @@ Access denied." if @report
     raise e
   end
   
+  #It deletes privilege from ACL. It also deletes all linked ACEs.
+  #
+  # * *Args*    :
+  #   - +name+ -> name of the privilege
+  # * *Returns* :
+  #   -string, name of the privilege
+  # * *Raises* :
+  #   - +nothing+
+  #
   def delete_privilege(name)
     @priv.delete(name)
   rescue => e
@@ -753,7 +761,7 @@ Access denied." if @report
   #   - +type+ -> type of the resource object
   #   - +address+ -> address of the resource object
   # * *Returns* :
-  #   -nothing
+  #   -string, name of the resource object
   # * *Raises* :
   #   - +nothing+
   #
@@ -770,7 +778,7 @@ Access denied." if @report
   # * *Args*    :
   #   - +id+ -> id of the resource object
   # * *Returns* :
-  #   -nothing
+  #   -string, name of the resource object
   # * *Raises* :
   #   - +nothing+
   #
@@ -785,7 +793,7 @@ Access denied." if @report
   # * *Args*    :
   #   - +ace_id+ -> id of the ACE
   # * *Returns* :
-  #   -nothing
+  #   -string, name of the 
   # * *Raises* :
   #   - +nothing+
   #
@@ -814,91 +822,91 @@ require 'eXistAPI'    #must require 'eXistAPI' to comunicated with eXist-db
 if(@db.existscollection?(@col_path))
   @db.remove_collection(@col_path) #Deleting old ACL from db
 end
-report = true
+report = false
 @my_acl = RubyACL.new("my_acl", @db, @col_path, @src_files_path, report)
 
-#it's good to create some principals at the begging
-@my_acl.create_principal("Sheldon")  
-@my_acl.create_principal("Leonard")   
-@my_acl.create_principal("Rajesh")   
-@my_acl.create_principal("Howarda")   
-@my_acl.create_principal("Penny")   
-@my_acl.create_principal("Kripkie") 
-
-#Besides given privileges you can create your owns
-@my_acl.create_privilege("WATCH")   
-@my_acl.create_privilege("SIT")
-
-#You can create resource object and get id of it.
-resource_id = @my_acl.create_resource_object("mov", "/Movies", "Sheldon")
-@my_acl.create_resource_object("couch", "/livingroom", "Sheldon")
-@my_acl.create_resource_object("seat", "/livingroom/couch/Sheldon's_spot", "Sheldon")
-
-#Now we have everything we need to create the rule.
-#Lets see what we must hand over
-#1) One individual or group that    (principal)
-#2) will or won't have access       (access type = {allow, deny})
-#3) to do something with            (privilege)
-#4) which type of                   (resource type)
-#5) resource.                       (resource object)
-#6) And if we needs to grand all this to children of resource.  (grant to children)
-@my_acl.create_ace("Sheldon", "allow", "DELETE", "mov", "/Movies", true)
-@my_acl.create_ace("Sheldon", "allow", "SIT", "seat", "/livingroom/couch/Sheldon's_spot")
-
-
-#You can easily check e.g. if Penny may delete all movies.
-@my_acl.check("Penny", "DELETE", "mov", "/Movies")
-
-#Next method call returns deny
-@my_acl.check("Penny", "SIT", "seat", "/livingroom/couch/Sheldon's_spot")
-
-#You can create group and immidiatly insert members or do it later.
-@my_acl.create_group("4th_floor", ["ALL"], ["Sheldon","Leonard","Penny"])
-#Here are other possible ways of creating group
-#@my_acl.create_group("4th_floor")
-#@my_acl.create_group("4th_floor", ["ALL"])
+##it's good to create some principals at the begging
+#@my_acl.create_principal("Sheldon")  
+#@my_acl.create_principal("Leonard")   
+#@my_acl.create_principal("Rajesh")   
+#@my_acl.create_principal("Howarda")   
+#@my_acl.create_principal("Penny")   
+#@my_acl.create_principal("Kripkie") 
 #
-#Create access control entry with group as principal.
-ace_id = @my_acl.create_ace("4th_floor", "allow", "WATCH", "mov", "/Movies/*")
-
-#You can show all privileges connected with principal
-perm = @my_acl.show_permissions_for("Penny")
-puts perm
-
-#EXCEPTION EXAMPLE
-@my_acl.create_group("Scientists")    #you must create group before you use it
-@my_acl.add_membership_principal("Sheldon", ["Scientists"])
-
-#You also must create privileges before you use them
-@my_acl.create_privilege("TALK")
-@my_acl.create_privilege("COMUNICATE")
-#You can gather privileges in treelike structure
-@my_acl.add_membership_privilege("TALK", ["COMUNICATE"])
-
-#You can delete membership of principal and privilege, 
-#ace, principal, privilege, resource object, if exists. 
-#Otherwise you will get exception
-@my_acl.del_membership_principal("Sheldon", ["Scientists"])
-@my_acl.del_membership_privilege("TALK", ["COMUNICATE"])
-@my_acl.delete_ace(ace_id)
-@my_acl.delete_principal("Kripkie")
-@my_acl.delete_privilege("SIT")
-@my_acl.delete_res_object("couch", "/livingroom")
-@my_acl.delete_res_object_by_id(resource_id)
-
-@my_acl.create_resource_object("mov", "/Movies", "Sheldon") #create again for demonstration purposes
-#You can rename principal, privilege and change every part of resource object.
-@my_acl.rename_principal("Kripkie", "Kwipkie")
-@my_acl.rename_privilege("TALK", "CHAT")
-@my_acl.change_of_res_ob_address("mov", "/Movies", "/Films")
-@my_acl.change_of_res_ob_owner("mov", "/Films", "Leonard")
-@my_acl.change_res_ob_type("mov", "/Films", "motion picture")
-
+##Besides given privileges you can create your owns
+#@my_acl.create_privilege("WATCH")   
+#@my_acl.create_privilege("SIT")
+#
+##You can create resource object and get id of it.
+#resource_id = @my_acl.create_resource_object("mov", "/Movies", "Sheldon")
+#@my_acl.create_resource_object("couch", "/livingroom", "Sheldon")
+#@my_acl.create_resource_object("seat", "/livingroom/couch/Sheldon's_spot", "Sheldon")
+#
+##Now we have everything we need to create the rule.
+##Lets see what we must hand over
+##1) One individual or group that    (principal)
+##2) will or won't have access       (access type = {allow, deny})
+##3) to do something with            (privilege)
+##4) which type of                   (resource type)
+##5) resource.                       (resource object)
+##6) And if we needs to grand all this to children of resource.  (grant to children)
+#@my_acl.create_ace("Sheldon", "allow", "DELETE", "mov", "/Movies", true)
+#@my_acl.create_ace("Sheldon", "allow", "SIT", "seat", "/livingroom/couch/Sheldon's_spot")
+#
+#
+##You can easily check e.g. if Penny may delete all movies.
+#@my_acl.check("Penny", "DELETE", "mov", "/Movies")
+#
+##Next method call returns deny
+#@my_acl.check("Penny", "SIT", "seat", "/livingroom/couch/Sheldon's_spot")
+#
+##You can create group and immidiatly insert members or do it later.
+#@my_acl.create_group("4th_floor", ["ALL"], ["Sheldon","Leonard","Penny"])
+##Here are other possible ways of creating group
+##@my_acl.create_group("4th_floor")
+##@my_acl.create_group("4th_floor", ["ALL"])
+##
+##Create access control entry with group as principal.
+#ace_id = @my_acl.create_ace("4th_floor", "allow", "WATCH", "mov", "/Movies/*")
+#
+##You can show all privileges connected with principal
+#perm = @my_acl.show_permissions_for("Penny")
+#puts perm
+#
+##EXCEPTION EXAMPLE
+#@my_acl.create_group("Scientists")    #you must create group before you use it
+#@my_acl.add_membership_principal("Sheldon", ["Scientists"])
+#
+##You also must create privileges before you use them
+#@my_acl.create_privilege("TALK")
+#@my_acl.create_privilege("COMUNICATE")
+##You can gather privileges in treelike structure
+#@my_acl.add_membership_privilege("TALK", ["COMUNICATE"])
+#
+##You can delete membership of principal and privilege, 
+##ace, principal, privilege, resource object, if exists. 
+##Otherwise you will get exception
+#@my_acl.del_membership_principal("Sheldon", ["Scientists"])
+#@my_acl.del_membership_privilege("TALK", ["COMUNICATE"])
+#@my_acl.delete_ace(ace_id)
+#@my_acl.delete_principal("Kripkie")
+#@my_acl.delete_privilege("SIT")
+#@my_acl.delete_res_object("couch", "/livingroom")
+#@my_acl.delete_res_object_by_id(resource_id)
+#
+#@my_acl.create_resource_object("mov", "/Movies", "Sheldon") #create again for demonstration purposes
+##You can rename principal, privilege and change every part of resource object.
+#@my_acl.rename_principal("Kripkie", "Kwipkie")
+#@my_acl.rename_privilege("TALK", "CHAT")
+#@my_acl.change_of_res_ob_address("mov", "/Movies", "/Films")
+#@my_acl.change_of_res_ob_owner("mov", "/Films", "Leonard")
+#@my_acl.change_res_ob_type("mov", "/Films", "motion picture")
+#
 #You can save or load ACL
 #@my_acl.save('C:\\storage')
 #RubyACL.load(@db, "C:\\backup")
-
-#You can rename ACL
-@my_acl.rename("my_beloved_acl")
+#
+##You can rename ACL
+#@my_acl.rename("my_beloved_acl")
 
 puts "finished"

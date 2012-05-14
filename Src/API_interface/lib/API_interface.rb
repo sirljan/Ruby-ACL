@@ -1,5 +1,16 @@
 require 'collection'
 
+#API is comunication interface between RubyACL and Database that supports xQuery 
+#and xPath. 
+#API should be abel to create, delete or get collections or retrieve whole 
+#content of documents or part of it by querying. 
+#Also API should be able to work with documents stored in databse. API supported 
+#actions should be insert, replace, rename and delete nodes or change values.
+#To query, use xQuery or xPath.
+#
+# ==== Examples
+#db = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "admin")
+#puts db.existscollection?("db")
 class API_interface
   
   #Create new instance of ExistAPI.
@@ -11,7 +22,7 @@ class API_interface
   #   - +username+ -> username
   #   - +password+  -> password to specified username
   # * *Returns* :
-  #   -
+  #   - new instance of ExistAPI
   # * *Raises* :
   #   - +ExistException+ -> Database login failed
   #
@@ -80,7 +91,7 @@ class API_interface
   #   - +_docname+ -> name of the document where to safe. Path to the database location where the new document is to be stored.
   #   - +_overwrite+ -> Set this value to > 0 to automatically replace an existing document at the same location.
   # * *Returns* :
-  #   -bolean
+  #   -bolean, the result of the call 
   # * *Raises* :
   #   - +ExistException+ -> Resource or document name is nil
   #   - +ExistException+ -> Failed to store resource"
@@ -100,7 +111,7 @@ class API_interface
   #static-documents :
   #protected : 
   # * *Returns* :
-  #   -int handle of query
+  #   -int, handle of query
   # * *Raises* :
   #   - +ExistException+ -> Failed to execute query
   #

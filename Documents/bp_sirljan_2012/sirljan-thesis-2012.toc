@@ -18,9 +18,11 @@
 \contentsline {subsubsection}{\numberline {3.1.1.3}phpGACL}{8}{subsubsection.3.1.1.3}
 \contentsline {section}{\numberline {3.2}N\IeC {\'a}vrh implementace}{9}{section.3.2}
 \contentsline {subsection}{\numberline {3.2.1}Rozhran\IeC {\'\i }}{9}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Uk\IeC {\'a}zky pou\IeC {\v z}it\IeC {\'\i }}{9}{subsection.3.2.2}
-\contentsline {subsubsection}{\numberline {3.2.2.1}P\IeC {\v r}\IeC {\'\i }klad kontroly pr\IeC {\'a}v}{9}{subsubsection.3.2.2.1}
-\contentsline {subsubsection}{\numberline {3.2.2.2}P\IeC {\v r}\IeC {\'\i }klad nastaven\IeC {\'\i } pr\IeC {\'a}v}{10}{subsubsection.3.2.2.2}
+\contentsline {subsubsection}{\numberline {3.2.1.1}RubyACL > DB}{9}{subsubsection.3.2.1.1}
+\contentsline {subsubsection}{\numberline {3.2.1.2}Aplikace > RubyACL}{9}{subsubsection.3.2.1.2}
+\contentsline {subsection}{\numberline {3.2.2}Uk\IeC {\'a}zka pou\IeC {\v z}it\IeC {\'\i }}{9}{subsection.3.2.2}
+\contentsline {subsubsection}{\numberline {3.2.2.1}P\IeC {\v r}\IeC {\'\i }klad nastaven\IeC {\'\i } pr\IeC {\'a}v}{10}{subsubsection.3.2.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2.2}P\IeC {\v r}\IeC {\'\i }klad kontroly pr\IeC {\'a}v}{10}{subsubsection.3.2.2.2}
 \contentsline {subsection}{\numberline {3.2.3}Use Case Sc\IeC {\'e}n\IeC {\'a}\IeC {\v r}e}{10}{subsection.3.2.3}
 \contentsline {subsubsection}{\numberline {3.2.3.1}Ov\IeC {\v e}\IeC {\v r}ov\IeC {\'a}n\IeC {\'\i } opr\IeC {\'a}vn\IeC {\v e}n\IeC {\'\i } k objektu}{10}{subsubsection.3.2.3.1}
 \contentsline {subsubsection}{\numberline {3.2.3.2}Zad\IeC {\'a}v\IeC {\'a}n\IeC {\'\i } pravidla (ACE)}{11}{subsubsection.3.2.3.2}
@@ -28,15 +30,14 @@
 \contentsline {subsection}{\numberline {3.2.5}Data flow diagram}{11}{subsection.3.2.5}
 \contentsline {subsection}{\numberline {3.2.6}Class diagram}{11}{subsection.3.2.6}
 \contentsline {section}{\numberline {3.3}Popis logiky vyhodnocov\IeC {\'a}n\IeC {\'\i } pravidel}{11}{section.3.3}
-\contentsline {subsection}{\numberline {3.3.1}ACL Objekty}{11}{subsection.3.3.1}
-\contentsline {subsubsection}{\numberline {3.3.1.1}Zmocnitel (Principal)}{14}{subsubsection.3.3.1.1}
-\contentsline {subsubsection}{\numberline {3.3.1.2}Opr\IeC {\'a}vn\IeC {\v e}n\IeC {\'\i } (Privilege)}{14}{subsubsection.3.3.1.2}
+\contentsline {subsection}{\numberline {3.3.1}ACL Objekty}{15}{subsection.3.3.1}
+\contentsline {subsubsection}{\numberline {3.3.1.1}Zmocnitel (Principal)}{15}{subsubsection.3.3.1.1}
+\contentsline {subsubsection}{\numberline {3.3.1.2}Opr\IeC {\'a}vn\IeC {\v e}n\IeC {\'\i } (Privilege)}{15}{subsubsection.3.3.1.2}
 \contentsline {subsubsection}{\numberline {3.3.1.3}Zdrojov\IeC {\'y} objekt (Resource object)}{15}{subsubsection.3.3.1.3}
-\contentsline {subsubsection}{\numberline {3.3.1.4}Pravidlo (ACE)}{15}{subsubsection.3.3.1.4}
-\contentsline {subsection}{\numberline {3.3.2}Slo\IeC {\v z}itost rozhodov\IeC {\'a}n\IeC {\'\i }}{15}{subsection.3.3.2}
+\contentsline {subsubsection}{\numberline {3.3.1.4}Pravidlo (ACE)}{16}{subsubsection.3.3.1.4}
+\contentsline {subsection}{\numberline {3.3.2}Slo\IeC {\v z}itost rozhodov\IeC {\'a}n\IeC {\'\i }}{16}{subsection.3.3.2}
 \contentsline {subsection}{\numberline {3.3.3}Pravidla rozhodov\IeC {\'a}n\IeC {\'\i }}{16}{subsection.3.3.3}
 \contentsline {subsubsection}{\numberline {3.3.3.1}Priorita rozhodov\IeC {\'a}n\IeC {\'\i }}{16}{subsubsection.3.3.3.1}
-\contentsline {subsection}{\numberline {3.3.4}Uk\IeC {\'a}zka pou\IeC {\v z}it\IeC {\'\i }}{16}{subsection.3.3.4}
 \contentsline {chapter}{\numberline {4}Realizace}{17}{chapter.4}
 \contentsline {section}{\numberline {4.1}Pr\IeC {\r u}b\IeC {\v e}h realizace}{17}{section.4.1}
 \contentsline {section}{\numberline {4.2}Programy pou\IeC {\v z}it\IeC {\'e} p\IeC {\v r}i v\IeC {\'y}voji}{17}{section.4.2}
@@ -45,12 +46,8 @@
 \contentsline {subsection}{\numberline {4.3.2}eXist-db}{18}{subsection.4.3.2}
 \contentsline {subsubsection}{\numberline {4.3.2.1}eXistAPI}{18}{subsubsection.4.3.2.1}
 \contentsline {section}{\numberline {4.4}Implementace}{18}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}Model t\IeC {\v r}\IeC {\'\i }d}{18}{subsection.4.4.1}
-\contentsline {subsection}{\numberline {4.4.2}pracovni poznamky}{18}{subsection.4.4.2}
-\contentsline {section}{\numberline {4.5}Zdrojov\IeC {\'e} soubory}{19}{section.4.5}
-\contentsline {section}{\numberline {4.6}Rozhran\IeC {\'\i }}{19}{section.4.6}
-\contentsline {subsection}{\numberline {4.6.1}RubyACL > DB}{19}{subsection.4.6.1}
-\contentsline {subsection}{\numberline {4.6.2}Aplikace > RubyACL}{19}{subsection.4.6.2}
+\contentsline {subsection}{\numberline {4.4.1}pracovni poznamky}{18}{subsection.4.4.1}
+\contentsline {section}{\numberline {4.5}Zdrojov\IeC {\'e} soubory}{20}{section.4.5}
 \contentsline {chapter}{\numberline {5}Moje pracovni poznamky}{21}{chapter.5}
 \contentsline {chapter}{\numberline {6}Testov\IeC {\'a}n\IeC {\'\i }}{23}{chapter.6}
 \contentsline {section}{\numberline {6.1}eXistAPI}{23}{section.6.1}

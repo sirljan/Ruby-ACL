@@ -41,6 +41,41 @@
 \usepackage{graphicx}
 %\usepackage{indentfirst} %1. odstavec jako v cestine.
 
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+ 
+\lstset{ %
+  language=Ruby,                % the language of the code
+  basicstyle=\small,           % the size of the fonts that are used for the code
+  numbers=left,                   % where to put the line-numbers
+  numberstyle=\scriptsize\color{gray},  % the style that is used for the line-numbers
+%  stepnumber=2,                   % the step between two line-numbers. If it's 1, each line 
+                                  % will be numbered
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=b,                   % sets the caption-position to bottom
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+                                  % also try caption instead of title
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{dkgreen},       % comment style
+  stringstyle=\color{mauve},         % string literal style
+ %escapeinside={\%*}{*)},            % if you want to add a comment within your code
+  morekeywords={*,...}               % if you want to add more keywords to the set
+}
+
+
 \usepackage{k336_thesis_macros} % specialni makra pro formatovani DP a BP
  % muzete si vytvorit i sva vlastni v souboru k336_thesis_macros.sty
  % najdete  radu jednoduchych definic, ktere zde ani nejsou pouzity
@@ -285,7 +320,7 @@ Funkčnost knihovny byla vyvíjena a testována na eXistDB.
 
 \section{Úvod do problematiky}
 
-Tato bakalářská práce navazuje na můj semestrální projekt. Zabývá se správou - administrací řízení přístupu, jakožto procesu autorizování uživatelů, skupin a počítačů pro přístup k objektům. Tento proces pracuje s pojmy: oprávnění, uživatelská práva a audit objektů. Tato jednotlivá přiřazená oprávnění začleňuje jako položky řízení přístupu (ACE) a jejich celé sady začleňuje do seznamu přístupových práv (ACL). Jejím úkolem bylo vytvořit, navrhnout a realizovat v jazyce Ruby model uživatelských přístupových práv určenou pro objektovou xml databázi. TODO V současnosti neexistuje žádný model uživatelských přístupových práv pro zamýšlenou xml databázi. 
+Tato bakalářská práce navazuje na můj semestrální projekt. Zabývá se správou - administrací řízení přístupu, jakožto procesu autorizování uživatelů, skupin a počítačů pro přístup k objektům. Tento proces pracuje s pojmy: oprávnění, uživatelská práva a audit objektů. Tato jednotlivá přiřazená oprávnění začleňuje jako položky řízení přístupu (ACE) a jejich celé sady začleňuje do seznamu přístupových práv (ACL). Úkolem bakalářské práce bylo vytvořit, navrhnout a realizovat v jazyce Ruby model uživatelských přístupových práv určenou pro objektovou xml databázi.
 
 Součástí práce byl návrh knihovny. Navržený modul realizuje správu řízení přístupu pomocí ACL (Access Control List). Protože moje bakalářská práce je prací implementační, včetně testů navrženého modulu, zaměřil jsem se na specifikaci rozhraní knihovny a na příklady jejího použití.
 
@@ -325,7 +360,7 @@ Vytyčil jsem si vytvořit co nejjednodušší knihovnu, která by splňovala v�
 I když Ruby ACL je primárně určena pro XML databázi chtěl jsem, aby byla použitelná i pro jiné databáze a reálné přístupy do budov apod.
 Určil jsem si, že by bylo pěkné, kdyby knihovna umožňovala jemně nastavit přístupy (Tzv.„fine-grained“).
 
-Seznam požadavků je popsán v tabulce 2.1.%TODO - odkazy na tabulky
+Seznam požadavků je popsán v tabulce  \ref{tab:tab1}
 
 \section{Popis struktury bakalářské práce ve vztahu k vytyčeným cílům}
 
@@ -387,7 +422,7 @@ Vybral jsem tři nejukázkovější řešení.
 Oracle má nejpropracovanější model řízení práv. Podporuje integrování LDAP a DAV.
 PhpGACL je bezplatný jednodušší systém spravující přístupy ke zdrojům.
 Obecné řešení se skládá z dvojrozměrné tabulky, kde jeden rozměr je tvořen všemi, kdo vyžadují přístup a druhý rozměr obsahuje objekty, ke kterým je vyžadován přístup. Oprávnění je v buňce, která se nachází na prusečíku os zminěných dvou rozměrů.
-Podrobnější zpracování se nachází v kapitole Analýza a podkapitole Existující řešení. (TODO udělej odkaz)
+Podrobnější zpracování se nachází v sekci \ref{sec:anal-existujicireseni} Existující řešení kapitoli Analýza.
 
 \subsection{Dostupné knihovny}
 Kdybych si za cíl nedal vytvořit RubyACL sám, nejspíše bych čerpal z jedné z těchto knihoven.
@@ -417,13 +452,13 @@ Tato kapitola se dělí na analýzu a návrh. V analýze se zaměřilo na prostu
 ... proc pomoci acl, popisuje nejznámější rešení acl, 
 
 
-
 \subsection{Exitující řešení}
+\label{sec:anal-existujicireseni}
 
 Při řešení vlastního návrhu na model uživatelských přístupových práv jsem vycházel ze dvou zdrojů – známých řešení a jednoho obecného řešení.
 
 \subsubsection{Obecné řešení}
-Obecným řešením je držet si tabulku, kde ve sloupcích budou objekty, ke kterým je možno přistupovat a v řádcích jsou přistupující. V poli pak jsou hodnoty boolean, které vyjadřují buď allow nebo deny. Příklad tabulkového řešení je v tabulce 2.1.
+Obecným řešením je držet si tabulku, kde ve sloupcích budou objekty, ke kterým je možno přistupovat a v řádcích jsou přistupující. V poli pak jsou hodnoty boolean, které vyjadřují buď allow nebo deny. Příklad tabulkového řešení je v tabulce \ref{tab:tab2}.
 
 \begin{table}%[h]
 \centering
@@ -441,6 +476,7 @@ Patients & X & X & 1\\
 \hline
 \end{tabular}
 \caption{Obecné řešení modelu práv pomocí matice}
+\label{tab:tab2}
 \end{table}
 
 %-------------------------------------
@@ -482,11 +518,22 @@ Jemně nastavitelných přístupových práv se docílí pomocí Access Control 
 
 \subsection{Rozhraní}
 
-S knihovnou RubyACL je zapotřebí nějak komunikovat. Za účelem vytvoření a nastavení zmoctnitelů, oprávněních, zdrojových objektů a pravidel musí uživatel předat knihovně potřebné vstupy popsané v tabulce. Hlavní účel knihovny je rozlišit jestli někdo nebo něco má oprávnění na nějaký cílový objekt. Pokud zmocnitel má nebo nemá přístup se uživatel dozví podle výstupu. Výstupem je true nebo false hodnota.
+S knihovnou RubyACL je zapotřebí nějak komunikovat. Za účelem vytvoření a nastavení zmoctnitelů, oprávněních, zdrojových objektů a pravidel musí uživatel předat knihovně potřebné vstupy popsané v tabulce. Hlavní účel knihovny je rozlišit jestli někdo nebo něco má oprávnění na nějaký cílový objekt. Pokud zmocnitel má nebo nemá přístup se uživatel dozví podle výstupu. Výstupem je true nebo false hodnota. \ref{tab:tab3} TODO přidat do tabulky i popis
 
-TODO co takhle přidat do tabulky i popis?
+TODO přidat obrázek s model tříd k API.
 
-\begin{table}%[b]
+\subsubsection{RubyACL > DB}
+RubyACL bylo testováno s databází eXist-db, se kterou komunikovalo pomocí eXistAPI. 
+K používání RubyACL s jinou XML databází než eXist je zapotřebí komunikační rozhraní, které nahradí eXistAPI. 
+V ukázkové třídě API je výčet všech potřebných metod, které RubyACL používá, včetně parametrů a výstupů. Je potřeba podle vzorové třídy API naimplementovat nové komunikační rozhraní. 
+\subsubsection{Aplikace > RubyACL}
+Jedná se o výčet public metod třídy RubyACL.
+...přidat výčet
+Na této části záleží bezpočenost. Potencionálně nebezpečné místo k útoku.
+
+
+
+\begin{table}[h]
 \centering
 \begin{tabular}{|c|c|}
 \hline
@@ -507,54 +554,42 @@ access & boolean\\
 \hline
 \end{tabular}
 \caption{Vstupy a výstupy knihovny}
+\label{tab:tab3}
 \end{table}
 
-\subsection{Ukázky použití}
-Tato podsekce ukazuje předpokládaný způsob použití před implementací.
-
-\subsubsection{Příklad kontroly práv}
-\begin{verbatim}
-...DB_Application...
-
-require 'Ruby-ACL'
-require 'dbi'
-acl = Racl.new()
-acl.load("test1")
-username = "pepanovak"
-password = "tajneheslo"
-desired_operation = "select"
-desired_object = "dbi:OCIU:mydb/people"
-if(acl.acl_check(username, desired_operation, desired_object)) then
-	db = DBI.connect (separate_db(desired_object), username, password)
-	query = "select * from people"
-	stmt = db.prepare(query)
-	stmt.execute
-	while row = stmt.fetch do
-		puts row.join(",")
-	end
-	stmt.finish
-	db.disconnect
-else
-	puts "Access denied to #{desired_object}."
-end
-\end{verbatim}
-
-Příklad tohoto kódu v podstatě říká: Pokud metoda acl\_check vratí hodnotu true, přístup povolen a aplikace provede co zamýšlela provést. Pokud vrátí hodnotu false, tak je přístup zamítnut.
+\subsection{Ukázka použití}
+Tato sekce prezentuje stručné ukázky použití
 
 \subsubsection{Příklad nastavení práv}
 
-\begin{verbatim}
-...DB_Application...
-require 'Ruby-ACL'
-username = "pepanovak"
-access_type = "deny"
-desired_privilege = "create"
-desired_object = "dbi:OCIU:mydb"
-acl = Ruby-ACL.new("test2")
-acl.create_ace(username, access_type, desired_privilege, desired_object)
-\end{verbatim}
+Příklad tohoto kódu v podstatě říká: Pokud metoda \verb|ac_check| vratí hodnotu true, přístup povolen a aplikace provede co zamýšlela provést. Pokud vrátí hodnotu false, tak je přístup zamítnut. Tento postup názorně vysvětluje obrázek \ref{fig:Communication diagram} zobrazující komunikaci a průběh jednoho dotázení na pravidlo.
+
+\begin{lstlisting}
+require 'eXistAPI'    #must require 'eXistAPI' to comunicated with eXist-db
+#create instance of ExistAPI
+@db = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "password")    
+@col_path = "/db/test_acl/"         #sets the collection where you want to have ACL in db
+@src_files_path = "./src_files/"    #path to source files
+@my_acl = RubyACL.new("my_acl", @db, @col_path, @src_files_path, true)
+#it's good to create some principals at the begging
+@my_acl.create_principal("Sheldon")
+@my_acl.create_privilege("SIT")
+@my_acl.create_resource_object("seat", "/livingroom/couch/Sheldon's_spot", "Sheldon")
+@my_acl.create_ace("Sheldon", "allow", "SIT", "seat", "/livingroom/couch/Sheldon's_spot")
+\end{lstlisting}
+
+
+\subsubsection{Příklad kontroly práv}
 
 Druhý příklad naznačuje použití metody pro vytvoření pravidla. Pro vytvoření pravidla musí existovat instance Ruby ACL. Metodě create\_ace aplikace předá uživatelské jméno zmocnitele, typ přístupu (allow nebo deny), oprávnění a požadovaný objekt.
+
+\begin{lstlisting}[firstnumber=12]
+#Next method in if returns deny
+if(@my_acl.check("Penny", "SIT", "seat", "/livingroom/couch/Sheldon's_spot"))
+	puts "Access allowed. You may retrive resource object."
+else
+	puts "Access denied."
+\end{lstlisting}
 
 \subsection{Use Case Scénáře}
 %\begin{verbatim}\end{verbatim}
@@ -584,25 +619,22 @@ Poznámka: Jde vlastně o přiřazování oprávnění uživatelům na objekt
 
 %-------------------------------------
 
-\subsection{Use Case Diagram}
-Znázorňuje roli uživatele vůči knihovně. Ruby ACL definuje jednoho aktéra, kterým je uživatel/administrátor ACL viz "Obrázek 1". Jedná se vlastně o vývojáře DB Applikace.
-Všechny případy užití předpokládají vytvořenou instanci RubyACL, která má vytvořená nějaká pravidla.
-\begin{figure}
-%\centering
-\includegraphics[width=15cm]{UseCases.jpg}
-\caption{UseCases}
-\label{fig:UseCases}
-\end{figure}
 
-%-------------------------------------
 
 \subsection{Data flow diagram}
+TODO smazat starý obrázek. Okomentovat nový
 Data flow diagram (viz "Obrázek 2") znázorňuje tok dat mezi jednotlivými funkcemi aplikace. Popisuje funkce a jejich vazby. Uložiště pro ACL je používaná databáze. Pro každou databázi bude jedna instance Ruby-ACL.
 \begin{figure}
 %\centering
 \includegraphics[width=15cm]{DataFlowBigFont.jpg}
 \caption{Data flow diagram}
 \label{fig:Data flow diagram}
+\end{figure}
+\begin{figure}
+%\centering
+\includegraphics[width=15cm]{com.jpg}
+\caption{Diagram znázorňující komunikaci}
+\label{fig:Communication diagram}
 \end{figure}
 
 %-------------------------------------
@@ -705,23 +737,7 @@ Nejnižší má největší prioritu.
 \item If not found > Deny
 \end{enumerate}
 
-\subsection{Ukázka použití}
-Tato sekce ukazuje krátké reálné/finální použití.
-\begin{verbatim}
-require 'eXistAPI'    #must require 'eXistAPI' to comunicated with eXist-db
-#create instance of ExistAPI
-@db = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "admin")    
-@col_path = "/db/test_acl/"         #sets the collection where you want to have ACL in db
-@src_files_path = "./src_files/"    #path to source files
-@my_acl = RubyACL.new("my_acl", @db, @col_path, @src_files_path, true)
-#it's good to create some principals at the begging
-@my_acl.create_principal("Sheldon")
-@my_acl.create_privilege("SIT")
-@my_acl.create_resource_object("seat", "/livingroom/couch/Sheldon's_spot", "Sheldon")
-@my_acl.create_ace("Sheldon", "allow", "SIT", "seat", "/livingroom/couch/Sheldon's_spot")
-#Next method call returns deny
-@my_acl.check("Penny", "SIT", "seat", "/livingroom/couch/Sheldon's_spot")
-\end{verbatim}
+
 
 %*****************************************************************************
 \chapter{Realizace}
@@ -770,15 +786,24 @@ eXist-db se podobá XML databázi, která má RubyACL používat, a byla doporu�
 \subsubsection{eXistAPI}
 
 Trochu nestandartní část realizace. Bylo potřeba si vytvořit komunikační rozhraní mezi databázi eXist-db a RubyACL.
-ExistAPI je komunikační rozhraní, které jsem byl nucený naimplementovat k lazení a testování RubyACL na eXist-db.
+ExistAPI je komunikační rozhraní, které bylo potřeba naimplementovat k ladění a testování RubyACL na eXist-db.
 Komunikace s db pomocí eXistAPI.
 Použití xQuery Update Facility místo xUpdate. (Možná vložím ukázku implementace)
 Komunikace založená na protokolu XML-RPC. K dotazování využívá technologie xQuery a xPath. xQuery Update Facility je zapotřebí k editování dat v databázi.
+TODO předělat v obrázku api na eXistAPI
+\begin{figure}
+%\centering
+\includegraphics[width=15cm]{API1.jpg}
+\caption{Diagram tříd TODO}
+\label{fig:Diagram tříd TODO}
+\end{figure}
 
 %-------------------------------------
 \section{Implementace}
-\subsection{Model tříd}
-TODO Obrázek.
+
+
+%-------------------------------------
+
 \subsection{pracovni poznamky}
 \begin{itemize}
 \item Je třeba se věnovat uvolňování paměti, protože aplikace bude spuštěna dny až měsíce. Špatné zacházení s pamětí by, proto bylo kritické pro server, na kterém aplikace s Ruby-ACL knihovnou bude spuštěna.
@@ -792,16 +817,7 @@ TODO Obrázek.
 \section{Zdrojové soubory}
 zdrojové soubory jsou v xml formátu. Jejich strukturu popisují dtd soubory.
 
-\section{Rozhraní}
 
-\subsection{RubyACL > DB}
-RubyACL bylo testováno s databází eXist-db, se kterou komunikovalo pomocí eXistAPI. 
-K používání RubyACL s jinou XML databází než eXist je zapotřebí komunikační rozhraní, které nahradí eXistAPI. 
-V ukázkové třídě API je výčet všech potřebných metod, které RubyACL používá, včetně parametrů a výstupů. Je potřeba podle vzorové třídy API naimplementovat nové komunikační rozhraní. 
-\subsection{Aplikace > RubyACL}
-Jedná se o výčet public metod třídy RubyACL.
-...přidat výčet
-Na této části záleží bezpočenost. Potencionálně nebezpečné místo k útoku.
 
 %*****************************************************************************
 
@@ -1002,7 +1018,7 @@ R(a,b) & \verb+make_R:A->B->R+ & \verb+a: R -> A+\\
 \end{tabular}
 \end{center}
 \caption{Ukázka tabulky}
-\label{tab:tab1}
+\label{tab:tab100}
 \end{table}
 
 Zdrojový text tabulky \ref{tab:tab1} vypadá takto:
@@ -1027,7 +1043,7 @@ R(a,b) & \verb+make_R:A->B->R+ & \verb+a: R -> A+\\
 \end{tabular}
 \end{center}
 \caption{Ukázka tabulky}
-\label{tab:tab1}
+\label{tab:tab100}
 \end{table}
 \begin{table}
 \end{verbatim}
@@ -1208,6 +1224,19 @@ V souboru \verb|k336_thesis_macros.tex| je příkaz \verb|\uv{}| pro sázení č
 %*****************************************************************************
 \chapter{UML diagramy}
 \textbf{\large Tato příloha není povinná a zřejmě se neobjeví v každé práci. Máte-li ale větší množství podobných diagramů popisujících systém, není nutné všechny umísťovat do hlavního textu, zvláště pokud by to snižovalo jeho čitelnost.}
+
+\subsection{Use Case Diagram}
+TODO přesunout do přílohy.
+Znázorňuje roli uživatele vůči knihovně. Ruby ACL definuje jednoho aktéra, kterým je uživatel/administrátor ACL viz obrázek \ref{fig:usecase}. Jedná se vlastně o vývojáře DB Applikace.
+Všechny případy užití předpokládají vytvořenou instanci RubyACL, která má vytvořená nějaká pravidla.
+\begin{figure}
+%\centering
+\includegraphics[width=15cm]{UseCases.jpg}
+\caption{UseCases}
+\label{fig:usecase}
+\end{figure}
+
+%-------------------------------------
 
 %*****************************************************************************
 \chapter{Instalační a uživatelská příručka}

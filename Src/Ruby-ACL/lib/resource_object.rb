@@ -96,6 +96,7 @@ END
       raise RubyACLException.new(self.class.name, __method__, 
         "Failed to change #{what_is_changed}.", 34), caller
     end
+    return type
   rescue => e
     raise e
   end
