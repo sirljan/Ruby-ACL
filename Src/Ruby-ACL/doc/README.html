@@ -95,9 +95,67 @@
 
 <div id="documentation" class="description">
   
-<h2 id="label-Ruby-ACL">Ruby-ACL</h2>
+<h1 id="label-RubyACL+-+Access+control+list+in+Ruby">RubyACL - Access control list in Ruby</h1>
+<dl class="rdoc-list note-list"><dt>rubygem 
+<dd>
+<p><a href="https://rubygems.org/gems/Ruby-ACL">rubygems.org/gems/Ruby-ACL</a></p>
+</dd><dt>github 
+<dd>
+<p><a
+href="https://github.com/sirljan/Ruby-ACL">github.com/sirljan/Ruby-ACL</a></p>
+</dd><dt>API_inteface 
+<dd>
+<p><a
+href="https://github.com/sirljan/Ruby-ACL/tree/master/Src/API_interface">github.com/sirljan/Ruby-ACL/tree/master/Src/API_interface</a></p>
+</dd></dl>
 
-<p>You should document your project here.</p>
+<h2 id="label-Description">Description</h2>
+
+<p>Ruby-ACL is Access control list programmed in Ruby. It provides easy system
+of access control. <a href="RubyACL.html">RubyACL</a> offers to create and
+modify three ACL objects - three  dimensions: <a
+href="Principal.html">Principal</a>, <a
+href="Privilege.html">Privilege</a>, Resource object. <a
+href="Principal.html">Principal</a> is someone or something that want to
+access. <a href="Privilege.html">Privilege</a> is level of access. (read,
+write etc.). Resource object is what is principal accessing. Ruby-ACL uses
+API interface to communicate with database. This interface is  described by
+class API_inteface. At the end of the class <a
+href="RubyACL.html">RubyACL</a> you can see set of examples. Also good
+source  of information are testcases.</p>
+
+<h2 id="label-Example+of+usage">Example of usage</h2>
+
+<p>This example uses ExistAPI. It shows basic operations with <a
+href="RubyACL.html">RubyACL</a>. It is  creating three ACL_Objects that is
+needed to create rule and then to ask for it  by method check().</p>
+
+<pre>api = ExistAPI.new(&quot;http://localhost:8080/exist/xmlrpc&quot;, &quot;username&quot;, &quot;password&quot;)
+@my_acl = RubyACL.new(&quot;my_acl&quot;, api)
+@my_acl.create_principal(&quot;Sheldon&quot;)  
+@my_acl.create_privilege(&quot;SIT&quot;)
+@my_acl.create_resource_object(&quot;seat&quot;, &quot;/livingroom/couch/Sheldon's_spot&quot;, &quot;Sheldon&quot;)
+@my_acl.create_ace(&quot;Sheldon&quot;, &quot;allow&quot;, &quot;SIT&quot;, &quot;seat&quot;, &quot;/livingroom/couch/Sheldon's_spot&quot;)
+#Next method call returns boolean, here it is false (=deny).
+@my_acl.check(&quot;Penny&quot;, &quot;SIT&quot;, &quot;seat&quot;, &quot;/livingroom/couch/Sheldon's_spot&quot;)</pre>
+
+<h3 id="label-Note+to+example">Note to example</h3>
+
+<p>It is expected to use it in if clause. In the case result is true you may
+via  API provide resource object. For example:</p>
+
+<pre>api = API.new(...)
+collection = &quot;/db/somecollection/&quot;
+document = &quot;thedocument.xml&quot;
+resource_object = collection + document
+if(@my_acl.check(&quot;Penny&quot;, &quot;SIT&quot;, &quot;doc&quot;, resource_object))
+ #access allowed
+ doc = Document.new(api, document, collection)
+ return doc.content
+else
+ #access denied
+ return nil
+end</pre>
 
 </div>
 

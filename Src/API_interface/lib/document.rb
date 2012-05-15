@@ -1,10 +1,15 @@
 
 class Document
   
+  #path of the document
   attr_reader :path
+  #name of the document
   attr_reader :name
+  #owner of the document
   attr_reader :owner
+  #owner group of the document
   attr_reader :group
+  #permissions of the document
   attr_reader :permissions
   
   #Creates new instance of document

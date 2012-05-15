@@ -371,6 +371,22 @@ V analýze je analýza...
 V realizaci je realizace...
 V testování je testování...
 
+Co se týče vytyčených cílů, nejpodstatnější kapitolu a části bakalářské práce je kapitola Analýza sekce Rozhraní a sekce Příklady užití a dále kapitola Testování.
+
+Kapitola 1 nás uvádí do Bakalářské práce. Vysvětluje, co vlastně řízení práv je, popisuje jeho význam a vysvětluje nejdůležitější pojmy týkající se bakalářské práce a řízení práv.
+
+V kapitole 2 se hovoří o důvodu implementace RubyACL, vytyčují se cíle a prezentují požadavky. Dále je stručný popis existujících řešeních.
+
+Kapitola 3 je nejpodstatnější z celé práce. Jedná se o Analýzu, ve které bylo popsáno z čeho jsem vycházel při návrhu. Nejdůležitější část je Rozhraní a Ukázka použítí, protože přímo splňují zadání/požadavky práce. Sekce Popisu logiky vyhodnocování je důležitá pro uživatele knihovny. Nejen že vysvětluje pojmy jako ACL objekt, principal, ale hlavně popisuje jakým způsobem knihovna Ruby-ACL rozhoduje, které pravidlo má přednost.
+
+Kapitola 4 Realizace se zaměřuje na postup vývoje a problémy při implementaci.
+
+Kapitole 6 je rozdělená na dvě části. Jedna se zabýva pomocným komunikačním rozhraním eXistAPI a druhá samotnou knihovnou Ruby-ACL. Obě části jsou však zaměřeny vysvětlení způsobu testování a jejich výsledky.
+
+Kapitola 7 se zaměřuje na zhodnocení splnění cílů Bakalářské práce a rozebírá možné nedostatky a případné pokračování v práci na knihovně.
+
+V příloze se nacházejí diagramy, které nebyly potřeba pro vysvětlení funkcionality knihovny.
+
 \begin{table}%[h]
 \begin{center}
 \begin{tabular}{|l|p{9cm}|l|}
@@ -427,30 +443,32 @@ Podrobnější zpracování se nachází v sekci \ref{sec:anal-existujicireseni}
 \subsection{Dostupné knihovny}
 Kdybych si za cíl nedal vytvořit RubyACL sám, nejspíše bych čerpal z jedné z těchto knihoven.
 
-Acl9
-Acl9 is yet another solution for role-based authorization in Rails. It consists of two subsystems which can be used separately.
-Role control subsystem allows you to set and query user roles for various objects.
-Access control subsystem allows you to specify different role-based access rules inside controllers.
+TODO pridat reference, ze bylo prevzato z webu.
 
-iq-acl
-This aim of this gem is to provide a series of classes to handle common ACL requirements. Currently provided is the IQ::ACL::Basic class which although super simple, is also extremely powerful. Read more about usage on the IQ::ACL::Basic page.
+\subsubsection{Acl9}
+Acl9 je další řešení autorizace založené na rolích v Rails. Skládá se ze dvou subsystémů, které mohou být použity samostatně. Subsystém kontroly rolí umožňuje nastavovat a dotazovat se na uživatelské role pro různé objekty. Subsystém řízení přístupu umožňuje zadat uvnitř řadiče různá přístupová pravidla podle rolí.
 
-ActiveACLPlus
-The ActiveAclPlus plugin implements a flexible, fast and easy to use generic access control system. 
-there are no real benchmarks yet. But the system design is based on phpgacl.sourceforge.net, adding object orientation, polymorphism and two levels of caching. PhpGacl claims "A real-world working version with many added layers of complexity supports over 60,000 Accounts, 200 Groups and 300 ACO‘s." Tests on my dev notebook show 10 - 30 times performance improvements compared to active\_rbac.
-caching - uses instance caching and optionally stores permission results in memcached using timeouts. 
-Zdá se, že je instanční.
+\subsubsection{iq-acl}
+Cílem tohoto rubygemu je poskytnout serii tříd, které umí zacházet s bežnýma požadavkama na řízení práv. V současné době poskytuje třídu IQ::ACL::Basic, která přestože je velmi jednoduchá je také velmi schopná.Více o použití se můžete dočíst zde. TODO dělat odkaz, kde lze více precist.
+
+\subsubsection{ActiveACLPlus}
+Plugin ActiveAclPlus realizuje flexibilní, rychlý a snadno použitelný obecný systém kontroly přístupu.
+Dosud nejsou žádná skutečná měřítka. Systém je založen na phpgacl.sourceforge.net, přidání objektu orientace, polymorfismu a dvou úrovní cache. PhpGacl tvrdí, že v reálné pracovní verzi s mnoha přidanými vrstvami složitosti podporuje více než 60.000 účtů, 200 skupin a 300 ACO." Testy provedené na vyvojářském notebooku ukazují 10 - 30 krát zlepšení výkonnosti ve srovnání s \verb|active _rbac|.
+Plugin používá ukládání do mezipaměti. Používá instanční cache a případě potřeby ukládá výsledky oprávněních do memcached použitím časového omezení.
 
 
 %*****************************************************************************
 \chapter{Analýza a návrh řešení}
 Analýza a návrh implementace (včetně diskuse různých alternativ a volby implementačního prostředí).
+
 Tato kapitola se dělí na analýzu a návrh. V analýze se zaměřilo na prostudování tří existujících řešení. Z informací získaných z dokumentace jsem sestavil návrh pro Ruby ACL.
+
 
 \section{Analýza}
 
 ... proc pomoci acl, popisuje nejznámější rešení acl, 
 
+Protože práce byla velmi přesně zadána, nezbylo příliš prostoru na různé alternativy. Ruby bylo zadáno jako implementační prostředí. Způsob zpracování byl zadán pomocí ACL - Access Control List. Hlavním úkol bylo zjistit, jakým způsobem implementovat samotné ACL a řádně implementaci zdokumentovat a otestovat.
 
 \subsection{Exitující řešení}
 \label{sec:anal-existujicireseni}

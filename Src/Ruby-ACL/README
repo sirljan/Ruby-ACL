@@ -1,3 +1,49 @@
-== Ruby-ACL
+= \RubyACL - Access control list in Ruby
 
-You should document your project here.
+rubygem :: https://rubygems.org/gems/Ruby-ACL
+github :: https://github.com/sirljan/Ruby-ACL
+API_inteface :: https://github.com/sirljan/Ruby-ACL/tree/master/Src/API_interface
+
+== Description
+
+Ruby-ACL is Access control list programmed in Ruby. It provides easy system of
+access control. RubyACL offers to create and modify three ACL objects - three 
+dimensions: Principal, Privilege, Resource object.
+Principal is someone or something that want to access.
+Privilege is level of access. (read, write etc.).
+Resource object is what is principal accessing.
+Ruby-ACL uses API interface to communicate with database. This interface is 
+described by class API_inteface.
+At the end of the class RubyACL you can see set of examples. Also good source 
+of information are testcases.
+
+== Example of usage
+This example uses ExistAPI. It shows basic operations with RubyACL. It is 
+creating three ACL_Objects that is needed to create rule and then to ask for it 
+by method check().
+
+ api = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "username", "password")
+ @my_acl = RubyACL.new("my_acl", api)
+ @my_acl.create_principal("Sheldon")  
+ @my_acl.create_privilege("SIT")
+ @my_acl.create_resource_object("seat", "/livingroom/couch/Sheldon's_spot", "Sheldon")
+ @my_acl.create_ace("Sheldon", "allow", "SIT", "seat", "/livingroom/couch/Sheldon's_spot")
+ #Next method call returns boolean, here it is false (=deny).
+ @my_acl.check("Penny", "SIT", "seat", "/livingroom/couch/Sheldon's_spot")
+
+=== Note to example
+It is expected to use it in "if" clause. In the case result is true, you may via 
+API provide resource object. For example:
+
+ api = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "username", "password")
+ collection = "/db/somecollection/"
+ document = "thedocument.xml"
+ resource_object = collection + document
+ if(@my_acl.check("Penny", "SIT", "doc", resource_object))
+  #access allowed
+  doc = Document.new(api, document, collection)
+  return doc.content
+ else
+  #access denied
+  return nil
+ end

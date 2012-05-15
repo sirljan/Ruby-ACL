@@ -1,3 +1,13 @@
-== API_interface
+= \API_interface - interface for Ruby-ACL
 
-You should document your project here.
+github :: https://github.com/sirljan/Ruby-ACL/tree/master/Src/API_interface
+
+API_interface is comunication interface between database and RubyACL.
+API_interface should be able to create, delete or get collections or retrieve 
+whole content of documents or part of it by querying. 
+Also API_interface should be able to work with documents stored in database. 
+API_interface should support methods insert, replace, rename and delete nodes 
+or change values. RubyACL for full function needs main class API and helping 
+classes Collection, Document. All methods are listed in those classes with 
+description.
+

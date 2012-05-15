@@ -842,7 +842,7 @@ report = false
 #@my_acl.create_resource_object("couch", "/livingroom", "Sheldon")
 #@my_acl.create_resource_object("seat", "/livingroom/couch/Sheldon's_spot", "Sheldon")
 #
-##Now we have everything we need to create the rule.
+##Now we have everything we need to create a rule.
 ##Lets see what we must hand over
 ##1) One individual or group that    (principal)
 ##2) will or won't have access       (access type = {allow, deny})
