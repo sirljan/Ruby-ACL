@@ -2,22 +2,18 @@
 
 \section{Úvod do problematiky}
 
-Tato bakalářská práce navazuje na můj semestrální projekt. Zabývá se správou - administrací řízení přístupu, jakožto procesu autorizování uživatelů, skupin a počítačů pro přístup k objektům. Tento proces pracuje s pojmy: oprávnění, uživatelská práva a audit objektů. Tato jednotlivá přiřazená oprávnění začleňuje jako položky řízení přístupu (ACE) a jejich celé sady začleňuje do seznamu přístupových práv (ACL). Úkolem bakalářské práce bylo vytvořit, navrhnout a realizovat v jazyce Ruby model uživatelských přístupových práv určenou pro objektovou xml databázi.
+Tato bakalářská práce navazuje na můj semestrální projekt. Zabývá se správou - administrací řízení přístupu, jakožto procesu autorizování uživatelů, skupin a počítačů pro přístup k objektům. Tento proces pracuje s pojmy: oprávnění, uživatelská práva a audit objektů. Tato jednotlivá přiřazená oprávnění začleňuje jako položky řízení přístupu (ACE\footnote[1]{Access Control Entry}) a jejich celé sady začleňuje do seznamu přístupových práv (ACL\footnote[2]{Access Control List}). Úkolem bakalářské práce bylo vytvořit, navrhnout a realizovat v jazyce Ruby model uživatelských přístupových práv určenou pro objektovou XML\footnote[3]{Extensible Markup Language} databázi.
 
-Součástí práce byl návrh knihovny. Navržený modul realizuje správu řízení přístupu pomocí ACL (Access Control List). Protože moje bakalářská práce je prací implementační, včetně testů navrženého modulu, zaměřil jsem se na specifikaci rozhraní knihovny a na příklady jejího použití.
+Součástí práce byl návrh knihovny. Navržená knihovna realizuje správu řízení přístupu pomocí ACL. Protože moje bakalářská práce je prací implementační, včetně testů navrženého knihovny, zaměřil jsem se na specifikaci rozhraní knihovny a na příklady jejího použití. Výsledkem je nejen samotná realizace knihovny, ale i podrobná programátorská dokumentace.
 
-Výsledkem bakalářské práce je nejen samotná realizace knihovny, ale i podrobná programátorská dokumentace.
+Je-li potřeba zabezpečit zdroje a jeho prostředky, je nutné vzít v úvahu, jakými právy budou disponovat ti, kteří k nim budou přistupovat. Zabezpečit objekt, například dokument či kolekci, lze přidělením oprávnění, která umožňují uživatelům nebo skupinám provádět u tohoto objektu určité akce. Řízení přístupů je činnost zabývající se přidáváním a zamítáním oprávnění přistupujícím.
 
-V druhé části úvodu je vysvětlení nejdůležistějších pojmů.
+Ruby je objektově orientovaný, interpretovaný skriptovací programovací jazyk. Díky své jednoduché syntaxi je poměrně snadný, přesto však dostatečně výkonný, aby dokázal konkurovat známějším jazykům jako je Python a Perl. 
 
-Chcete-li zabezpečit zdroje a jeho prostředky, je nutné vzít v úvahu, jakými právy budou disponovat ti, kteří k nim budou přistupovat. Zabezpečit objekt, například dokument či kolekci, lze přidělením oprávnění, která umožňují uživatelům nebo skupinám provádět u tohoto objektu určité akce. Řízení přístupů je činnost zabývající se přidáváním a zamítáním oprávnění přistupujícím.
-
-Ruby je interpretovaný skriptovací programovací jazyk. Díky své jednoduché syntaxi je poměrně snadný, přesto však dostatečně výkonný, aby dokázal konkurovat známějším jazykům jako je Python a Perl. Je objektově orientovaný.
-
-ACL je zkratka pro access control list, což v překladu znamená seznam pro řízení přístupů. ACL je v oblasti počítačové bezpečnosti seznam oprávnění připojený k nějakému objektu. Seznam určuje, kdo nebo co má povolení přistupovat k objektu a jaké operace s ním může nebo nesmí provádět. V typickém ACL specifikuje každý záznam v seznamu uživatele a operaci.
+ACL je seznam pro řízení přístupů. Seznam určuje, kdo nebo co má povolení přistupovat k objektu a jaké operace s ním může nebo nesmí provádět. V typickém ACL specifikuje každý záznam v seznamu uživatele a operaci. TODO prevzato z wiki, Citovat?
 
 %-------------------------------
 
 \section{Motivace}
-Zaujala mě problematika práv, databází a pro mě neznámého jazyka.
+Zaujala mě problematika práv, databází a pro mě neznámého jazyka Ruby.
 Jádro celé mé motivace, bylo projít si vývojem softwaru, v tomto případě knihovny, od návrhu přes implementaci k testování a dokumentaci a ověřit si získané poznatky z předmětu softwarového inženýrství. Soustředil jsem se na vlastní nápady. Nechtěl jsem skládat a kopírovat polotvary a "lepit" je dohromady.

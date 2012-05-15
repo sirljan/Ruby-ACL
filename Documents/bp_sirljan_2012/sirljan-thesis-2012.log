@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2012.3.18)  15 MAY 2012 17:34
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2012.3.18)  15 MAY 2012 22:04
 entering extended mode
 **D:/Ruby-ACL/Documents/bp_sirljan_2012/sirljan-thesis-2012.tex
 (D:/Ruby-ACL/Documents/bp_sirljan_2012/sirljan-thesis-2012.tex
@@ -564,7 +564,7 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 {C:/Users/sirljan/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2
 
 ]
-<figures/LogoCVUT.pdf, id=304, 93.34875pt x 70.2625pt>
+<figures/LogoCVUT.pdf, id=300, 93.34875pt x 70.2625pt>
 File: figures/LogoCVUT.pdf Graphic file (type pdf)
 
 <use figures/LogoCVUT.pdf>
@@ -588,23 +588,27 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 4.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 4.
- [11] [12])
+ [11])
 \tf@toc=\write4
-
-[13] [14
-
-] (D:\Ruby-ACL\Documents\bp_sirljan_2012\sirljan-thesis-2012.lof)
+ [12]
+(D:\Ruby-ACL\Documents\bp_sirljan_2012\sirljan-thesis-2012.lof)
 \tf@lof=\write5
+ [13
 
-[15] [16
+] [14
 
-] (D:\Ruby-ACL\Documents\bp_sirljan_2012\sirljan-thesis-2012.lot)
+]
+(D:\Ruby-ACL\Documents\bp_sirljan_2012\sirljan-thesis-2012.lot)
 \tf@lot=\write6
+ [15] [16
 
-[17] [18
-
-] (D:\Ruby-ACL\Documents\bp_sirljan_2012\1_uvod.tex
+]
+(D:\Ruby-ACL\Documents\bp_sirljan_2012\1_uvod.tex
 Kapitola 1.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 5.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 5.
 ) [1
 
 
@@ -614,29 +618,19 @@ Kapitola 2.
 
 
 
-]
-Overfull \hbox (8.09454pt too wide) in paragraph at lines 44--45
+] [4]
+Overfull \hbox (8.09454pt too wide) in paragraph at lines 76--77
 []\T1/cmr/m/n/10.95 V p°í-loze se na-chá-zejí di-a-gramy, které ne-byly po-t°eb
-a pro vy-sv¥t-lení funk-ci-o-na-lity knihovny. 
+a pro vy-sv¥t-lení funk-ci-o-na-lity knihovny.
  []
 
-
-Underfull \hbox (badness 1057) in paragraph at lines 82--82
-[]\T1/cmr/m/n/10.95 RubyACL po-t°e-buje da-ta-bázi pod-po-ru-jící xQuery,
- []
-
-[4] [5]
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 112.
+[5]
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 106.
 
  ("C:\Program Files\MikTex\tex\latex\base\t1cmtt.fd"
 File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-))
-Overfull \hbox (2.67284pt too wide) in paragraph at lines 111--328
-\T1/cmr/m/n/10.95 p°í-stupu. Do-sud nejsou ºádná sku-te£ná m¥-°ítka. Sys-tém je
- za-lo-ºen na ph-p-gacl.sourceforge.net,
- []
-
-[6] (D:\Ruby-ACL\Documents\bp_sirljan_2012\3_analyza.tex
+)) [6]
+(D:\Ruby-ACL\Documents\bp_sirljan_2012\3_analyza.tex
 Kapitola 3.
 [7
 
@@ -649,8 +643,6 @@ LaTeX Warning: Reference `' on page 9 undefined on input line 78.
 [9]
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 127.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 127.
  [10] <DataFlowBigFont.jpg, id=555, 587.19376pt x 696.6025pt>
 File: DataFlowBigFont.jpg Graphic file (type jpg)
 
@@ -726,11 +718,7 @@ escendant::*[type="Rybnik"]/string(@id) najde 1 vysledek = "" (prazdny string)[
 ] 
  []
 
-[25] [26
-
-]
-Kapitola 8.
-(D:\Ruby-ACL\Documents\bp_sirljan_2012\sirljan-thesis-2012.bbl [27] [28
+(D:\Ruby-ACL\Documents\bp_sirljan_2012\sirljan-thesis-2012.bbl [25] [26
 
 ]
 Underfull \hbox (badness 2452) in paragraph at lines 9--15
@@ -738,98 +726,96 @@ Underfull \hbox (badness 2452) in paragraph at lines 9--15
 1sec.htm\T1/cmr/m/n/10.95 , stav z
  []
 
-) [29] [30
+) [27] [28
 
 ]
 P\v {r}\'{\i }loha A.
 
-Package natbib Warning: Citation `CSTUG' on page 31 undefined on input line 411
+Package natbib Warning: Citation `CSTUG' on page 29 undefined on input line 411
 .
 
 
-Package natbib Warning: Citation `latexdocweb' on page 31 undefined on input li
+Package natbib Warning: Citation `latexdocweb' on page 29 undefined on input li
 ne 411.
 
 
-Package natbib Warning: Citation `latexwiki' on page 31 undefined on input line
+Package natbib Warning: Citation `latexwiki' on page 29 undefined on input line
  411.
 
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 419.
 File: figures/LogoCVUT.pdf Graphic file (type pdf)
 <use figures/LogoCVUT.pdf>
 Package pdftex.def Info: figures/LogoCVUT.pdf used on input line 423.
 (pdftex.def)             Requested size: 142.26378pt x 107.08527pt.
- [31]
+ [29]
 
-Package natbib Warning: Citation `ipe' on page 32 undefined on input line 443.
+Package natbib Warning: Citation `ipe' on page 30 undefined on input line 443.
 
-[32] [33] [34]
+[30] [31] [32]
 
-Package natbib Warning: Citation `kniha' on page 35 undefined on input line 590
+Package natbib Warning: Citation `kniha' on page 33 undefined on input line 590
 .
 
 
-Package natbib Warning: Citation `clanek' on page 35 undefined on input line 59
+Package natbib Warning: Citation `clanek' on page 33 undefined on input line 59
 0.
 
 
-Package natbib Warning: Citation `sbornik' on page 35 undefined on input line 5
+Package natbib Warning: Citation `sbornik' on page 33 undefined on input line 5
 90.
 
 
-Package natbib Warning: Citation `www' on page 35 undefined on input line 590.
+Package natbib Warning: Citation `www' on page 33 undefined on input line 590.
 
 
-Package natbib Warning: Citation `wiki:framework' on page 35 undefined on input
+Package natbib Warning: Citation `wiki:framework' on page 33 undefined on input
  line 592.
 
 
-Package natbib Warning: Citation `wiki:orm' on page 35 undefined on input line 
+Package natbib Warning: Citation `wiki:orm' on page 33 undefined on input line 
 592.
 
-[35] [36]
+[33] [34]
 P\v {r}\'{\i }loha B.
-[37
+[35
 
-] [38
+] [36
 
 ]
 P\v {r}\'{\i }loha C.
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 677.
+(hyperref)                than one, level fixed on input line 676.
 
-<UseCases.jpg, id=708, 706.64pt x 758.835pt>
+<UseCases.jpg, id=698, 706.64pt x 758.835pt>
 File: UseCases.jpg Graphic file (type jpg)
  <use UseCases.jpg>
-Package pdftex.def Info: UseCases.jpg used on input line 683.
+Package pdftex.def Info: UseCases.jpg used on input line 682.
 (pdftex.def)             Requested size: 426.79134pt x 458.31503pt.
- [39] [40 <D:/Ruby-ACL/Documents/bp_sirljan_2012/UseCases.jpg>]
+ [37] [38 <D:/Ruby-ACL/Documents/bp_sirljan_2012/UseCases.jpg>]
 P\v {r}\'{\i }loha D.
-[41
+[39
 
-] [42
+] [40
 
 ]
 P\v {r}\'{\i }loha E.
 
-Package natbib Warning: Citation `infodp' on page 43 undefined on input line 69
-8.
+Package natbib Warning: Citation `infodp' on page 41 undefined on input line 69
+7.
 
-<figures/seznamcd.pdf, id=725, 793.96625pt x 539.01375pt>
+<figures/seznamcd.pdf, id=716, 793.96625pt x 539.01375pt>
 File: figures/seznamcd.pdf Graphic file (type pdf)
 
 <use figures/seznamcd.pdf>
-Package pdftex.def Info: figures/seznamcd.pdf used on input line 702.
+Package pdftex.def Info: figures/seznamcd.pdf used on input line 701.
 (pdftex.def)             Requested size: 398.33858pt x 270.4356pt.
- [43 <D:/Ruby-ACL/Documents/bp_sirljan_2012/figures/seznamcd.pdf>]
+ [41 <D:/Ruby-ACL/Documents/bp_sirljan_2012/figures/seznamcd.pdf>]
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 716.
-[44]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 716.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 715.
+[42]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 715.
  (D:\Ruby-ACL\Documents\bp_sirljan_2012\sirljan-thesis-2012.aux
 (D:\Ruby-ACL\Documents\bp_sirljan_2012\1_uvod.aux)
 (D:\Ruby-ACL\Documents\bp_sirljan_2012\2_popis_problemu.aux)
@@ -837,10 +823,10 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 716.
 (D:\Ruby-ACL\Documents\bp_sirljan_2012\4_realizace.aux)
 (D:\Ruby-ACL\Documents\bp_sirljan_2012\5_testovani.aux)
 (D:\Ruby-ACL\Documents\bp_sirljan_2012\6_zaver.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 716.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 716.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 715.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 715.
 Package rerunfilecheck Info: File `sirljan-thesis-2012.out' has not changed.
-(rerunfilecheck)             Checksum: DAFC701040010401F35D86F49B02A493;11409.
+(rerunfilecheck)             Checksum: 5CC7EAD45397EC4C7261223C143AEF28;11295.
 
 
 LaTeX Warning: There were undefined references.
@@ -848,12 +834,12 @@ LaTeX Warning: There were undefined references.
  ) 
 Here is how much of TeX's memory you used:
  9387 strings out of 494045
- 127707 string characters out of 3149993
+ 127721 string characters out of 3149993
  415264 words of memory out of 3000000
- 12326 multiletter control sequences out of 15000+200000
+ 12325 multiletter control sequences out of 15000+200000
  20533 words of font info for 45 fonts, out of 3000000 for 9000
  719 hyphenation exceptions out of 8191
- 29i,10n,40p,980b,1218s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 29i,10n,40p,980b,1217s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MikTex/fonts/enc/dvips/cm-super/cm-super-t1.enc}<C:/Program
  Files/MikTex/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MikTe
 x/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MikTex/fonts/type1
@@ -872,9 +858,9 @@ super/sfsl1095.pfb><C:/Program Files/MikTex/fonts/type1/public/cm-super/sfti144
 0.pfb><C:/Program Files/MikTex/fonts/type1/public/cm-super/sftt0900.pfb><C:/Pro
 gram Files/MikTex/fonts/type1/public/cm-super/sftt1000.pfb><C:/Program Files/Mi
 kTex/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on sirljan-thesis-2012.pdf (62 pages, 958256 bytes).
+Output written on sirljan-thesis-2012.pdf (58 pages, 957114 bytes).
 PDF statistics:
- 847 PDF objects out of 1000 (max. 8388607)
- 192 named destinations out of 1000 (max. 500000)
- 612 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 838 PDF objects out of 1000 (max. 8388607)
+ 193 named destinations out of 1000 (max. 500000)
+ 604 words of extra memory for PDF output out of 10000 (max. 10000000)
 

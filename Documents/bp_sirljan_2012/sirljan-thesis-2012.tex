@@ -241,7 +241,7 @@ unicode=true,
 
 \acknowledgements
 \noindent
-Chtěl bych především poděkovat panu Ing. Pavlu Strnadovi%, že se mě ujal jako vedoucí prácí a poskytl mi rady motivaci. Poděkování také patří mé přítelkyni a rodině za nemalou podporu při tvorbě bakalářské práce a v průběhu celého studia.
+Chtěl bych především poděkovat panu Ing. Pavlu Strnadovi, že se mě ujal jako vedoucí jak semestrálního projektu tak Bakalářské práce a poskytl mi rady a motivaci. Poděkování také patří mé přítelkyni a rodině za nemalou podporu při tvorbě bakalářské práce a v průběhu celého studia.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%   Prohlaseni / Declaration 
 
@@ -252,10 +252,10 @@ Chtěl bych především poděkovat panu Ing. Pavlu Strnadovi%, že se mě ujal 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%    Abstract 
  
 \abstractpage
-
+TODO prelozit aktualni ceskou verzi
 This paper presents the design and implementation of library management access rights in the programming language Ruby.
 
-The library is designed for object database CellStore and is solved using the Access Control List. Library used for storing and querying the database itself, which communicates with the protocol XML-RPC (Remote Procedure Call) XQuery and XQuery Update Facility.
+The library is designed for object XML database and is solved using the Access Control List. Library used for storing and querying the database itself, which communicates with the protocol XML-RPC (Remote Procedure Call) XQuery and XQuery Update Facility.
 The functionality of the library was developed and tested on eXistDB.
 
 % Prace v cestine musi krome abstraktu v anglictine obsahovat i
@@ -268,8 +268,8 @@ The functionality of the library was developed and tested on eXistDB.
 \noindent
 Tato práce prezentuje návrh a realizaci knihovny pro správu přístupových práv v programovacím jazyku Ruby. 
 
-Knihovna  je určena pro objektovou databázi Cellstore a je řešena pomocí Access Control List. Knihovna využívá pro ukládání a dotazování samotnou databázi, se kterou komunikuje pomocí protokolu XML-RPC (Remote Procedure Call) technologií xQuery a xQuery Update Facility. 
-Funkčnost knihovny byla vyvíjena a testována na eXistDB.
+Knihovna  je určena pro objektovou XML databázi a je řešena pomocí Access Control Listu. Knihovna využívá pro ukládání a dotazování samotnou databázi, se kterou komunikuje pomocí protokolu pro vzdálené volání procedur a pro dotazování používá aktuální dotazovací jazyky. 
+Funkčnost knihovny byla vyvíjena a testována pomocí databáze eXist-db.
 
 
 \noindent
@@ -329,6 +329,7 @@ Funkčnost knihovny byla vyvíjena a testována na eXistDB.
 
 %*****************************************************************************
 % Analýza a návrh řešení
+Az se precteno ////////////////////////////////////////////////////////////////////////////////////////
 \include{3_analyza}
 
 %*****************************************************************************
@@ -664,11 +665,10 @@ V souboru \verb|k336_thesis_macros.tex| je příkaz \verb|\uv{}| pro sázení č
 \chapter{Seznam použitých zkratek}
 
 \begin{description}
-\item[2D] Two-Dimensional
-\item[ABN] Abstract Boolean Networks
-\item[ASIC] Application-Specific Integrated Circuit
+\item[ACL] Access Control List
+\item[ACE] Access Control Entry
+\item[XML] Extensible Markup Language
 \end{description}
-\vdots
 
 %*****************************************************************************
 \chapter{UML diagramy}

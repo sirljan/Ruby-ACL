@@ -6,11 +6,11 @@
 \contentsline {chapter}{\numberline {2}Popis probl\IeC {\'e}mu, specifikace c\IeC {\'\i }le}{3}{chapter.2}
 \contentsline {section}{\numberline {2.1}Popis \IeC {\v r}e\IeC {\v s}en\IeC {\'e}ho probl\IeC {\'e}mu}{3}{section.2.1}
 \contentsline {section}{\numberline {2.2}Vymezen\IeC {\'\i } c\IeC {\'\i }l\IeC {\r u} a po\IeC {\v z}adavk\IeC {\r u}}{3}{section.2.2}
-\contentsline {section}{\numberline {2.3}Popis struktury bakal\IeC {\'a}\IeC {\v r}sk\IeC {\'e} pr\IeC {\'a}ce ve vztahu k vyty\IeC {\v c}en\IeC {\'y}m c\IeC {\'\i }l\IeC {\r u}m}{4}{section.2.3}
-\contentsline {section}{\numberline {2.4}Existuj\IeC {\'\i }c\IeC {\'\i } \IeC {\v r}e\IeC {\v s}en\IeC {\'\i }}{4}{section.2.4}
-\contentsline {subsection}{\numberline {2.4.1}Podnikov\IeC {\'e} \IeC {\v r}e\IeC {\v s}en\IeC {\'\i }}{4}{subsection.2.4.1}
-\contentsline {subsection}{\numberline {2.4.2}Dostupn\IeC {\'e} knihovny}{6}{subsection.2.4.2}
-\contentsline {subsubsection}{\numberline {2.4.2.1}Acl9}{6}{subsubsection.2.4.2.1}
+\contentsline {section}{\numberline {2.3}Popis struktury bakal\IeC {\'a}\IeC {\v r}sk\IeC {\'e} pr\IeC {\'a}ce}{3}{section.2.3}
+\contentsline {section}{\numberline {2.4}Existuj\IeC {\'\i }c\IeC {\'\i } \IeC {\v r}e\IeC {\v s}en\IeC {\'\i }}{5}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}Firemn\IeC {\'\i } \IeC {\v r}e\IeC {\v s}en\IeC {\'\i }}{5}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}Dostupn\IeC {\'e} knihovny}{5}{subsection.2.4.2}
+\contentsline {subsubsection}{\numberline {2.4.2.1}Acl9}{5}{subsubsection.2.4.2.1}
 \contentsline {subsubsection}{\numberline {2.4.2.2}iq-acl}{6}{subsubsection.2.4.2.2}
 \contentsline {subsubsection}{\numberline {2.4.2.3}ActiveACLPlus}{6}{subsubsection.2.4.2.3}
 \contentsline {chapter}{\numberline {3}Anal\IeC {\'y}za a n\IeC {\'a}vrh \IeC {\v r}e\IeC {\v s}en\IeC {\'\i }}{7}{chapter.3}
@@ -22,7 +22,7 @@
 \contentsline {section}{\numberline {3.2}N\IeC {\'a}vrh implementace}{9}{section.3.2}
 \contentsline {subsection}{\numberline {3.2.1}Rozhran\IeC {\'\i }}{9}{subsection.3.2.1}
 \contentsline {subsubsection}{\numberline {3.2.1.1}Rozhran\IeC {\'\i } mezi Ruby-ACL a datab\IeC {\'a}z\IeC {\'\i }}{9}{subsubsection.3.2.1.1}
-\contentsline {subsubsection}{\numberline {3.2.1.2}Aplikace > RubyACL}{9}{subsubsection.3.2.1.2}
+\contentsline {subsubsection}{\numberline {3.2.1.2}Rozhran\IeC {\'\i } mezi Ruby-ACL a u\IeC {\v z}ivatelskou aplikac\IeC {\'\i }}{9}{subsubsection.3.2.1.2}
 \contentsline {subsection}{\numberline {3.2.2}Uk\IeC {\'a}zka pou\IeC {\v z}it\IeC {\'\i }}{9}{subsection.3.2.2}
 \contentsline {subsubsection}{\numberline {3.2.2.1}P\IeC {\v r}\IeC {\'\i }klad nastaven\IeC {\'\i } pr\IeC {\'a}v}{10}{subsubsection.3.2.2.1}
 \contentsline {subsubsection}{\numberline {3.2.2.2}P\IeC {\v r}\IeC {\'\i }klad kontroly pr\IeC {\'a}v}{10}{subsubsection.3.2.2.2}
@@ -55,20 +55,19 @@
 \contentsline {section}{\numberline {5.2}RubyACL}{21}{section.5.2}
 \contentsline {chapter}{\numberline {6}Z\IeC {\'a}v\IeC {\v e}r}{23}{chapter.6}
 \contentsline {chapter}{\numberline {7}Moje pracovni poznamky}{25}{chapter.7}
-\contentsline {chapter}{\numberline {8}Literatura}{27}{chapter.8}
-\contentsline {chapter}{\numberline {A}Pokyny a n\IeC {\'a}vody k form\IeC {\'a}tov\IeC {\'a}n\IeC {\'\i } textu pr\IeC {\'a}ce}{31}{appendix.A}
-\contentsline {section}{\numberline {A.1}Vkl\IeC {\'a}d\IeC {\'a}n\IeC {\'\i } obr\IeC {\'a}zk\IeC {\r u}}{31}{section.A.1}
-\contentsline {section}{\numberline {A.2}Kreslen\IeC {\'\i } obr\IeC {\'a}zk\IeC {\r u}}{32}{section.A.2}
-\contentsline {section}{\numberline {A.3}Tabulky}{32}{section.A.3}
-\contentsline {section}{\numberline {A.4}Odkazy v textu}{33}{section.A.4}
-\contentsline {subsection}{\numberline {A.4.1}Odkazy na literaturu}{33}{subsection.A.4.1}
-\contentsline {subsection}{\numberline {A.4.2}Odkazy na obr\IeC {\'a}zky, tabulky a kapitoly}{35}{subsection.A.4.2}
-\contentsline {section}{\numberline {A.5}Rovnice, centrovan\IeC {\'a}, \IeC {\v c}\IeC {\'\i }slovan\IeC {\'a} matematika}{35}{section.A.5}
-\contentsline {section}{\numberline {A.6}K\IeC {\'o}dy programu}{36}{section.A.6}
-\contentsline {section}{\numberline {A.7}Dal\IeC {\v s}\IeC {\'\i } pozn\IeC {\'a}mky}{36}{section.A.7}
-\contentsline {subsection}{\numberline {A.7.1}\IeC {\v C}esk\IeC {\'e} uvozovky}{36}{subsection.A.7.1}
-\contentsline {chapter}{\numberline {B}Seznam pou\IeC {\v z}it\IeC {\'y}ch zkratek}{37}{appendix.B}
-\contentsline {chapter}{\numberline {C}UML diagramy}{39}{appendix.C}
-\contentsline {subsection}{\numberline {C.0.2}Use Case Diagram}{39}{subsection.C.0.2}
-\contentsline {chapter}{\numberline {D}Instala\IeC {\v c}n\IeC {\'\i } a u\IeC {\v z}ivatelsk\IeC {\'a} p\IeC {\v r}\IeC {\'\i }ru\IeC {\v c}ka}{41}{appendix.D}
-\contentsline {chapter}{\numberline {E}Obsah p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}ho CD}{43}{appendix.E}
+\contentsline {chapter}{\numberline {A}Pokyny a n\IeC {\'a}vody k form\IeC {\'a}tov\IeC {\'a}n\IeC {\'\i } textu pr\IeC {\'a}ce}{29}{appendix.A}
+\contentsline {section}{\numberline {A.1}Vkl\IeC {\'a}d\IeC {\'a}n\IeC {\'\i } obr\IeC {\'a}zk\IeC {\r u}}{29}{section.A.1}
+\contentsline {section}{\numberline {A.2}Kreslen\IeC {\'\i } obr\IeC {\'a}zk\IeC {\r u}}{30}{section.A.2}
+\contentsline {section}{\numberline {A.3}Tabulky}{30}{section.A.3}
+\contentsline {section}{\numberline {A.4}Odkazy v textu}{31}{section.A.4}
+\contentsline {subsection}{\numberline {A.4.1}Odkazy na literaturu}{31}{subsection.A.4.1}
+\contentsline {subsection}{\numberline {A.4.2}Odkazy na obr\IeC {\'a}zky, tabulky a kapitoly}{33}{subsection.A.4.2}
+\contentsline {section}{\numberline {A.5}Rovnice, centrovan\IeC {\'a}, \IeC {\v c}\IeC {\'\i }slovan\IeC {\'a} matematika}{33}{section.A.5}
+\contentsline {section}{\numberline {A.6}K\IeC {\'o}dy programu}{34}{section.A.6}
+\contentsline {section}{\numberline {A.7}Dal\IeC {\v s}\IeC {\'\i } pozn\IeC {\'a}mky}{34}{section.A.7}
+\contentsline {subsection}{\numberline {A.7.1}\IeC {\v C}esk\IeC {\'e} uvozovky}{34}{subsection.A.7.1}
+\contentsline {chapter}{\numberline {B}Seznam pou\IeC {\v z}it\IeC {\'y}ch zkratek}{35}{appendix.B}
+\contentsline {chapter}{\numberline {C}UML diagramy}{37}{appendix.C}
+\contentsline {subsection}{\numberline {C.0.2}Use Case Diagram}{37}{subsection.C.0.2}
+\contentsline {chapter}{\numberline {D}Instala\IeC {\v c}n\IeC {\'\i } a u\IeC {\v z}ivatelsk\IeC {\'a} p\IeC {\v r}\IeC {\'\i }ru\IeC {\v c}ka}{39}{appendix.D}
+\contentsline {chapter}{\numberline {E}Obsah p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}ho CD}{41}{appendix.E}
