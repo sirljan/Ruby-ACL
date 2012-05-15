@@ -1,0 +1,9 @@
+\chapter{Závěr}
+
+\begin{itemize}
+\item Zhodnocení splnění cílů DP/BP a  vlastního přínosu práce (při formulaci je třeba vzít v potaz zadání práce).
+\item Diskuse dalšího možného pokračování práce.
+\end{itemize} 
+
+Možné zlepšení: 
+rychlost - Jednoznačně časově nejdražší operací je komunikace s databází. Zrychlení by se dalo docílit optimalizací dotazování tak, aby se dotazovalo, co nejméně. Daňí by byla větší paměťová náročnost aplikace, která by knihovnu RubyACL používala. Současný kód knihovny obsahuje opakované dotazování na stejnou věc místo ukládání výsledku do paměti pro případné následující použití. Tento model byl zvolen kvůli jednoduchosti a faktu, že vykonání dotazu a vrácení výsledku trvá řadově milisekundy. Je ale těžké odhadnout, kolik času by zabralo dotazování při plné databázi a použití více uživatelů ve stejný čas. Navíc eXist si po určitou dobu v paměti uchovává výsledky předchozích dotazů, čímž se snižuje naročnost opakovaných dotazů. Vše je ale závislé na lince mezi knihovnou a databází.

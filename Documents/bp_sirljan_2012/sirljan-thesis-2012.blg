@@ -1,12 +1,23 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: sirljan-thesis-2012.aux
+A level-1 auxiliary file: 1_uvod.aux
+A level-1 auxiliary file: 2_popis_problemu.aux
+A level-1 auxiliary file: 3_analyza.aux
+A level-1 auxiliary file: 4_realizace.aux
+A level-1 auxiliary file: 5_testovani.aux
+A level-1 auxiliary file: 6_zaver.aux
 The style file: csplainnat.bst
 Database file #1: reference.bib
-`address' is a missing field, not a string, for entry kniha
-while executing---line 1484 of file csplainnat.bst
-Warning--empty year in CSTUG
-Warning--empty year in infodp
-Warning--empty year in www
-Warning--empty year in ipe
-Warning--empty year in latexdocweb
-Warning--empty year in latexwiki
-(There was 1 error message)
+Warning--I didn't find a database entry for "CSTUG"
+Warning--I didn't find a database entry for "latexdocweb"
+Warning--I didn't find a database entry for "latexwiki"
+Warning--I didn't find a database entry for "ipe"
+Warning--I didn't find a database entry for "kniha"
+Warning--I didn't find a database entry for "clanek"
+Warning--I didn't find a database entry for "sbornik"
+Warning--I didn't find a database entry for "www"
+Warning--I didn't find a database entry for "wiki:framework"
+Warning--I didn't find a database entry for "wiki:orm"
+Warning--I didn't find a database entry for "infodp"
+Warning--empty year in oracle
+Warning--empty year in phpGACL
+(There were 13 warnings)

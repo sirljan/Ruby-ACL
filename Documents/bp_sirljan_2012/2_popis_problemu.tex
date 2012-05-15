@@ -1,0 +1,113 @@
+\chapter{Popis problému, specifikace cíle}
+
+\begin{itemize}
+\item Popis řešeného problému, vymezení cílů DP/BP a požadavků na implementovaný systém.
+\item Popis struktury DP/BP ve vztahu k vytyčeným cílům.
+\item Rešeršní zpracování existujících implementací, pokud jsou známy.
+\end{itemize}
+
+\section{Popis řešeného problému}
+
+Určená XML databáze v současné době nemá žádný model uživatelských přístupových práv. Bylo potřeba tento nedostatek vyřešit knihovnou implementovanou v jazyce Ruby. Jazyk Ruby byl vybrán proto, že Ruby je rozšířený jazyk a z důvodu kompatibilty s  budoucími částmi databáze, které budou taktéž naimplementované v Ruby. Mnou naimplementovaná knihovna RubyACL řeší problém se spravováním přístupových práv.
+
+\section{Vymezení cílů a požadavků}
+Cílem bakalářská práce bylo navrhnout, realizovat a otestovat knihovnu v jazyce Ruby, která bude spravovat uživatelská přístupová práva pro objektovou XML databázi.
+Vytyčil jsem si vytvořit co nejjednodušší knihovnu, která by splňovala všechna kritéria zadání. Nechtěl jsem jsem používat a "lepit" dohromady existující moduly a knihovny, které danou problematiku řeší, protože jsem si za cíl dal vytvořit něco svého a projít si vývojem softwaru od požadavků, analýzu, návrh přes realizaci k testování a dokumentaci. 
+I když Ruby ACL je primárně určena pro XML databázi chtěl jsem, aby byla použitelná i pro jiné databáze a reálné přístupy do budov apod.
+Určil jsem si, že by bylo pěkné, kdyby knihovna umožňovala jemně nastavit přístupy (Tzv.„fine-grained“).
+
+Seznam požadavků je popsán v tabulce  \ref{tab:tab1}
+
+\section{Popis struktury bakalářské práce ve vztahu k vytyčeným cílům}
+
+V kapitole Analýza a návrh řešení je analýza a návrh tak jsem je vytvořil před implementací.
+Zato kapitola realizace popisuje realizaci a stav po realizaci a dokumentační část popisující pravidla rozhodování apod.
+
+V analýze je analýza...
+V realizaci je realizace...
+V testování je testování...
+
+Co se týče vytyčených cílů, nejpodstatnější kapitolu a části bakalářské práce je kapitola Analýza sekce Rozhraní a sekce Příklady užití a dále kapitola Testování.
+
+Kapitola 1 nás uvádí do Bakalářské práce. Vysvětluje, co vlastně řízení práv je, popisuje jeho význam a vysvětluje nejdůležitější pojmy týkající se bakalářské práce a řízení práv.
+
+V kapitole 2 se hovoří o důvodu implementace RubyACL, vytyčují se cíle a prezentují požadavky. Dále je stručný popis existujících řešeních.
+
+Kapitola 3 je nejpodstatnější z celé práce. Jedná se o Analýzu, ve které bylo popsáno z čeho jsem vycházel při návrhu. Nejdůležitější část je Rozhraní a Ukázka použítí, protože přímo splňují zadání/požadavky práce. Sekce Popisu logiky vyhodnocování je důležitá pro uživatele knihovny. Nejen že vysvětluje pojmy jako ACL objekt, principal, ale hlavně popisuje jakým způsobem knihovna Ruby-ACL rozhoduje, které pravidlo má přednost.
+
+Kapitola 4 Realizace se zaměřuje na postup vývoje a problémy při implementaci.
+
+Kapitole 5 je rozdělená na dvě části. Jedna se zabýva pomocným komunikačním rozhraním eXistAPI a druhá samotnou knihovnou Ruby-ACL. Obě části jsou však zaměřeny vysvětlení způsobu testování a jejich výsledky.
+
+Kapitola 6 se zaměřuje na zhodnocení splnění cílů Bakalářské práce a rozebírá možné nedostatky a případné pokračování v práci na knihovně.
+
+V příloze se nacházejí diagramy, které nebyly potřeba pro vysvětlení funkcionality knihovny.
+
+\begin{table}%[h]
+\begin{center}
+\begin{tabular}{|l|p{9cm}|l|}
+\hline
+\textbf{id} & \textbf{Specifikace požadavků na software} & \textbf{priorita} \\
+\hline
+\multicolumn{3}{|l|}{FUNKČNÍ POŽADAVKY} \\
+\hline
+0 & RubyACL	 bude umožňovat řízení přístupů pomocí ACL & povinný\\
+\hline
+1.0 & RubyACL bude umožňovat definovat, editovat a mazat zmocnitele (principals) & povinný\\
+\hline
+1.1 & RubyACL bude umožňovat definovat, editovat a mazat oprávnění (privileges) & povinný\\
+\hline
+1.2 & RubyACL bude umožňovat definovat, editovat a mazat  zdrojové objekty (resource objects) & povinný\\
+\hline
+1.3 & RubyACL bude umožňovat definovat, editovat a mazat pravidla přístupu (ACE) & povinný\\
+\hline
+2.0 & RubyACL bude umožňovat vytvářet ACL & povinný\\
+\hline
+2.1 & RubyACL bude umožňovat načítat a ukládat ACL z a do XML souboru & povinný\\
+\hline
+2.2 & XML soubor bude definovaný pomocí DTD or XML Schema & povinný\\
+\hline
+2.3 & XML soubor bude "well formated" podle W3C doporučení & povinný\\
+\hline
+3.0 & RubyACL bude nabízet pouze Default-Deny politiku & povinný\\
+\hline
+4.0 & RubyACL bude testována na eXist DB & povinný\\
+\hline
+\multicolumn{3}{|l|}{OBECNÉ POŽADAVKY} \\
+\hline
+1.0 & RubyACL bude naprogramována v jazyce Ruby & povinný \\
+\hline
+2.0 & RubyACL bude vydaná jako RubyGem & volitelný\\
+\hline
+3.0 & RubyACL potřebuje databázi podporující xQuery, xPath technologie & povinný\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Tabulka funkčních a obecných požadavků. priorita = (povinný, volitelný, nepovinný)}
+\label{tab:tab1}
+\end{table}
+
+\section{Existující řešení}
+Existující řešení jsem rozdělil na dvě části. První jsou podnikové a druhé jsou knihovny v Ruby zabývající se stejnou nebo podobnou problematikou.
+\subsection{Podnikové řešení}
+Vybral jsem tři nejukázkovější řešení.
+Oracle má nejpropracovanější model řízení práv. Podporuje integrování LDAP a DAV.
+PhpGACL je bezplatný jednodušší systém spravující přístupy ke zdrojům.
+Obecné řešení se skládá z dvojrozměrné tabulky, kde jeden rozměr je tvořen všemi, kdo vyžadují přístup a druhý rozměr obsahuje objekty, ke kterým je vyžadován přístup. Oprávnění je v buňce, která se nachází na prusečíku os zminěných dvou rozměrů.
+Podrobnější zpracování se nachází v sekci \ref{sec:anal-existujicireseni} Existující řešení kapitoli Analýza.
+
+\subsection{Dostupné knihovny}
+Kdybych si za cíl nedal vytvořit RubyACL sám, nejspíše bych čerpal z jedné z těchto knihoven.
+
+TODO pridat reference, ze bylo prevzato z webu.
+
+\subsubsection{Acl9}
+Acl9 je další řešení autorizace založené na rolích v Rails. Skládá se ze dvou subsystémů, které mohou být použity samostatně. Subsystém kontroly rolí umožňuje nastavovat a dotazovat se na uživatelské role pro různé objekty. Subsystém řízení přístupu umožňuje zadat uvnitř řadiče různá přístupová pravidla podle rolí.
+
+\subsubsection{iq-acl}
+Cílem tohoto rubygemu je poskytnout serii tříd, které umí zacházet s bežnýma požadavkama na řízení práv. V současné době poskytuje třídu IQ::ACL::Basic, která přestože je velmi jednoduchá je také velmi schopná.Více o použití se můžete dočíst zde. TODO dělat odkaz, kde lze více precist.
+
+\subsubsection{ActiveACLPlus}
+Plugin ActiveAclPlus realizuje flexibilní, rychlý a snadno použitelný obecný systém kontroly přístupu.
+Dosud nejsou žádná skutečná měřítka. Systém je založen na phpgacl.sourceforge.net, přidání objektu orientace, polymorfismu a dvou úrovní cache. PhpGacl tvrdí, že v reálné pracovní verzi s mnoha přidanými vrstvami složitosti podporuje více než 60.000 účtů, 200 skupin a 300 ACO." Testy provedené na vyvojářském notebooku ukazují 10 - 30 krát zlepšení výkonnosti ve srovnání s \verb|active _rbac|.
+Plugin používá ukládání do mezipaměti. Používá instanční cache a případě potřeby ukládá výsledky oprávněních do memcached použitím časového omezení.
