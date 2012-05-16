@@ -1,11 +1,9 @@
 \chapter{Analýza a návrh řešení}
-Analýza a návrh implementace (včetně diskuse různých alternativ a volby implementačního prostředí).
-
-Tato kapitola se dělí na analýzu a návrh. V analýze se zaměřilo na prostudování tří existujících řešení. Z informací získaných z dokumentace jsem sestavil návrh pro Ruby ACL.
+Tato kapitola se dělí na analýzu a návrh. V analýze jsem se zaměřil na prostudování tří existujících řešení. Z informací získaných z dokumentace jsem sestavil návrh pro Ruby ACL.
 
 \section{Analýza}
 
-Protože práce byla velmi přesně zadána, nezbylo příliš prostoru na různé alternativy. Ruby bylo zadáno jako implementační prostředí. Způsob zpracování byl zadán pomocí ACL - Access Control List. Hlavním úkol bylo zjistit, jakým způsobem implementovat samotné ACL a řádně implementaci zdokumentovat a otestovat.
+Protože práce byla velmi přesně zadána, nezbylo příliš prostoru na různé alternativy. Ruby bylo zadáno jako implementační prostředí. Způsob zpracování byl zadán pomocí ACL. Hlavním úkol bylo zjistit, jakým způsobem implementovat samotné ACL a řádně implementaci zdokumentovat a otestovat.
 
 \subsection{Exitující řešení}
 \label{sec:anal-existujicireseni}
@@ -20,7 +18,7 @@ Obecným řešením je držet si tabulku, kde ve sloupcích budou objekty, ke kt
 \hline
 Kdo / Kam & Operační sál & Ambulance & Pokoj pacienta\\
 \hline\hline
-Doktor & 1 & 1 & 1\\
+Chirurg & 1 & 1 & 1\\
 \hline
 Sestřička & X & 1 & 1\\
 \hline
@@ -34,7 +32,7 @@ Pacient & X & X & 1\\
 %-------------------------------------
 
 \subsubsection{Oracle}
-Jedním z řešení je podnikové řešení prezentované v Oracle® XML DB Developer's Guide, 11g Release 1 (11.1), Part Number B28369-04 na stránkách Oracle dokumentace \cite{oracle}. Ve stati Access Control Lists and Security Classes je popsán koncept firmy ORACLE.
+Jedním z řešení je firemní řešení prezentované v Oracle® XML DB Developer's Guide, 11g Release 1 (11.1), Part Number B28369-04 na stránkách Oracle dokumentace \cite{oracle}. Ve stati Access Control Lists and Security Classes je popsán koncept firmy ORACLE.
  
 Text popisuje několik podmínek a pojetí řízení přístupu. Každá z popsaných entit, uživatel, role, privilegia, bezpečnostní třídy, Access Control List (ACL) a Access Control Entry (ACE), je realizována deklarativně jako XML dokument nebo fragment.  
 
@@ -62,24 +60,26 @@ Nástroj phpGACL používá pojmy jako ACO a ARO:
 \end{itemize}
 
 \section{Návrh implementace}
-Nechal jsem se inspirovat jak Oraclem tak phpGACL. Oba modely řízení přístupových práv mají podobnou strukturu nebo stejnou s jiným pojmenováním. Z Oraclu jsem převzal koncept a pojmenování dimenzí: principals, privileges, objects, ze kterých jsem vytvořil hlavní třídy. 
+Při návrhu implementace jsem se inspiroval jak Oraclem tak phpGACL. Oba modely řízení přístupových práv mají podobnou strukturu nebo stejnou s jiným pojmenováním. Z Oraclu jsem převzal koncept a pojmenování dimenzí: principals, privileges, objects, ze kterých jsem vytvořil hlavní třídy. 
 
 Jemně nastavitelných přístupových práv se docílí pomocí Access Control Listu. ACL obsahuje seznam pravidel jednotlivých přístupů. Pravidlo se nazývá Access Control Entry (ACE). V ACE je uloženo \underline{kdo}, nebo \underline{co} má jaká \underline{práva} přistupovat k jakým \underline{objektům}. Těmto třem rozměrům se v problematice přístupových práv říka: principals, privileges, resource objects.
-
+TODO podtrzeni do bolt
 
 
 \subsection{Rozhraní}
-S knihovnou Ruby-ACL je zapotřebí nějak komunikovat. K tomu je zpotřebí rozhraní. Knihovna Ruby-ACL se nachází mezi databází, kde jsou uložené data o přístupech a uživatelskou aplikací, která knihovnu používá. Z tohoto důvodu jsem sekci Rozhraní rozdělil na dvě podsekce. Jedna podsekce popisuje Rozhraní mezi knihovnou a databází a druhá mezi knihovnou a uživatelskou aplikací. Toto si lze snadno představit z diagramu znázorňujícího sekvenci komunikace \ref{fig:Communication diagram}.
+S knihovnou Ruby-ACL je zapotřebí komunikovat prostřednictvím rozhraní. Knihovna Ruby-ACL se nachází mezi databází, kde jsou uložené data o přístupech a uživatelskou aplikací, která knihovnu používá. Z tohoto důvodu jsem tuto sekci rozdělil na dvě podsekce. Jedna podsekce popisuje rozhraní mezi knihovnou a databází a druhá podsekce popisuje rozhraní mezi knihovnou a uživatelskou aplikací. 
 
 
 \subsubsection{Rozhraní mezi Ruby-ACL a databází}
 Rozhraní mezi Ruby-ACL a databází je zprostředkováno pomocí API\footnote[1]{Application Programming Interface}.
 Ruby-ACL bylo testováno s databází eXist-db, se kterou komunikovalo pomocí mnou naimplemetovaného rozhraní eXistAPI. 
-K používání Ruby-ACL s jinou XML databází než eXist-db je zapotřebí komunikační rozhraní, které nahradí eXistAPI. 
-V ukázkové třídě API je výčet všech potřebných metod, které Ruby-ACL používá, včetně parametrů a výstupů. Pro funkčnost knihovny s jinou XML databází je potřeba podle vzorové třídy API naimplementovat nové komunikační rozhraní. 
-Podrobnější popis rozhraní se nachazí v příloženém CD jako prázdná třída odokumentovaná pomocí RDOC\footnote[2]{Dokumentace pro zdrojové kódy v Ruby}
+K používání Ruby-ACL s jinou XML databází než eXist-db je nutné komunikační rozhraní, které nahradí eXistAPI.
+V ukázkové třídě API je výčet všech potřebných metod, které Ruby-ACL používá, včetně popisu parametrů a výstupů. Pro funkčnost knihovny s jinou XML databází je potřeba podle vzorové třídy API naimplementovat nové komunikační rozhraní. 
+Podrobnější popis rozhraní se nachazí v příloženém CD jako prázdná třída zdokumentovaná pomocí RDOC\footnote[2]{Dokumentace pro zdrojové kódy v Ruby}
 
-Následující obrázek ??vysvětluje?? ... \ref{fig:API_interface}
+Rozhraní mezi Ruby-ACL a databází zproztředkovává rozhraní API. To je patrné na obrázku diagramu komunikace \ref{fig:Communication diagram} v krocích 2 a 5.
+
+Obrázek\ref{fig:API_interface}TODO
 
 \begin{figure}
 \includegraphics[width=15cm]{API1.jpg}
@@ -87,54 +87,56 @@ Následující obrázek ??vysvětluje?? ... \ref{fig:API_interface}
 \label{fig:API_interface}
 \end{figure}
 
-
-
-\subsubsection{Rozhraní mezi Ruby-ACL a uživatelskou aplikací}
-
-Jedná se o výčet public metod třídy RubyACL.
-...přidat výčet
 Na této části záleží bezpočenost. Potencionálně nebezpečné místo k útoku.
 
- Za účelem vytvoření a nastavení zmoctnitelů, oprávněních, zdrojových objektů a pravidel musí uživatel předat knihovně potřebné informace. Nejčastější vstupy jsou popsané v tabulce \ref{tab:tab3}.
+TODO Nekde je potreba nadefinovat co je Principal, Privilege a Resource Object
 
-Nejčastěji používanou částí knihovny bude metoda \verb|check|. Hlavní účel knihovny je rozlišit jestli někdo nebo něco má oprávnění na nějaký cílový objekt. Pokud zmocnitel má nebo nemá přístup se uživatel dozví podle výstupu. Výstupem je true nebo false hodnota. \ref{tab:tab3} TODO přidat do tabulky i popis
+%----------------------------
 
+\subsubsection{Rozhraní mezi Ruby-ACL a uživatelskou aplikací}
+Rozhraní mezi knihovnou a uživatelskou aplikací tvoří všechny veřejné (public) metody třídy RubyACL. Pomocí instance této třídy a instance třídy API (která je předaná jako parametr) a následném volání veřejných metod může uživatel zavádět zmocnitele, oprávnění, zdrojové objekty a pravidla a pracovat s nimi.Výčet veřejných metod se nachází v příloze \ref{sec:veřejné metody}.
 
+Nejčastěji používanou částí knihovny bude metoda \verb|check|. Mimo správu ACL objektů je hlavní účel knihovny rozlišit, jestli někdo nebo něco má oprávnění na nějaký zdrojový objekt. Pokud zmocnitel má nebo nemá přístup se uživatel dozví podle výstupu. Výstupem je true nebo false hodnota. Stručný popis nejčastějších vstupů a výstupů je v tabulce \ref{tab:tab3}
 
-\begin{table}[h]
+Rozhraní mezi Ruby-ACL a uživatelskou aplikací zproztředkovávají veřejné metody knihovny. To je patrné na obrázku diagramu komunikace \ref{fig:Communication diagram} v krocích 1 a 6.
+
+\begin{table}%[h]
 \centering
-\begin{tabular}{|c|c|}
+\begin{tabular}{|c|c|c|}
 \hline
-\textbf{jméno} & \textbf{typ} \\
+\textbf{jméno} & \textbf{typ} & \textbf{popis}\\
 \hline
-\multicolumn{2}{|l|}{Vstupy} \\
+\multicolumn{3}{|l|}{Vstupy} \\
 \hline
-principal & string\\
+principal & string & jméno zmocnitele\\
 \hline
-privilege & string\\
+privilege & string & název oprávnění\\
 \hline
-resource object & string\\
+resource object type & string & typ - druh zdrojového objektu\\
+\hline
+resource object address & string & adresa zdrojového objektu\\
 \hline
 \hline
-\multicolumn{2}{|l|}{Výstupy} \\
+\multicolumn{3}{|l|}{Výstupy} \\
 \hline
-access & boolean\\
+access & boolean & true = přístup povolen, false = přístup zakázán\\
 \hline
 \end{tabular}
-\caption{Vstupy a výstupy knihovny}
+\caption{Parametry a návratové hodnoty metody check} %\verb|check|}
 \label{tab:tab3}
 \end{table}
 
 \subsection{Ukázka použití}
-Tato sekce prezentuje stručné ukázky použití
+Tato sekce prezentuje stručné ale funkční ukázky použití. TODO vice textu?
 
 \subsubsection{Příklad nastavení práv}
+První příklad ukazuje, základní funkčnost knihovny a vytvoření pravidla. 
+Protože knihovny Ruby-ACL vyžaduje jako jeden z parametrů instanci rozhraní API, bylo v příkladě použita implementace rozhraní eXistAPI. Pro vytvoření pravidla musí existovat instance Ruby-ACL. Ke správnému vytvoření pravidla je zapotřebí, aby všechny ACL objekty byly vytvořené. Pokud nebudou vytvořené, Ruby-ACL vyhodí vyjímku, nebo ACL Objekt založí. Metodě \verb|create_ace| je potřeba předat uživatelské jméno zmocnitele, typ přístupu (allow nebo deny), oprávnění a požadovaný objekt.
 
-Příklad tohoto kódu v podstatě říká: Pokud metoda \verb|ac_check| vratí hodnotu true, přístup povolen a aplikace provede co zamýšlela provést. Pokud vrátí hodnotu false, tak je přístup zamítnut. Tento postup názorně vysvětluje obrázek \ref{fig:Communication diagram} zobrazující komunikaci a průběh jednoho dotázení na pravidlo.
 
 \begin{lstlisting}
 require 'eXistAPI'    #must require 'eXistAPI' to comunicated with eXist-db
-#create instance of ExistAPI
+#creates instance of ExistAPI
 @db = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "password")    
 @col_path = "/db/test_acl/"         #sets the collection where you want to have ACL in db
 @src_files_path = "./src_files/"    #path to source files
@@ -148,8 +150,8 @@ require 'eXistAPI'    #must require 'eXistAPI' to comunicated with eXist-db
 
 
 \subsubsection{Příklad kontroly práv}
+Příklad tohoto kódu v podstatě říká: Pokud metoda \verb|acl_check| vratí hodnotu true, přístup povolen a aplikace provede co zamýšlela provést. Pokud vrátí hodnotu false, tak je přístup zamítnut. Tento postup názorně vysvětluje obrázek \ref{fig:Communication diagram} zobrazující komunikaci a průběh jednoho dotázení na pravidlo.
 
-Druhý příklad naznačuje použití metody pro vytvoření pravidla. Pro vytvoření pravidla musí existovat instance Ruby ACL. Metodě create\_ace aplikace předá uživatelské jméno zmocnitele, typ přístupu (allow nebo deny), oprávnění a požadovaný objekt.
 
 \begin{lstlisting}[firstnumber=12]
 #Next method in if returns deny

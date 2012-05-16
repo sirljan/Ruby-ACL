@@ -328,7 +328,6 @@ Funkčnost knihovny byla vyvíjena a testována pomocí databáze eXist-db.
 
 %*****************************************************************************
 % Analýza a návrh řešení
-Az se precteno ////////////////////////////////////////////////////////////////////////////////////////
 \include{3_analyza}
 
 %*****************************************************************************
@@ -661,12 +660,50 @@ V souboru \verb|k336_thesis_macros.tex| je příkaz \verb|\uv{}| pro sázení č
 %\end{verbatim}
 
 %*****************************************************************************
+\chapter{Ukázky zdrojového kódu}
+
+\section{Výpis veřejných metod Ruby-ACL}
+\label{sec:veřejné metody}
+V této sekci se nachází výpis veřejných metod. Všechny metody i s parametry a návratovými hodnotami je možné najít v RDOC dokumentaci na CD.
+\begin{itemize}
+\item \verb|new|
+\item \verb|add_membership_principal|
+\item \verb|add_membership_privilege|
+\item \verb|change_of_res_ob_address|
+\item \verb|change_of_res_ob_owner|
+\item \verb|change_res_ob_type|
+\item \verb|check|
+\item \verb|create_ace|
+\item \verb|create_group|
+\item \verb|create_principal|
+\item \verb|create_privilege|
+\item \verb|create_resource_object|
+\item \verb|del_membership_principal|
+\item \verb|del_membership_privilege|
+\item \verb|delete_ace|
+\item \verb|delete_principal|
+\item \verb|delete_privilege|
+\item \verb|delete_res_object|
+\item \verb|delete_res_object_by_id|
+\item \verb|rename|
+\item \verb|rename_principal|
+\item \verb|rename_privilege|
+\item \verb|save|
+\item \verb|show_permissions_fo|
+\end{itemize}
+
+%*****************************************************************************
 \chapter{Seznam použitých zkratek}
 
 \begin{description}
 \item[ACL] Access Control List
 \item[ACE] Access Control Entry
 \item[XML] Extensible Markup Language
+\item[RDOC] RubyDOCumentation
+\item[ACO] Access Control Objects
+\item[ARO] Access Request Objects
+\item[API] Application Programming Interface
+\item[phpGACL] TODO
 \end{description}
 
 %*****************************************************************************
