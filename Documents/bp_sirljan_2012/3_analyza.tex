@@ -3,7 +3,6 @@ Analýza a návrh implementace (včetně diskuse různých alternativ a volby im
 
 Tato kapitola se dělí na analýzu a návrh. V analýze se zaměřilo na prostudování tří existujících řešení. Z informací získaných z dokumentace jsem sestavil návrh pro Ruby ACL.
 
-
 \section{Analýza}
 
 Protože práce byla velmi přesně zadána, nezbylo příliš prostoru na různé alternativy. Ruby bylo zadáno jako implementační prostředí. Způsob zpracování byl zadán pomocí ACL - Access Control List. Hlavním úkol bylo zjistit, jakým způsobem implementovat samotné ACL a řádně implementaci zdokumentovat a otestovat.
@@ -15,23 +14,20 @@ Při řešení vlastního návrhu na model řízení přístupových práv jsem 
 
 \subsubsection{Obecné řešení}
 Obecným řešením je držet si tabulku, kde ve sloupcích budou objekty, ke kterým je možno přistupovat a v řádcích jsou přistupující. V poli pak jsou hodnoty boolean, které vyjadřují buď allow nebo deny. Příklad tabulkového řešení je v tabulce \ref{tab:tab2}.
-TODO prelozit do cestiny
 \begin{table}%[h]
 \centering
-%% Some packages, such as MDW tools, offer better commands for making tables
-%% than the plain LaTeX2e tabular which is used here.
 \begin{tabular}{|r||c|c|c|}
 \hline
-Who / Where & Surgeryroom & ambulance & Patient's room\\
+Kdo / Kam & Operační sál & Ambulance & Pokoj pacienta\\
 \hline\hline
-Doctors & 1 & 1 & 1\\
+Doktor & 1 & 1 & 1\\
 \hline
-Nurses & X & 1 & 1\\
+Sestřička & X & 1 & 1\\
 \hline
-Patients & X & X & 1\\
+Pacient & X & X & 1\\
 \hline
 \end{tabular}
-\caption{Obecné řešení modelu práv pomocí matice}
+\caption{Jednoduchý příklad obecného řešení modelu práv pomocí matice}
 \label{tab:tab2}
 \end{table}
 
@@ -73,22 +69,35 @@ Jemně nastavitelných přístupových práv se docílí pomocí Access Control 
 
 
 \subsection{Rozhraní}
-
-S knihovnou RubyACL je zapotřebí nějak komunikovat. Za účelem vytvoření a nastavení zmoctnitelů, oprávněních, zdrojových objektů a pravidel musí uživatel předat knihovně potřebné vstupy popsané v tabulce. Hlavní účel knihovny je rozlišit jestli někdo nebo něco má oprávnění na nějaký cílový objekt. Pokud zmocnitel má nebo nemá přístup se uživatel dozví podle výstupu. Výstupem je true nebo false hodnota. \ref{tab:tab3} TODO přidat do tabulky i popis
-Model rozhraní se nachází v příloze jako obrázek \ref{}
+S knihovnou Ruby-ACL je zapotřebí nějak komunikovat. K tomu je zpotřebí rozhraní. Knihovna Ruby-ACL se nachází mezi databází, kde jsou uložené data o přístupech a uživatelskou aplikací, která knihovnu používá. Z tohoto důvodu jsem sekci Rozhraní rozdělil na dvě podsekce. Jedna podsekce popisuje Rozhraní mezi knihovnou a databází a druhá mezi knihovnou a uživatelskou aplikací. Toto si lze snadno představit z diagramu znázorňujícího sekvenci komunikace \ref{fig:Communication diagram}.
 
 
 \subsubsection{Rozhraní mezi Ruby-ACL a databází}
-RubyACL bylo testováno s databází eXist-db, se kterou komunikovalo pomocí eXistAPI. 
-K používání RubyACL s jinou XML databází než eXist je zapotřebí komunikační rozhraní, které nahradí eXistAPI. 
-V ukázkové třídě API je výčet všech potřebných metod, které RubyACL používá, včetně parametrů a výstupů. Je potřeba podle vzorové třídy API naimplementovat nové komunikační rozhraní. 
+Rozhraní mezi Ruby-ACL a databází je zprostředkováno pomocí API\footnote[1]{Application Programming Interface}.
+Ruby-ACL bylo testováno s databází eXist-db, se kterou komunikovalo pomocí mnou naimplemetovaného rozhraní eXistAPI. 
+K používání Ruby-ACL s jinou XML databází než eXist-db je zapotřebí komunikační rozhraní, které nahradí eXistAPI. 
+V ukázkové třídě API je výčet všech potřebných metod, které Ruby-ACL používá, včetně parametrů a výstupů. Pro funkčnost knihovny s jinou XML databází je potřeba podle vzorové třídy API naimplementovat nové komunikační rozhraní. 
+Podrobnější popis rozhraní se nachazí v příloženém CD jako prázdná třída odokumentovaná pomocí RDOC\footnote[2]{Dokumentace pro zdrojové kódy v Ruby}
+
+Následující obrázek ??vysvětluje?? ... \ref{fig:API_interface}
+
+\begin{figure}
+\includegraphics[width=15cm]{API1.jpg}
+\caption{Diagram znázorňující model rozhraní}
+\label{fig:API_interface}
+\end{figure}
 
 
 
 \subsubsection{Rozhraní mezi Ruby-ACL a uživatelskou aplikací}
+
 Jedná se o výčet public metod třídy RubyACL.
 ...přidat výčet
 Na této části záleží bezpočenost. Potencionálně nebezpečné místo k útoku.
+
+ Za účelem vytvoření a nastavení zmoctnitelů, oprávněních, zdrojových objektů a pravidel musí uživatel předat knihovně potřebné informace. Nejčastější vstupy jsou popsané v tabulce \ref{tab:tab3}.
+
+Nejčastěji používanou částí knihovny bude metoda \verb|check|. Hlavní účel knihovny je rozlišit jestli někdo nebo něco má oprávnění na nějaký cílový objekt. Pokud zmocnitel má nebo nemá přístup se uživatel dozví podle výstupu. Výstupem je true nebo false hodnota. \ref{tab:tab3} TODO přidat do tabulky i popis
 
 
 
@@ -189,10 +198,11 @@ Data flow diagram (viz "Obrázek 2") znázorňuje tok dat mezi jednotlivými fun
 \caption{Data flow diagram}
 \label{fig:Data flow diagram}
 \end{figure}
+
 \begin{figure}
 %\centering
 \includegraphics[width=15cm]{com.jpg}
-\caption{Diagram znázorňující komunikaci}
+\caption{Diagram znázorňující sekvenci komunikace}
 \label{fig:Communication diagram}
 \end{figure}
 

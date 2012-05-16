@@ -3,19 +3,20 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Data flow diagram}}{12}{figure.3.1}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagram zn\IeC {\'a}zor\IeC {\v n}uj\IeC {\'\i }c\IeC {\'\i } komunikaci}}{13}{figure.3.2}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Class diagram}}{13}{figure.3.3}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Diagram zn\IeC {\'a}zor\IeC {\v n}uj\IeC {\'\i }c\IeC {\'\i } model rozhran\IeC {\'\i }}}{12}{figure.3.1}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Data flow diagram}}{15}{figure.3.2}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Diagram zn\IeC {\'a}zor\IeC {\v n}uj\IeC {\'\i }c\IeC {\'\i } sekvenci komunikace}}{16}{figure.3.3}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Class diagram}}{16}{figure.3.4}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Diagram t\IeC {\v r}\IeC {\'\i }d TODO}}{19}{figure.4.1}
-\addvspace {10\p@ }
-\addvspace {10\p@ }
-\addvspace {10\p@ }
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {A.1}{\ignorespaces Popiska obr\IeC {\'a}zku}}{30}{figure.A.1}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Diagram t\IeC {\v r}\IeC {\'\i }d TODO}}{23}{figure.4.1}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {C.1}{\ignorespaces UseCases}}{38}{figure.C.1}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {E.1}{\ignorespaces Seznam p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}ho CD --- p\IeC {\v r}\IeC {\'\i }klad}}{41}{figure.E.1}
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Popiska obr\IeC {\'a}zku}}{34}{figure.A.1}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {C.1}{\ignorespaces UseCases}}{42}{figure.C.1}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {E.1}{\ignorespaces Seznam p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}ho CD --- p\IeC {\v r}\IeC {\'\i }klad}}{45}{figure.E.1}
