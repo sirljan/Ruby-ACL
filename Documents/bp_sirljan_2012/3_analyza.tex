@@ -38,7 +38,7 @@ Text popisuje několik podmínek a pojetí řízení přístupu. Každá z popsa
 
 Bezpečnostní autorizace vyžaduje definovat, kteří uživatelé, aplikace nebo funkce mohou mít přístup k jakým datům nebo jaké druhy operací mohou provádět. Existují tedy tři dimenze: (1) kteří uživatelé mohou, (2) vykonávat jaké činnosti, (3) na jakých datech. V souvislosti s každou jednotlivou dimenzí hovoříme o (1) principals - zmocnitelích, (2) privileges - oprávněných, a (3) objektech, které korespondují s těmito třemi dimenzemi. Principals mohou být uživatelé nebo role/skupiny.
 
-Principals a privileges (dimenze 1 a 2) jsou deklarativním způsobem spojeni v definovaných seznamech řízení přístupu - ACL. Ty jsou pak spojené s třetí dimenzí - daty, různými způsoby. Například úložiště zdrojů nebo tabulky dat Oracle XML DB mohou být ochráněny pomocí PL / SQL procedury DBMS\_XDB.setACL nastavením jeho řídícího ACL.
+Principals a privileges (dimenze 1 a 2) jsou deklarativním způsobem spojeni v definovaných seznamech řízení přístupu - ACL. Ty jsou pak spojené s třetí dimenzí - daty, různými způsoby. Například úložiště zdrojů nebo tabulky dat Oracle XML DB mohou být ochráněny pomocí PL / SQL procedury \verb|DBMS\_XDB.setACL| nastavením jeho řídícího ACL.
 
 %-------------------------------------
 
@@ -59,6 +59,8 @@ Nástroj phpGACL používá pojmy jako ACO a ARO:
 \item Chceme-li přiřadit přístupovou politiku ve stromu směrem dolů, explicitně přiřazujeme oprávnění skupinám a ARO pro každou ACO, pro kterou je potřeba.
 \end{itemize}
 
+%-------------------------------------
+
 \section{Návrh implementace}
 Při návrhu implementace jsem se inspiroval jak Oraclem tak phpGACL. Oba modely řízení přístupových práv mají podobnou strukturu nebo stejnou s jiným pojmenováním. Z Oraclu jsem převzal koncept a pojmenování dimenzí: principals, privileges, objects, ze kterých jsem vytvořil hlavní třídy. 
 
@@ -70,18 +72,39 @@ Jemně nastavitelných přístupových práv se docílí pomocí Access Control 
 
 %\begin{verbatim}\end{verbatim}
 \subsubsection{Ověřování oprávnění k objektu}
-Uživatel má vytvořenou instanci třídy RubyACL, která pracuje s již vytvořenými ACL objekty. Následující scénář popisuje jednotlivé kroky při kontrolování pravidla.
+Uživatel má vytvořenou instanci třídy \verb|RubyACL|, která pracuje s již vytvořenými ACL objekty. Následující scénář popisuje jednotlivé kroky při kontrolování pravidla.
 
 Hlavní úspěšný scénář:
 \begin{enumerate}
-\item Uživatel zavolá metodu \verb|check|. Přes tuto metodu se dotáže knihovny, jestli uživatel/skupina (ne)mají oprávnění ke zdrojovému objektu.
-\item a) Systém vrátí true v případě, že uživatel/skupina má specifikované nebo vyšší oprávnění.
-\item b) Systém vrátí false v případě, že uživatel/skupina nemají specifikované nebo vyšší oprávnění.
+\item Uživatel zavolá metodu \verb|check|. Přes tuto metodu se dotáže knihovny, jestli uživatel/skupina mají nebo nemají oprávnění ke zdrojovému objektu.
+\item a) Knihovna vrátí \verb|true| v případě, že uživatel/skupina má specifikované nebo vyšší oprávnění.
+\setcounter{enumi}{1}
+\item b) Knihovna vrátí \verb|false| v případě, že uživatel/skupina nemají specifikované nebo vyšší oprávnění.
 \end{enumerate}
 Rozšíření:
+\begin{enumerate}
+\setcounter{enumi}{-1}
+\item Pokud knihovna nenašla žádné vyhovující pravidlo, systém vrátí \verb|false|.
+\end{enumerate}
 
-0a) Pokud neexistuje žádné pravidlo, systém vrátí false, protože nenašel, žádné vyhovující pravidlo.
-%\begin{verbatim}\end{verbatim}
+%---------------------------------------------------------
+
+\subsection{Class diagram}
+Class diagram \ref{fig:Class diagram} znázorňuje třídy knihovny a jejich vazby. Diagram je zjednodušen - nejsou vypsány všechny metody a paramatery z důvodů přehlednosti a čitelnosti. 
+
+Hlavní třídou knihovny je třída \verb|RubyACL|. Pomocí ní a jejích veřejných metod pracuje uživatelská aplikace s ACL objekty. Třída \verb|RubyACL| obsahuje jen jednu instanci od každé třídy dědící z \verb|ACL_Object|. Tyto třídy jsou pomocné třídy, které "znají" strukturu dokumentu uloženého v databázi. Například s pomocí instance třídy \verb|ACE| lze přidávat, měnit a mazat jednotlivá pravidla, které jsou v databázi v XML souboru reprezentována jako uzly.
+
+Druhou podstatnou třídou je třída \verb|ACL_Object|, ze které dědí všechny pomocné třídy. Třídu \verb|ACL_Object| jsem vytvořil, protože se velká část kódu tříd \verb|Principal|, \verb|Privilege|, \verb|ResourceObject|, \verb|ACE|, \verb|Group|, \verb|Individual| shodovala nebo byla velmi podobná. Vyjmenované podtřídy využívají zděděné metody a případně je konkretizují.
+Třída  \verb|ACL_Object| obsahuje metody, které pomocí xQuery a xPath\footnote{XML Path Language} obsluhují rozhraní API, v tomto případě eXistAPI.
+
+Z diagramu je patrné, že všechna data jsou uložená v databázi ve formě XML dokumentů, kde se na ně dotazuje rozhraní API.
+
+\begin{figure}
+%\centering
+\includegraphics[width=15cm]{Ruby-ACL.jpg}
+\caption{Class diagram}
+\label{fig:Class diagram}
+\end{figure}
 
 %-----------------------------
 
@@ -89,25 +112,25 @@ Rozšíření:
 Uživatel má vytvořenou instanci RubyACL, která obsahuje pravidla.
 Hlavní úspěšný scénář:
 \begin{enumerate}
-\item Uživatel zavolá metodu set\_new\_ace a specifikuje údaje (Uživatel/skupina, typ přístupy (allow/deny), oprávnění, zdrojový objekt
-\item Knihovna nastaví pravidlo a vrátí 0, když vše proběhlo v pořádku, a 1 když nastala chyba.
+\item Uživatel zavolá metodu \verb|create_ace| a specifikuje údaje (Uživatel/skupina, typ přístupy (allow/deny), oprávnění, zdrojový objekt
+\item Knihovna nastaví pravidlo a vrátí identifikační číslo pravidla, když vše proběhlo v pořádku, a vyvolá vyjímku když nastala chyba.
 \end{enumerate}
-Poznámka: Jde vlastně o přiřazování oprávnění uživatelům na objekt
+Poznámka: Jde vlastně o přiřazování oprávnění uživatelům na objekt.
 
 %---------------------------------------------------------------
 
 \subsection{Rozhraní}
-S knihovnou Ruby-ACL je zapotřebí komunikovat prostřednictvím rozhraní. Knihovna Ruby-ACL se nachází mezi databází, kde jsou uložené data o přístupech a uživatelskou aplikací, která knihovnu používá. Z tohoto důvodu jsem tuto sekci rozdělil na dvě podsekce. Jedna podsekce popisuje rozhraní mezi knihovnou a databází a druhá podsekce popisuje rozhraní mezi knihovnou a uživatelskou aplikací. 
+S knihovnou Ruby-ACL lze komunikovat prostřednictvím rozhraní. Knihovna Ruby-ACL se nachází mezi databází (kde jsou uložená data o přístupech) a uživatelskou aplikací (která knihovnu používá). Z tohoto důvodu jsem tuto sekci rozdělil na dvě podsekce. Jedna podsekce popisuje rozhraní mezi knihovnou a databází a druhá podsekce popisuje rozhraní mezi knihovnou a uživatelskou aplikací. 
 
 
 \subsubsection{Rozhraní mezi Ruby-ACL a databází}
-Rozhraní mezi Ruby-ACL a databází je zprostředkováno pomocí API\footnote[1]{Application Programming Interface}.
+Rozhraní mezi Ruby-ACL a databází je zprostředkováno pomocí API\footnote{Application Programming Interface}.
 Ruby-ACL bylo testováno s databází eXist-db, se kterou komunikovalo pomocí mnou naimplemetovaného rozhraní eXistAPI. 
 K používání Ruby-ACL s jinou XML databází než eXist-db je nutné komunikační rozhraní, které nahradí eXistAPI.
 V ukázkové třídě API je výčet všech potřebných metod, které Ruby-ACL používá, včetně popisu parametrů a výstupů. Pro funkčnost knihovny s jinou XML databází je potřeba podle vzorové třídy API naimplementovat nové komunikační rozhraní. 
-Podrobnější popis rozhraní se nachazí v příloženém CD jako prázdná třída zdokumentovaná pomocí RDOC\footnote[2]{Dokumentace pro zdrojové kódy v Ruby}. Na této části rozhraní záleží bezpočenost. Linka mezi API a databází je potencionálně nebezpečné místo k útoku.
+Podrobnější popis rozhraní se nachazí v příloženém CD jako prázdná třída zdokumentovaná pomocí RDOC\footnote{Dokumentace pro zdrojové kódy v Ruby}. Na této části rozhraní záleží bezpečenost. Linka mezi API a databází je potencionálně nebezpečné místo k útoku.
 
-\noindent Rozhraní mezi Ruby-ACL a databází zproztředkovává rozhraní API. To je patrné na obrázku diagramu komunikace \ref{fig:Communication diagram} v krocích 2 a 5.
+\noindent Rozhraní mezi Ruby-ACL a databází je patrné na obrázku diagramu komunikace \ref{fig:Communication diagram} v krocích 2 a 5.
 
 \noindent Obrázek \ref{fig:API_interface} zobrazuje model tříd rozhraní API.
 
@@ -122,7 +145,7 @@ Podrobnější popis rozhraní se nachazí v příloženém CD jako prázdná t�
 \subsubsection{Rozhraní mezi Ruby-ACL a uživatelskou aplikací}
 Rozhraní mezi knihovnou a uživatelskou aplikací tvoří všechny veřejné (public) metody třídy RubyACL. Pomocí instance této třídy a instance třídy API (která je předaná jako parametr) a následném volání veřejných metod může uživatel zavádět zmocnitele, oprávnění, zdrojové objekty a pravidla a pracovat s nimi.Výčet veřejných metod se nachází v příloze \ref{sec:veřejné metody}.
 
-Nejčastěji používanou částí knihovny bude metoda \verb|check|. Mimo správu ACL objektů je hlavní účel knihovny rozlišit, jestli někdo nebo něco má oprávnění na nějaký zdrojový objekt. Pokud zmocnitel má nebo nemá přístup se uživatel dozví podle výstupu. Výstupem je true nebo false hodnota. Stručný popis nejčastějších vstupů a výstupů je v tabulce \ref{tab:tab3}
+Nejčastěji používanou částí knihovny bude patrně metoda \verb|check|. Mimo správu ACL objektů je hlavní účel knihovny rozlišit, jestli někdo nebo něco má oprávnění na nějaký zdrojový objekt. Pokud zmocnitel má nebo nemá přístup se uživatel dozví podle výstupu. Výstupem je \verb|true| nebo \verb|false| hodnota. Stručný popis nejčastějších vstupů a výstupů je v tabulce \ref{tab:tab3}
 
 \begin{table}%[h]
 \centering
@@ -153,14 +176,14 @@ access & boolean & true = přístup povolen, false = přístup zakázán\\
 %----------------------------------------------------
 
 \subsection{Ukázka použití}
-Tato sekce prezentuje stručné ale funkční ukázky použití.
+Tato sekce prezentuje stručné ukázky použití.
 
 %-----------------------------
 
 \subsubsection{Příklad nastavení práv}
 První příklad ukazuje, základní funkčnost knihovny a vytvoření pravidla. 
-Protože knihovny Ruby-ACL vyžaduje jako jeden z parametrů instanci rozhraní API, bylo v příkladě použita implementace rozhraní eXistAPI. Pro vytvoření pravidla musí existovat instance Ruby-ACL. Ke správnému vytvoření pravidla musí být všechny ACL objekty vytvořené. Pokud nebudou vytvořené, Ruby-ACL vyhodí vyjímku, nebo ACL Objekt založí. Metodě \verb|create_ace| je potřeba předat uživatelské jméno zmocnitele, typ přístupu (allow nebo deny), oprávnění a požadovaný objekt identifikovaný pomocí typu objektu a adresy.
-
+Protože knihovna Ruby-ACL vyžaduje jako jeden z parametrů instanci rozhraní API, byla v příkladě použita implementace rozhraní eXistAPI. Pro vytvoření pravidla musí existovat instance \verb|RubyACL|. Ke správnému vytvoření pravidla musí být všechny ACL objekty vytvořené. Pokud nebudou vytvořené, Ruby-ACL vyhodí vyjímku, nebo ACL Objekt založí. Metodě \verb|create_ace| je potřeba předat uživatelské jméno zmocnitele, typ přístupu ("allow" nebo "deny"), oprávnění a požadovaný objekt identifikovaný pomocí typu objektu a adresy.
+\\
 \begin{lstlisting}
 require 'eXistAPI'    #must require 'eXistAPI' to comunicated with eXist-db
 #creates instance of ExistAPI
@@ -178,8 +201,8 @@ require 'eXistAPI'    #must require 'eXistAPI' to comunicated with eXist-db
 %-----------------------------
 
 \subsubsection{Příklad kontroly práv}
-Následující příklad prezentuje možné použití knihovny a její metody \verb|check|. V případě, že metoda vratí hodnotu true, přístup povolen a aplikace provede co zamýšlela provést. Pokud vrátí hodnotu false, tak je přístup zamítnut. 
-
+Následující příklad prezentuje možné použití knihovny a její metody \verb|check|. V případě, že metoda vrátí hodnotu \verb|true|, přístup je povolen. Pokud vrátí hodnotu \verb|false|, tak je přístup zamítnut. 
+\\
 \begin{lstlisting}[firstnumber=12]
 #Next method in if returns deny
 if(@my_acl.check("Penny", "SIT", "seat", "/livingroom/couch/Sheldon's_spot"))
@@ -188,14 +211,14 @@ else
 	puts "Access denied."
 \end{lstlisting}
 
-Co se děje při volání metody \verb|check| názorně vysvětluje obrázek \ref{fig:Communication diagram} zobrazující sekvenci komunikace. Kroky 7 a vyšší jsou volitelné v případě, že je přístup povolen.
+Co se děje při volání metody \verb|check| názorně vysvětluje obrázek \ref{fig:Communication diagram} zobrazující sekvenci komunikace. Kroky 7 a vyšší jsou volitelné.
 \begin{enumerate}
-\item Výkonná část uživatelské aplikace zavolá metodu \verb|check| třídy RubyACL
-\item Metoda \verb|check| vytvoří xQuery dotaz a předá ho implementaci rozhraní API zavoláním metody \verb|execute_query|
-\item API se pomocí XML-RPC protokolu dotáže databáze
-\item databáze vrátí výsledek(y)
-\item API předá výsledk(y) metodě \verb|check|
-\item Metoda \verb|check| z výsledků rozhodne, jestli principal má oprávnění na zdrojový objekt a podle toho vrátí boolean hodnotu; Více o priority rozhodování se lze dočíst TODO
+\item Výkonná část uživatelské aplikace zavolá metodu \verb|check| třídy \verb|RubyACL|
+\item Metoda \verb|check| vytvoří xQuery\footnote{Dotazovací jazyk nad XML dokumenty} dotaz a předá ho implementaci rozhraní API zavoláním metody \verb|execute_query|
+\item API se pomocí XML-RPC\footnote{XML Remote Procedure Call protokol} protokolu dotáže databáze
+\item databáze vrátí výsledek/výsledky
+\item API předá výsledek/výsledky metodě \verb|check|
+\item Metoda \verb|check| z výsledků rozhodne, jestli principal má oprávnění na zdrojový objekt a podle toho vrátí boolean hodnotu. Více o prioritě rozhodování se lze dočíst v sekci \ref{Priorita rozhodování} - Priorita rozhodování.
 
 ---------
 
@@ -211,45 +234,24 @@ Co se děje při volání metody \verb|check| názorně vysvětluje obrázek \re
 \label{fig:Communication diagram}
 \end{figure}
 
-
-
-%---------------------------------------------------------
-
-\subsection{Class diagram}
-Class diagram \ref{fig:Class diagram} znázorňuje třídy knihovny a jejich vazby. Diagram je zjednodušen - nejsou vypsány všechny metody a paramatery z důvodů přehlednosti a čitelnosti. 
-
-Hlavní třídou knihovny je třída RubyACL. Pomocí ní a jejích veřejných metody pracuje uživatelská aplikace s ACL objekty. Třída RubyACL obsahuje jen jednu instanci od každé třídy dědící z ACL\_Object. Tyto třídy jsou pomocné třídy, které "znají" strukturu dokumentu uloženého v databázi. Například s pomocí instance třídy ACE lze přidávat, měnit a mazat jednotlivé pravidla, které jsou v databázi v XML souboru reprezentovány jako uzly. Více o struktuře XML souborů se lze dočíst v TODO
-
-Druhou podstatnou třídou je třída ACL\_Object, ze které dědí všechny pomocné třídy. Třídu ACL\_Object jsem vytvořil, protože velká část kód tříd Principal, Privilege, ResourceObject, ACE, Group, Individual se schodovala nebo byla velmi podobná. Vyjmenované podtřídy využívají zděděné metody a případně je konkrétizují.
-Třída ACL\_Object obsahuje metody, které pomocí xQuery a xPath obsluhují rozhraní API, v tomto případě eXistAPI.
-
-Z diagramu je patrné, že všechny data jsou uložené v databázi ve formě XML dokumentů, kde se na ně dotazuje rozhraní API.
-
-\begin{figure}
-%\centering
-\includegraphics[width=15cm]{Ruby-ACL.jpg}
-\caption{Class diagram}
-\label{fig:Class diagram}
-\end{figure}
-
 %-------------------------------------
 \section{Popis logiky vyhodnocování pravidel}
-V této kapitole je popsáno jakým způsobem Ruby-ACL rozhoduje, jestli je přístup povolen či nikoliv. Nejkonkrétněji se tímto zabývá sekce "Pravidla rozhodování", nicméně k pochopení celku je dobré vědět vlastnosti jednotlivých ACL objektů. O nich se dočtete ve sekci ACL\_Objekty.
+V této kapitole je popsáno, jakým způsobem Ruby-ACL rozhoduje, jestli je přístup povolen či nikoliv. Nejkonkrétněji se tímto zabývá sekce "Pravidla rozhodování", nicméně k pochopení celku je dobré vědět vlastnosti jednotlivých ACL objektů.
 
 \subsection{ACL Objekty}
-Jak již bylo v předchozí části textu řečeno. ACL objekt je principal, privilege, resource object, ACE. Principal se dále dělí na individual a group. Data, která jsou uložena v databázi ve formě XML dokumentů, jsou vlastně všechny ACL objekty. Každý ACL objekt má dedikovaný soubor vyjma individual a group. Tyto ACL objekty se ukládají do Principals.xml, protože jsou podmnožinou principal.
+Jak již bylo v předchozí části textu řečeno. ACL objekt je principal, privilege, resource object, ACE. Principal se dále dělí na individual a group. Všechna data uložená v databázi ve formě XML dokumentů jsou vlastně  ACL objekty. Každý ACL objekt má dedikovaný soubor vyjma individual a group. Tyto ACL objekty se ukládají do \verb|Principals.xml|, protože jsou podmnožinou principal.
 
-Ruby-ACL pracuje s daty tak, že za pomoci jedné ze tříd, které dědí ze třídy ACL\_Object, edituje XML soubory v databázi. Upravuje je takovým způsobem, že přidává, maže nebo mění jednotlivé uzly.
+Ruby-ACL pracuje s daty tak, že za pomoci jedné ze tříd, které dědí ze třídy \verb|ACL_Object|, edituje XML soubory v databázi. Upravuje je takovým způsobem, že přidává, maže nebo mění jednotlivé uzly.
 
-Struktura XML souborů je popsaná pomocí stenojmeným DTD\footnote[1]{Document Type Definition} souborem v příloze na CD. Pro každý ACL objekt, ale vyjadřuji v příslušné sekci i slovně.
+Struktura XML souborů je popsaná pomocí stenojmenných DTD\footnote{Document Type Definition} souborů v příloze na CD. Strukturu pro každý ACL objekt vyjadřuji v příslušné sekci i slovně.
 
 \subsubsection {Zmocnitel (Principal)}
 Principal nebo-li zmocnitel může být jednotlivec nebo skupina. Jednotlivec může být člověk jako uživatel nebo proces, aplikace, připojení, zkrátka cokoliv, co vyžaduje přístup.
 
-Skupiny a jednotlivci se ukládají do souboru Principals.xml.
-Vyjádření strukturu slovy, je následující. Principals.xml obsahuje kořenový uzel Principals ten obsahuje pouze dva uzly Groups a Individuals. V uzlu Groups může byt neomezené množství uzlů Group, které reprezentují skupiny. V uzlu Individuals může být neomezené množství uzlů Individual. 
+Skupiny a jednotlivci se ukládají do souboru \verb|Principals.xml|.
+Vyjádření struktury slovy, je následující. \verb|Principals.xml| obsahuje kořenový uzel \verb|Principals|, ten obsahuje pouze dva uzly \verb|Groups| a \verb|Individuals|. V uzlu \verb|Groups| je neomezené množství uzlů \verb|Group|, které reprezentují skupiny. V uzlu \verb|Individuals| je neomezené množství uzlů \verb|Individual|.
 
-Jednotlivci a skupiny se můžou sdružovat do skupin. Každý jednotlivec nebo skupina má v sobě v uzlu membership odkaz(y) v jaké skupině je členem. To obstarává uzel mgroup s atributem idref na danou skupinu. Nelze, aby jednotlivec byl členem v jednotlivcovi.
+Jednotlivci a skupiny se mohou sdružovat do skupin. Každý jednotlivec nebo skupina má v sobě uzel \verb|membership|, ve kterém je neomezené množství uzlů \verb|mgroup| s atributem \verb|idref|, který odkazuje na danou skupinu. Nelze, aby jednotlivec byl členem v jednotlivci.
 
 \lstset{language=XML}
 \begin{lstlisting}
@@ -280,7 +282,7 @@ Ruby-ACL nabízí výchozí oprávnění, které jsem převzal od Oracle a MySQL
 Výchozí privilegia jsou: 'ALL PRIVILEGES', 'ALTER', 'CREATE', 'DELETE', 'DROP', 'FILE', 'INDEX', 'INSERT', 'PROCESS', 'REFERENCES', 'RELOAD', 'SELECT', 'SHUTDOWN', 'UPDATE' a 'USAGE'.
 Pravidla lze vytvářet a seskupovat do stromové struktury.
 
-Oprávnění se ukládají do souboru Privileges.xml. Ten obsahuje kořenový uzel Privileges, ve kterém je neomezené množství uzlů Privilege. Stejně jako Individual nebo Group, Privilege obsahuje uzel membership a v něm neomezené množství uzlů mgroup, které pomocí idref odkazují na nadřazené oprávnění.
+Oprávnění se ukládají do souboru \verb|Privileges.xml|. Ten obsahuje kořenový uzel \verb|Privileges|, ve kterém je neomezené množství uzlů \verb|Privilege|. Stejně jako \verb|Individual| nebo \verb|Group|, \verb|Privilege| obsahuje uzel \verb|membership| a v něm neomezené množství uzlů \verb|mgroup|, které pomocí \verb|idref| odkazují na nadřazené oprávnění.
 
 \begin{lstlisting}
 <Privileges>
@@ -294,7 +296,7 @@ Oprávnění se ukládají do souboru Privileges.xml. Ten obsahuje kořenový uz
 
 \subsubsection {Zdrojový objekt (Resource object)}
 
-Zdrojové objekty jsou ukládány do souboru ResourceObjects.xml. Struktura je opět podobná předchozím ukázkám. Kořenový uzel je ResourceObjects a v něm je neomezené množství uzlů ResourceObject.
+Zdrojové objekty jsou ukládány do souboru \verb|ResourceObjects.xml|. Struktura je opět podobná předchozím ukázkám. Kořenový uzel je \verb|ResourceObjects| a v něm je neomezené množství uzlů \verb|ResourceObject|.
 
 \begin{lstlisting}
 <ResourceObjects>
@@ -306,39 +308,34 @@ Zdrojové objekty jsou ukládány do souboru ResourceObjects.xml. Struktura je o
 \end{lstlisting}
 
 
-Zdrojový objekt se skládá ze tří položek: typ, adresa, vlastník. Typ může být dokument, nebo reálné objekty jako dveře, místnosti apod. Adresa společně s type identifikuje objekt. Zdrojový objekt jasně identifikuje i id v parametru každého ResourceObject uzlu, ale uživatel velmi pravděpodobně nebude vědět id zdrojových objektů. Uživatel by sice mohl id zjistit pomocí metody \verb|find_res_ob| třídy ResourceObject, ale stejně by musel zadat typ a adresu. Vlastník objektu může být jakýkoliv principal.
+Zdrojový objekt se skládá ze tří položek: typ, adresa, vlastník. Typ může být dokument, nebo reálné objekty jako dveře, místnosti apod. Adresa společně s typem identifikuje objekt. Zdrojový objekt jasně identifikuje i id v parametru každého \verb|ResourceObject| uzlu, ale uživatel velmi pravděpodobně nebude vědět id zdrojových objektů. Uživatel by sice mohl id zjistit pomocí metody \verb|find_res_ob| třídy \verb|ResourceObject|, ale stejně by musel zadat typ a adresu. Vlastník objektu může být jakýkoliv principal.
 
+Při zadávání adresy je potřeba dodržet jediné pravidlo. V adrese oddělovat každý jednotlivý objekt dopředným lomítkem ( / ).
 
+Pokud je zdrojový objekt typu \verb|"doc"|, adresa může obsahovat klauzuli ve formátu \\ \verb|'("/kořen/větev/list-soubor_s_příponou")'| a pokud je nutné jemnější řízení přístupu uvnitř dokumentu, následuje klauzule \verb|"/jiný_kořen/jiná_větev"|. Nicméně do databáze se ukládá sloučená adresa bez závorek a uvozovek \verb|("")|.
 
-Při zadávání adresy je potřeba dodržet jediné pravidlo. V adrese oddělovat každý jednotlivý objekt dopředným lomítkem. ( / )
+\noindent Příklad: \verb|'("/db/data/cities.xml")/cities/city'| v databázi je uložen pod adresou: \\ \verb|"/db/data/cities.xml/cities/city"|.
+Tento způsob byl zvolen kvůli jednodušímu rozhodování a parsování.
 
-Pokud je zdrojový objekt typu doc, adresa může obsahovat klauzuli ve formátu ("/koren/vetev/list-soubor\_s\_příponou") a pokud je zapotřebí jemnější řízení přístupu uvnitř dokumentu následuje klauzule /koren/vetev. Nicméně do databáze se ukládá sloučená adresa bez ("")
-Příklad:  ("/db/data/cities.xml")/cities/city
-V databázi je uložen pod adresou: /db/data/cities.xml/cities/city
-Tento způsob byl zvolen kvůli jednoduším rozhodování a parsování.
+Při zakládání nového zdrojového objektu je potřeba typ objektu oddělit od adresy. Například vkládám-li objekt \verb|'doc("/db/cities/cities.xml")/cities'|, rozdělím objekt na dvě části: typ, v tomto případě \verb|"doc"|, a zbylou adresu 
+\verb|'("/db/cities/cities.xml")/cities'|.
 
-Při zakládání nového zdrojového objektu je potřeba typ objektu oddělit od adresy. Například vkládám-li objekt doc("/db/cities/cities.xml")/cities, rozdělím objekt na dvě části  typ, v tomto případě "doc", a zbylou adresu ("/db/cities/cities.xml")/cities.
+\noindent Klauzule \verb|"/*"| (lomítko hvězdička) vyjadřuje všechny podřadné objekty. 
 
-Klauzule /* (lomítko hvězdička) vyjadřuje všechny podřadné objekty
-Příklad:  /db/data/*
-Nyní jsou vybrány všechny podřadné objekty objektu data.
+\noindent Například objekt \verb|"/db/data/*"| vybere všechny podřadné objekty objektu data.
 
+Vlastník/Owner může být jednotlivec, množina jednotlivců i skupina.
+Množina jednotlivců je v případě, pokud se od kořene zdrojových objektů k listu mění vlastník. Vlastník nejnadřazenějšího zdroje má největší práva. Vlastník má veškerá práva na daný objekt a všechny jeho podobjekty. 
 
-Vlastník / Owner
-Owner může být jednotlivec, množina jednotlivců i skupina.
-Množina jednotlivců je v případě pokud se od kořene zdrojových objektů k listu mnění vlastník. Vlastník nejnadřazenějšího zdroje má největší práva. Vlastník může veškeré prává na daný objekt a všechny jeho podobjekty.
+\noindent Vlastník objektu  \verb|"/db/data"| má vlastnictví tohoto objektu i všech podřízených, například i takovéhoto objeku \verb|"/db/data/e-books"|.
 
-Vlastník objektu  /db/data má vlastnictví tohoto objektu i všech podřazených, tzn. například i /db/data/e-books.
-
-Vlastník objektu  /db/data/* má vlastnictví pouze podřazených objektů.
-
-/* nemá význam, protože vlastník zdrojového objektu vlastní i všechny podřazené zdrojové objekty.
+\noindent Vlastník objektu  \verb|"/db/data/*"| má vlastnictví pouze podřízených objektů.
 
 \subsubsection{Pravidlo (ACE)}
 
-Pokud přijde žádost o vytvoření ACE s neexistujícím zdrojovým objektem, knihovna objekt vytvoří. Z toho vyplývá, že v databázi existují všechny zdrojové objekty sjednocené s objekty, které byli vytvořeny přímo. Vlastníkem takového objektu se automaticky stává principal uvedený v pravidlu. Je třeba si proto dávat pozor na to, jestli objekt už existuje, nebo ne. Pokud objekt neexistuje, principal tím automaticky získává veškeré oprávnění.
+Pokud přijde žádost o vytvoření ACE s neexistujícím zdrojovým objektem, knihovna objekt vytvoří. Z toho vyplývá, že v databázi existují všechny zdrojové objekty z pravidel sjednocené s objekty, které byly vytvořeny přímo. Vlastníkem takového objektu se automaticky stává principal uvedený v pravidlu. Je třeba si proto dávat pozor na to, jestli objekt už existuje, nebo ne. Pokud objekt neexistuje, principal tím automaticky získává veškeré oprávnění.
 
-Pravidla (ACE) se ukládají do souboru acl.xml. Následuje ukázka. V kořenovém uzlu acl je atribut aclname, ve kterém je uložené jmeno seznamu. Uvnitř uzlu acl je pouze jeden uzel Aces a vněm je libovolné množství uzlů Ace. Každý uzel Ace má svoje id uložené v atributu a uvnitř Ace je uzel Principal - reference na zmocnitle, accessType - přístupový typ, Privilege - reference na oprávnění a ResourceObjekt s referencí na zdroj.
+Pravidla (ACE) se ukládají do souboru \verb|acl.xml|. V kořenovém uzlu \verb|acl| je atribut \verb|aclname|, ve kterém je uložené jméno seznamu. Uvnitř uzlu \verb|acl| je pouze jeden uzel \verb|Aces| a vněm je libovolné množství uzlů \verb|Ace|. Každý uzel \verb|Ace| má svoje id uložené v atributu a uvnitř \verb|Ace| jsou uzly: \verb|Principal| - reference na zmocnitle, \verb|accessType| - přístupový typ, \verb|Privilege| - reference na oprávnění a \verb|ResourceObjekt| s referencí na zdroj.
 
 \begin{lstlisting}
 <acl aclname="my_first_acl">
@@ -353,14 +350,15 @@ Pravidla (ACE) se ukládají do souboru acl.xml. Následuje ukázka. V kořenov�
 </acl>
 \end{lstlisting}
 
-AccessType rozhoduje o tom, jestli oprávnění bude povoleno, nebo zakázeno. Je to obdoba Oracle a MySQL revoke a grant příkazu, kde allow = grant = povolit přístup a deny = revoke = zakázat/odebrat přístup.
+\verb|AccessType| rozhoduje o tom, jestli oprávnění bude povoleno, nebo zakázáno. Je to obdoba příkazu revoke a grant z Oracle a MySQL, kde allow = grant = povolit přístup a deny = revoke = zakázat/odebrat přístup.
 
 %--------------------------------
 
 \subsection{Pravidla rozhodování}
 \subsubsection{Priorita rozhodování}
+\label{Priorita rozhodování}
 
-Nejnižší číslo v seznamu má největší prioritu. Slovy se dá následující výpis pravidel vyjádřit jako: Je-li zmocnitel vlastníkem objektu, knihovna okamžitě vrátí true. Konkrétní zákaz má přednost před konkrétním povolením. Zděděný zákaz má přednost před zděděným povolení. Konkrétní mají přednost před zděděnými. Pokud není nalezeno pravidlo, knihovna vrací false. Pokud knihovna podle zmíněné priority nalezne pravidlo s deny, vrací false. Pokud nalezne allow, vrací true.
+Nejnižší číslo v seznamu má největší prioritu. Slovy se dá následující výpis pravidel vyjádřit jako: Je-li zmocnitel vlastníkem objektu, knihovna okamžitě vrátí true. Konkrétní zákaz má přednost před konkrétním povolením. Zděděný zákaz má přednost před zděděným povolení. Konkrétní mají přednost před zděděnými. Pokud není nalezeno pravidlo, knihovna vrací \verb|false|. Pokud knihovna podle zmíněné priority nalezne pravidlo s deny, vrací \verb|false|. Pokud nalezne allow, vrací \verb|true|.
 
 \begin{enumerate}
 \item Owner
@@ -372,9 +370,9 @@ Nejnižší číslo v seznamu má největší prioritu. Slovy se dá následují
 \end{enumerate}
 
 \begin{itemize}
-\item allow - knihovna vrací true - přístup povolen
-\item deny - knihovna vrací false - přístup zakázán
-\item nenalezeno - knihovna vrací false - přístup zakázán
+\item allow - knihovna vrací \verb|true| - přístup povolen
+\item deny - knihovna vrací \verb|false| - přístup zakázán
+\item nenalezeno - knihovna vrací \verb|false| - přístup zakázán
 \end{itemize}
 
 \subsection{Složitost rozhodování}

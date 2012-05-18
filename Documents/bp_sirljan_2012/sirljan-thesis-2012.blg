@@ -7,11 +7,10 @@ A level-1 auxiliary file: 5_testovani.aux
 A level-1 auxiliary file: 6_zaver.aux
 The style file: csplainnat.bst
 Database file #1: reference.bib
-I was expecting a `,' or a `}'---line 54 of file reference.bib
- : 
- : @Book{UML,
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
+Warning--entry type for "exist:xmlrpcxupdate" isn't style-file defined
+--line 55 of file reference.bib
+Warning--entry type for "xupdate" isn't style-file defined
+--line 63 of file reference.bib
 Warning--I didn't find a database entry for "CSTUG"
 Warning--I didn't find a database entry for "latexdocweb"
 Warning--I didn't find a database entry for "latexwiki"
@@ -25,4 +24,4 @@ Warning--I didn't find a database entry for "wiki:orm"
 Warning--I didn't find a database entry for "infodp"
 Warning--empty year in oracle
 Warning--empty year in phpGACL
-(There was 1 error message)
+(There were 15 warnings)

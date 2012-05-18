@@ -1,9 +1,21 @@
-\begin{thebibliography}{7}
+\begin{thebibliography}{10}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[{Andreas Laux, Lars Martin}(2012)]{xupdate}
+{Andreas Laux, Lars Martin}.
+\newblock xUpdate documentation, 2012.
+\newblock Dostupn{\'{e}} z:
+  \url{http://xmldb-org.sourceforge.net/xupdate/xupdate-wd.html}.
+
+\bibitem[{eXist authors}(2012)]{exist:xmlrpcxupdate}
+{eXist authors}.
+\newblock eXist-db, Developer's Guide - XML-RPC - XUpdate, 2012.
+\newblock Dostupn{\'{e}} z:
+  \url{http://exist-db.org/exist/devguide_xmlrpc.xml\#d41536e1573}.
 
 \bibitem[{Jamie Hill, SonicIQ Ltd.}(2012)]{github:iq-acl}
 {Jamie Hill, SonicIQ Ltd.}
@@ -47,5 +59,10 @@ web:oracle.
 web:phpGACL.
 \newblock {phpGACL} --- Generic Access Control List with PHP.
 \newblock \\ \verb|phpgacl.sourceforge.net/manual.pdf|, stav z 15.\,5.\,2012.
+
+\bibitem[{Wolfgang Meier}(2012)]{exist:exist}
+{Wolfgang Meier}.
+\newblock \emph{eXist-db web} [online]. 2012. [cit.~16.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://exist-db.org}.
 
 \end{thebibliography}

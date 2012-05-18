@@ -82,7 +82,7 @@ Existující řešení lze rozdělil na dva druhy. První jsou firemní řešen�
 
 \subsection{Firemní řešení}
 Vybral jsem tři ukázková řešení.
-Oracle má nejpropracovanější model řízení práv. Podporuje integrování LDAP\footnote[1]{Lightweight Directory Access Protocol} a WebDAV\footnote[2]{Web-based Distributed Authoring and Versioning}.
+Oracle má nejpropracovanější model řízení práv. Podporuje integrování LDAP\footnote{Lightweight Directory Access Protocol} a WebDAV\footnote{Web-based Distributed Authoring and Versioning}.
 
 PhpGACL je bezplatný jednodušší systém ve srovnání Oracle spravující přístupy ke zdrojům. PhpGACL je opensource využívaný pro webové aplikace.
 
@@ -93,11 +93,11 @@ Podrobnější zpracování se nachází v sekci \ref{sec:anal-existujicireseni}
 V následujících podsekcích jsou dostupné knihovny napsané v Ruby, které by mohly být použity, kdybych si za cíl nedal vytvořit Ruby-ACL sám.
 
 \subsubsection{Acl9}
-Acl9 je další řešení autorizace založené na rolích v Ruby on Rails\footnote[3]{framework pro pohodlné a rychlé vytváření moderních webových aplikací}. Skládá se ze dvou subsystémů, které mohou být použity samostatně. Subsystém kontroly rolí umožňuje nastavovat a dotazovat se na uživatelské role pro různé objekty. 
+Acl9 je další řešení autorizace založené na rolích v Ruby on Rails\footnote{framework pro pohodlné a rychlé vytváření moderních webových aplikací}. Skládá se ze dvou subsystémů, které mohou být použity samostatně. Subsystém kontroly rolí umožňuje nastavovat a dotazovat se na uživatelské role pro různé objekty. 
 Subsystém řízení přístupu umožňuje určit různá přístupová pravidla založená na rolích uvnitř řadičů. Text byl převzat a upraven z \cite{github:acl9}
 
 \subsubsection{iq-acl}
-Cílem tohoto rubygemu je poskytnout serii tříd, které umí zacházet s bežnými požadavky na řízení práv. V současné době poskytuje třídu IQ::ACL::Basic, která přestože je velmi jednoduchá je také velmi schopná.Více o použití se můžete dočíst zde \cite{github:iq-acl}.
+Cílem tohoto rubygemu je poskytnout serii tříd, které umí zacházet s bežnými požadavky na řízení práv. V současné době poskytuje třídu \verb|IQ::ACL::Basic|, která přestože je velmi jednoduchá je také velmi schopná.Více o použití se můžete dočíst zde \cite{github:iq-acl}.
 
 \subsubsection{ActiveACLPlus}
 Plugin ActiveAclPlus realizuje flexibilní, rychlý a snadno použitelný obecný systém kontroly přístupu.
