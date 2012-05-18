@@ -1,5 +1,6 @@
 $:.unshift("./lib")
 $:.unshift(".")
+$:.unshift('D:\\eXistAPI\\lib\\')
 require 'ACL_Object'
 require 'Principal'
 require 'individual'
@@ -824,6 +825,8 @@ if(@db.existscollection?(@col_path))
 end
 report = false
 @my_acl = RubyACL.new("my_acl", @db, @col_path, @src_files_path, report)
+
+@my_acl.create_resource_object("doc", 'doc("/db/cities/cities.xml")/cities', "sirljan")
 
 ##it's good to create some principals at the begging
 #@my_acl.create_principal("Sheldon")  

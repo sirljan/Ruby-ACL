@@ -241,7 +241,7 @@ Jak již bylo v předchozí části textu řečeno. ACL objekt je principal, pri
 
 Ruby-ACL pracuje s daty tak, že za pomoci jedné ze tříd, které dědí ze třídy ACL\_Object, edituje XML soubory v databázi. Upravuje je takovým způsobem, že přidává, maže nebo mění jednotlivé uzly.
 
-Struktura XML souboru je popsaná pomocí DTD\footnote[1]{Document Type Definition} souboru v příloze na CD. Pro každý ACL objekt, ale vyjadřuji v příslušné sekci i slovně.
+Struktura XML souborů je popsaná pomocí stenojmeným DTD\footnote[1]{Document Type Definition} souborem v příloze na CD. Pro každý ACL objekt, ale vyjadřuji v příslušné sekci i slovně.
 
 \subsubsection {Zmocnitel (Principal)}
 Principal nebo-li zmocnitel může být jednotlivec nebo skupina. Jednotlivec může být člověk jako uživatel nebo proces, aplikace, připojení, zkrátka cokoliv, co vyžaduje přístup.
@@ -306,11 +306,9 @@ Zdrojové objekty jsou ukládány do souboru ResourceObjects.xml. Struktura je o
 \end{lstlisting}
 
 
-Skládá se ze tří položek: typ, adresa, vlastník. Typ může být dokument, nebo reálné objekty jako dveře, místnosti apod. Adresa společně s type identifikuje objekt. Zdrojový objekt jasně identifikuje i id v parametru každého ResourceObject uzlu, ale uživatel velmi pravděpodobně nebude vědět id zdrojových objektů. Uživatel by sice mohl id zjistit pomocí metody \verb|find_res_ob| třídy ResourceObject, ale stejně by musel zadat typ a adresu. Vlastník objektu může být jakýkoliv principal.
+Zdrojový objekt se skládá ze tří položek: typ, adresa, vlastník. Typ může být dokument, nebo reálné objekty jako dveře, místnosti apod. Adresa společně s type identifikuje objekt. Zdrojový objekt jasně identifikuje i id v parametru každého ResourceObject uzlu, ale uživatel velmi pravděpodobně nebude vědět id zdrojových objektů. Uživatel by sice mohl id zjistit pomocí metody \verb|find_res_ob| třídy ResourceObject, ale stejně by musel zadat typ a adresu. Vlastník objektu může být jakýkoliv principal.
 
 
-TODO co se stane kdyz se zalozi objekt doc("/db/cities/cities.xml")/cities
-TODO se typ nenachazi v adresse
 
 Při zadávání adresy je potřeba dodržet jediné pravidlo. V adrese oddělovat každý jednotlivý objekt dopředným lomítkem. ( / )
 
@@ -319,38 +317,50 @@ Příklad:  ("/db/data/cities.xml")/cities/city
 V databázi je uložen pod adresou: /db/data/cities.xml/cities/city
 Tento způsob byl zvolen kvůli jednoduším rozhodování a parsování.
 
+Při zakládání nového zdrojového objektu je potřeba typ objektu oddělit od adresy. Například vkládám-li objekt doc("/db/cities/cities.xml")/cities, rozdělím objekt na dvě části  typ, v tomto případě "doc", a zbylou adresu ("/db/cities/cities.xml")/cities.
+
 Klauzule /* (lomítko hvězdička) vyjadřuje všechny podřadné objekty
 Příklad:  /db/data/*
 Nyní jsou vybrány všechny podřadné objekty objektu data.
-/* nemá význam u vlastníka, protože vlastník zdrojového objektu vlastní i všechny podřazené zdrojové objekty.
+
 
 Vlastník / Owner
 Owner může být jednotlivec, množina jednotlivců i skupina.
-Množina jednotlivců je v případě pokud se od kořene zdrojových objektů k listu mnění vlastník. Vlastník nejnadřazenějšího zdroje má největší práva. Vlastník může být o 
+Množina jednotlivců je v případě pokud se od kořene zdrojových objektů k listu mnění vlastník. Vlastník nejnadřazenějšího zdroje má největší práva. Vlastník může veškeré prává na daný objekt a všechny jeho podobjekty.
+
+Vlastník objektu  /db/data má vlastnictví tohoto objektu i všech podřazených, tzn. například i /db/data/e-books.
+
+Vlastník objektu  /db/data/* má vlastnictví pouze podřazených objektů.
+
 /* nemá význam, protože vlastník zdrojového objektu vlastní i všechny podřazené zdrojové objekty.
 
 \subsubsection{Pravidlo (ACE)}
 
-Pokud přijde žádost o vytvoření ACE s neexistujícím zdrojovým objektem, knihovna objekt vytvoří. Z toho vyplývá, že v databázi existují všechny zdrojové objekty sjednocené s objekty, které byli vytvořeny přímo.
+Pokud přijde žádost o vytvoření ACE s neexistujícím zdrojovým objektem, knihovna objekt vytvoří. Z toho vyplývá, že v databázi existují všechny zdrojové objekty sjednocené s objekty, které byli vytvořeny přímo. Vlastníkem takového objektu se automaticky stává principal uvedený v pravidlu. Je třeba si proto dávat pozor na to, jestli objekt už existuje, nebo ne. Pokud objekt neexistuje, principal tím automaticky získává veškeré oprávnění.
 
-\begin{verbatim}
+Pravidla (ACE) se ukládají do souboru acl.xml. Následuje ukázka. V kořenovém uzlu acl je atribut aclname, ve kterém je uložené jmeno seznamu. Uvnitř uzlu acl je pouze jeden uzel Aces a vněm je libovolné množství uzlů Ace. Každý uzel Ace má svoje id uložené v atributu a uvnitř Ace je uzel Principal - reference na zmocnitle, accessType - přístupový typ, Privilege - reference na oprávnění a ResourceObjekt s referencí na zdroj.
+
+\begin{lstlisting}
+<acl aclname="my_first_acl">
+    <Aces>
         <Ace id="a894">
             <Principal idref="Users"/>
             <accessType>allow</accessType>
             <Privilege idref="SELECT"/>
             <ResourceObject idref="852"/>
         </Ace>
-\end{verbatim}
+    </Aces>
+</acl>
+\end{lstlisting}
 
-\subsection{Složitost rozhodování}
-Slozitost je e\^2.
+AccessType rozhoduje o tom, jestli oprávnění bude povoleno, nebo zakázeno. Je to obdoba Oracle a MySQL revoke a grant příkazu, kde allow = grant = povolit přístup a deny = revoke = zakázat/odebrat přístup.
 
 %--------------------------------
 
 \subsection{Pravidla rozhodování}
 \subsubsection{Priorita rozhodování}
 
-Nejnižší má největší prioritu.
+Nejnižší číslo v seznamu má největší prioritu. Slovy se dá následující výpis pravidel vyjádřit jako: Je-li zmocnitel vlastníkem objektu, knihovna okamžitě vrátí true. Konkrétní zákaz má přednost před konkrétním povolením. Zděděný zákaz má přednost před zděděným povolení. Konkrétní mají přednost před zděděnými. Pokud není nalezeno pravidlo, knihovna vrací false. Pokud knihovna podle zmíněné priority nalezne pravidlo s deny, vrací false. Pokud nalezne allow, vrací true.
 
 \begin{enumerate}
 \item Owner
@@ -360,3 +370,13 @@ Nejnižší má největší prioritu.
 \item Inherited Allow
 \item If not found > Deny
 \end{enumerate}
+
+\begin{itemize}
+\item allow - knihovna vrací true - přístup povolen
+\item deny - knihovna vrací false - přístup zakázán
+\item nenalezeno - knihovna vrací false - přístup zakázán
+\end{itemize}
+
+\subsection{Složitost rozhodování}
+Složitost rozhodování závisí na metodě \verb|check|. 
+Rozhodování probíhá tak, že si knihovna připraví všechny zdrojové objekty, které se mohou týkat objektu, u kterého se zjišťuje přístup stejně tak všechny oprávnění a zmocnitelé. Ve všech třech případech se jedná o pole obsahující samotný ACL objekt a všechny jeho nadřazené ACL objekty. Pro každý principal se vytvoří xQuery dotaz, který se následně pošle databázi na vyhodnocení. Metoda \verb|check| tedy obsahuje jednou vnořený cyklus, proto je složitost $e^2$.

@@ -3,15 +3,27 @@ Popis implementace/realizace se zaměřením na nestandardní části řešení.
 
 \section{Průběh realizace}
 Fáze 1 
-Po analýze a návrhu byla naimplementována zkušební část, kvůli ověření návrhu tříd a rozhraní. Na této verzi byla napsáno první velká část unit testů. Verze ukládala pouze do instancí nebo polí.
+Po analýze a návrhu byla naimplementována zkušební část, kvůli ověření návrhu tříd a rozhraní. Na této verzi byla napsáno první velká část unit testů. Verze nepracoval vůbec s databází, byla pouze instanční. Tato část byla část softwarového projektu.
+
 Fáze 2
-Zprovoznění komunikace s databází. Hledání alternativních možností(sedna apod). Napsání eXistAPI.
+Po dokončení instanční verze jsem pokračoval seznámením se s databází eXist-db, která mi byla doporučena vedoucím práce. V této fázi nastaly největší potíže. Nemohl jsem najít způsob, jakým komunikovat s databází. V Ruby neexistovalo, žádné komunikační rozraní, které by umožňovalo měnit obsah a dotazovat se na něj. Dokumentace přímo na webu  \url[eXist-db]{http://exist-db.org} popisovala jenom protokoly, kterými lze s databází komunikovat. Mezi ně patří napríklad REST, SOAP a XML-RPC, po kterém jsem nakonec šáhnul pro vývoj API. Velice mi pomohlo, když jsem úplnou náhodou našel ukázky knihovny pro XML-RPC v instalačním adresáři eXist-db.
+
+Komplikace tím nezkončili. Uměl jsem sice pomocí XML-RPC pracovat s kolekcemi a dokumenty, ale nedokázal jsem pomocí xUpdate upravovat dokumenty. Vkládat, upravovat a mazat uzly a atributy. Dodržel jsem dokumentaci XML-RPC, specifikace metody \url[XUpdate]{http://exist-db.org/exist/devguide_xmlrpc.xml?q=.%2F%2Fsection[ft%3Aquery%28.%2F%2Ftitle%2C%20%27xupdate%27%29]%20or%20.%2F%2Fsection[ft%3Aquery%28.%2C%20%27xupdate%27%29]&id=2.3.4#d41372e987} a dokumentaci \url[xUpdate]{http://xmldb-org.sourceforge.net/xupdate/xupdate-wd.html}, na kterou se eXist odvolává. Bohužel se mi po dlouhou dobu nejméně 14 dní nepodařilo zprovoznit upravování. 
+
+V zoufalství jsem se ohlédl po alternativních možnostech. Hledal jsem XML databázi, která by měla komunikační rozhraní v Ruby. Našel jsem jedinou databázi. Byla jí Sedna. Bohužel ani s ní jsem nedospěl pokroku. Problém byl se sprovozněním knihoven, které byli napsané v jazyku C.
+
+Z bezradnosti jsem se šel poradit s vedoucím Ing. Strnadem, který mi poradil ať posílám xQuery dotazy s příkazy xQuery Update Facility.
+
+
 Fáze 3
 Předělání první verze implementace RubyACL z polové/instanční na databázovou. Přepsání tříd z instančních na jakési singlotonské managery. Všechny informace jsou uloženy v databázi. RubyACl pouze vkládá nové záznamy, upravuje a maže staré. Na existujících provádí dotazy a rozhodování o přístupu.
+
 Fáze 4
 Návrh tříd byl trochu chybný. Implementace předchozích verzí se odchylovala návrhu. Předělání tříd. Vytvoření nadřazené třídy ACL\_Object a dědění z této třídy. Intenzivní testování. Usnadnilo odhalit spousty chyb.
+
 Fáze 5
 Dokončení rozhodovací metody. Dotahování funkcionality. Opravování chyb a nedostatků. Testování v této fázi nejintenzivnější. Dokumentace.
+
 Fáze 6
 Finalizování - rakefile, rubygem. Dokumentace
 
