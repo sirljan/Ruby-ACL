@@ -320,7 +320,8 @@ Funkčnost knihovny byla vyvíjena a testována pomocí databáze eXist-db.
 %*****************************************************************************
 % Úvod
 \include{1_uvod}
-
+TODO prepsat vsechny xQuery, xUpdate, xPath na velky X
+TODO odkaz na prvni vyskyt RubyGEM
 %*****************************************************************************
 % Popis problému, specifikace cíle
 \include{2_popis_problemu}
@@ -707,14 +708,15 @@ V této sekci se nachází výpis veřejných metod. Všechny metody i s paramet
 \item[XML-RPC] XML Remote Procedure Call protokol
 \item[xQuery] Dotazovací jazyk nad XML dokumenty
 \item[XPath] XML Path Language
+\item[W3C] World Wide Web Consortium
 \end{description}
 
 %*****************************************************************************
 \chapter{UML diagramy}
-\textbf{\large Tato příloha není povinná a zřejmě se neobjeví v každé práci. Máte-li ale větší množství podobných diagramů popisujících systém, není nutné všechny umísťovat do hlavního textu, zvláště pokud by to snižovalo jeho čitelnost.}
 
-\subsection{Use Case Diagram}
-TODO přesunout do přílohy.
+Vytvořené diagramy jsem tvořil podle knihy Destilováné UML \cite{UML}
+
+\section{Use Case Diagram}
 Znázorňuje roli uživatele vůči knihovně. Ruby ACL definuje jednoho aktéra, kterým je uživatel/administrátor ACL viz obrázek \ref{fig:usecase}. Jedná se vlastně o vývojáře DB Applikace.
 Všechny případy užití předpokládají vytvořenou instanci RubyACL, která má vytvořená nějaká pravidla.
 \begin{figure}
@@ -722,6 +724,15 @@ Všechny případy užití předpokládají vytvořenou instanci RubyACL, která
 \includegraphics[width=15cm]{UseCases.jpg}
 \caption{UseCases}
 \label{fig:usecase}
+\end{figure}
+
+\section{eXistAPI}
+Obrázek popisuje třídní model rozraní eXistAPI.
+\begin{figure}
+%\centering
+\includegraphics[width=15cm]{eXistAPI.jpg}
+\caption{Diagram tříd eXistAPI}
+\label{fig:eXistAPI}
 \end{figure}
 
 %-------------------------------------

@@ -22,6 +22,10 @@ Warning--I didn't find a database entry for "www"
 Warning--I didn't find a database entry for "wiki:framework"
 Warning--I didn't find a database entry for "wiki:orm"
 Warning--I didn't find a database entry for "infodp"
+`address' is a missing field, not a string, for entry UML
+while executing---line 1484 of file csplainnat.bst
+`address' is a missing field, not a string, for entry Ruby
+while executing---line 1484 of file csplainnat.bst
 Warning--empty year in oracle
 Warning--empty year in phpGACL
-(There were 15 warnings)
+(There were 2 error messages)

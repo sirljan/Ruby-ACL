@@ -33,8 +33,8 @@ class RubyACLException < RuntimeError
   end
 end
 
-#List of all exception. In brackets is method, that raise mentioned exception
-#ACL_Object:
+#List of all exception. In brackets is method, that raise mentioned exception.
+
 #0: Name is empty                       (RubyACL.initialize)
 #1: Failed to create ACL in database    (RubyACL.create_acl_in_db)
 #2: Failed to set new name              (RubyACL.setname)

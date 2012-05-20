@@ -1,4 +1,4 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{13}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -17,6 +17,18 @@
 \newblock Dostupn{\'{e}} z:
   \url{http://exist-db.org/exist/devguide_xmlrpc.xml\#d41536e1573}.
 
+\bibitem[Fowler(2010)]{UML}
+FOWLER, M.
+\newblock \emph{Destilované UML}.
+\newblock Grada Publishing, 1st edition, 2010.
+\newblock In Czech.
+
+\bibitem[Fulton(2010)]{Ruby}
+FULTON, H.
+\newblock \emph{RUBY, kompendium znalostí}.
+\newblock Zoner Press, 1st edition, 2010.
+\newblock In Czech.
+
 \bibitem[{Jamie Hill, SonicIQ Ltd.}(2012)]{github:iq-acl}
 {Jamie Hill, SonicIQ Ltd.}
 \newblock \emph{iq-acl} [online]. 2012. [cit.~16.\,5.\,2012].
@@ -26,6 +38,13 @@
 {Oleg Dashevskii}.
 \newblock \emph{acl9} [online]. 2012. [cit.~16.\,5.\,2012].
 \newblock Dostupn{\'{e}} z: \url{https://github.com/be9/acl9}.
+
+\bibitem[{Pat Eyler}(2012)]{ibm:unittesting}
+{Pat Eyler}.
+\newblock \emph{Test-first programming with Ruby} [online]. 2012.
+  [cit.~16.\,5.\,2012].
+\newblock Dostupn{\'{e}} z:
+  \url{http://www.ibm.com/developerworks/opensource/tutorials/os-ruby1/section4.html}.
 
 \bibitem[{Peter Schrammel, Gregor Melhorn}(2012)]{rubyforge:ActiveAclPlus}
 {Peter Schrammel, Gregor Melhorn}.

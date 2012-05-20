@@ -12,12 +12,16 @@ require 'date'
 require 'ace_rule'
 require 'rubyacl_exception'
 
-#RubyACL is library that handles access permisions. RubyACL offers to create and modify three ACL objects - three dimensions: Principal, Privilege, Resource object.
+#RubyACL is library that handles access permisions. RubyACL offers to create and 
+#modify three ACL objects - three dimensions: Principal, Privilege, Resource 
+#object.
 #Principal is someone or something that want to access.
 #Privilege is level of access. (read, write etc.).
 #Resource object is what is principal accessing.
-#RubyACL uses API interface to communicate with database. This interface is described by class API_inteface.
-#At the end of the class you can see set of examples. Also good source of information are testcases.
+#RubyACL uses API interface to communicate with database. This interface is 
+#described by class API_inteface.
+#At the end of the class you can see set of examples. Also good source of 
+#information are testcases.
 class RubyACL
   
   # name of the ACL
@@ -56,8 +60,7 @@ class RubyACL
     @priv = Privilege.new(@connector, @col_path, @report)
     @res_obj = ResourceObject.new(@connector, @col_path, @report)
     @ace = Ace.new(@connector, @col_path, @report)
-    temp = create_acl_in_db()
-    puts temp.class
+    create_acl_in_db()
     rename(name)
   rescue => e
     raise e
@@ -308,7 +311,6 @@ END
   #   - +nothing+
   #
   def save(path, date = false)
-    #TODO proverit
     col = @connector.getcollection(@col_path)    
     docs = col.docs()
     if(date)
@@ -341,8 +343,7 @@ END
   # * *Raises* :
   #   - +nothin+
   #
-  def RubyACL.load(connector, colpath = "/db/acl/", src_files_path, report)
-    #TODO proverit
+  def RubyACL.load(connector, colpath, src_files_path, report = false)
     xmlfile = File.read(src_files_path+"acl.xml")
     startindex = xmlfile.index('"', xmlfile.index("aclname="))
     endindex = xmlfile.index('"', startindex+1)
@@ -352,7 +353,6 @@ END
   rescue => e
     raise e
   end
-  
   
   #Decides whether principal has privilege or not to resource object identified 
   #by access type and address. If the accessType of ace is allow - returns true. 
@@ -811,23 +811,21 @@ end
 #TODO ptam se jestli nekdo kdo neexistuje ma pristup. Pozor na vyjimku, mel bych vratit rovnou false.
 #TODO Lze pridat privilege do principal a naopak? test na to by byl peknej :)
 
-#Usage example. Also very good source of information are test cases.
-puts "start"
-$:.unshift("../../eXistAPI/lib")
-require 'eXistAPI'    #must require 'eXistAPI' to comunicated with eXist-db
-
-#create instance of ExistAPI
-@db = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "admin")    
-@col_path = "/db/test_acl/"         #sets the collection where you want to have ACL in db
-@src_files_path = "./src_files/"    #path to source files
-if(@db.existscollection?(@col_path))
-  @db.remove_collection(@col_path) #Deleting old ACL from db
-end
-report = false
-@my_acl = RubyACL.new("my_acl", @db, @col_path, @src_files_path, report)
-
-@my_acl.create_resource_object("doc", 'doc("/db/cities/cities.xml")/cities', "sirljan")
-
+##Usage example. Also very good source of information are test cases.
+#puts "start"
+#$:.unshift("../../eXistAPI/lib")
+#require 'eXistAPI'    #must require 'eXistAPI' to comunicated with eXist-db
+#
+##create instance of ExistAPI
+#@db = ExistAPI.new("http://localhost:8080/exist/xmlrpc", "admin", "admin")    
+#@col_path = "/db/test_acl/"         #sets the collection where you want to have ACL in db
+#@src_files_path = "./src_files/"    #path to source files
+#if(@db.existscollection?(@col_path))
+#  @db.remove_collection(@col_path) #Deleting old ACL from db
+#end
+#report = false
+#@my_acl = RubyACL.new("my_acl", @db, @col_path, @src_files_path, report)
+#
 ##it's good to create some principals at the begging
 #@my_acl.create_principal("Sheldon")  
 #@my_acl.create_principal("Leonard")   
@@ -911,5 +909,4 @@ report = false
 #
 ##You can rename ACL
 #@my_acl.rename("my_beloved_acl")
-
-puts "finished"
+#puts "finished"

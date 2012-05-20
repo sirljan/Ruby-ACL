@@ -94,7 +94,7 @@ Class diagram \ref{fig:Class diagram} znázorňuje třídy knihovny a jejich vaz
 
 Hlavní třídou knihovny je třída \verb|RubyACL|. Pomocí ní a jejích veřejných metod pracuje uživatelská aplikace s ACL objekty. Třída \verb|RubyACL| obsahuje jen jednu instanci od každé třídy dědící z \verb|ACL_Object|. Tyto třídy jsou pomocné třídy, které "znají" strukturu dokumentu uloženého v databázi. Například s pomocí instance třídy \verb|ACE| lze přidávat, měnit a mazat jednotlivá pravidla, které jsou v databázi v XML souboru reprezentována jako uzly.
 
-Druhou podstatnou třídou je třída \verb|ACL_Object|, ze které dědí všechny pomocné třídy. Třídu \verb|ACL_Object| jsem vytvořil, protože se velká část kódu tříd \verb|Principal|, \verb|Privilege|, \verb|ResourceObject|, \verb|ACE|, \verb|Group|, \verb|Individual| shodovala nebo byla velmi podobná. Vyjmenované podtřídy využívají zděděné metody a případně je konkretizují.
+Druhou podstatnou třídou je třída \verb|ACL_Object|, ze které dědí všechny pomocné třídy. Třídu \verb|ACL_Object| jsem vytvořil, protože se velká část kódu tříd \verb|Principal|, \verb|Privilege|, \verb|ResourceObject|, \verb|ACE|, \verb|Group|, \verb|Individual| shodovala nebo byla velmi podobná. Vyjmenované podtřídy využívají zděděné metody a případně je konkretizují. V textu tyto třídy nazývám pomocné třídy.
 Třída  \verb|ACL_Object| obsahuje metody, které pomocí xQuery a xPath\footnote{XML Path Language} obsluhují rozhraní API, v tomto případě eXistAPI.
 
 Z diagramu je patrné, že všechna data jsou uložená v databázi ve formě XML dokumentů, kde se na ně dotazuje rozhraní API.
@@ -377,4 +377,4 @@ Nejnižší číslo v seznamu má největší prioritu. Slovy se dá následují
 
 \subsection{Složitost rozhodování}
 Složitost rozhodování závisí na metodě \verb|check|. 
-Rozhodování probíhá tak, že si knihovna připraví všechny zdrojové objekty, které se mohou týkat objektu, u kterého se zjišťuje přístup stejně tak všechny oprávnění a zmocnitelé. Ve všech třech případech se jedná o pole obsahující samotný ACL objekt a všechny jeho nadřazené ACL objekty. Pro každý principal se vytvoří xQuery dotaz, který se následně pošle databázi na vyhodnocení. Metoda \verb|check| tedy obsahuje jednou vnořený cyklus, proto je složitost $e^2$.
+Rozhodování probíhá tak, že si knihovna připraví všechny zdrojové objekty, které se mohou týkat objektu, u kterého se zjišťuje přístup stejně tak všechny oprávnění a zmocnitelé. Ve všech třech případech se jedná o pole obsahující samotný ACL objekt a všechny jeho nadřazené ACL objekty. Pro každý principal se vytvoří xQuery dotaz, který se následně pošle databázi na vyhodnocení. Metoda \verb|check| tedy obsahuje jednou vnořený cyklus, proto je složitost přibližně $e^2$.

@@ -220,4 +220,10 @@ class TestRubyACL < Test::Unit::TestCase
     access = @test_acl.check(prin_name, priv_name, res_ob_type, res_ob_adrs)
     assert_equal(false, access)
   end
+  
+  def test_z_last
+      if(@db.existscollection?("/db/test_acl/"))
+      @db.remove_collection("/db/test_acl/") #Deleting loaded ACL from db after test_load
+    end
+  end
 end

@@ -2,6 +2,7 @@
 #Such as creating ACL, saving it, loading, set new name of ACL ...
 $:.unshift File.join(File.dirname(__FILE__),'..','lib')
 $:.unshift("../eXistAPI/lib")
+$:.unshift('D:\\eXistAPI\\lib\\')
 
 require 'eXistAPI'
 require 'test/unit'
@@ -27,7 +28,6 @@ class TestRubyACL < Test::Unit::TestCase
   end
   
   def test_set1_02_save
-    #TODO proverit
     @save_path = "./test/test_backup/"
     @test_acl.save(@save_path, true)
     @save_path = @save_path + Date.today.to_s + "/"
@@ -38,11 +38,10 @@ class TestRubyACL < Test::Unit::TestCase
   end
   
   def test_set1_03_load
-    #TODO proverit
     handle = @db.execute_query("doc(\"#{@col_path}acl.xml\")/acl/string(@aclname)")
     acl_name = @db.retrieve(handle, 0)
     test_set1_02_save
-    test_loaded_acl = RubyACL.load(@db, "/db/loaded_acl/", @save_path)
+    test_loaded_acl = RubyACL.load(@db, "/db/loaded_acl/", @save_path, false)
     assert_equal(acl_name, test_loaded_acl.name)
     if(@db.existscollection?("/db/loaded_acl/"))
       @db.remove_collection("/db/loaded_acl/") #Deleting loaded ACL from db after test_load
