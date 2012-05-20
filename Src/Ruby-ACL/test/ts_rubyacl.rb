@@ -1,6 +1,3 @@
-#TODO test coverige
-#TODO testy v rake http://guides.rubygems.org/make-your-own-gem/#writing-tests
-
 #$:.unshift("./test")
 
 require 'test/unit' 

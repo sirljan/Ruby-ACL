@@ -11,16 +11,6 @@ Warning--entry type for "exist:xmlrpcxupdate" isn't style-file defined
 --line 55 of file reference.bib
 Warning--entry type for "xupdate" isn't style-file defined
 --line 63 of file reference.bib
-Warning--I didn't find a database entry for "CSTUG"
-Warning--I didn't find a database entry for "latexdocweb"
-Warning--I didn't find a database entry for "latexwiki"
-Warning--I didn't find a database entry for "ipe"
-Warning--I didn't find a database entry for "kniha"
-Warning--I didn't find a database entry for "clanek"
-Warning--I didn't find a database entry for "sbornik"
-Warning--I didn't find a database entry for "www"
-Warning--I didn't find a database entry for "wiki:framework"
-Warning--I didn't find a database entry for "wiki:orm"
 Warning--I didn't find a database entry for "infodp"
 `address' is a missing field, not a string, for entry UML
 while executing---line 1484 of file csplainnat.bst

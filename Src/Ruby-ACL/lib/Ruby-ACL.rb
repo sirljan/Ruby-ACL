@@ -42,7 +42,9 @@ class RubyACL
   #   - instance of RubyACL
   # * *Raises* :
   #   - +RubyACLException+ -> Name is empty
-  def initialize(name, connector, colpath = "/db/acl/", src_files_path = "./src_files/", report = false)
+  def initialize(name, connector, colpath = "/db/acl/", 
+      src_files_path = File.join(File.dirname(__FILE__),'.','src_files/'), 
+      report = false)
     if(name == "")
       raise RubyACLException.new(self.class.name, __method__, "Name is empty", 0), caller
     end
@@ -806,10 +808,6 @@ Access denied." if @report
 
   
 end
-
-#TODO Vzorovou tridu API s vyhazovanim vyjimek must be implemented
-#TODO ptam se jestli nekdo kdo neexistuje ma pristup. Pozor na vyjimku, mel bych vratit rovnou false.
-#TODO Lze pridat privilege do principal a naopak? test na to by byl peknej :)
 
 ##Usage example. Also very good source of information are test cases.
 #puts "start"

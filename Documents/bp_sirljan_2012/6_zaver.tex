@@ -1,8 +1,5 @@
 \chapter{Závěr}
 
-\begin{itemize}
-\item Zhodnocení splnění cílů DP/BP a  vlastního přínosu práce (při formulaci je třeba vzít v potaz zadání práce).
-\item Diskuse dalšího možného pokračování práce.
-\end{itemize} 
+Bakalářská práce splnila cíla, které byly stanovené jak zadáním, tak požadavky, které byly specifikovány v průběhu vývoje knihovny. Práce splnila zadání ve všech bodech. Byla naprogramována v Ruby pomocí ACL. Dokumentace byla zaměřena na specifikaci rozhraní, jak přímo zde v této práci, tak v komentářích v knihovně a také pomocí RDOC. Příklady užití byly popsány jednoduše, tak aby byly snadno pochopitelné pro nezainteresovaného a zároveň měly co největší přínos pro uživatele a pokračovatele práce. Knihovna umožňuje vytvářet a editovat všechny požadované objekty (principal, privilege, resource object) a vytvářet pravidla. Díky vydání jako gem jsou Ruby-ACL a eXistAPI snadno dostupné. Splnil jsem jak všechny povinné požadavky, tak některé volitelné požadavky.  Například nebyl splněn volitelný požadavek na popis XML souborů pomocí DTD.
 
 Časově nejnáročnější operací je komunikace s databází. Zrychlení by se dalo docílit optimalizací dotazování tak, aby se dotazovalo, co nejméně. Záporem tohoto řešení by byla větší paměťová náročnost aplikace, která by knihovnu Ruby-ACL používala. Současný kód knihovny obsahuje opakované dotazování na stejnou věc místo ukládání výsledku do paměti pro případné následující použití. Tento model byl zvolen kvůli jednoduchosti a faktu, že vykonání dotazu a vrácení výsledku trvá řadově milisekundy. Je ale těžké odhadnout, kolik času by zabralo dotazování při plné databázi a použití více uživatelů ve stejný čas. Navíc eXist-db si po určitou dobu v paměti uchovává výsledky předchozích dotazů, čímž se ještě více snižuje naročnost opakovaných dotazů. Vše je ale závislé na lince mezi knihovnou a databází.

@@ -72,21 +72,21 @@ ExistAPI je komunikační rozhraní, jehož implementaci si vynutilo ladění a 
 eXistAPI komunikuje s databází prostřednictvím XML-RPC protokolu a technologíí XQuery a XPath. XQuery Update Facility se používá pro editování dat v dokumentech kolekcí databáze.
 Pokus o naimplementování XUpdate nebyl úspěšný. XUpdate není podporován konzorciem W3C\footnote{World Wide Web Consortium} a tudíž není jednoznačně nadefinovaný. Zde nejspíše vznikl problém, kdy eXist-db použila jinou interpretaci XUpdate, než uvádí dokumentace XUpdate \cite{xupdate}.
 
-Interface eXistAPI považuji za přínos pro uživatele eXist-db, kteří programují v Ruby nebo to mají v plánu. Rozhraní eXistAPI je ošetřené vyjímkama, otestované a zdokumentované tak, jak to vyžaduje balíčkovací systém \href{https://rubygems.org/}{RubyGem}, kde ho lze najít pod jménem "eXistAPI". Lze jej tedy stáhnout příkazem \verb|gem install eXistAPI|. Model tříd je v příloze \ref{fig:eXistAPI}. 
+Interface eXistAPI považuji za přínos pro uživatele eXist-db, kteří programují v Ruby. Rozhraní eXistAPI je ošetřené výjimkami, otestované a zdokumentované tak, jak to vyžaduje balíčkovací systém \href{https://rubygems.org/}{RubyGem}, kde ho lze najít pod jménem "eXistAPI". Lze jej tedy stáhnout příkazem \verb|gem install eXistAPI|. Model tříd je v příloze \ref{fig:eXistAPI}. 
 
 %-------------------------------------
 \section{Implementace}
-V této sekci se zabývám popisem implementace metody \verb|check| a rozepsaní a popsání příkladu založení uživatele.
+V této sekci se zabývám popisem implementace metody \verb|check| a popsáný příklad založení uživatele.
 
 \subsection{Třída RubyACL}
 
-Hlavní účel třídy \verb|RubyACL| je zprostředkovávat funčnost pomocných tříd dědících z třídy \verb|ACL_Object|. Dále sama nabízí možnost ukládání a načítání ACL ze souborů a hlavně obsahuje metodu \verb|check|, která slouží k vyhodnocování pravidel.
+Hlavní účel třídy \verb|RubyACL| je zprostředkovávat funkčnost pomocných tříd dědících z třídy \verb|ACL_Object|. Dále třída \verb|RubyACL| nabízí možnost ukládání a načítání ACL ze souborů a hlavně obsahuje metodu \verb|check|, která slouží k vyhodnocování pravidel.
 
 \subsubsection{Metoda check}
-Metoda check obsatarává rozhodování, jestli zmocnitel má oprávnění k objektu nebo nemá. Stručně a výstižně vysvětluje algoritmus obrázek \ref{fig:check}. 
+Metoda check obstarává rozhodování, jestli zmocnitel má oprávnění k objektu nebo nemá. Stručně a výstižně vysvětluje algoritmus obrázek \ref{fig:check}. 
 
-Metoda \verb|check| nejprve zjistí, jestli daný zmocnitel není vlastník daného objektu nebo jakéhokoliv nadřazeného objektu. Pokud je ihned vratí true a ukončí běh. 
-Pokud zmocnitel není vlastníkem, metoda \verb|check| nashromáždí všechny potenciální pravidla, která by mohly ovlivňovat přístup. Udělát to tak, že pro daného zmocnitele najde všechny jeho nadřezené zmocnitele. Jedná se tedy o pole skupin a pokud je daným zmocnitelem jednolivec, tak i on. Obdobným způsobem vytvoří i pole privilegií a nadřazených privilegií. zdojových objektů a nadřazených zdrojových objektů. Dále z těchto polí vytvoří XQuery dotaz, který vybere takové pravidlo, které obsahuje jednoho ze zmocnitelů a zárověn jedno z pravidel a zároveň jeden zdrojový objekt. XQuery se odešle pomocí eXistAPI a přijme se množina pravidel. V této množině pravidel hledá metoda \verb|check| pravidlo, které má nejvyšší prioritu. Metoda určuje prioritu podle seznamu v sekci \ref{Priorita rozhodování} Priorita rozhodování. Metoda prochází pravidla a srovnává pravidlo uložené ve pomocné proměnné s aktuálním pravidlem. Pokud aktuální má větší prioritu zapíše ho do pomocné proměnné. Pokud není žádný další záznam, metoda přečte \verb|accessType| a podle něj rozhodne, co vrátí. Pokud \verb|accessType| obsahuje "allow" vrátí true, pokud obsahuje "deny" vrátí false.
+Metoda \verb|check| nejprve zjistí, jestli daný zmocnitel není vlastník daného objektu nebo jakéhokoliv nadřazeného objektu. Pokud je vlastníkem, ihned vratí true a ukončí běh. 
+Pokud zmocnitel není vlastníkem, metoda \verb|check| nashromáždí všechna potenciální pravidla, která by mohla ovlivňovat přístup. Udělá to tak, že pro daného zmocnitele najde všechny jeho nadřezené zmocnitele. Jedná se tedy o pole skupin a pokud je daným zmocnitelem jednolivec, tak i on. Obdobným způsobem vytvoří i pole privilegií a nadřazených privilegií, zdojových objektů a nadřazených zdrojových objektů. Dále z těchto polí vytvoří XQuery dotaz, který vybere takové pravidlo, které obsahuje jednoho ze zmocnitelů a zárověn jedno z pravidel a zároveň jeden zdrojový objekt. XQuery se odešle pomocí eXistAPI a přijme se množina pravidel. V této množině pravidel hledá metoda \verb|check| pravidlo, které má nejvyšší prioritu. Metoda určuje prioritu podle seznamu v sekci \ref{Priorita rozhodování} Priorita rozhodování. Metoda prochází pravidla a srovnává pravidlo uložené v pomocné proměnné s aktuálním pravidlem. Pokud aktuální pravidlo má větší prioritu je zapsáno do pomocné proměnné. Pokud není žádný další záznam, metoda přečte \verb|accessType| a podle něj rozhodne, co vrátí. Pokud \verb|accessType| obsahuje "allow" vrátí true, pokud obsahuje "deny" vrátí false.
 \begin{figure}
 %\centering
 \includegraphics[width=15cm]{check2.jpg}
@@ -95,15 +95,16 @@ Pokud zmocnitel není vlastníkem, metoda \verb|check| nashromáždí všechny p
 \end{figure}
 
 \subsubsection{Příklad}
-Uvedu zde jeden příklad vytvoření zmocnitele a na něm vysvětlím TODO.
-
+\label{Příklad}
+Uvedu zde jeden příklad vytvoření zmocnitele a na něm popisuji průchod logikou knihovny.
+\\
 \lstset{language=Ruby, numbers=none}
 \begin{lstlisting}
 @my_acl.create_principal("Sheldon", "4th_Level")
 \end{lstlisting}
 
-Je zřejmé, že příkaz volá metodu \verb|create_principal|. Příkaz má vytvořit zmocnitele jménem \verb|"Sheldon"|, který bude patřit do skupiny \verb|"4th_Level"|. RubyACL má instanci od každé pomocné třídy. RubyACL tedy pouze zavolá metodu \verb|create_new| instance @indi, což je instance třídy Individual. Metoda \verb|create_new| ničím nekonkrétizuje chování supertřídy \verb|ACL_Object|, takže se zavolá metoda této třídy. Zde se provede kotrola, jestli jméno není prázdné. Pokud jméno je prázdné vyhodí se vyjímka. Dále se pokračuje kontrolou, jestli jméno už není obsazené. Pokud je, vyhodí se vyjímka. Pomocí metody \verb|generate_expr| se vygeneruje uzel, který bude následně skládat. Metoda \verb|generate_expr| není ve třídě Individual přepsaná (anglicky overriden), takže se v tomto případě volá metoda supertřídy. Výsek kódu tvoření uzlu je v následujícím výpisu:
-
+Je zřejmé, že příkaz volá metodu \verb|create_principal|. Příkaz má vytvořit zmocnitele jménem \verb|"Sheldon"|, který bude patřit do skupiny \verb|"4th_Level"|. \verb|RubyACL| má instanci od každé pomocné třídy. \verb|RubyACL| tedy pouze zavolá metodu \verb|create_new| instance \verb|@indi|, což je instance třídy \verb|Individual|. Metoda \verb|create_new| ničím nekonkretizuje chování supertřídy \verb|ACL_Object|, takže se zavolá metoda této třídy. Zde se provede kotrola, jestli jméno není prázdné. Pokud jméno je prázdné, vyhodí se výjimka. Dále se pokračuje kontrolou, jestli jméno už není obsazené. Pokud je, vyhodí se výjimka. Pomocí metody \verb|generate_expr| se vygeneruje uzel, který bude následně vkládat. Metoda \verb|generate_expr| není ve třídě \verb|Individual| přepsaná (anglicky overridden), takže se v tomto případě volá metoda supertřídy. Výsek kódu tvoření uzlu je v následující ukázce:
+\\
 \begin{lstlisting}
     expr = <<END
     <#{self.class.name} id="#{name}">
@@ -113,30 +114,31 @@ Je zřejmé, že příkaz volá metodu \verb|create_principal|. Příkaz má vyt
     </#{self.class.name}>
 END
 \end{lstlisting}
-Kód ukazuje, že jméno uzlu je utvořeno podle jména třídy (jedná se o část \verb|self.class.name|), takže jméno uzlu je v tomto případě "Individual". Dalším krokem je vytvoření části příkazu, který rozhoduje kam se uzel bude vkládat a opět se využívá jména třídy.
+Kód ukazuje, že jméno uzlu je utvořeno podle jména třídy (jedná se o část \verb|self.class.name|), takže jméno uzlu je v tomto případě "Individual". Dalším krokem je vytvoření části příkazu, který rozhoduje, kam se uzel bude vkládat a opět se využívá jména třídy.
+\\
 \begin{lstlisting}
 expr_loc = "#{@doc}//#{self.class.name}s/#{self.class.name}[last()]"
 \end{lstlisting}
-Zbývá už pouze zavolat metodu \verb|update_insert| instance třídy eXistAPI, která vloží připravený uzel na připravenou pozici. Následně se zkontroluje, pokud byl uzel vložen, pokud ne, vyvolá se vyjímka.
+Zbývá už pouze zavolat metodu \verb|update_insert| instance třídy \verb|eXistAPI|, která vloží připravený uzel na připravenou pozici. Následně se zkontroluje, pokud byl uzel vložen, pokud ne, vyvolá se výjimka.
 
-Následuje větvení, které rozhoduje zda se bude zmocnitel přidávat do nějaké skupiny. V tomto případě se zmocnitel do skupiny bude přidávat. Přidávání se provádí pomocí metody \verb|add_membership|, kterou lze volat i samostnatně. Parametry metody jsou: "kdo má být", "v jaké skupině". Metoda zjednodušeně řečeno vkládá do zmocnitele odkaz na skupinu. \verb|add_membership| funguje podobně jako \verb|create_new| - připraví se uzel na vkládání, připraví se lokace vložení jako XPath výraz a předtím než se zavolá \verb|update_insert| se zkontruluje, jestli se členství necyklí. Nakonec se zkontroluje, pokud byl uzel vložen, pokud ne, vyvolá se vyjímka.
+Následuje větvení, které rozhoduje zda se bude zmocnitel přidávat do nějaké skupiny. V tomto případě se zmocnitel do skupiny bude přidávat. Přidávání se provádí pomocí metody \verb|add_membership|, kterou lze volat i samostnatně. Parametry metody jsou: "kdo má být", "v jaké skupině". Metoda zjednodušeně řečeno vkládá do zmocnitele odkaz na skupinu. Metoda \verb|add_membership| funguje podobně jako \verb|create_new|. Připraví se uzel na vkládání, lokace vložení jako XPath výraz a předtím než se zavolá \verb|update_insert| se zkontruluje, jestli se členství necyklí. Nakonec se zkontroluje, jestli byl uzel vložen, pokud ne, vyvolá se výjimka.
 
 
 %-------------------------------------
 
 \subsection{ACL\_Object}
 Třída \verb|ACL_Object| je rodičem tříd: Principal, Privilege, ResrouceObject, ACE a nepřímým rodičem Individual a Group.
-Třída sdružuje obecné metody, které jsou společné pro všechny výše vyjmenované třídy. Takové metody například jsou: \verb|create_new|, \verb|delete|, \verb|rename|. \\ \verb|ACL_Object| také obsahuje důležitou proměnou \verb|doc|, která obsahuje cestu k datovému dokumentu v databázi. Tuto proměnou taktéž třídy dědí.
-Jednolivé třídy vyjmenované v této sekci pracují se svým dokumentem. Dokument a uzly v něm mají různou strukturu. Například oprávnění má jeden kořenový uzel a pak už jen list oprávnění, ve kterých jsou odkazy na nadřazené oprávnění. Čili se jedná o poměrně jednoduchou strukturu. Každá ze tříd má tuto strukturu v sobě uloženou a podle ní tvoří dotazy na editování dat.
+Třída sdružuje obecné metody, které jsou společné pro všechny výše vyjmenované třídy. Takové metody například jsou: \verb|create_new|, \verb|delete|, \verb|rename|. \\ \verb|ACL_Object| také obsahuje důležitou proměnou \verb|doc|, která obsahuje cestu k datovému dokumentu v databázi. Tuto proměnnou taktéž třídy dědí.
+Jednotlivé třídy vyjmenované v této sekci pracují se svým dokumentem. Dokument a uzly v něm mají různou strukturu. Například oprávnění má jeden kořenový uzel a pak už jen seznam oprávnění, ve kterých jsou odkazy na nadřazená oprávnění. Jedná se o poměrně jednoduchou strukturu ve srovnání s ostatními datovými dokumenty. Každá ze tříd má tuto strukturu v sobě uloženou a podle ní tvoří dotazy na editování dat.
 
 %-------------------------------------
 
-\subsection{Vyjímky}
-Vyjímky pro knihovnu RubyACL vyvolává třída \verb|RubyACLException|. Knihovna buď vyjímky vyvolává nebo je jen propaguje dále. Seznam vyjímek, jejich kódů a metod, které je vyvolávají jsou vypsané v příloze TODO \ref{} a na přiloženém CD přímo pod zdrojovým kódem třídy \verb|RubyACLException|.
+\subsection{Výjimky}
+Výjimky pro knihovnu RubyACL vyvolává třída \verb|RubyACLException|. Knihovna buď výjimky vyvolává nebo je jen propaguje dále. Seznam výjimek, jejich kódů a metod, které je vyvolávají jsou vypsané v příloze TODO \ref{} a na přiloženém CD přímo pod zdrojovým kódem třídy \verb|RubyACLException|.
 
-Vyjímky pro rozhraní eXistAPI vyvolává třída \verb|ExistException|.
+\noindent Výjímky pro rozhraní eXistAPI vyvolává třída \verb|ExistException|.
 
 %-------------------------------------
 
 \subsection{Práce s pamětí}
-Na začátku mi bylo jasné, že bych neměl zanedbat práci s pamětí, protože aplikace s knihovnou bude spuštěna v řádech dnů a měsíců. Špatné zacházení s pamětí by, proto bylo kritické pro server, na kterém aplikace s Ruby-ACL knihovnou bude spuštěna. Ruby-ACL veškeré data ukládá do databáze. Jediné obsazení paměti je instancí samotné třídy \verb|RubyACL| a instancemi pomocných tříd. Nicméně v Ruby uvolňování paměti programátorem nemá význam, protože v dynamickém prostředí Ruby se o uvolňování stará garbage collector. Ruby používá garbage collector, který nepoužívané objekty vystopuje a odstraní \cite{Ruby}.
+Už od začátku mojí práce bylo jasné, že bych neměl zanedbat správu paměti, protože aplikace s knihovnou bude spuštěna v řádech dnů a měsíců. Špatné zacházení s pamětí by, proto bylo kritické pro server, na kterém aplikace s Ruby-ACL knihovnou bude spuštěna. Ruby-ACL veškera data ukládá do databáze. Jediné obsazení paměti je instancí samotné třídy \verb|RubyACL| a instancemi pomocných tříd. Nicméně v Ruby uvolňování paměti programátorem nemá význam, protože v dynamickém prostředí Ruby se o uvolňování stará garbage collector. Ruby používá garbage collector, který nepoužívané objekty vystopuje a odstraní \cite{Ruby}.

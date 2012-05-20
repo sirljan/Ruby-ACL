@@ -112,5 +112,5 @@ class TestRubyACL < Test::Unit::TestCase
       @test_acl.create_ace(prin_name, acc_type, priv_name, res_ob_type, res_ob_adrs)
     end
   end
-#TODO user or priv doesnot exist
+
 end
