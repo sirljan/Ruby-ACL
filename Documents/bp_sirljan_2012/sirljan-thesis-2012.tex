@@ -343,33 +343,6 @@ TODO odkaz na prvni vyskyt RubyGEM
 \include{6_zaver}
 
 %*****************************************************************************
-\chapter{Moje pracovni poznamky}
-\begin{itemize}
-
-\item id u resob. Pokud to bude poradi, mohlo byt snaze napadnutelne nez kdyby id nedavalo smysl.
-
-\item eXist xpath chyba. Na dotaz 
-\begin{verbatim}
-doc("/db/test_acl/ResourceObjects.xml")/ResourceObjects/descendant::*[type="Rybnik"] najde 0 vysledky
-\end{verbatim}
-ale na dotaz 
-\begin{verbatim}
-doc("/db/test_acl/ResourceObjects.xml")/ResourceObjects/descendant::*[type="Rybnik"]/string(@id) najde 1 vysledek = "" (prazdny string)
-\end{verbatim}
-
-\item res\_ob se muzou vytvorit dopredu v seznamu res\_obs. Res\_ob musi byt kazdopadne v seznamu (vytvori se pri vytvoreni pravidla).
-
-\item Use “all” or “*” to match any address.
-
-\item vysledek rozhodnuti jde nechranenou cestou. pokud ma napadajici pristup ke kanalu mezi db a rubyacl potazmo db aplikaci, tak muze zmenit vysledek dotazu a tim i rozhodnuti.
-
-\item to\_s jsem vynechal, protoze knihovna bude pouzita aplikaci a ne clovekem, ktery by si mohl precist stringovy obsah.
-
-\item 
-\end{itemize}
-
-
-%*****************************************************************************
 %\chapter{Literatura}
 % Seznam literatury je v samostatnem souboru reference.bib. Ten
 % upravte dle vlastnich potreb, potom zpracujte (a do textu
@@ -404,9 +377,7 @@ doc("/db/test_acl/ResourceObjects.xml")/ResourceObjects/descendant::*[type="Rybn
 \appendix
 
 %*****************************************************************************
-\chapter{Ukázky zdrojového kódu}
-
-\section{Výpis veřejných metod Ruby-ACL}
+\chapter{Výpis veřejných metod Ruby-ACL}
 \label{sec:veřejné metody}
 V této sekci se nachází výpis veřejných metod. Všechny metody i s parametry a návratovými hodnotami je možné najít v RDOC dokumentaci na CD.
 \begin{itemize}
@@ -453,6 +424,8 @@ V této sekci se nachází výpis veřejných metod. Všechny metody i s paramet
 \item[xQuery] Dotazovací jazyk nad XML dokumenty
 \item[XPath] XML Path Language
 \item[W3C] World Wide Web Consortium
+\item[irb] Interactive Ruby Shell
+\item[JDK] Java Development Kit
 \end{description}
 
 %*****************************************************************************
@@ -534,5 +507,40 @@ Ve vzniklém souboru pak stačí pouze doplnit komentáře.
 Z \textbf{README.TXT} (případne index.html apod.)  musí být rovněž zřejmé, jak programy instalovat, spouštět a jaké požadavky mají tyto programy na hardware.
 
 Adresář \textbf{text}  musí obsahovat soubor s vlastním textem práce v PDF nebo PS formátu, který bude později použit pro prezentaci diplomové práce na WWW.
+
+\begin{verbatim}
+.
+|-- abstract                     - adresář s abstraktem v čj a aj
+|   |-- abstract.html            - krátky abstract
+|   |-- RabstractAJ.html         - rozšířený abstract v angličtině
+|   `-- RabstractCZ.html         - rozšířený abstract v češtině
+|-- gem                          - adresář obsahující instalační balíčky gem
+|-- index.html                   - výchozí stránka projektu - z ní realtivní 
+|                                   html odkazy na dokumentaci, zdrojové 
+|                                   texty a exe soubor
+|-- install.TXT                  - postup instalace knihovny
+|-- rdoc                         - adresář s rdoc dokumentací
+|   |-- eXistAPI                 - rdoc dokumentace k eXistAPI
+|   |   |-- index.html           - výchozí stránka dokumentace eXistAPI  
+|   |   `-- ...                  - další soubory a stránky dokumentace
+|   |   |-- images               - obrázky/ikony dokumentace
+|   |   |   `-- ...
+|   `-- Ruby-ACL                 - rdoc dokumentace k Ruby-ACL
+|       |-- index.html           - výchozí stránka dokumentace Ruby-ACL 
+|       `-- ...                  - další soubory a stránky dokumentace
+|       |-- images               - obrázky/ikony dokumentace
+|           `-- ...
+|-- readme.TXT                   - popis, co ve kterém adresáři je a jaký je účel 
+|                                   jednotlivých souborů, postup spuštění
+|-- src                          - adresář zdrojových souborů eXistAPI a Ruby-ACL
+|   |-- eXistAPI
+|   |   `-- ...                  - zdrojové soubory eXistAPI
+|   `-- Ruby-ACL                        
+|       |-- ...                  - zdrojové soubory Ruby-ACL
+|       `-- src_files                   
+|           `-- ...              - datové XML soubory a jejich DTD
+`-- text                         - adresář obsahující vlastní text BP
+    `-- sirljan-thesis-2012.pdf  - text BP ve formátu PDF
+\end{verbatim}
 
 \end{document}

@@ -57,12 +57,10 @@
 \contentsline {section}{\numberline {5.1}RubyACL}{31}{section.5.1}
 \contentsline {section}{\numberline {5.2}eXistAPI}{31}{section.5.2}
 \contentsline {chapter}{\numberline {6}Z\IeC {\'a}v\IeC {\v e}r}{33}{chapter.6}
-\contentsline {chapter}{\numberline {7}Moje pracovni poznamky}{35}{chapter.7}
-\contentsline {chapter}{\numberline {A}Uk\IeC {\'a}zky zdrojov\IeC {\'e}ho k\IeC {\'o}du}{39}{appendix.A}
-\contentsline {section}{\numberline {A.1}V\IeC {\'y}pis ve\IeC {\v r}ejn\IeC {\'y}ch metod Ruby-ACL}{39}{section.A.1}
-\contentsline {chapter}{\numberline {B}Seznam pou\IeC {\v z}it\IeC {\'y}ch zkratek}{41}{appendix.B}
-\contentsline {chapter}{\numberline {C}UML diagramy}{43}{appendix.C}
-\contentsline {section}{\numberline {C.1}Use Case Diagram}{43}{section.C.1}
-\contentsline {section}{\numberline {C.2}eXistAPI}{43}{section.C.2}
-\contentsline {chapter}{\numberline {D}Instala\IeC {\v c}n\IeC {\'\i } a u\IeC {\v z}ivatelsk\IeC {\'a} p\IeC {\v r}\IeC {\'\i }ru\IeC {\v c}ka}{47}{appendix.D}
-\contentsline {chapter}{\numberline {E}Obsah p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}ho CD}{49}{appendix.E}
+\contentsline {chapter}{\numberline {A}V\IeC {\'y}pis ve\IeC {\v r}ejn\IeC {\'y}ch metod Ruby-ACL}{37}{appendix.A}
+\contentsline {chapter}{\numberline {B}Seznam pou\IeC {\v z}it\IeC {\'y}ch zkratek}{39}{appendix.B}
+\contentsline {chapter}{\numberline {C}UML diagramy}{41}{appendix.C}
+\contentsline {section}{\numberline {C.1}Use Case Diagram}{41}{section.C.1}
+\contentsline {section}{\numberline {C.2}eXistAPI}{41}{section.C.2}
+\contentsline {chapter}{\numberline {D}Instala\IeC {\v c}n\IeC {\'\i } a u\IeC {\v z}ivatelsk\IeC {\'a} p\IeC {\v r}\IeC {\'\i }ru\IeC {\v c}ka}{45}{appendix.D}
+\contentsline {chapter}{\numberline {E}Obsah p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}ho CD}{47}{appendix.E}

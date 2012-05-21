@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE Principals SYSTEM "Principals.dtd">
+<Principals>
+    <Groups>
+        <Group id="ALL">
+            <membership/>
+        </Group>
+        <Group id="Developers">
+            <membership>    <!-->Developers are members of Administrators<!-->
+                <mgroup idref="Administrators"/>
+            </membership>
+        </Group>
+        <Group id="Administrators">
+            <membership>
+                <mgroup idref="ALL"/>
+            </membership>
+        </Group>
+        <Group id="Users">
+            <membership>
+                <mgroup idref="ALL"/>
+            </membership>
+        </Group>
+    </Groups>
+    <Individuals>
+        <Individual id="sirljan">
+            <membership>
+                <mgroup idref="Users" />
+                <mgroup idref="Developers" />
+            </membership>
+        </Individual>
+        <Individual id="Klubicko">
+            <membership>
+                <mgroup idref="Users"/>
+            </membership>
+        </Individual>
+    </Individuals>
+</Principals>

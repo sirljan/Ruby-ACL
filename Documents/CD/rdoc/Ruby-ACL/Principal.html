@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=CP852" http-equiv="Content-Type">
+
+<title>class Principal - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/principal.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="ACL_Object.html">ACL_Object</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-i-add_membership">#add_membership</a>
+    
+    <li><a href="#method-i-delete">#delete</a>
+    
+    <li><a href="#method-i-eq">#eq</a>
+    
+    <li><a href="#method-i-ne">#ne</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./LICENSE.html">LICENSE</a>
+  
+    <li class="file"><a href="./README.html">README</a>
+  
+    <li class="file"><a href="./Rakefile.html">Rakefile</a>
+  
+    <li class="file"><a href="./nbproject/private/rake-d_txt.html">rake-d</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./ACL_Object.html">ACL_Object</a>
+  
+    <li><a href="./Ace.html">Ace</a>
+  
+    <li><a href="./AceRule.html">AceRule</a>
+  
+    <li><a href="./Group.html">Group</a>
+  
+    <li><a href="./Individual.html">Individual</a>
+  
+    <li><a href="./Principal.html">Principal</a>
+  
+    <li><a href="./Privilege.html">Privilege</a>
+  
+    <li><a href="./ResourceObject.html">ResourceObject</a>
+  
+    <li><a href="./RubyACL.html">RubyACL</a>
+  
+    <li><a href="./RubyACLException.html">RubyACLException</a>
+  
+    <li><a href="./TestRubyACL.html">TestRubyACL</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Principal</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(connector, col_path, report = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/principal.rb, line 2</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">connector</span>, <span class="ruby-identifier">col_path</span>, <span class="ruby-identifier">report</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-keyword">super</span>(<span class="ruby-identifier">connector</span>, <span class="ruby-identifier">col_path</span>, <span class="ruby-identifier">report</span>)
+  <span class="ruby-ivar">@doc</span> = <span class="ruby-node">&quot;doc(\&quot;#{@col_path}Principals.xml\&quot;)&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-add_membership" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add_membership</span><span
+            class="method-args">(name, groups, ob_exists = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="add_membership-source">
+            <pre><span class="ruby-comment"># File lib/principal.rb, line 29</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_membership</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">groups</span>, <span class="ruby-identifier">ob_exists</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">ok</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-comment">#Make sure that group is really group and not individual</span>
+  <span class="ruby-keyword">for</span> <span class="ruby-identifier">group</span> <span class="ruby-keyword">in</span> <span class="ruby-identifier">groups</span>
+    <span class="ruby-keyword">if</span>(<span class="ruby-operator">!</span><span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">group</span>, <span class="ruby-node">&quot;#{@doc}//Group[@id=\&quot;#{group}\&quot;]&quot;</span>))
+      <span class="ruby-identifier">ok</span> = <span class="ruby-keyword">false</span>;
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span>(<span class="ruby-identifier">ok</span>)
+    <span class="ruby-keyword">super</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">groups</span>, <span class="ruby-identifier">ob_exists</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">RubyACLException</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">name</span>, <span class="ruby-identifier">__method__</span>, 
+      <span class="ruby-node">&quot;Failed to add membership. Group \&quot;#{group}\&quot; does not exist.&quot;</span>, <span class="ruby-value">113</span>), <span class="ruby-identifier">caller</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- add_membership-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- add_membership-method -->
+
+    
+      <div id="method-i-delete" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">delete</span><span
+            class="method-args">(name)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="delete-source">
+            <pre><span class="ruby-comment"># File lib/principal.rb, line 19</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-keyword">super</span>(<span class="ruby-identifier">name</span>)
+  
+  <span class="ruby-identifier">expr</span> = <span class="ruby-node">&quot;#{@doc}//node()[@idref=\&quot;#{name}\&quot;]/parent::node()&quot;</span>
+  <span class="ruby-ivar">@connector</span>.<span class="ruby-identifier">update_delete</span>(<span class="ruby-identifier">expr</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">name</span>
+<span class="ruby-keyword">rescue</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-identifier">e</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- delete-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- delete-method -->
+
+    
+      <div id="method-i-eq" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">eq</span><span
+            class="method-args">(temp_ace, final_ace)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="eq-source">
+            <pre><span class="ruby-comment"># File lib/principal.rb, line 7</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">eq</span> (<span class="ruby-identifier">temp_ace</span>, <span class="ruby-identifier">final_ace</span>)
+  <span class="ruby-keyword">if</span>(<span class="ruby-identifier">temp_ace</span>.<span class="ruby-identifier">prin</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">final_ace</span>.<span class="ruby-identifier">prin</span>)
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">else</span> 
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- eq-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- eq-method -->
+
+    
+      <div id="method-i-ne" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ne</span><span
+            class="method-args">(temp_ace, final_ace)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="ne-source">
+            <pre><span class="ruby-comment"># File lib/principal.rb, line 15</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">ne</span> (<span class="ruby-identifier">temp_ace</span>, <span class="ruby-identifier">final_ace</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-operator">!</span><span class="ruby-identifier">eq</span>(<span class="ruby-identifier">temp_ace</span>, <span class="ruby-identifier">final_ace</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ne-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ne-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE ResourceObjects SYSTEM "ResourceObjects.dtd">    
+<ResourceObjects>
+    <ResourceObject id="r456">
+        <type>Pleteny_kosik</type>
+        <address>/v_obyvaku/na_skrini</address>
+        <owner idref="Klubicko"/>
+    </ResourceObject>
+    <ResourceObject id="r963">
+        <type>Les</type>
+        <address>/V_Hodkovickach</address>
+        <owner idref="sirljan"/>
+    </ResourceObject>
+    <ResourceObject id="r753951654">
+        <type>doc</type>
+        <address>/db/cities/cities.xml/cities</address>
+        <owner idref="sirljan"/>
+    </ResourceObject>
+    <ResourceObject id="r624125384">
+        <type>doc</type>
+        <address>/db/*</address>
+        <owner idref="nikdo"/>
+    </ResourceObject>
+    <ResourceObject id="r8525">
+        <type>doc</type>
+        <address>/db/cities/cities.xml/cities/*</address>
+        <owner idref="sirljan"/>
+    </ResourceObject>
+    <ResourceObject id="r852">
+        <type>doc</type>
+        <address>/db/cities/cities.xml</address>
+        <owner idref="nikdo"/>
+    </ResourceObject>
+    <ResourceObject id="r111111000">
+        <type>doc</type>
+        <address>/db</address>
+        <owner idref="nikdo"/>
+    </ResourceObject>
+    <ResourceObject id="r111111111">
+        <type>doc</type>
+        <address>/db/temp</address>
+        <owner idref="nikdo"/>
+    </ResourceObject>
+    <ResourceObject id="r222222222">
+        <type>doc</type>
+        <address>/db/temp/test</address>
+        <owner idref="nikdo"/>
+    </ResourceObject>
+    <ResourceObject id="r333333333">
+        <type>doc</type>
+        <address>/db/temp/test/hokus</address>
+        <owner idref="nikdo"/>
+    </ResourceObject>
+</ResourceObjects>

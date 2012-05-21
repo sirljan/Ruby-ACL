@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=CP852" http-equiv="Content-Type">
+
+<title>README - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body class="file">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./LICENSE.html">LICENSE</a>
+  
+    <li class="file"><a href="./README.html">README</a>
+  
+    <li class="file"><a href="./Rakefile.html">Rakefile</a>
+  
+    <li class="file"><a href="./nbproject/private/rake-d_txt.html">rake-d</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./ACL_Object.html">ACL_Object</a>
+  
+    <li><a href="./Ace.html">Ace</a>
+  
+    <li><a href="./AceRule.html">AceRule</a>
+  
+    <li><a href="./Group.html">Group</a>
+  
+    <li><a href="./Individual.html">Individual</a>
+  
+    <li><a href="./Principal.html">Principal</a>
+  
+    <li><a href="./Privilege.html">Privilege</a>
+  
+    <li><a href="./ResourceObject.html">ResourceObject</a>
+  
+    <li><a href="./RubyACL.html">RubyACL</a>
+  
+    <li><a href="./RubyACLException.html">RubyACLException</a>
+  
+    <li><a href="./TestRubyACL.html">TestRubyACL</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation" class="description">
+  
+<h1 id="label-RubyACL+-+Access+control+list+in+Ruby">RubyACL - Access control list in Ruby</h1>
+<dl class="rdoc-list note-list"><dt>rubygem 
+<dd>
+<p><a href="https://rubygems.org/gems/Ruby-ACL">rubygems.org/gems/Ruby-ACL</a></p>
+</dd><dt>github 
+<dd>
+<p><a
+href="https://github.com/sirljan/Ruby-ACL">github.com/sirljan/Ruby-ACL</a></p>
+</dd><dt>API_inteface 
+<dd>
+<p><a
+href="https://github.com/sirljan/Ruby-ACL/tree/master/Src/API_interface">github.com/sirljan/Ruby-ACL/tree/master/Src/API_interface</a></p>
+</dd></dl>
+
+<h2 id="label-Description">Description</h2>
+
+<p>Ruby-ACL is Access control list programmed in Ruby. It provides easy system
+of access control. <a href="RubyACL.html">RubyACL</a> offers to create and
+modify three ACL objects - three  dimensions: <a
+href="Principal.html">Principal</a>, <a
+href="Privilege.html">Privilege</a>, Resource object. <a
+href="Principal.html">Principal</a> is someone or something that want to
+access. <a href="Privilege.html">Privilege</a> is level of access. (read,
+write etc.). Resource object is what is principal accessing. Ruby-ACL uses
+API interface to communicate with database. This interface is  described by
+class API_inteface. At the end of the class <a
+href="RubyACL.html">RubyACL</a> you can see set of examples. Also good
+source  of information are testcases.</p>
+
+<h2 id="label-Example+of+usage">Example of usage</h2>
+
+<p>This example uses ExistAPI. It shows basic operations with <a
+href="RubyACL.html">RubyACL</a>. It is  creating three ACL_Objects that is
+needed to create rule and then to ask for it  by method check().</p>
+
+<pre>api = ExistAPI.new(&quot;http://localhost:8080/exist/xmlrpc&quot;, &quot;username&quot;, &quot;password&quot;)
+@my_acl = RubyACL.new(&quot;my_acl&quot;, api)
+@my_acl.create_principal(&quot;Sheldon&quot;)  
+@my_acl.create_privilege(&quot;SIT&quot;)
+@my_acl.create_resource_object(&quot;seat&quot;, &quot;/livingroom/couch/Sheldon's_spot&quot;, &quot;Sheldon&quot;)
+@my_acl.create_ace(&quot;Sheldon&quot;, &quot;allow&quot;, &quot;SIT&quot;, &quot;seat&quot;, &quot;/livingroom/couch/Sheldon's_spot&quot;)
+#Next method call returns boolean, here it is false (=deny).
+@my_acl.check(&quot;Penny&quot;, &quot;SIT&quot;, &quot;seat&quot;, &quot;/livingroom/couch/Sheldon's_spot&quot;)</pre>
+
+<h3 id="label-Note+to+example">Note to example</h3>
+
+<p>It is expected to use it in if clause. In the case result is true you may
+via  API provide resource object. For example:</p>
+
+<pre>api = API.new(...)
+collection = &quot;/db/somecollection/&quot;
+document = &quot;thedocument.xml&quot;
+resource_object = collection + document
+if(@my_acl.check(&quot;Penny&quot;, &quot;SIT&quot;, &quot;doc&quot;, resource_object))
+ #access allowed
+ doc = Document.new(api, document, collection)
+ return doc.content
+else
+ #access denied
+ return nil
+end</pre>
+
+</div>
+
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
