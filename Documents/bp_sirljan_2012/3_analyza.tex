@@ -3,7 +3,7 @@ Tato kapitola se dělí na analýzu a návrh. V analýze jsem se zaměřil na pr
 
 \section{Analýza}
 
-Protože práce byla velmi přesně zadána, nezbylo příliš prostoru na různé alternativy. Ruby bylo zadáno jako implementační prostředí. Způsob zpracování byl zadán pomocí ACL. Hlavním úkol bylo zjistit, jakým způsobem implementovat samotné ACL a řádně implementaci zdokumentovat a otestovat.
+Protože práce byla velmi přesně zadána, nezbylo příliš prostoru na různé alternativy. Ruby bylo zadáno jako implementační prostředí. Způsob zpracování byl zadán pomocí ACL. Hlavním úkolem bylo zjistit, jakým způsobem implementovat samotné ACL a řádně implementaci zdokumentovat a otestovat.
 
 \subsection{Exitující řešení}
 \label{sec:anal-existujicireseni}
@@ -95,7 +95,7 @@ Class diagram \ref{fig:Class diagram} znázorňuje třídy knihovny a jejich vaz
 Hlavní třídou knihovny je třída \verb|RubyACL|. Pomocí ní a jejích veřejných metod pracuje uživatelská aplikace s ACL objekty. Třída \verb|RubyACL| obsahuje jen jednu instanci od každé třídy dědící z \verb|ACL_Object|. Tyto třídy jsou pomocné třídy, které "znají" strukturu dokumentu uloženého v databázi. Například s pomocí instance třídy \verb|ACE| lze přidávat, měnit a mazat jednotlivá pravidla, které jsou v databázi v XML souboru reprezentována jako uzly.
 
 Druhou podstatnou třídou je třída \verb|ACL_Object|, ze které dědí všechny pomocné třídy. Třídu \verb|ACL_Object| jsem vytvořil, protože se velká část kódu tříd \verb|Principal|, \verb|Privilege|, \verb|ResourceObject|, \verb|ACE|, \verb|Group|, \verb|Individual| shodovala nebo byla velmi podobná. Vyjmenované podtřídy využívají zděděné metody a případně je konkretizují. V textu tyto třídy nazývám pomocné třídy.
-Třída  \verb|ACL_Object| obsahuje metody, které pomocí xQuery a xPath\footnote{XML Path Language} obsluhují rozhraní API, v tomto případě eXistAPI.
+Třída  \verb|ACL_Object| obsahuje metody, které pomocí XQuery a XPath\footnote{XML Path Language} obsluhují rozhraní API, v tomto případě eXistAPI.
 
 Z diagramu je patrné, že všechna data jsou uložená v databázi ve formě XML dokumentů, kde se na ně dotazuje rozhraní API.
 
@@ -113,7 +113,7 @@ Uživatel má vytvořenou instanci RubyACL, která obsahuje pravidla.
 Hlavní úspěšný scénář:
 \begin{enumerate}
 \item Uživatel zavolá metodu \verb|create_ace| a specifikuje údaje (Uživatel/skupina, typ přístupy (allow/deny), oprávnění, zdrojový objekt
-\item Knihovna nastaví pravidlo a vrátí identifikační číslo pravidla, když vše proběhlo v pořádku, a vyvolá vyjímku když nastala chyba.
+\item Knihovna nastaví pravidlo a vrátí identifikační číslo pravidla, když vše proběhlo v pořádku, a vyvolá výjimku když nastala chyba.
 \end{enumerate}
 Poznámka: Jde vlastně o přiřazování oprávnění uživatelům na objekt.
 
@@ -145,7 +145,7 @@ Podrobnější popis rozhraní se nachazí v příloženém CD jako prázdná t�
 \subsubsection{Rozhraní mezi Ruby-ACL a uživatelskou aplikací}
 Rozhraní mezi knihovnou a uživatelskou aplikací tvoří všechny veřejné (public) metody třídy RubyACL. Pomocí instance této třídy a instance třídy API (která je předaná jako parametr) a následném volání veřejných metod může uživatel zavádět zmocnitele, oprávnění, zdrojové objekty a pravidla a pracovat s nimi.Výčet veřejných metod se nachází v příloze \ref{sec:veřejné metody}.
 
-Nejčastěji používanou částí knihovny bude patrně metoda \verb|check|. Mimo správu ACL objektů je hlavní účel knihovny rozlišit, jestli někdo nebo něco má oprávnění na nějaký zdrojový objekt. Pokud zmocnitel má nebo nemá přístup se uživatel dozví podle výstupu. Výstupem je \verb|true| nebo \verb|false| hodnota. Stručný popis nejčastějších vstupů a výstupů je v tabulce \ref{tab:tab3}
+Nejčastěji používanou částí knihovny bude patrně metoda \verb|check|. Mimo správu ACL objektů je hlavní účel knihovny rozlišit, jestli někdo nebo něco má oprávnění na nějaký zdrojový objekt. Pokud zmocnitel má nebo nemá přístup se uživatel dozví podle výstupu. Výstupem je \verb|true| nebo \verb|false| hodnota. Stručný popis nejčastějších vstupů a výstupů je v tabulce \ref{tab:tab3}.
 
 \begin{table}%[h]
 \centering
@@ -183,7 +183,7 @@ Tato sekce prezentuje stručné ukázky použití.
 
 \subsubsection{Příklad nastavení práv}
 První příklad ukazuje, základní funkčnost knihovny a vytvoření pravidla. 
-Protože knihovna Ruby-ACL vyžaduje jako jeden z parametrů instanci rozhraní API, byla v příkladě použita implementace rozhraní eXistAPI. Pro vytvoření pravidla musí existovat instance \verb|RubyACL|. Ke správnému vytvoření pravidla musí být všechny ACL objekty vytvořené. Pokud nebudou vytvořené, Ruby-ACL vyhodí vyjímku, nebo ACL Objekt založí. Metodě \verb|create_ace| je potřeba předat uživatelské jméno zmocnitele, typ přístupu ("allow" nebo "deny"), oprávnění a požadovaný objekt identifikovaný pomocí typu objektu a adresy.
+Protože knihovna Ruby-ACL vyžaduje jako jeden z parametrů instanci rozhraní API, byla v příkladě použita implementace rozhraní eXistAPI. Pro vytvoření pravidla musí existovat instance \verb|RubyACL|. Ke správnému vytvoření pravidla musí být všechny ACL objekty vytvořené. Pokud nebudou vytvořené, Ruby-ACL vyhodí výjimku, nebo ACL Objekt založí. Metodě \verb|create_ace| je potřeba předat uživatelské jméno zmocnitele, typ přístupu ("allow" nebo "deny"), oprávnění a požadovaný objekt identifikovaný pomocí typu objektu a adresy.
 \\
 \begin{lstlisting}
 require 'eXistAPI'    #must require 'eXistAPI' to comunicated with eXist-db
@@ -214,19 +214,19 @@ else
 
 Co se děje při volání metody \verb|check| názorně vysvětluje obrázek \ref{fig:Communication diagram} zobrazující sekvenci komunikace. Kroky 7 a vyšší jsou volitelné.
 \begin{enumerate}
-\item Výkonná část uživatelské aplikace zavolá metodu \verb|check| třídy \verb|RubyACL|
-\item Metoda \verb|check| vytvoří xQuery\footnote{Dotazovací jazyk nad XML dokumenty} dotaz a předá ho implementaci rozhraní API zavoláním metody \verb|execute_query|
-\item API se pomocí XML-RPC\footnote{XML Remote Procedure Call protokol} protokolu dotáže databáze
-\item databáze vrátí výsledek/výsledky
-\item API předá výsledek/výsledky metodě \verb|check|
+\item Výkonná část uživatelské aplikace zavolá metodu \verb|check| třídy \verb|RubyACL|.
+\item Metoda \verb|check| vytvoří XQuery\footnote{Dotazovací jazyk nad XML dokumenty} dotaz a předá ho implementaci rozhraní API zavoláním metody \verb|execute_query|.
+\item API se pomocí XML-RPC\footnote{XML Remote Procedure Call protokol} protokolu dotáže databáze.
+\item Databáze vrátí výsledek/výsledky.
+\item API předá výsledek/výsledky metodě \verb|check|.
 \item Metoda \verb|check| z výsledků rozhodne, jestli principal má oprávnění na zdrojový objekt a podle toho vrátí boolean hodnotu. Více o prioritě rozhodování se lze dočíst v sekci \ref{Priorita rozhodování} - Priorita rozhodování.
 
 ---------
 
-\item Uživatelská aplikace zavolá \verb|execute_query|
-\item \verb|execute_query| pomocí XML-RPC zažádá o objekt
-\item databáze vrátí objekt
-\item \verb|execute_query| předá objekt uživatelské aplikaci
+\item Uživatelská aplikace zavolá \verb|execute_query|.
+\item Metoda \verb|execute_query| pomocí XML-RPC zažádá o objekt.
+\item Databáze vrátí objekt.
+\item Metoda \verb|execute_query| předá objekt uživatelské aplikaci.
 \end{enumerate}
 
 \begin{figure}
@@ -359,7 +359,7 @@ Pravidla (ACE) se ukládají do souboru \verb|acl.xml|. V kořenovém uzlu \verb
 \subsubsection{Priorita rozhodování}
 \label{Priorita rozhodování}
 
-Nejnižší číslo v seznamu má největší prioritu. Slovy se dá následující výpis pravidel vyjádřit jako: Je-li zmocnitel vlastníkem objektu, knihovna okamžitě vrátí true. Konkrétní zákaz má přednost před konkrétním povolením. Zděděný zákaz má přednost před zděděným povolení. Konkrétní mají přednost před zděděnými. Pokud není nalezeno pravidlo, knihovna vrací \verb|false|. Pokud knihovna podle zmíněné priority nalezne pravidlo s deny, vrací \verb|false|. Pokud nalezne allow, vrací \verb|true|.
+Nejnižší číslo v seznamu má největší prioritu. Slovy se dá následující výpis pravidel vyjádřit jako: Je-li zmocnitel vlastníkem objektu, knihovna okamžitě vrátí true. Konkrétní zákaz má přednost před konkrétním povolením. Zděděný zákaz má přednost před zděděným povolením. Konkrétní mají přednost před zděděnými. Pokud není nalezeno pravidlo, knihovna vrací \verb|false|. Pokud knihovna podle zmíněné priority nalezne pravidlo s deny, vrací \verb|false|. Pokud nalezne allow, vrací \verb|true|.
 
 \begin{enumerate}
 \item Owner
@@ -378,4 +378,4 @@ Nejnižší číslo v seznamu má největší prioritu. Slovy se dá následují
 
 \subsection{Složitost rozhodování}
 Složitost rozhodování závisí na metodě \verb|check|. 
-Rozhodování probíhá tak, že si knihovna připraví všechny zdrojové objekty, které se mohou týkat objektu, u kterého se zjišťuje přístup stejně tak všechny oprávnění a zmocnitelé. Ve všech třech případech se jedná o pole obsahující samotný ACL objekt a všechny jeho nadřazené ACL objekty. Pro každý principal se vytvoří xQuery dotaz, který se následně pošle databázi na vyhodnocení. Metoda \verb|check| tedy obsahuje jednou vnořený cyklus, proto je složitost přibližně $e^2$.
+Rozhodování probíhá tak, že si knihovna připraví všechny zdrojové objekty, které se mohou týkat objektu, u kterého se zjišťuje přístup stejně tak všechny oprávnění a zmocnitelé. Ve všech třech případech se jedná o pole obsahující samotný ACL objekt a všechny jeho nadřazené ACL objekty. Pro každý principal se vytvoří XQuery dotaz, který se následně pošle databázi na vyhodnocení. Metoda \verb|check| tedy obsahuje jednou vnořený cyklus, proto je složitost přibližně $e^2$.

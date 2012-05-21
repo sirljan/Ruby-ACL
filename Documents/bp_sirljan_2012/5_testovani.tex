@@ -2,7 +2,7 @@
 
 Testování bylo zaměřeno pouze na funkcionalitu. Vynecháno bylo testování rychlosti, práce s operační pamětí a spotřeby procesorového času. Testoval jsem jednotkovými testy za pomoci Ruby modulu \verb|Test::Unit| a informací z knihy Ruby - kompendium znalostí \cite{Ruby} a online tutoriálu \cite{ibm:unittesting}.
 
-Jako codecoverage software byl použit SimpleCov rubygem, ale výsledky byly nereprezentativní, nejspíše kvůli špatnému použití. Bohužel jsem se nikde v dokumentaci CimpleCov ani na webu nedopátral správného použití. Codecoverage pokrýval pouze řádky definující metody a třídy a to i v případě, kdy byly všechny testy zakomentovány. Z tohoto faktu usuzuji, že jsem buď nedodržel normu SimpleCov, nebo ho špatně použil. Nicméně si myslím, že pokrytí testy je dobré.
+Jako codecoverage software byl použit SimpleCov rubygem, ale výsledky byly nereprezentativní, nejspíše kvůli špatnému použití. Bohužel jsem se nikde v dokumentaci SimpleCov ani na webu nedopátral správného použití. Codecoverage pokrýval pouze řádky definující metody a třídy a to i v případě, kdy byly všechny testy zakomentovány. Z tohoto faktu usuzuji, že jsem buď nedodržel normu SimpleCov, nebo ho špatně použil. Nicméně si myslím, že pokrytí testy je dobré.
 
 \section{RubyACL}
 Testoval jsem každou veřejnou metodu u RubyACL. Celkem jsem vytvořil 43 testů s 119 porovnáními (anglicky assertion). Testy jsem rozdělil do 4 částí-souborů podle charakteru metod, které testuji. Set1 testuje metody přímo spjaté s ACL, například load, save and rename. Set2 testuje metody, které vytváří ACL objekty. Set3 testuje metody, které upravují ACL objekty. Set4 testuje pouze metodu check.

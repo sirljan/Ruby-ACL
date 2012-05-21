@@ -49,7 +49,7 @@ Seznam požadavků je popsán v tabulce  \ref{tab:tab1}
 \hline
 2.0 & Ruby-ACL bude vydaná jako RubyGem & volitelný\\
 \hline
-3.0 & Ruby-ACL potřebuje databázi podporující xQuery, xPath technologie & povinný\\
+3.0 & Ruby-ACL potřebuje databázi podporující XQuery, XPath technologie & povinný\\
 \hline
 \end{tabular}
 \end{center}
@@ -94,12 +94,12 @@ V následujících podsekcích jsou dostupné knihovny napsané v Ruby, které b
 
 \subsubsection{Acl9}
 Acl9 je další řešení autorizace založené na rolích v Ruby on Rails\footnote{framework pro pohodlné a rychlé vytváření moderních webových aplikací}. Skládá se ze dvou subsystémů, které mohou být použity samostatně. Subsystém kontroly rolí umožňuje nastavovat a dotazovat se na uživatelské role pro různé objekty. 
-Subsystém řízení přístupu umožňuje určit různá přístupová pravidla založená na rolích uvnitř řadičů. Text byl převzat a upraven z \cite{github:acl9}
+Subsystém řízení přístupu umožňuje určit různá přístupová pravidla založená na rolích uvnitř řadičů. Text byl převzat a upraven z \cite{github:acl9}.
 
 \subsubsection{iq-acl}
-Cílem tohoto rubygemu je poskytnout serii tříd, které umí zacházet s bežnými požadavky na řízení práv. V současné době poskytuje třídu \verb|IQ::ACL::Basic|, která přestože je velmi jednoduchá je také velmi schopná.Více o použití se můžete dočíst zde \cite{github:iq-acl}.
+Cílem tohoto RubyGemu\footnote{Balíčkovací systém pro programovací jazyk Ruby} je poskytnout serii tříd, které umí zacházet s bežnými požadavky na řízení práv. V současné době poskytuje třídu \verb|IQ::ACL::Basic|, která přestože je velmi jednoduchá, je také velmi schopná.Více o použití se můžete dočíst zde \cite{github:iq-acl}.
 
 \subsubsection{ActiveACLPlus}
 Plugin ActiveAclPlus realizuje flexibilní, rychlý a snadno použitelný obecný systém kontroly přístupu.
 Systém je založen na phpgacl.sourceforge.net, přidáním objektu orientace, polymorfismu a dvou úrovní paměti. PhpGacl tvrdí, že v reálné pracovní verzi s mnoha přidanými vrstvami složitosti podporuje více než 60.000 účtů, 200 skupin a 300 ACO." Testy provedené na vyvojářském notebooku ukazují 10 - 30 krát větší zlepšení výkonnosti ve srovnání s \verb|active_rbac|.
-Plugin používá ukládání do mezipaměti. Používá instanční pamět a v případě potřeby ukládá výsledky oprávnění do paměti s použitím časového omezení. Text byl převzat a upraven z \cite{rubyforge:ActiveAclPlus}
+Plugin používá ukládání do mezipaměti. Používá instanční pamět a v případě potřeby ukládá výsledky oprávnění do paměti s použitím časového omezení. Text byl převzat a upraven z \cite{rubyforge:ActiveAclPlus}.
