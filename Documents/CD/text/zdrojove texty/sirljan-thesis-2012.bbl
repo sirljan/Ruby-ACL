@@ -1,0 +1,87 @@
+\begin{thebibliography}{13}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[{Andreas Laux, Lars Martin}(2012)]{xupdate}
+{Andreas Laux, Lars Martin}.
+\newblock XUpdate documentation, 2012.
+\newblock Dostupn{\'{e}} z:
+  \url{http://xmldb-org.sourceforge.net/xupdate/xupdate-wd.html}.
+
+\bibitem[{eXist authors}(2012)]{exist:xmlrpcxupdate}
+{eXist authors}.
+\newblock eXist-db, Developer's Guide - XML-RPC - XUpdate, 2012.
+\newblock Dostupn{\'{e}} z:
+  \url{http://exist-db.org/exist/devguide_xmlrpc.xml\#d41536e1573}.
+
+\bibitem[Fowler(2010)]{UML}
+FOWLER, M.
+\newblock \emph{Destilované UML}.
+\newblock Grada Publishing, 1st edition, 2010.
+\newblock In Czech.
+
+\bibitem[Fulton(2010)]{Ruby}
+FULTON, H.
+\newblock \emph{RUBY, kompendium znalostí}.
+\newblock Zoner Press, 1st edition, 2010.
+\newblock In Czech.
+
+\bibitem[{Jamie Hill, SonicIQ Ltd.}(2012)]{github:iq-acl}
+{Jamie Hill, SonicIQ Ltd.}
+\newblock \emph{iq-acl} [online]. 2012. [cit.~16.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{https://github.com/soniciq/iq-acl}.
+
+\bibitem[{Oleg Dashevskii}(2012)]{github:acl9}
+{Oleg Dashevskii}.
+\newblock \emph{acl9} [online]. 2012. [cit.~16.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{https://github.com/be9/acl9}.
+
+\bibitem[{Pat Eyler}(2012)]{ibm:unittesting}
+{Pat Eyler}.
+\newblock \emph{Test-first programming with Ruby} [online]. 2012.
+  [cit.~16.\,5.\,2012].
+\newblock Dostupn{\'{e}} z:
+  \url{http://www.ibm.com/developerworks/opensource/tutorials/os-ruby1/section4.html}.
+
+\bibitem[{Peter Schrammel, Gregor Melhorn}(2012)]{rubyforge:ActiveAclPlus}
+{Peter Schrammel, Gregor Melhorn}.
+\newblock \emph{Active Access Control Lists Plus (ActiveAclPlus)} [online].
+  2012. [cit.~16.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://activeaclplus.rubyforge.org/}.
+
+\bibitem[{Přispěvatelé Wikipedie}(2012{\natexlab{a}})]{wiki:Ruby}
+{Přispěvatelé Wikipedie}.
+\newblock \emph{Ruby (programovací jazyk)} [online]. 2012{\natexlab{a}}.
+  [cit.~16.\,5.\,2012].
+\newblock Dostupn{\'{e}} z:
+  \url{"http://cs.wikipedia.org/wiki/Ruby_(programovac\%C3\%AD_jazyk)"}.
+
+\bibitem[{Přispěvatelé Wikipedie}(2012{\natexlab{b}})]{wiki:acl}
+{Přispěvatelé Wikipedie}.
+\newblock \emph{Access control list} [online]. 2012{\natexlab{b}}.
+  [cit.~16.\,5.\,2012].
+\newblock Dostupn{\'{e}} z:
+  \url{http://cs.wikipedia.org/wiki/Access_control_list}.
+
+\bibitem[web:oracle()]{oracle}
+web:oracle.
+\newblock {ORACLE} --- Oracle® XML DB Developer's Guide, 11g Release 1 (11.1),
+  Part Number B28369-04.
+\newblock \\
+  \verb|http://docs.oracle.com/cd/B28359_01/appdev.111/b28369/xdb21sec.htm|,
+  stav z 15.\,5.\,2012.
+
+\bibitem[web:phpGACL()]{phpGACL}
+web:phpGACL.
+\newblock {phpGACL} --- Generic Access Control List with PHP.
+\newblock \\ \verb|phpgacl.sourceforge.net/manual.pdf|, stav z 15.\,5.\,2012.
+
+\bibitem[{Wolfgang Meier}(2012)]{exist:exist}
+{Wolfgang Meier}.
+\newblock \emph{eXist-db web} [online]. 2012. [cit.~16.\,5.\,2012].
+\newblock Dostupn{\'{e}} z: \url{http://exist-db.org}.
+
+\end{thebibliography}

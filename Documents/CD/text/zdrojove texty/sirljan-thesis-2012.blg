@@ -1,0 +1,21 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: sirljan-thesis-2012.aux
+A level-1 auxiliary file: 1_uvod.aux
+A level-1 auxiliary file: 2_popis_problemu.aux
+A level-1 auxiliary file: 3_analyza.aux
+A level-1 auxiliary file: 4_realizace.aux
+A level-1 auxiliary file: 5_testovani.aux
+A level-1 auxiliary file: 6_zaver.aux
+The style file: csplainnat.bst
+Database file #1: reference.bib
+Warning--entry type for "exist:xmlrpcxupdate" isn't style-file defined
+--line 55 of file reference.bib
+Warning--entry type for "xupdate" isn't style-file defined
+--line 63 of file reference.bib
+Warning--I didn't find a database entry for "infodp"
+`address' is a missing field, not a string, for entry UML
+while executing---line 1484 of file csplainnat.bst
+`address' is a missing field, not a string, for entry Ruby
+while executing---line 1484 of file csplainnat.bst
+Warning--empty year in oracle
+Warning--empty year in phpGACL
+(There were 2 error messages)
